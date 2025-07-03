@@ -1,0 +1,10 @@
+.cardLoging{
+    padding: 2rem;
+}
+
+.loginButton{
+   flex-direction: column;
+   color: white;
+   gap: 2rem;
+   text-decoration: none;
+}

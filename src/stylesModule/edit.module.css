@@ -1,0 +1,93 @@
+.editContainer {
+  background-color: #ffffff;
+  padding: 30px;
+  margin-top: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-top: 1rem;
+}
+
+.editContainer h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.editContainer form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.editContainer input[type="text"],
+.editContainer input[type="number"],
+.editContainer input[type="file"],
+.editContainer textarea,
+.editContainer select {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  transition: border 0.3s ease;
+}
+
+.editContainer input:focus,
+.editContainer textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.editContainer textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.editContainer label {
+  font-weight: 500;
+  color: #555;
+}
+
+.editContainer input[type="checkbox"] {
+  margin-left: 10px;
+  transform: scale(1.2);
+}
+
+.editContainer img {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.editContainer button {
+  padding: 12px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.editContainer button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .editContainer {
+    padding: 20px;
+    margin: 20px;
+  }
+
+  .editContainer form {
+    gap: 12px;
+  }
+
+  .editContainer h2 {
+    font-size: 22px;
+  }
+}

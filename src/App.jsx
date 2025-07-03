@@ -1,0 +1,61 @@
+
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import Home from './pages/Home';
+import Footer from './components/Footer';
+import CustomNavbar from './components/Navbar';
+import NotFound from './pages/NotFound';
+import Registerpage from './pages/Register';
+import Login from './pages/Login';
+import UserProfile from './components/userProfile';
+import AddPropertyForm from './pages/AddProperty';
+import PropertyView from './pages/propertyView';
+import EditProperty from './pages/EditProperty';
+import HostDashboard from './HostDashboard';
+import Expire from './HostDashboard/ReactiveExpire';
+import AllExpired from './HostDashboard/AllExpired';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import BookingForm from './Booking/BookingForm';
+import MyBooking from './Booking/MyBookings';
+import GuestDashborad from './GuestDashbord/INdex';
+import CurrentBooking from './HostDashboard/Booking-Property/Current-booking';
+import BookingHistory from './HostDashboard/Booking-Property/Booking-History';
+
+
+
+
+function App() {
+  return (
+    <Router>
+      <CustomNavbar />
+      <ToastContainer position="top-right" autoClose={3000} />
+      <Routes>
+        
+        <Route path="/" element={<Home />} />
+        <Route path="/registerpage" element={<Registerpage />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/profile' element={<UserProfile />} />
+        <Route path='/host/add-property' element={<AddPropertyForm />} />
+        <Route path="/property/:id" element={<PropertyView />} />
+        <Route path="/edit/:id" element={<EditProperty />} /> 
+        <Route path='/host/dashboard' element={<HostDashboard/>}/>
+        <Route path="/host/expired-properties" element={<Expire />} />
+        <Route path='/host/all-expired-property' element={<AllExpired/>}/>
+        <Route path='bookingFrom/:id' element={<BookingForm/>}/>
+        <Route path='/my-bookings' element={<MyBooking />} />
+        <Route path='/host/check-bookings' element={<CurrentBooking/>}/>
+        <Route path='/guest/dashboard' element={<GuestDashborad/>}/>
+        <Route path='/host/my-properties' element={<BookingHistory/>}/>
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Footer />
+    </Router>
+
+  )
+}
+
+export default App
