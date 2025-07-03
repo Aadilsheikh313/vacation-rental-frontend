@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Spinner, Card, Row, Col, Badge } from "react-bootstrap";
 import { getBookingPropertyPosts, getPastandCancelledBookingPosts } from "../config/redux/action/bookingAction ";
-import { getSinglePosts } from "../config/redux/action/propertyAction";
+
 
 const GuestDashboard = () => {
   const dispatch = useDispatch();

@@ -20,7 +20,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BookingForm from './Booking/BookingForm';
 import MyBooking from './Booking/MyBookings';
-import GuestDashborad from './GuestDashbord/INdex';
+import GuestDashborad from './GuestDashbord/Index';
 import CurrentBooking from './HostDashboard/Booking-Property/Current-booking';
 import BookingHistory from './HostDashboard/Booking-Property/Booking-History';
 
