@@ -6,6 +6,7 @@ import { createPosts } from '../config/redux/action/propertyAction';
 import { showError, showSuccess } from '../utils/toastUtils';
 import { useNavigate } from 'react-router-dom';
 import { resetStatus } from '../config/redux/reducer/propertyReducer';
+import styles from "../stylesModule/addProperty.module.css";
 
 
 const AddPropertyForm = () => {
@@ -69,90 +70,110 @@ const AddPropertyForm = () => {
         if (formData.image) {
             postData.append("image", formData.image);
         }
+        const coordinates = {
+            type: "Point",
+            coordinates: [formData.lng, formData.lat],
+        };
+
+        postData.append("coordinates", JSON.stringify(coordinates));
 
         dispatch(createPosts(postData));
     };
 
 
     return (
-        <div className="p-4">
-            <h3 className="mb-4">Add New Property</h3>
+        <div className={styles.addPropertyContainer}>
+            <h3 >Add New Property</h3>
 
             <Form onSubmit={handleSubmit} encType="multipart/form-data">
                 {/* Title */}
-                <Form.Group as={Row} className="mb-3" controlId="formTitle">
-                    <Form.Label column sm={1}>Title</Form.Label>
-                    <Col sm={6}>
-                        <Form.Control type="text" placeholder="Enter property title" name="title" value={formData.title} onChange={handleChange} />
+                <Form.Group className={styles.formGroup}>
+                    <Form.Label className={styles.formLabel}>Title</Form.Label>
+                    <Col >
+                        <Form.Control type="text" placeholder="Enter property title" name="title" className={styles.formControl} value={formData.title} onChange={handleChange} />
                     </Col>
                 </Form.Group>
 
                 {/* Description */}
-                <Form.Group as={Row} className="mb-3" controlId="formDescription">
-                    <Form.Label column sm={1}>Description</Form.Label>
-                    <Col sm={6}>
-                        <Form.Control type="text" placeholder="Enter property description" name="description" value={formData.description} onChange={handleChange} />
+                <Form.Group className={styles.formGroup}>
+                    <Form.Label className={styles.formLabel}>Description</Form.Label>
+                    <Col >
+                        <Form.Control type="text" placeholder="Enter property description" name="description" className={styles.formControl} value={formData.description} onChange={handleChange} />
                     </Col>
                 </Form.Group>
 
                 {/* Price */}
-                <Form.Group as={Row} className="mb-3" controlId="formPrice">
-                    <Form.Label column sm={1}>Price</Form.Label>
-                    <Col sm={6}>
+                <Form.Group className={styles.formGroup}>
+                    <Form.Label className={styles.formLabel}>Price</Form.Label>
+                    <Col >
                         <InputGroup>
-                            <Form.Control type="number" placeholder="Price per night" name="price" value={formData.price} onChange={handleChange} />
+                            <Form.Control type="number" placeholder="Price per night" name="price" className={styles.formControl} value={formData.price} onChange={handleChange} />
                         </InputGroup>
                     </Col>
                 </Form.Group>
 
                 {/* Category */}
-                <Form.Group as={Row} className="mb-3" controlId="formCategory">
-                    <Form.Label column sm={1}>Category</Form.Label>
-                    <Col sm={6}>
-                        <Form.Control type="text" placeholder="e.g. Flat, Villa, Hotel, FarmHouse" name="category" value={formData.category} onChange={handleChange} />
+                <Form.Group className={styles.formGroup}>
+                    <Form.Label className={styles.formLabel}>Category</Form.Label>
+                    <Col >
+                        <Form.Control type="text" placeholder="e.g. Flat, Villa, Hotel, FarmHouse" name="category" className={styles.formControl} value={formData.category} onChange={handleChange} />
                     </Col>
                 </Form.Group>
 
                 {/* Country */}
-                <Form.Group as={Row} className="mb-3" controlId="formCountry">
-                    <Form.Label column sm={1}>Country</Form.Label>
-                    <Col sm={6}>
-                        <Form.Control type="text" placeholder="Enter country" name="country" value={formData.country} onChange={handleChange} />
+                <Form.Group className={styles.formGroup}>
+                    <Form.Label className={styles.formLabel}>Country</Form.Label>
+                    <Col >
+                        <Form.Control type="text" placeholder="Enter country" name="country" className={styles.formControl} value={formData.country} onChange={handleChange} />
                     </Col>
                 </Form.Group>
 
                 {/* City */}
-                <Form.Group as={Row} className="mb-3" controlId="formCity">
-                    <Form.Label column sm={1}>City</Form.Label>
-                    <Col sm={6}>
-                        <Form.Control type="text" placeholder="Enter city" name="city" value={formData.city} onChange={handleChange} />
+                <Form.Group className={styles.formGroup}>
+                    <Form.Label className={styles.formLabel}>City</Form.Label>
+                    <Col >
+                        <Form.Control type="text" placeholder="Enter city" name="city" className={styles.formControl} value={formData.city} onChange={handleChange} />
                     </Col>
                 </Form.Group>
 
                 {/* Location */}
-                <Form.Group as={Row} className="mb-3" controlId="formLocation">
-                    <Form.Label column sm={1}>Location</Form.Label>
-                    <Col sm={6}>
-                        <Form.Control type="text" placeholder="Enter location/address" name="location" value={formData.location} onChange={handleChange} />
+                <Form.Group className={styles.formGroup}>
+                    <Form.Label className={styles.formLabel}>Location</Form.Label>
+                    <Col >
+                        <Form.Control type="text" placeholder="Enter location/address" name="location" className={styles.formControl} value={formData.location} onChange={handleChange} />
                     </Col>
                 </Form.Group>
 
                 {/* File Upload */}
-                <Form.Group as={Row} className="mb-3" controlId="formFileUpload">
-                    <Form.Label column sm={1}>Upload Image</Form.Label>
-                    <Col sm={6}>
-                        <Form.Control type="file" accept=".pdf, .jpg, .jpeg" name="image" onChange={handleChange} />
+                <Form.Group className={styles.formGroup}>
+                    <Form.Label className={styles.formLabel}>Upload Image</Form.Label>
+                    <Col >
+                        <Form.Control type="file" accept=".pdf, .jpg, .jpeg" name="image" className={`${styles.formControl} ${styles.fileInput}`} onChange={handleChange} />
                     </Col>
                 </Form.Group>
 
-                {/* Submit Button */}
-                <Form.Group as={Row} className="mb-3">
-                    <Col sm={{ span: 6, offset: 1 }}>
-                        <Button type="submit" variant="primary">
-                            Submit Property
-                        </Button>
+                <Form.Group className={styles.formGroup}>
+                    <Form.Label className={styles.formLabel}>Latitude</Form.Label>
+                    <Col >
+                        <Form.Control type="text" name="lat" className={styles.formControl} onChange={handleChange} />
                     </Col>
                 </Form.Group>
+
+                <Form.Group className={styles.formGroup}>
+                    <Form.Label className={styles.formLabel}>Longitude</Form.Label>
+                    <Col >
+                        <Form.Control type="text" name="lng" className={styles.formControl} onChange={handleChange} />
+                    </Col>
+                </Form.Group>
+
+
+                {/* Submit Button */}
+                <Form.Group className={styles.formGroup}>
+                    <Button type="submit" className={styles.submitButton}>
+                        Submit Property
+                    </Button>
+                </Form.Group>
+
             </Form>
         </div>
     );

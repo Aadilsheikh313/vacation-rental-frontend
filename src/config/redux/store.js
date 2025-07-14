@@ -3,6 +3,8 @@ import authReducer from './reducer/authReducer';
 import propertyReducer from './reducer/propertyReducer';
 import reviewReducer from './reducer/reviewReducer';
 import bookingReducer from "./reducer/bookingReducer";
+import paymentReducer from './reducer/paymentReducer';
+import invoiceReducer from './reducer/invoiceReducer';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +12,8 @@ const store = configureStore({
     post: propertyReducer,
     review: reviewReducer,
     booking: bookingReducer,
+    payment: paymentReducer,
+    invoice: invoiceReducer,
   },
 });
 

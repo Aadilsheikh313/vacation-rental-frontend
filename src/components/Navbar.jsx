@@ -13,28 +13,25 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useAuthContext } from "../context/AuthContext";
 import { useSelector, useDispatch } from "react-redux";
 
-
 import styles from "../stylesModule/Navbar.module.css";
 import { handleLogoutUser, reset } from "../config/redux/reducer/authReducer";
+import { useSearchContext } from "../context/SearchContext";
 
 const CustomNavbar = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const { searchQuery, setSearchQuery } = useSearchContext();
   const [isOpen, setIsOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  // 🔐 Auth from Context
-  const {  logout } = useAuthContext();
-
-  // 🧠 Redux
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);// optional if needed separately
+  const user = useSelector((state) => state.auth.user);
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
   const closeDropdown = () => setIsOpen(false);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Searching for:", searchQuery);
+
   };
 
   const handleLogoClick = () => navigate("/");
@@ -45,9 +42,15 @@ const CustomNavbar = () => {
     navigate("/");
   };
 
+  const handleHamburgerToggle = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+    setIsOpen(false);
+  };
+
   return (
     <Navbar expand="md" className={styles.navbar}>
-      <Container className={styles.Container}>
+      <Container className={`d-flex justify-content-between align-items-center ${styles.Container}`}>
+
         <Navbar.Brand
           className={styles.logo}
           onClick={handleLogoClick}
@@ -56,7 +59,18 @@ const CustomNavbar = () => {
           <img src="NAS.jpg" alt="logoImage" />
         </Navbar.Brand>
 
-        <Navbar.Collapse className={styles.navLinkitem} id="basic-navbar-nav">
+        <Navbar.Toggle
+          aria-controls="basic-navbar-nav"
+          className={styles.hamburger}
+          onClick={handleHamburgerToggle}
+        >
+          ☰
+        </Navbar.Toggle>
+
+        <Navbar.Collapse
+          className={`${styles.navLinkitem} ${mobileMenuOpen ? styles.active : ""}`}
+          id="basic-navbar-nav"
+        >
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/" className={styles.navhome}>
               Home
@@ -75,11 +89,11 @@ const CustomNavbar = () => {
             </Button>
           </Form>
 
-          <Nav id={styles.navLinkicon} className="ms-auto">
+          <Nav id={`${styles.navLinkicon} ${mobileMenuOpen ? styles.active : ""}`}>
             {user && user.role === "guest" && (
               <>
                 <Nav.Link as={Link} to="/guest/dashboard" className={styles.navguest}>Guest Dashboard</Nav.Link>
-                <Nav.Link as={Link} to="/my-bookings" className={styles.navguest}>My Bookings</Nav.Link>
+                <Nav.Link as={Link} to="/my-bookings" className={styles.navguest}>My Trips</Nav.Link>
               </>
             )}
             {user && user.role === "host" && (
@@ -87,7 +101,7 @@ const CustomNavbar = () => {
                 <Nav.Link as={Link} to="/host/dashboard" className={styles.navhost}>Host Dashboard</Nav.Link>
                 <Nav.Link as={Link} to="/host/add-property" className={styles.navhost}>Add Property</Nav.Link>
                 <Nav.Link as={Link} to="/host/check-bookings" className={styles.navhost}>Active Booking</Nav.Link>
-                <Nav.Link as={Link} to="/host/my-properties" className={styles.navhost}>History_MyBooked_Property</Nav.Link>
+                <Nav.Link as={Link} to="/host/history-bookings" className={styles.navhost}>My Rentals</Nav.Link>
               </>
             )}
 

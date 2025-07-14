@@ -9,7 +9,7 @@ import { showError, showSuccess } from "../utils/toastUtils";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoading, isError, isSuccess, message, token } = useSelector((state) => state.auth);
+  const { isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +19,7 @@ const Login = () => {
     e.preventDefault();
 
     if (!email || !password || !role) {
-       showError("Please fill all fields!");
+      showError("Please fill all fields!");
       return;
     }
 
@@ -28,18 +28,11 @@ const Login = () => {
   };
 
   useEffect(() => {
-    console.log("Redux login state =>", { isSuccess, isError, message });
-
-    const token = localStorage.getItem("token"); // ✅ use localStorage directly
+    const token = localStorage.getItem("token");
     if (isSuccess && token) {
-       showSuccess("Logged in successfully!");
-
-      // Reset form fields
-      setEmail("");
-      setPassword("");
-      setRole("");
-
-      navigate("/"); // or protected route
+      showSuccess("Logged in successfully!");
+      setEmail(""); setPassword(""); setRole("");
+      navigate("/");
     }
 
     if (isError) {
@@ -48,20 +41,20 @@ const Login = () => {
   }, [isSuccess, isError, message, navigate]);
 
   return (
-    <Container className={`${styles.cardContainer} mt-4`}>
-      <Row className="justify-content-md-center">
-        <Col md={6} className={styles.leftHaltContainer}>
-          <h3>Welcome to login your account</h3>
-          <h5>
-            Explore <span>your amazing city</span>
-          </h5>
-          <img src="./loginimage1.jpg" alt="Login Visual" style={{ width: "100%", borderRadius: "8px" }} />
+    <Container className={styles.loginContainer}>
+      <Row className={styles.loginCard}>
+        {/* Left Side: Image and welcome */}
+        <Col md={6} className={styles.left}>
+          <h3>Welcome Back!</h3>
+          <p>Please login to access your dashboard.</p>
+          <img src="/loginimages.jpg" alt="Login Visual" className={styles.image} />
         </Col>
 
-        <Col md={6} className={styles.reightHaltContainer}>
-          <h2 className={styles.heading}>Login to your account</h2>
+        {/* Right Side: Form */}
+        <Col md={6} className={styles.right}>
+          <h2 className={styles.heading}>Login to Your Account</h2>
 
-          <Form onSubmit={handleLogin} className={styles.cardForm}>
+          <Form onSubmit={handleLogin} className={styles.form}>
             <Form.Select name="role" value={role} onChange={(e) => setRole(e.target.value)} required>
               <option value="">Select Role</option>
               <option value="host">Host</option>
@@ -90,20 +83,19 @@ const Login = () => {
               />
             </Form.Group>
 
-            <div className={`${styles.loginButton} mt-4`}>
-              <Button type="submit" variant="success" disabled={isLoading}>
-                {isLoading ? "Logging in..." : "Login"}
-              </Button>
+            {/* 🔹 LOGIN Button */}
+            <Button type="submit" variant="success" className="mt-4 w-100" disabled={isLoading}>
+              {isLoading ? "Logging in..." : "Login"}
+            </Button>
 
-              <Link to="/registerpage">
-                <Button variant="primary" className="ms-3">
-                  Sign Up
-                </Button>
+            {/* 🔹 Redirect to SignUp */}
+            <div className="text-center mt-3">
+              Don’t have an account?{" "}
+              <Link to="/registerpage" className={styles.signupLink}>
+                Sign Up
               </Link>
             </div>
           </Form>
-
-          <hr />
         </Col>
       </Row>
     </Container>

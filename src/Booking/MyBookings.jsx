@@ -4,6 +4,9 @@ import { Container, Card, Row, Col, Spinner, Alert } from "react-bootstrap";
 import { getBookingPropertyPosts } from "../config/redux/action/bookingAction ";
 import EditBookingModal from "./EditBookingModal";
 import CancelBookingModal from "./CancelBookingModal";
+import InvoiceModal from "../Invoice/InvoiceModal";
+import { downloadBookingInvoiceRecipet, viewInvoiceRecipet } from "../config/redux/action/invoiceAction";
+import { showError } from "../utils/toastUtils";
 
 
 const MyBooking = () => {
@@ -11,18 +14,45 @@ const MyBooking = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [showInvoiceModal, setShowInvoiceModal] = useState(false);
+  const [invoicesData, setInvoiceData] = useState(null);
 
   const { bookings, isLoading, isError, message } = useSelector((state) => state.booking);
-  const { singlePost } = useSelector((state) => state.post);
   const { token } = useSelector((state) => state.auth);
+  const { invoiceData, isLoading: invoiceLoading } = useSelector((state) => state.invoice);
+
 
   useEffect(() => {
     dispatch(getBookingPropertyPosts());
   }, [dispatch]);
 
+  const upcomingBookings = bookings?.filter(
+    (b) =>
+      b.bookingStatus !== "cancelled" &&
+      new Date(b.checkOut) >= new Date()
+  );
+
+  const handleViewInvoice = async (bookingId) => {
+
+    try {
+      const result = await dispatch(viewInvoiceRecipet({ bookingId, token }));
+
+      if (result?.payload?.invoice) {
+        setInvoiceData(result.payload.invoice);
+        setShowInvoiceModal(true);
+      } else {
+       showError("Invoice not yet generated.");
+      }
+    } catch (error) {
+      console.error("Invoice view/download failed:", error);
+    }
+  };
+
+
+
   return (
     <Container className="my-5">
-      <h2 className="mb-4">My Bookings</h2>
+      <h2 className="mb-4">My Active Bookings</h2>
 
       {isLoading && <Spinner animation="border" />}
 
@@ -33,7 +63,7 @@ const MyBooking = () => {
       )}
 
       <Row>
-        {bookings?.map((booking) => (
+        {upcomingBookings?.map((booking) => (
           <Col md={6} lg={4} key={booking._id} className="mb-4">
             <Card className="shadow-sm">
               <Card.Img
@@ -49,18 +79,15 @@ const MyBooking = () => {
                   <div><strong>Check-Out:</strong> {new Date(booking.checkOut).toDateString()}</div>
                   <div><strong>Status:</strong> {booking.bookingStatus}</div>
                   <div><strong>Total:</strong> ₹{booking.totalAmount}</div>
-
+                  <div><strong>Payment Mode:</strong> {booking.paymentMethod}</div>
                 </Card.Text>
                 <div><strong>Connect with Property Owner</strong></div>
                 <div><strong>Contact:</strong> {booking.property?.userId?.phone} / {booking.property?.userId?.email}</div>
-                {
-                  
-                }
                 <div><strong>Refunded:</strong> {booking.isRefunded ? "✅ Yes" : "❌ No"}</div>
-
               </Card.Body>
+
               <button
-                className="btn btn-warning mt-2  ms-2 m-2"
+                className="btn btn-warning mt-2 ms-2 m-2"
                 onClick={() => {
                   setSelectedBooking(booking);
                   setShowEditModal(true);
@@ -68,6 +95,7 @@ const MyBooking = () => {
               >
                 Edit
               </button>
+
               <button
                 className="btn btn-danger mt-2 ms-2 m-2"
                 onClick={() => {
@@ -77,12 +105,20 @@ const MyBooking = () => {
               >
                 Cancel Booking
               </button>
+
+              <button
+                className="btn btn-success mt-2 ms-2 m-2"
+                onClick={() => handleViewInvoice(booking._id)}
+                disabled={invoiceLoading}
+              >
+                {invoiceLoading ? "Loading..." : "View Invoice"}
+              </button>
             </Card>
-
-
           </Col>
         ))}
       </Row>
+
+      {/* Modals */}
       {selectedBooking && (
         <EditBookingModal
           show={showEditModal}
@@ -97,6 +133,13 @@ const MyBooking = () => {
           handleClose={() => setShowCancelModal(false)}
           bookingId={selectedBooking._id}
           token={token}
+        />
+      )}
+      {showInvoiceModal && (
+        <InvoiceModal
+          show={showInvoiceModal}
+          onClose={() => setShowInvoiceModal(false)}
+          invoice={invoiceData}
         />
       )}
     </Container>

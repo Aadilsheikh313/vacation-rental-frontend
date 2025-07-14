@@ -5,6 +5,8 @@ import { Spinner, Container, Row, Col, Form, Button, Card } from "react-bootstra
 import { postBookingPropertyPosts } from "../config/redux/action/bookingAction ";
 import { getSinglePosts } from "../config/redux/action/propertyAction";
 import { showError, showSuccess } from "../utils/toastUtils";
+import PaymentModal from "../Payment/Index";
+import styles from "../stylesModule/bookingFrom.module.css";
 
 const BookingForm = () => {
   const dispatch = useDispatch();
@@ -23,6 +25,9 @@ const BookingForm = () => {
     taxes: 50,
     paymentMethod: "card",
   });
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentData, setPaymentData] = useState(null);
+
 
   useEffect(() => {
     if (propertyId) dispatch(getSinglePosts(propertyId));
@@ -53,8 +58,9 @@ const BookingForm = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+
     const { checkIn, checkOut } = formData;
 
     if (new Date(checkIn) < new Date())
@@ -62,21 +68,20 @@ const BookingForm = () => {
     if (new Date(checkOut) <= new Date(checkIn))
       return showError("Check-out must be after check-in.");
 
-    try {
-      await dispatch(postBookingPropertyPosts({ propertyId, bookingDate: formData })).unwrap();
-      showSuccess("Booking successful!");
-      navigate("/my-bookings");
-    } catch (error) {
-      if (
-        error === "Property already booked for selected dates" ||
-        error?.message === "Property already booked for selected dates"
-      ) {
-        showError("This property is already booked for the selected dates.");
-      } else {
-        showError(error || "Failed to book the property.");
-      }
-    }
+    const totalCost =
+      (singlePost?.price || 0) * formData.numberOfNights +
+      parseInt(formData.serviceFee) +
+      parseInt(formData.taxes);
+
+    // ✅ Just open the modal and pass data — no API call yet
+    setPaymentData({
+      amount: totalCost,
+      formData,
+      propertyId,
+    });
+    setShowPaymentModal(true);
   };
+
 
   const totalCost =
     (singlePost?.price || 0) * formData.numberOfNights +
@@ -84,9 +89,9 @@ const BookingForm = () => {
     parseInt(formData.taxes);
 
   return (
-    <Container className="my-5">
-      <Card className="p-4 shadow">
-        <h2 className="mb-4">Book This Property</h2>
+    <Container className={styles.bookingFormWrapper}>
+      <Card className={styles.bookingCard}>
+        <h2 className={styles.heading}>Book This Property</h2>
 
         {isLoading && (
           <div className="text-center my-4">
@@ -99,16 +104,17 @@ const BookingForm = () => {
             <img
               src={singlePost.image.url}
               alt={singlePost.title}
-              className="img-fluid rounded mb-3"
-              style={{ maxHeight: "350px", objectFit: "cover", width: "100%" }}
+              className={styles.propertyImage}
             />
-            <h4>{singlePost.title}</h4>
-            <p>{singlePost.description}</p>
-            <p><strong>Price:</strong> ₹{singlePost.price}/night</p>
-            <p><strong>City:</strong> {singlePost.city}</p>
-            <p><strong>Address:</strong> {singlePost.location}</p>
-            <p><strong>Host:</strong> {singlePost.userId?.name}</p>
-            <p><strong>Phone:</strong> {singlePost.userId?.phone} / ({singlePost.userId?.email})</p>
+            <div className={styles.propertyDetails}>
+              <h4>{singlePost.title}</h4>
+              <p>{singlePost.description}</p>
+              <p><strong>Price:</strong> ₹{singlePost.price}/night</p>
+              <p><strong>City:</strong> {singlePost.city}</p>
+              <p><strong>Address:</strong> {singlePost.location}</p>
+              <p><strong>Host:</strong> {singlePost.userId?.name}</p>
+              <p><strong>Phone:</strong> {singlePost.userId?.phone} / ({singlePost.userId?.email})</p>
+            </div>
           </div>
         )}
 
@@ -116,8 +122,8 @@ const BookingForm = () => {
           <Row className="mb-3">
             <Col md={6}>
               <Form.Group controlId="checkIn">
-                <Form.Label>Check-In</Form.Label>
-                <Form.Control type="date" name="checkIn" value={formData.checkIn} onChange={handleChange} required />
+                <Form.Label className={styles.formLabel}>Check-In</Form.Label>
+                <Form.Control type="date" name="checkIn" value={formData.checkIn} onChange={handleChange} required className={styles.formControl} />
               </Form.Group>
             </Col>
             <Col md={6}>
@@ -178,7 +184,6 @@ const BookingForm = () => {
               </Form.Group>
             </Col>
           </Row>
-
           <Form.Group className="mb-3" controlId="paymentMethod">
             <Form.Label>Payment Method</Form.Label>
             <Form.Select name="paymentMethod" value={formData.paymentMethod} onChange={handleChange}>
@@ -188,12 +193,20 @@ const BookingForm = () => {
               <option value="cash">Cash</option>
             </Form.Select>
           </Form.Group>
-
-          <div className="mb-3 text-lg">
+          <div className={styles.totalPrice}>
             <strong>Total Price:</strong> ₹{totalCost}
           </div>
+          {showPaymentModal && paymentData && (
+            <PaymentModal
+              show={showPaymentModal}
+              onHide={() => setShowPaymentModal(false)}
+              amount={paymentData.amount}
+              propertyId={paymentData.propertyId}
+              formData={paymentData.formData}
+            />
+          )}
 
-          <Button variant="primary" type="submit" disabled={isLoading} className="w-100">
+          <Button type="submit" className={styles.bookBtn}>
             {isLoading ? "Booking..." : "Book Now"}
           </Button>
         </Form>

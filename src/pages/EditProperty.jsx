@@ -8,6 +8,8 @@ import {
 } from "../config/redux/action/propertyAction";
 import styles from "../stylesModule/edit.module.css";
 import { showError, showSuccess } from "../utils/toastUtils";
+import { FaMapMarkerAlt, FaTag, FaCity, FaGlobe, FaMoneyBillWave, FaFileImage, FaEdit, FaArrowLeft } from "react-icons/fa";
+
 
 const EditProperty = () => {
   const dispatch = useDispatch();
@@ -81,7 +83,7 @@ const EditProperty = () => {
       ...formData,
       image: image, // can be null if unchanged
     };
-   
+
 
     dispatch(editPropertyPosts({ id, updatedData, token }))
       .unwrap()
@@ -105,6 +107,8 @@ const EditProperty = () => {
       {isLoading && <p>Loading property details...</p>}
 
       <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <label><FaTag className="me-2" /> Title</label>
+
         <input
           type="text"
           name="title"
@@ -113,6 +117,7 @@ const EditProperty = () => {
           placeholder="Title"
           required
         />
+
         <textarea
           name="description"
           value={formData.description}
@@ -120,6 +125,7 @@ const EditProperty = () => {
           placeholder="Description"
           required
         />
+        <label><FaMoneyBillWave /> Price</label>
         <input
           type="number"
           name="price"
@@ -128,6 +134,7 @@ const EditProperty = () => {
           placeholder="Price"
           required
         />
+
         <input
           type="text"
           name="category"
@@ -136,6 +143,7 @@ const EditProperty = () => {
           placeholder="Category"
           required
         />
+        <label><FaGlobe /> Country</label>
         <input
           type="text"
           name="country"
@@ -144,6 +152,7 @@ const EditProperty = () => {
           placeholder="Country"
           required
         />
+        <label><FaCity /> City</label>
         <input
           type="text"
           name="city"
@@ -152,6 +161,7 @@ const EditProperty = () => {
           placeholder="City"
           required
         />
+        <label><FaMapMarkerAlt /> Location</label>
         <input
           type="text"
           name="location"
@@ -161,7 +171,7 @@ const EditProperty = () => {
           required
         />
 
-        
+
         {preview && (
           <div style={{ margin: "10px 0" }}>
             <img
@@ -177,7 +187,7 @@ const EditProperty = () => {
         )}
 
         <div>
-          <label>Upload New Image (optional):</label>
+          <label><FaFileImage /> Upload New Image</label>
           <input type="file" accept="image/*" onChange={handleImageChange} />
         </div>
 
@@ -195,9 +205,17 @@ const EditProperty = () => {
           type="submit"
           style={{ padding: "10px 20px", marginTop: "10px" }}
         >
-          Update Property
+          <FaEdit /> Update Property
         </button>
-        
+        <button
+          type="button"
+          onClick={() => navigate(-1)}  
+          className={styles.backButton}
+        >
+          <FaArrowLeft style={{ marginRight: "8px" }} />
+          Go Back
+        </button>
+
       </form>
     </div>
   );

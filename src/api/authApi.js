@@ -1,8 +1,8 @@
 import axios from "axios";
 import { clientServer } from "../config/axios"
 
-export const registerApi = async(uaerAuthData) =>{
-    const response = await clientServer.post("/api/auth/register", uaerAuthData);
+export const registerApi = async(userAuthData) =>{
+    const response = await clientServer.post("/api/auth/register", userAuthData);
     return response.data;
 }
 

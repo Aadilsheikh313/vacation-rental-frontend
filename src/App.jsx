@@ -23,7 +23,7 @@ import MyBooking from './Booking/MyBookings';
 import GuestDashborad from './GuestDashbord/Index';
 import CurrentBooking from './HostDashboard/Booking-Property/Current-booking';
 import BookingHistory from './HostDashboard/Booking-Property/Booking-History';
-
+import Payment from './Payment/Index';
 
 
 
@@ -33,22 +33,23 @@ function App() {
       <CustomNavbar />
       <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
-        
+
         <Route path="/" element={<Home />} />
         <Route path="/registerpage" element={<Registerpage />} />
         <Route path='/login' element={<Login />} />
         <Route path='/profile' element={<UserProfile />} />
         <Route path='/host/add-property' element={<AddPropertyForm />} />
         <Route path="/property/:id" element={<PropertyView />} />
-        <Route path="/edit/:id" element={<EditProperty />} /> 
-        <Route path='/host/dashboard' element={<HostDashboard/>}/>
+        <Route path="/edit/:id" element={<EditProperty />} />
+        <Route path='/host/dashboard' element={<HostDashboard />} />
         <Route path="/host/expired-properties" element={<Expire />} />
-        <Route path='/host/all-expired-property' element={<AllExpired/>}/>
-        <Route path='bookingFrom/:id' element={<BookingForm/>}/>
+        <Route path='/host/all-expired-property' element={<AllExpired />} />
+        <Route path='bookingFrom/:id' element={<BookingForm />} />
         <Route path='/my-bookings' element={<MyBooking />} />
-        <Route path='/host/check-bookings' element={<CurrentBooking/>}/>
-        <Route path='/guest/dashboard' element={<GuestDashborad/>}/>
-        <Route path='/host/my-properties' element={<BookingHistory/>}/>
+        <Route path='/host/check-bookings' element={<CurrentBooking />} />
+        <Route path='/guest/dashboard' element={<GuestDashborad />} />
+        <Route path='/host/history-bookings' element={<BookingHistory />} />
+        <Route path="/payment/:id" element={<Payment />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -9,12 +9,20 @@ export const getAllPropertyPostedApi = async () => {
 }
 
 export const postPropertyApi = async (formData) => {
+  const authData = JSON.parse(localStorage.getItem("auth"));
+  const token = authData?.token;
+
   const response = await clientServer.post("/api/property/postProperty", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-    withCredentials: true,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,  // ✅ send token here
+    },
   });
+
   return response.data;
 };
+
+
 
 export const getSinglePropertyApi = async (id) => {
   const response = await clientServer.get(`/api/property/${id}`);
@@ -89,7 +97,7 @@ export const getMyPropertiesApi = async () => {
 export const getMyExpiredPropertyApi = async(token) =>{
   const response = await clientServer.get('/api/property/expired/my',{
     headers:{
-      Authorization:`Beare ${token}`
+      Authorization:`Bearer ${token}`
     }
   });
   return response.data;

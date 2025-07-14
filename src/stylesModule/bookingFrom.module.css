@@ -1,0 +1,104 @@
+/* BookingForm Container */
+.bookingFormWrapper {
+  padding: 40px 20px;
+  background-color: #f8f9fb;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+/* Booking Card */
+.bookingCard {
+  border: none;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+}
+
+/* Heading */
+.heading {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #1e1e2f;
+}
+
+/* Property Image */
+.propertyImage {
+  max-height: 350px;
+  object-fit: cover;
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+/* Property Details Text */
+.propertyDetails p {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+/* Form Group Labels */
+.formLabel {
+  font-weight: 500;
+  color: #2d2d2d;
+  margin-bottom: 6px;
+}
+
+/* Form Control Input */
+.formControl {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.formControl:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25);
+}
+
+/* Total Price Display */
+.totalPrice {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1e1e2f;
+  margin: 20px 0;
+  background-color: #f1f5ff;
+  padding: 10px 16px;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+/* Button Styles */
+.bookBtn {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px;
+  border-radius: 8px;
+  width: 100%;
+  background-color: #007bff;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.bookBtn:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .bookingCard {
+    padding: 24px 16px;
+  }
+
+  .heading {
+    font-size: 1.5rem;
+  }
+
+  .totalPrice {
+    font-size: 1rem;
+  }
+}

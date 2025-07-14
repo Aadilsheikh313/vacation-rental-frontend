@@ -1,0 +1,111 @@
+/* Container for the main booking page */
+.bookingContainer {
+  background-color: #f8f9fc;
+  padding: 40px 20px;
+  min-height: 100vh;
+  font-family: "Inter", "Segoe UI", Tahoma, sans-serif;
+}
+
+/* Section Title */
+.sectionTitle {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e1e2f;
+  margin-bottom: 40px;
+}
+
+/* Summary badges */
+.summaryStats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.summaryItem h6 {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.summaryItem span {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 20px;
+}
+
+/* Booking Card */
+.bookingCard {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.bookingCard:hover {
+  transform: translateY(-3px);
+}
+
+/* Card image */
+.bookingImage {
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+/* Booking badge (confirmed/pending/cancelled) */
+.statusBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+}
+
+/* Guest Info list */
+.guestList {
+  font-size: 0.92rem;
+  color: #333;
+}
+
+/* Action buttons */
+.cardActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.cardActions button {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+/* Pagination */
+.paginationInfo {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+/* Loading Spinner */
+.loadingContainer {
+  text-align: center;
+  padding: 60px 0;
+}
+
+/* Responsive Fixes */
+@media (max-width: 768px) {
+  .summaryStats {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

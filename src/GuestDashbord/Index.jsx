@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Spinner, Card, Row, Col, Badge } from "react-bootstrap";
-import { getBookingPropertyPosts, getPastandCancelledBookingPosts } from "../config/redux/action/bookingAction ";
+import { deleteGuestHistroyBookingPosts, getBookingPropertyPosts, getPastandCancelledBookingPosts } from "../config/redux/action/bookingAction ";
 
 
 const GuestDashboard = () => {
@@ -34,6 +34,19 @@ const GuestDashboard = () => {
       b.bookingStatus === "cancelled" ||
       new Date(b.checkOut) < new Date()
   );
+
+  const handleDeleteBooking = (bookingId) => {
+  const confirmDelete = window.confirm("Are you sure you want to delete this booking?");
+  if (!confirmDelete) return;
+
+  dispatch(
+    deleteGuestHistroyBookingPosts({
+      bookingId,
+      token: localStorage.getItem("token"),
+    })
+  );
+};
+
 
   return (
     <div className="container py-4">
@@ -108,6 +121,13 @@ const GuestDashboard = () => {
                         </p>
                         <Badge bg={booking.bookingStatus === "cancelled" ? "danger" : "secondary"}>
                           {booking.bookingStatus}
+                        </Badge>
+                        <Badge
+                          bg="danger"
+                          style={{ cursor: "pointer", marginLeft: "10px" }}
+                          onClick={() => handleDeleteBooking(booking._id)}
+                        >
+                          Delete
                         </Badge>
                       </Card.Body>
                     </Card>

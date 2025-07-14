@@ -1,24 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getBookingPropertyPosts,  postBookingPropertyPosts,
+import {
+  getBookingPropertyPosts, postBookingPropertyPosts,
   editBookingPosts,
   cancelBookingPosts,
   checkBookingConflict,
   getPastandCancelledBookingPosts,
   getActiveBookingPosts,
-  getHostBookingHistoryPosts, } from "../action/bookingAction ";
+  getHostBookingHistoryPosts,
+  deleteGuestHistroyBookingPosts,
+} from "../action/bookingAction ";
 
 
 const initialState = {
   bookings: [],
   activeBookings: [],
-   historyBookings: [],
+  historyBookings: [],
   isLoading: false,
   isError: false,
   isSuccess: false,
   message: "",
   conflictData: null,
 
-   // Pagination state for host dashboard
+  // Pagination state for host dashboard
   page: 1,
   totalPages: 0,
   totalBookings: 0,
@@ -119,7 +122,7 @@ const bookingSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
-            // 🔹 CHECK Booking Conflict
+      // 🔹 CHECK Booking Conflict
       .addCase(checkBookingConflict.pending, (state) => {
         state.isLoading = true;
         state.message = "Checking availability...";
@@ -135,7 +138,7 @@ const bookingSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
-            // 🔹 GET Past and Cancelled Bookings
+      // 🔹 GET Past and Cancelled Bookings
       .addCase(getPastandCancelledBookingPosts.pending, (state) => {
         state.isLoading = true;
         state.message = "Loading past or cancelled bookings...";
@@ -151,7 +154,29 @@ const bookingSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
-       // 🔹 GET Host Active Bookings (production-ready)
+
+      // 🔹 DELETE Guest Past/Cancelled Booking
+      .addCase(deleteGuestHistroyBookingPosts.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Deleting guest booking history...";
+      })
+      .addCase(deleteGuestHistroyBookingPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload.message;
+
+        // Filter out the deleted booking from the state
+        state.bookings = state.bookings.filter(
+          (booking) => booking._id !== action.payload.bookingId
+        );
+      })
+      .addCase(deleteGuestHistroyBookingPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+      // 🔹 GET Host Active Bookings (production-ready)
       .addCase(getActiveBookingPosts.pending, (state) => {
         state.isLoading = true;
         state.message = "Loading active bookings...";
@@ -183,39 +208,36 @@ const bookingSlice = createSlice({
         state.message = action.payload;
       })
       // 🔹 GET Host Booking History
-.addCase(getHostBookingHistoryPosts.pending, (state) => {
-  state.isLoading = true;
-  state.message = "Loading host booking history...";
-})
-.addCase(getHostBookingHistoryPosts.fulfilled, (state, action) => {
-  const {
-    bookings,
-    totalHistoryBookings,
-    totalRevenue,
-    totalNights,
-    totalBookings,
-    totalPages,
-    page,
-  } = action.payload;
+      .addCase(getHostBookingHistoryPosts.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Loading host booking history...";
+      })
+      .addCase(getHostBookingHistoryPosts.fulfilled, (state, action) => {
+        const {
+          properties,
+          totalRevenue,
+          totalNights,
+          totalBookings,
+          totalPages,
+          page,
+        } = action.payload;
 
-  state.isLoading = false;
-  state.isSuccess = true;
-  state.activeBookings = bookings; // You can make a separate `historyBookings` state if needed
-  state.historyBookings = bookings;
-  state.totalRevenue = totalRevenue;
-  state.totalNights = totalNights;
-  state.totalBookings = totalBookings;
-  state.totalPages = totalPages;
-  state.page = page;
-  state.message = "Booking history loaded.";
-  console.log("History Bookings from Redux:", historyBookings);
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.historyBookings = action.payload.properties;
+        state.totalRevenue = totalRevenue;
+        state.totalNights = totalNights;
+        state.totalBookings = totalBookings;
+        state.totalPages = totalPages;
+        state.page = page;
+        state.message = "Booking history loaded.";
+      })
 
-})
-.addCase(getHostBookingHistoryPosts.rejected, (state, action) => {
-  state.isLoading = false;
-  state.isError = true;
-  state.message = action.payload;
-})
+      .addCase(getHostBookingHistoryPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
 
 
   },

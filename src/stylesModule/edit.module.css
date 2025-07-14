@@ -1,93 +1,147 @@
+
 .editContainer {
   background-color: #ffffff;
-  padding: 30px;
-  margin-top: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding-top: 1rem;
+  padding: 48px;
+  max-width: 720px;
+  margin: 60px auto;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.3s ease-in-out;
+  
 }
 
 .editContainer h2 {
   text-align: center;
-  color: #333;
-  margin-bottom: 20px;
+  color: #1a1a1a;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 35px;
 }
 
 .editContainer form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 24px;
 }
 
+/* Input Fields */
 .editContainer input[type="text"],
 .editContainer input[type="number"],
 .editContainer input[type="file"],
-.editContainer textarea,
-.editContainer select {
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 15px;
-  transition: border 0.3s ease;
+.editContainer textarea {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1.5px solid #d0d0d0;
+  font-size: 16px;
+  background-color: #f9fafb;
+  transition: border 0.3s ease, background-color 0.3s ease;
+  color: #333;
+  height: 2.5rem;
 }
 
 .editContainer input:focus,
 .editContainer textarea:focus {
-  border-color: #007bff;
+  border-color: #1e90ff;
+  background-color: #ffffff;
   outline: none;
 }
 
 .editContainer textarea {
   resize: vertical;
-  min-height: 100px;
+  min-height: 130px;
+  line-height: 1.6;
 }
 
+/* Labels */
 .editContainer label {
-  font-weight: 500;
-  color: #555;
+  font-weight: 600;
+  color: #2c2c2c;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+ 
 }
 
+/* Checkbox */
 .editContainer input[type="checkbox"] {
-  margin-left: 10px;
   transform: scale(1.2);
+  margin-left: 10px;
 }
 
+/* Image Preview */
 .editContainer img {
   width: 100%;
-  max-height: 250px;
+  max-height: 260px;
   object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin-top: 12px;
 }
 
+/* Submit Button */
 .editContainer button {
-  padding: 12px;
-  background-color: #007bff;
-  color: #fff;
-  font-weight: bold;
+  padding: 16px;
+  background-color: #1e90ff;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: 0.5px;
+  height: 2rem;
 }
 
 .editContainer button:hover {
-  background-color: #0056b3;
+  background-color: #1a75d2;
+  transform: translateY(-1.5px);
+}
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: transparent;
+  color: #007bff;
+  border: none;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  padding: 4px 0;
+  transition: color 0.3s ease;
+  height: 2rem;
 }
 
-/* Responsive design */
+.backButton:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+
+/* Mobile Styles */
 @media (max-width: 768px) {
   .editContainer {
-    padding: 20px;
+    padding: 28px;
     margin: 20px;
   }
 
-  .editContainer form {
-    gap: 12px;
+  .editContainer h2 {
+    font-size: 1.75rem;
   }
 
-  .editContainer h2 {
-    font-size: 22px;
+  .editContainer form {
+    gap: 20px;
+  }
+
+  .editContainer button {
+    font-size: 0.95rem;
+    padding: 14px;
   }
 }

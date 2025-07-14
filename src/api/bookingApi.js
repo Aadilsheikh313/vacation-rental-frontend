@@ -104,6 +104,23 @@ export const getPastandCancelledBookingApi = async (token) => {
     throw error;
   }
 };
+// ✅ Delete Guest's cancelled or past booking
+export const deleteGuestHistroyBookingApi = async (bookingId, token) => {
+  try {
+    const response = await clientServer.delete(`/api/booking/guest/delete-history/${bookingId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("❌ Guest past/cancelled delete API error:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
 
 //Get Host Active and upcomming booking property
 export const getActiveBookingApi = async (token, page = 1, limit = 10) => {

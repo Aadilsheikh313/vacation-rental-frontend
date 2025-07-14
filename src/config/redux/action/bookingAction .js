@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { cancelBookingApi, checkBookingConflictApi, editBookingApi, getActiveBookingApi, getBookingPropertyApi, getHostBookingHistoryApi, getPastandCancelledBookingApi, postBookingPropertyApi } from "../../../api/bookingApi";
+import { cancelBookingApi, checkBookingConflictApi, deleteGuestHistroyBookingApi, editBookingApi, getActiveBookingApi, getBookingPropertyApi, getHostBookingHistoryApi, getPastandCancelledBookingApi, postBookingPropertyApi } from "../../../api/bookingApi";
 
 
 // 🔹 GET Booking
@@ -85,7 +85,7 @@ export const checkBookingConflict = createAsyncThunk(
 
 //Get Guest Past and Cancelled 
 export const getPastandCancelledBookingPosts = createAsyncThunk(
-  "bookings/getPastandCancelledBookingPosts",
+  "booking/getPastandCancelledBookingPosts",
   async ({ token }, thunkAPI) => {
     try {
       const response = await getPastandCancelledBookingApi(token);
@@ -98,6 +98,22 @@ export const getPastandCancelledBookingPosts = createAsyncThunk(
     }
   }
 )
+
+// ✅ Delete Guest's cancelled or past booking
+export const deleteGuestHistroyBookingPosts = createAsyncThunk(
+  "booking/deleteGuestHistroyBookingPosts",
+  async ({ bookingId, token }, thunkAPI) => {
+    try {
+      const response = await deleteGuestHistroyBookingApi(bookingId, token); // ✅ Corrected order
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      console.error("❌ Delete Guest past/cancelled error:", error);
+      return thunkAPI.rejectWithValue(
+        error?.response?.data?.message || "Failed to delete past or cancelled booking"
+      );
+    }
+  }
+);
 
 //Get Host Active and upcomming Property 
 export const getActiveBookingPosts = createAsyncThunk(
@@ -117,8 +133,8 @@ export const getActiveBookingPosts = createAsyncThunk(
 
 //Get Histroy booking Host
 export const getHostBookingHistoryPosts = createAsyncThunk(
-  "bookings/getHostBookingHistoryPosts",
-  async({token}, thunkAPI) =>{
+  "booking/getHostBookingHistoryPosts",
+  async ({ token }, thunkAPI) => {
     try {
       const response = await getHostBookingHistoryApi(token);
       return thunkAPI.fulfillWithValue(response);

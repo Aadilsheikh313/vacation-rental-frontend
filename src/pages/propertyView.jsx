@@ -10,6 +10,10 @@ import ReviewList from "../Review/ReviewList";
 import { Spinner } from "react-bootstrap";
 import { showError } from "../utils/toastUtils";
 import CheckBookingConflict from "../Booking/CheckBookingConflict";
+// import MapComponent from "../Map/MapComponent";
+import styles from "../stylesModule/propertyView.module.css";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
+
 
 const PropertyView = () => {
   const dispatch = useDispatch();
@@ -59,7 +63,7 @@ const PropertyView = () => {
     }
     // Show conflict modal by rendering <CheckBookingConflict />
     setShowCheckConflict(true);
-   
+
   }
 
   if (isLoading) {
@@ -76,13 +80,12 @@ const PropertyView = () => {
   if (!singlePost) return <p>No Property Found</p>;
 
   return (
-    <div className="container mt-4">
-      <h2>{singlePost.title}</h2>
+    <div className={`container ${styles.container}`}>
+      <h2 className={styles.heading}>{singlePost.title}</h2>
       <img
         src={singlePost.image.url}
         alt={singlePost.title}
-        className="img-fluid mb-3"
-        style={{ maxHeight: "350px", objectFit: "cover" }}
+        className={styles.image}
       />
       <p><strong>Description:</strong> {singlePost.description}</p>
       <p><strong>Price:</strong> ₹{singlePost.price}/night</p>
@@ -93,12 +96,24 @@ const PropertyView = () => {
       <p><strong>Posted on:</strong> {new Date(singlePost.propertyPostedOn).toLocaleDateString()}</p>
       <p><strong>Hosted by:</strong> {singlePost.userId?.name}</p>
       <p><strong>Contact:</strong> {singlePost.userId?.phone} / {singlePost.userId?.email}</p>
+      {/* 🗺️ Show Map */}
+      {/* <MapComponent
+        coordinates={singlePost.coordinates}
+        location={singlePost.location}
+      /> */}
 
       {
         user?.role !== "guest" && singlePost.userId?._id === user?._id && (
           <div className="mt-4">
-            <button onClick={handleEdit} className="btn btn-warning me-2">✏️ Edit</button>
-            <button onClick={softhandleDelete} className="btn btn-danger">🗑️ Delete</button>
+            <div className="mt-4">
+              <button onClick={handleEdit} className={`btn btn-warning me-2 ${styles.button}`}>
+                <FaEdit className="me-2" /> Edit
+              </button>
+              <button onClick={softhandleDelete} className={`btn btn-danger ${styles.button}`}>
+                <FaTrashAlt className="me-2" /> Delete
+              </button>
+            </div>
+
           </div>
         )
       }
@@ -111,10 +126,14 @@ const PropertyView = () => {
         />
       )}
 
+      {
+        user?.role === "guest" && (
+          <div className="mt-4">
+            <button onClick={handeleBooking} className="btn btn-success me-2">Booking</button>
+          </div>
 
-      <div className="mt-4">
-        <button onClick={handeleBooking} className="btn btn-success me-2">Booking</button>
-      </div>
+        )
+      }
 
 
       <div className="mt-5">

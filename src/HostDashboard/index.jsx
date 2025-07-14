@@ -5,6 +5,10 @@ import { resethostDashboardPosts } from '../config/redux/reducer/propertyReducer
 import { Spinner, Card, Button, Container, Row, Col, Alert, NavItem } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
 import { confirmDelete } from "../utils/confirmDelete";
+import styles from "../stylesModule/host.module.css";
+import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+
+
 
 const HostDashboard = () => {
   const dispatch = useDispatch();
@@ -50,7 +54,7 @@ const HostDashboard = () => {
   };
 
   return (
-    <Container className="py-4">
+    <Container className={styles.Container}>
       <NavItem>
         <Row className="mb-4 text-center">
           <Col>
@@ -89,31 +93,48 @@ const HostDashboard = () => {
       <Row>
         {hostDashboardPosts.map((property) => (
           <Col md={4} key={property._id} className="mb-4">
-            <Card>
-              
-              <Card.Img variant="top" src={property.image?.url || "https://via.placeholder.com/300x200"} />
-              <Card.Body>
-                <Card.Title>{property.title}</Card.Title>
-                <Card.Text>{property.description?.slice(0, 100)}...</Card.Text>
-                <Card.Text><strong>Price:</strong> ₹{property.price}</Card.Text>
-                <Link to={`/property/${property._id}`}>
-                  <Button variant="info" className="me-2">View</Button>
-                </Link>
-                <Button
-                  onClick={() => navigate(`/edit/${property._id}`)}
-                  variant="warning"
-                  className="me-2"
-                >
-                  Edit
-                </Button>
-                <Button
-                  onClick={() => hardhandleDelete(property._id)} // ✅ Proper call
-                  variant="danger"
-                >
-                  Delete
-                </Button>
+            <Card className={styles.propertyCard}>
+              <Card.Img
+                variant="top"
+                src={property.image?.url || "https://via.placeholder.com/300x200"}
+                className={styles.cardImage}
+              />
+              <Card.Body className={styles.cardBody}>
+                <Card.Title className={styles.cardTitle}>{property.title}</Card.Title>
+                <Card.Text className={styles.cardText}>
+                  {property.description?.slice(0, 100)}...
+                </Card.Text>
+                <Card.Text className={styles.priceText}>
+                  ₹{property.price}
+                </Card.Text>
+
+                <div className={styles.buttonGroup}>
+                  <Button
+                    as={Link}
+                    to={`/property/${property._id}`}
+                    className={`${styles.cardButton} ${styles.viewBtn}`}
+                  >
+                  <FaEye/>  View
+                  </Button>
+
+                  <Button
+                    onClick={() => navigate(`/edit/${property._id}`)}
+                    className={`${styles.cardButton} ${styles.editBtn}`}
+                  >
+                   <FaEdit/> Edit
+                  </Button>
+
+                  <Button
+                    onClick={() => hardhandleDelete(property._id)}
+                    className={`${styles.cardButton} ${styles.deleteBtn}`}
+                  >
+                    <FaTrash/>
+                    Delete
+                  </Button>
+                </div>
               </Card.Body>
             </Card>
+
           </Col>
         ))}
       </Row>
