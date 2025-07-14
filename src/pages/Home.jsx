@@ -17,6 +17,8 @@ const Home = () => {
     dispatch(getAllPosts());
   }, [dispatch]);
   const { searchQuery } = useSearchContext();
+ 
+
   const filteredPosts = posts
     .filter((p) => p.status !== false)
     .filter((property) => {
@@ -27,6 +29,8 @@ const Home = () => {
         property.price.toString().includes(query)
       );
     });
+   
+
   return (
     <div className={styles.home} >
       <h2 className="mb-4">
@@ -39,6 +43,8 @@ const Home = () => {
       )}
       <div className="row">
         {posts.length > 0 ? (
+         
+          
           posts.filter(p => p.status !== false).map((property) => (
             <div className="col-md-4 mb-4" key={property._id}>
               <div className={`card ${styles.customCard}`}>

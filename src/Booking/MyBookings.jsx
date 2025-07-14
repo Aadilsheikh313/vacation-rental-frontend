@@ -15,11 +15,11 @@ const MyBooking = () => {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
-  const [invoicesData, setInvoiceData] = useState(null);
+  const [invoiceData, setInvoiceData] = useState(null);
 
   const { bookings, isLoading, isError, message } = useSelector((state) => state.booking);
   const { token } = useSelector((state) => state.auth);
-  const { invoiceData, isLoading: invoiceLoading } = useSelector((state) => state.invoice);
+  const {  isLoading: invoiceLoading } = useSelector((state) => state.invoice);
 
 
   useEffect(() => {

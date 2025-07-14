@@ -56,7 +56,7 @@ const postSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.postFetched = true;
-        state.posts = action.payload.property.reverse(); // ✅ FIXED
+        state.posts = action.payload.property.reverse() || []; // ✅ FIXED
       })
       .addCase(getAllPosts.rejected, (state, action) => {
         state.isLoading = false;
