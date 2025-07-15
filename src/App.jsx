@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -24,10 +24,21 @@ import GuestDashborad from './GuestDashbord/Index';
 import CurrentBooking from './HostDashboard/Booking-Property/Current-booking';
 import BookingHistory from './HostDashboard/Booking-Property/Booking-History';
 import Payment from './Payment/Index';
+import { useSelector } from 'react-redux';
+import { getUser } from './config/redux/action/authAction';
 
 
 
 function App() {
+  const dispatch = useDispatch();
+  const {token } = useSelector((state) => state.auth);
+  
+
+  useEffect(() => {
+    if (token) {
+      dispatch(getUser({ token }));
+    }
+  }, [dispatch, token]);
   return (
     <Router>
       <CustomNavbar />

@@ -17,9 +17,11 @@ const MyBooking = () => {
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
   const [invoiceData, setInvoiceData] = useState(null);
 
+  const navigate = useNavigate();
+  const { user, token } = useSelector((state) => state.auth);
   const { bookings, isLoading, isError, message } = useSelector((state) => state.booking);
-  const { token } = useSelector((state) => state.auth);
-  const {  isLoading: invoiceLoading } = useSelector((state) => state.invoice);
+
+  const { isLoading: invoiceLoading } = useSelector((state) => state.invoice);
 
 
   useEffect(() => {
@@ -41,14 +43,18 @@ const MyBooking = () => {
         setInvoiceData(result.payload.invoice);
         setShowInvoiceModal(true);
       } else {
-       showError("Invoice not yet generated.");
+        showError("Invoice not yet generated.");
       }
     } catch (error) {
       console.error("Invoice view/download failed:", error);
     }
   };
 
-
+useEffect(() => {
+  if (!user || !token) {
+    navigate("/login");
+  }
+}, [user, token]);
 
   return (
     <Container className="my-5">
