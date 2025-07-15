@@ -7,6 +7,7 @@ import CancelBookingModal from "./CancelBookingModal";
 import InvoiceModal from "../Invoice/InvoiceModal";
 import { downloadBookingInvoiceRecipet, viewInvoiceRecipet } from "../config/redux/action/invoiceAction";
 import { showError } from "../utils/toastUtils";
+import { useNavigate } from "react-router-dom";
 
 
 const MyBooking = () => {
@@ -50,11 +51,11 @@ const MyBooking = () => {
     }
   };
 
-useEffect(() => {
-  if (!user || !token) {
-    navigate("/login");
-  }
-}, [user, token]);
+  useEffect(() => {
+    if (!user || !token) {
+      navigate("/login");
+    }
+  }, [user, token]);
 
   return (
     <Container className="my-5">
