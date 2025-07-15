@@ -24,7 +24,7 @@ import GuestDashborad from './GuestDashbord/Index';
 import CurrentBooking from './HostDashboard/Booking-Property/Current-booking';
 import BookingHistory from './HostDashboard/Booking-Property/Booking-History';
 import Payment from './Payment/Index';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from './config/redux/action/authAction';
 
 
