@@ -1,52 +1,41 @@
-import React, { useEffect, useRef } from "react";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
+import React from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
-mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
-const MapComponent = ({ coordinates, location }) => {
-  const mapContainer = useRef(null);
-  const map = useRef(null);
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
 
-  useEffect(() => {
-    console.log("Map coordinates:", coordinates);
-    if (!coordinates?.coordinates || coordinates.coordinates.length !== 2) {
-      console.warn("❌ Coordinates missing or invalid!");
-      return;
-    }
-
-    const [lng, lat] = coordinates.coordinates;
-
-    // ✅ Avoid re-initializing the map
-    if (map.current) {
-      console.log("Map already initialized");
-      return;
-    }
-
-    // Initialize the map only once
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [lng, lat],
-      zoom: 13,
-    });
-
-    // Add marker
-    new mapboxgl.Marker({ color: "red" })
-      .setLngLat([lng, lat])
-      .setPopup(new mapboxgl.Popup().setHTML(`<strong>${location}</strong>`))
-      .addTo(map.current);
-
-    // Clean up map on unmount
-    return () => map.current.remove();
-  }, [coordinates, location]);
-
+const LeafletMap = ({ lat, lng, title }) => {
   return (
-    <div
-      ref={mapContainer}
-      style={{ height: "400px", width: "100%", borderRadius: "10px", marginTop: "20px" }}
-    />
+    <MapContainer center={[lat, lng]} zoom={13} scrollWheelZoom={false} style={{ height: '400px', borderRadius: '10px' }}>
+      <TileLayer
+        attribution='&copy; OpenStreetMap contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <Marker position={[lat, lng]}>
+        <Popup>
+          {title} <br />
+          <a
+            href={`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Get Directions
+          </a>
+        </Popup>
+
+      </Marker>
+    </MapContainer>
   );
 };
 
-export default MapComponent;
+export default LeafletMap;

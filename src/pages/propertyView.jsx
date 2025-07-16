@@ -10,9 +10,10 @@ import ReviewList from "../Review/ReviewList";
 import { Spinner } from "react-bootstrap";
 import { showError } from "../utils/toastUtils";
 import CheckBookingConflict from "../Booking/CheckBookingConflict";
-// import MapComponent from "../Map/MapComponent";
 import styles from "../stylesModule/propertyView.module.css";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import LeafletMap from "../Map/MapComponent";
+
 
 
 const PropertyView = () => {
@@ -21,6 +22,9 @@ const PropertyView = () => {
   const { id } = useParams();
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [showCheckConflict, setShowCheckConflict] = useState(false);
+  const [coordinates, setCoordinates] = useState(null);
+  const [loadingMap, setLoadingMap] = useState(true);
+
 
 
   const { isLoading, singlePost, isError, message } = useSelector((state) => state.post);
@@ -35,6 +39,34 @@ const PropertyView = () => {
     dispatch(getAllReviewPosts(id));
     return () => dispatch(resetSinglePost());
   }, [dispatch, id]);
+
+  useEffect(() => {
+    const location = singlePost?.location;
+    if (!location) return;
+
+    const fetchCoordinates = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/geocode?q=${encodeURIComponent(location)}`);
+        if (!res.ok) throw new Error("Failed to fetch coordinates");
+        const data = await res.json();
+
+
+        if (data.length > 0) {
+          setCoordinates({
+            lat: parseFloat(data[0].lat),
+            lng: parseFloat(data[0].lon),
+          });
+        }
+
+      } catch (err) {
+        console.error("Geocoding failed", err);
+      } finally {
+        setLoadingMap(false);
+      }
+    };
+
+    fetchCoordinates();
+  }, [singlePost]);
 
   const handleEdit = () => navigate(`/edit/${id}`);
 
@@ -79,6 +111,7 @@ const PropertyView = () => {
   if (isError) return <p>{message}</p>;
   if (!singlePost) return <p>No Property Found</p>;
 
+
   return (
     <div className={`container ${styles.container}`}>
       <h2 className={styles.heading}>{singlePost.title}</h2>
@@ -96,11 +129,6 @@ const PropertyView = () => {
       <p><strong>Posted on:</strong> {new Date(singlePost.propertyPostedOn).toLocaleDateString()}</p>
       <p><strong>Hosted by:</strong> {singlePost.userId?.name}</p>
       <p><strong>Contact:</strong> {singlePost.userId?.phone} / {singlePost.userId?.email}</p>
-      {/* 🗺️ Show Map */}
-      {/* <MapComponent
-        coordinates={singlePost.coordinates}
-        location={singlePost.location}
-      /> */}
 
       {
         user?.role !== "guest" && singlePost.userId?._id === user?._id && (
@@ -156,6 +184,21 @@ const PropertyView = () => {
 
         />
       </div>
+      <hr />
+      <div className="mt-4">
+        <h4>Where you'll be</h4>
+        <div className="map-container">
+          {loadingMap ? (
+            <p>Loading map...</p>
+          ) : coordinates ? (
+            <LeafletMap lat={coordinates.lat} lng={coordinates.lng} title={singlePost.city} />
+          ) : (
+            <p>Map not available</p>
+          )}
+        </div>
+      </div>
+
+
     </div>
   );
 };
