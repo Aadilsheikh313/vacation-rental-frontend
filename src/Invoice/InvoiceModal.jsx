@@ -5,9 +5,9 @@ import { downloadBookingInvoiceRecipet } from "../config/redux/action/invoiceAct
 
 const InvoiceModal = ({ show, onClose, invoice }) => {
  
-
+ const {token} = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const {token} = useSelector((state) => state.auth);
+ 
 
    if (!invoice) return null;
 

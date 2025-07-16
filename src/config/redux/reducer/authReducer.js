@@ -92,17 +92,17 @@ const authSlice = createSlice({
         state.message = "User data fetched successfully";
       })
       .addCase(getUser.rejected, (state, action) => {
-  state.isLoading = false;
-  state.isError = true;
-  state.message = action.payload || "Unauthorized";
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Unauthorized";
 
-  // Clear auth on failure
-  state.user = null;
-  state.loggedIn = false;
-  state.token = null;
-  localStorage.removeItem("user");
-  localStorage.removeItem("token");
-});
+        // Clear auth on failure
+        state.user = null;
+        state.loggedIn = false;
+        state.token = null;
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+      });
 
   },
 });

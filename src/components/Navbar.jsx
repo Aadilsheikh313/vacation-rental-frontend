@@ -49,8 +49,9 @@ const CustomNavbar = () => {
 
   return (
     <Navbar expand="md" className={styles.navbar}>
-      <Container className={`d-flex justify-content-between align-items-center ${styles.Container}`}>
-
+      
+      <Container className={`${styles.Container}`}>
+        <div className={styles.logo_hambuger}>
         <Navbar.Brand
           className={styles.logo}
           onClick={handleLogoClick}
@@ -66,7 +67,7 @@ const CustomNavbar = () => {
         >
           ☰
         </Navbar.Toggle>
-
+        </div>
         <Navbar.Collapse
           className={`${styles.navLinkitem} ${mobileMenuOpen ? styles.active : ""}`}
           id="basic-navbar-nav"
