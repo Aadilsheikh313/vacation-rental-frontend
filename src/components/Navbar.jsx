@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "../stylesModule/Navbar.module.css";
 import { handleLogoutUser, reset } from "../config/redux/reducer/authReducer";
 import { useSearchContext } from "../context/SearchContext";
+import logoImg from "../assets/NAS.jpg";
 
 const CustomNavbar = () => {
   const { searchQuery, setSearchQuery } = useSearchContext();
@@ -56,7 +57,7 @@ const CustomNavbar = () => {
             onClick={handleLogoClick}
             style={{ cursor: "pointer" }}
           >
-            <img src="NAS.jpg" alt="logoImage" />
+            <img src={logoImg} alt="logoImage" />
           </Navbar.Brand>
 
           <Navbar.Toggle
