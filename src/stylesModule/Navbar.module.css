@@ -1,5 +1,5 @@
 /* =========================
-   🔹 Production Navbar CSS
+   🔹 Updated Production Navbar CSS
    ========================= */
 
 .navbar {
@@ -19,7 +19,10 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  flex-wrap: wrap;
+  padding: 0 1rem;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  background-color: transparent;
 }
 
 .logo {
@@ -39,13 +42,20 @@
   transform: scale(1.2);
 }
 
+/* ✅ Added: Push Home + Search 3rem to left */
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-left: 3rem;
+}
+
 .navLinkitem {
   display: flex;
-  gap: 2rem;
   align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-
+  gap: 4rem;
+  flex-grow: 1;
+  background-color: transparent;
 }
 
 .navhome {
@@ -54,7 +64,7 @@
   font-weight: 600;
   padding-left: 1rem;
   transition: color 0.3s;
-
+  margin-right: 5rem;
 }
 
 .navhome:hover {
@@ -65,7 +75,6 @@
 .searchInput {
   display: flex;
   align-items: center;
-  gap: 0;
 }
 
 .searchInput input {
@@ -75,8 +84,7 @@
   border-bottom-left-radius: 10px;
   border: 2px solid #ccc;
   padding: 0 10px;
-  width: 300px;
-  min-width: 150px;
+  width: 250px;
   outline: none;
 }
 
@@ -96,10 +104,12 @@
   background-color: #e6baba;
 }
 
+/* ✅ Host links spacing */
 #navLinkicon {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
   align-items: center;
+  margin-left: auto;
 }
 
 .navLink,
@@ -117,7 +127,7 @@
 }
 
 .navhost {
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .navLink:hover,
@@ -138,6 +148,7 @@
   cursor: pointer;
 }
 
+/* 🔸 User Dropdown */
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -152,8 +163,7 @@
 .modalContent {
   position: fixed;
   top: 15%;
-  left: 70%;
-  transform: translate(-50%, -50%);
+  right: 2rem;
   background: #fff;
   padding: 2rem;
   border-radius: 20px;
@@ -170,13 +180,11 @@
 @keyframes fadeInScale {
   from {
     opacity: 0;
-    transform: translate(-50%, -60%) scale(0.9);
-    
+    transform: scale(0.9);
   }
-
   to {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
   }
 }
 
@@ -187,9 +195,7 @@
   text-decoration: none;
   padding: 0.75rem 1rem;
   border-radius: 12px;
-  background-color: rgba(255, 255, 255, 0.05);
   transition: background-color 0.3s, color 0.3s;
-  
 }
 
 .modalContent .dropdownItem:hover {
@@ -214,7 +220,7 @@
   cursor: pointer;
 }
 
-/* 🔸 Hamburger Styles */
+/* 🔸 Hamburger */
 .hamburger {
   display: block;
   font-size: 1.8rem;
@@ -233,11 +239,10 @@
   width: 100%;
 }
 
-/* 🔹 Responsive: Mobile */
+/* 🔹 Mobile Responsive */
 @media (max-width: 768px) {
   .hamburger {
     display: block;
-    
   }
 
   .navLinkitem,
@@ -258,28 +263,38 @@
 
   .navbar {
     flex-direction: row;
-    align-items: center;
   }
 
   .Container {
     flex-direction: row;
-    align-items: center;
     justify-content: space-between;
-    width: 100%;
     padding: 0;
-    margin: 0;
+  }
+
+  .leftSection {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 0;
+    gap: 1rem;
+    width: 100%;
   }
 
   .searchInput {
     flex-direction: column;
-    margin: 1rem 0 0 0;
     width: 100%;
   }
 
   .searchInput input,
   .searchInput button {
-    width: 90%;
+    width: 100%;
     margin-bottom: 0.5rem;
+  }
+
+  .modalContent {
+    left: 50% !important;
+    top: 30% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 90vw;
   }
 }
 
@@ -288,20 +303,17 @@
     transform: translateY(-10%);
     opacity: 0;
   }
-
   to {
     transform: translateY(0);
     opacity: 1;
   }
 }
 
-/* 🔹 Responsive: Tablets */
+/* 🔹 Tablets */
 @media (min-width: 769px) and (max-width: 1024px) {
-
   .navLinkitem,
   #navLinkicon {
     gap: 1.5rem;
-    margin-left: 1rem;
   }
 
   .searchInput input {
@@ -315,16 +327,5 @@
   .navhome,
   .navLink {
     font-size: 1.2rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .modalContent {
-    left: 50% !important;
-    top: 30% !important;
-    transform: translate(-50%, -50%) !important;
-    width: 90vw;
-    min-width: unset;
-    max-width: unset;
   }
 }

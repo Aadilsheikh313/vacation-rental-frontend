@@ -48,56 +48,58 @@ const CustomNavbar = () => {
   };
 
   return (
-    <Navbar expand="md" className={styles.navbar}>
-      
+     <Navbar expand="md" className={styles.navbar}>
       <Container className={`${styles.Container}`}>
         <div className={styles.logo_hambuger}>
-        <Navbar.Brand
-          className={styles.logo}
-          onClick={handleLogoClick}
-          style={{ cursor: "pointer" }}
-        >
-          <img src="NAS.jpg" alt="logoImage" />
-        </Navbar.Brand>
+          <Navbar.Brand
+            className={styles.logo}
+            onClick={handleLogoClick}
+            style={{ cursor: "pointer" }}
+          >
+            <img src="NAS.jpg" alt="logoImage" />
+          </Navbar.Brand>
 
-        <Navbar.Toggle
-          aria-controls="basic-navbar-nav"
-          className={styles.hamburger}
-          onClick={handleHamburgerToggle}
-        >
-          ☰
-        </Navbar.Toggle>
+          <Navbar.Toggle
+            aria-controls="basic-navbar-nav"
+            className={styles.hamburger}
+            onClick={handleHamburgerToggle}
+          >
+            ☰
+          </Navbar.Toggle>
         </div>
+
         <Navbar.Collapse
           className={`${styles.navLinkitem} ${mobileMenuOpen ? styles.active : ""}`}
           id="basic-navbar-nav"
         >
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="/" className={styles.navhome}>
-              Home
-            </Nav.Link>
-          </Nav>
+          <div className={styles.leftSection}>
+            <Nav>
+              <Nav.Link as={Link} to="/" className={styles.navhome}>
+                Home
+              </Nav.Link>
+            </Nav>
 
-          <Form className={styles.searchInput} onSubmit={handleSearch}>
-            <FormControl
-              type="search"
-              placeholder="Search"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <Button variant="outline-light" type="submit">
-              Search
-            </Button>
-          </Form>
+            <Form className={styles.searchInput} onSubmit={handleSearch}>
+              <FormControl
+                type="search"
+                placeholder="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Button variant="outline-light" type="submit">
+                Search
+              </Button>
+            </Form>
+          </div>
 
           <Nav id={`${styles.navLinkicon} ${mobileMenuOpen ? styles.active : ""}`}>
-            {user && user.role === "guest" && (
+            {user?.role === "guest" && (
               <>
                 <Nav.Link as={Link} to="/guest/dashboard" className={styles.navguest}>Guest Dashboard</Nav.Link>
                 <Nav.Link as={Link} to="/my-bookings" className={styles.navguest}>My Trips</Nav.Link>
               </>
             )}
-            {user && user.role === "host" && (
+            {user?.role === "host" && (
               <>
                 <Nav.Link as={Link} to="/host/dashboard" className={styles.navhost}>Host Dashboard</Nav.Link>
                 <Nav.Link as={Link} to="/host/add-property" className={styles.navhost}>Add Property</Nav.Link>
