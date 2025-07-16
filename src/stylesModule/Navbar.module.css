@@ -1,5 +1,5 @@
 /* =========================
-   🔹 Updated Production Navbar CSS
+   🔹 Production Navbar CSS
    ========================= */
 
 .navbar {
@@ -42,12 +42,19 @@
   transform: scale(1.2);
 }
 
-/* ✅ Added: Push Home + Search 3rem to left */
+.logo_hambuger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* ✅ Home + Search align left */
 .leftSection {
   display: flex;
   align-items: center;
-  gap: 2rem;
-  margin-left: 3rem;
+  gap: 4rem;
+  margin-right: 4rem;
 }
 
 .navLinkitem {
@@ -64,7 +71,6 @@
   font-weight: 600;
   padding-left: 1rem;
   transition: color 0.3s;
-  margin-right: 5rem;
 }
 
 .navhome:hover {
@@ -104,12 +110,15 @@
   background-color: #e6baba;
 }
 
-/* ✅ Host links spacing */
+/* 🔹 Guest/Host Right Links */
 #navLinkicon {
   display: flex;
   gap: 2rem;
   align-items: center;
   margin-left: auto;
+  width: 100%;
+  overflow-x: hidden;
+  flex-wrap: wrap;
 }
 
 .navLink,
@@ -120,10 +129,13 @@
   font-size: 1.1rem;
   font-weight: 500;
   transition: color 0.3s;
+  margin-right: 1.5rem;
 }
 
 .navguest {
   font-family: 'Inter', sans-serif;
+  margin-left: 5rem;
+  margin-right: 2rem;
 }
 
 .navhost {
@@ -137,9 +149,11 @@
   text-decoration: underline;
 }
 
+/* 🔹 User Icon */
 .userIcon {
   color: white !important;
   transition: transform 0.3s, color 0.3s;
+  margin-left: 1rem;
 }
 
 .userIcon:hover {
@@ -148,7 +162,7 @@
   cursor: pointer;
 }
 
-/* 🔸 User Dropdown */
+/* 🔹 Dropdown */
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -220,7 +234,7 @@
   cursor: pointer;
 }
 
-/* 🔸 Hamburger */
+/* 🔹 Hamburger Button */
 .hamburger {
   display: block;
   font-size: 1.8rem;
@@ -232,28 +246,40 @@
   width: 3rem;
 }
 
-.logo_hambuger {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-/* 🔹 Mobile Responsive */
+/* 🔸 Responsive Styles */
 @media (max-width: 768px) {
-  .hamburger {
-    display: block;
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.5rem 1rem;
+    overflow-x: hidden;
+  }
+
+  .Container {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  .logo_hambuger {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
   }
 
   .navLinkitem,
   #navLinkicon {
     display: none;
     flex-direction: column;
-    background: #c07a68;
+    align-items: flex-start;
     width: 100%;
     padding: 1rem;
+    background: #c07a68;
     border-radius: 8px;
-    animation: slideDown 0.3s ease-in-out;
+    gap: 1rem;
   }
 
   .navLinkitem.active,
@@ -261,33 +287,41 @@
     display: flex;
   }
 
-  .navbar {
-    flex-direction: row;
-  }
-
-  .Container {
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0;
-  }
-
   .leftSection {
+    width: 100%;
     flex-direction: column;
     align-items: flex-start;
-    margin-left: 0;
     gap: 1rem;
-    width: 100%;
+    margin-right: 0;
   }
 
   .searchInput {
-    flex-direction: column;
     width: 100%;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .searchInput input,
   .searchInput button {
     width: 100%;
     margin-bottom: 0.5rem;
+  }
+
+  .navhome {
+    padding-left: 0;
+    font-size: 1.2rem;
+  }
+
+  .navguest,
+  .navhost {
+    font-size: 1.1rem;
+    margin: 0;
+    width: 100%;
+    padding-left: 0.5rem;
+  }
+
+  .userIcon {
+    margin-left: 0;
   }
 
   .modalContent {
@@ -298,18 +332,6 @@
   }
 }
 
-@keyframes slideDown {
-  from {
-    transform: translateY(-10%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* 🔹 Tablets */
 @media (min-width: 769px) and (max-width: 1024px) {
   .navLinkitem,
   #navLinkicon {
@@ -328,4 +350,14 @@
   .navLink {
     font-size: 1.2rem;
   }
+
 }
+@media (max-width: 768px) {
+  .navguest {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100%;
+    padding-left: 0.5rem;
+  }
+}
+
