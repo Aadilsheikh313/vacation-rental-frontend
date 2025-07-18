@@ -26,6 +26,13 @@ import BookingHistory from './HostDashboard/Booking-Property/Booking-History';
 import Payment from './Payment/Index';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from './config/redux/action/authAction';
+import ExploreAndStay from './HeroSection/Explore_Stays';
+import TouristAndPlace from './HeroSection/Tourist_Places';
+import TopSpots from './HeroSection/Top_Spots';
+import PlanMyTrip from './HeroSection/Plan_My_Trip';
+import FoodAndFun from './HeroSection/FoodAndFun';
+import PostTripMoments from './GuestDashbord/Post_Trip_Moments';
+import ExperienceHub from './GuestDashbord/Experience_Hub';
 
 
 
@@ -59,8 +66,15 @@ function App() {
         <Route path='/my-bookings' element={<MyBooking />} />
         <Route path='/host/check-bookings' element={<CurrentBooking />} />
         <Route path='/guest/dashboard' element={<GuestDashborad />} />
+        <Route path='/Post-Trip-Moments' element={<PostTripMoments />} />
+        <Route path='/Experience-Hub' element={<ExperienceHub />} />
         <Route path='/host/history-bookings' element={<BookingHistory />} />
         <Route path="/payment/:id" element={<Payment />} />
+        <Route path='/explore/properties' element={<ExploreAndStay/>}/>
+        <Route path='/explore' element={<TouristAndPlace/>}/>
+        <Route path='/top-spots' element={<TopSpots/>}/>
+        <Route path='/plan-my-trip' element={<PlanMyTrip/>}/>
+        <Route path='/testy-food' element={<FoodAndFun/>}/>
 
         <Route path="*" element={<NotFound />} />
       </Routes>

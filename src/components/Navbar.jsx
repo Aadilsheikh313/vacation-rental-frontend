@@ -49,7 +49,7 @@ const CustomNavbar = () => {
   };
 
   return (
-     <Navbar expand="md" className={styles.navbar}>
+    <Navbar expand="md" className={styles.navbar}>
       <Container className={`${styles.Container}`}>
         <div className={styles.logo_hambuger}>
           <Navbar.Brand
@@ -98,6 +98,8 @@ const CustomNavbar = () => {
               <>
                 <Nav.Link as={Link} to="/guest/dashboard" className={styles.navguest}>Guest Dashboard</Nav.Link>
                 <Nav.Link as={Link} to="/my-bookings" className={styles.navguest}>My Trips</Nav.Link>
+                <Nav.Link as={Link} to="/Post-Trip-Moments" className={styles.navguest}>Post Trip Moments</Nav.Link>
+                <Nav.Link as={Link} to="/Experience-Hub" className={styles.navguest}>Experience Hub</Nav.Link>
               </>
             )}
             {user?.role === "host" && (
