@@ -112,7 +112,7 @@ const CurrentBooking = () => {
                     </Badge>
                     
                     <Card.Body>
-                      <Card.Title className="text-truncate">
+                      <Card.Title className="text-truncate text-white">
                         {booking.property.title}
                       </Card.Title>
 

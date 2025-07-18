@@ -73,13 +73,13 @@ const Home = () => {
                   alt={property.title}
                   style={{ height: "200px", objectFit: "cover" }}
                 />
-                <div className="card-body">
-                  <h5 className="card-title">{property.title}</h5>
+                <div className="card-body ">
+                  <h5 className="card-title text-white">{property.title}</h5>
                   <p className="card-text">₹{property.price} / night</p>
                   {property.totalReviews > 0 ? (
                     <p className="text-warning"><b>Rating</b>⭐ {property.avgRating} ({property.totalReviews} reviews)</p>
                   ) : (
-                    <p className="text-muted">No rating and reviews yet.</p>
+                    <p className="text-white-muted">No rating and reviews yet.</p>
                   )}
                   <Button
                     as={Link}
