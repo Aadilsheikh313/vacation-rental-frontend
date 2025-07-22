@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import "./TopSpots.css";
+import NavigationButtons from "../components/NavigationButtons";
 
 const travelSpots = [
   {
@@ -49,7 +50,8 @@ const travelSpots = [
 
 const TopSpots = () => {
   return (
-    <div className="topspots-container text-white py-5 px-3">
+    <div className="topspots-container  py-5 px-3">
+      <NavigationButtons/>
       <motion.h1
         className="text-center fw-bold mb-4"
         initial={{ y: -50, opacity: 0 }}
@@ -68,7 +70,7 @@ const TopSpots = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.2, duration: 0.8 }}
           >
-            <div className="card bg-dark text-white h-100 shadow-lg rounded-4 p-3 border border-success">
+            <div className="card  text-white h-100 shadow-lg rounded-4 p-3 border border-success">
               <h3 className="text-warning">{spot.name}</h3>
               <p><strong>Why Famous:</strong> {spot.reason}</p>
               <p><strong>Visitors:</strong> {spot.visitors}</p>

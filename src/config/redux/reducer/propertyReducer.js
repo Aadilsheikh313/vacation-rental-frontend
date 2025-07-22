@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllPosts, createPosts, getSinglePosts, editPropertyPosts, getMyPropertiesPosts, softdeletePropertyPosts, harddeletePropertyPosts, reactivePropertyPosts, getMyExpiredPropertyPosts } from "../action/propertyAction";
+import { getAllPosts, createPosts, getSinglePosts, editPropertyPosts, getMyPropertiesPosts, softdeletePropertyPosts, harddeletePropertyPosts, reactivePropertyPosts, getMyExpiredPropertyPosts, getPropertyByCategoryPosts } from "../action/propertyAction";
 
 const initialState = {
   posts: [],
@@ -205,6 +205,21 @@ const postSlice = createSlice({
         state.posts = action.payload.property;
       })
       .addCase(getMyExpiredPropertyPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getPropertyByCategoryPosts.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Fetching properties by category...";
+      })
+      .addCase(getPropertyByCategoryPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.postFetched = true;
+       state.posts = action.payload || [];
+      })
+      .addCase(getPropertyByCategoryPosts.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

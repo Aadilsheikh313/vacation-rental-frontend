@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import './PlanMyTrip.css';
+import NavigationButtons from "../components/NavigationButtons";
 
 const PlanMyTrip = () => {
   const [tripData, setTripData] = useState({
@@ -23,7 +24,8 @@ const PlanMyTrip = () => {
 
   return (
     <div className="plan-trip-container">
-      <div className="overlay">
+      <div className="">
+        <NavigationButtons/>
         <div className="content-wrapper container text-center">
           <motion.h1
             initial={{ y: -50, opacity: 0 }}

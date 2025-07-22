@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import NavigationButtons from "../components/NavigationButtons";
 
 const TouristAndPlace = () => {
     const contentRef = useRef(null);
@@ -9,6 +10,7 @@ const TouristAndPlace = () => {
 
     return (
         <div className="container py-5">
+            <NavigationButtons/>
             {/* Top Button */}
             <div className="text-center mb-4">
                 <button 
@@ -37,7 +39,7 @@ const TouristAndPlace = () => {
 
                     {/* Nature & Scenic Beauty */}
                     <div className="col">
-                        <div className="p-3 border rounded shadow-sm bg-light">
+                        <div className="p-3 border rounded shadow-sm ">
                             <h4>🏞️ Nature & Scenic Beauty</h4>
                             <ul>
                                 <li>Hill Stations – Shimla, Manali, Darjeeling</li>
@@ -51,7 +53,7 @@ const TouristAndPlace = () => {
 
                     {/* Historical & Cultural Sites */}
                     <div className="col">
-                        <div className="p-3 border rounded shadow-sm bg-light">
+                        <div className="p-3 border rounded shadow-sm ">
                             <h4>🏛️ Historical & Cultural Sites</h4>
                             <ul>
                                 <li>Forts & Palaces – Rajasthan, Mysore Palace</li>

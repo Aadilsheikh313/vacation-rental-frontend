@@ -11,20 +11,6 @@
     margin-bottom: 40px;
     color: #2c3e50;
 }
-.buttonGroup {
-  margin: 20px 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center; 
-  text-align: center;       
-}
-.buttonGroup button:hover {
-  transform: scale(2);
-  transition: 0.3s ease-in-out;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
 
 /* Card Styling */
 .customCard {

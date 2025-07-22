@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import "./FoodAndFun.css";
+import NavigationButtons from "../components/NavigationButtons";
 
 const foodCategories = ["All", "Street Food", "Restaurants", "Bars", "Cafes", "Local Cuisine"];
 
@@ -22,9 +23,10 @@ const FoodAndFun = () => {
 
   return (
     <div className="food-fun-section">
-      <Container className="py-5 text-center text-white">
+      <NavigationButtons/>
+      <Container className="py-5 text-center ">
         <motion.h1
-          className="food-title mb-4 text-black"
+          className="food-title mb-4 "
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
@@ -51,7 +53,7 @@ const FoodAndFun = () => {
           {filteredFood.map((item, index) => (
             <Col key={index} md={4} className="mb-4">
               <motion.div
-                className="food-card p-3 rounded shadow bg-dark bg-opacity-50"
+                className="food-card p-3 rounded shadow  "
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 * index }}

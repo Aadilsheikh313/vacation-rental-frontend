@@ -1,0 +1,163 @@
+.exploreContainer {
+  padding: 40px 20px;
+  background-color: #f0f2f5 ; /* Light background */
+}
+
+/* Heading */
+.stayTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.staySubtext {
+  color: #7f8c8d;
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Category Buttons */
+.propertyButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.categoryButton {
+  border-radius: 25px;
+  padding: 6px 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.categoryButton:hover {
+  transform: translateY(-2px);
+  background-color: #28a745 t;
+  color: white ;
+}
+
+/* Card Styling */
+.propertyCard {
+  background-color: #ffffff ;
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.propertyCard,
+.propertyCard .card-body {
+  background-color: #ffffff ;
+  color: #2c3e50 ;
+}
+
+/* Light animation from left to right */
+.propertyCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(0, 123, 255, 0.1), transparent);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+
+.propertyCard:hover::before {
+  left: 100%;
+}
+
+.propertyCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+}
+
+.cardImage {
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #2c3e50;
+}
+
+.cardText {
+  font-size: 0.95rem;
+  color: #2c3e50;
+  margin-bottom: 4px;
+  
+}
+/* .propertyCard .cardText {
+  color: #2c3e50 !important;
+} */
+
+
+.cardText strong {
+  font-size: 1rem;
+  color: #000;
+  
+}
+
+.bookButton {
+  border-radius: 20px;
+  font-weight: 500;
+  width: 100%;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+.bookButton:hover {
+  background-color: #007bff;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stayTitle {
+    font-size: 1.8rem;
+  }
+
+  .propertyCard {
+    background-color: #ffffff !important;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  }
+  .categoryButton {
+    font-size: 0.9rem;
+    padding: 5px 14px;
+  }
+
+  .cardTitle {
+    font-size: 1.1rem;
+  }
+
+  .cardText {
+    font-size: 0.85rem;
+  }
+
+  .bookButton {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardImage {
+    height: 180px;
+  }
+
+  .stayTitle {
+    font-size: 1.5rem;
+  }
+}
+
+

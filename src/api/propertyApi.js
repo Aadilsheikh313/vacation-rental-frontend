@@ -102,3 +102,13 @@ export const getMyExpiredPropertyApi = async(token) =>{
   });
   return response.data;
 }
+
+export const getPropertyByCategoryApi = async (token, category, filters = {}) => {
+  const query = new URLSearchParams(filters).toString(); // 🔁 Convert filters to query string
+  const response = await clientServer.get(`/api/property/category/${category}?${query}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+  return response.data;
+};

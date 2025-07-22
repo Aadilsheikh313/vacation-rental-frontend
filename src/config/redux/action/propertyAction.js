@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   editPropertyApi, getAllPropertyPostedApi, getMyPropertiesApi,
+  getPropertyByCategoryApi,
   getSinglePropertyApi, harddeletedPropertyApi, postPropertyApi, reactivePropertyApi,
   softdeletedPropertyApi
 } from "../../../api/propertyApi";
@@ -128,5 +129,20 @@ export const getMyExpiredPropertyPosts = createAsyncThunk(
     }
   }
 )
+
+export const getPropertyByCategoryPosts = createAsyncThunk(
+  "posts/getPropertyByCategoryPosts",
+  async ({ token, category, ...filters }, thunkAPI) => {
+  try {
+    const response = await getPropertyByCategoryApi(token, category, filters);
+    return thunkAPI.fulfillWithValue(response.properties);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error.response?.data?.message || "Failed to fetch filtered category property"
+    );
+  }
+}
+
+);
 
 

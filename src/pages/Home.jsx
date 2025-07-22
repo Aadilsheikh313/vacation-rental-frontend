@@ -7,6 +7,7 @@ import { Spinner, Button } from "react-bootstrap";
 import { useSearchContext } from "../context/SearchContext";
 import styles from "../stylesModule/home.module.css";
 import { FaEye, FaHome, FaMapMarkedAlt, FaRegHeart, FaStar, FaSuitcaseRolling, FaUtensils } from "react-icons/fa";
+import NavigationButtons from "../components/NavigationButtons";
 
 
 const Home = () => {
@@ -35,24 +36,8 @@ const Home = () => {
   return (
     <div className={styles.home} >
       <h5 className="text-center mb-4">Where do you want to go today?</h5>
-      <div className={styles.buttonGroup}>
-
-        <Button as={Link} to="/explore/properties" variant="outline-primary" className="me-2">
-          <FaHome className="me-2"/> Explore Stays
-        </Button>
-        <Button as={Link} to="/explore" variant="outline-info" className="me-2">
-           <FaMapMarkedAlt className="me-2" />  Tourist Places
-        </Button>
-        <Button as={Link} to="/top-spots" variant="outline-secondary" className="me-2">
-          <FaStar className="me-2" /> Top Spots
-        </Button>
-        <Button as={Link} to="/plan-my-trip" variant="outline-success">
-          <FaSuitcaseRolling className="me-2" /> Plan My Trip
-        </Button>
-        <Button as={Link} to="/testy-food" variant="outline-dark">
-          <FaUtensils className="me-2" /> Food & Fun
-        </Button>
-      </div>
+      
+    <NavigationButtons />
       
 
       {isLoading && (
@@ -74,7 +59,7 @@ const Home = () => {
                   style={{ height: "200px", objectFit: "cover" }}
                 />
                 <div className="card-body ">
-                  <h5 className="card-title text-white">{property.title}</h5>
+                  <h5 className="card-title ">{property.title}</h5>
                   <p className="card-text">₹{property.price} / night</p>
                   {property.totalReviews > 0 ? (
                     <p className="text-warning"><b>Rating</b>⭐ {property.avgRating} ({property.totalReviews} reviews)</p>

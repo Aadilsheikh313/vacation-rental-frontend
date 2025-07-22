@@ -61,7 +61,7 @@ const MyBooking = () => {
     <Container className="my-5">
       <h2 className="mb-4">My Active Bookings</h2>
 
-      {isLoading && <Spinner animation="border" />}
+      {isLoading && <Spinner animation="border center" />}
 
       {isError && <Alert variant="danger">{message}</Alert>}
 
