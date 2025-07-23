@@ -1,8 +1,9 @@
 
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Home from './pages/Home';
 import Footer from './components/Footer';
 import CustomNavbar from './components/Navbar';
@@ -33,25 +34,29 @@ import PlanMyTrip from './HeroSection/Plan_My_Trip';
 import FoodAndFun from './HeroSection/FoodAndFun';
 import PostTripMoments from './GuestDashbord/Post_Trip_Moments';
 import ExperienceHub from './GuestDashbord/Experience_Hub';
+import AdminRegister from './AdminPlane/AdminRegister';
+import AdminNavbar from './AdminPlane/AdminNavbar';
+import AdminLogin from './AdminPlane/AdminLogin';
+import AdminDashboard from './AdminPlane/AdminDashboard';
 
-
-
-function App() {
+function AppContent() {
+  const location = useLocation();
   const dispatch = useDispatch();
-  const {token } = useSelector((state) => state.auth);
-  
+  const { token } = useSelector((state) => state.auth);
+
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
   useEffect(() => {
     if (token) {
       dispatch(getUser({ token }));
     }
   }, [dispatch, token]);
+
   return (
-    <Router>
-      <CustomNavbar />
+    <>
+        {isAdminRoute ? <AdminNavbar /> : <CustomNavbar />}
       <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
-
         <Route path="/" element={<Home />} />
         <Route path="/registerpage" element={<Registerpage />} />
         <Route path='/login' element={<Login />} />
@@ -70,18 +75,31 @@ function App() {
         <Route path='/Experience-Hub' element={<ExperienceHub />} />
         <Route path='/host/history-bookings' element={<BookingHistory />} />
         <Route path="/payment/:id" element={<Payment />} />
-        <Route path='/explore/properties' element={<ExploreAndStay/>}/>
-        <Route path='/explore' element={<TouristAndPlace/>}/>
-        <Route path='/top-spots' element={<TopSpots/>}/>
-        <Route path='/plan-my-trip' element={<PlanMyTrip/>}/>
-        <Route path='/testy-food' element={<FoodAndFun/>}/>
+        <Route path='/explore/properties' element={<ExploreAndStay />} />
+        <Route path='/explore' element={<TouristAndPlace />} />
+        <Route path='/top-spots' element={<TopSpots />} />
+        <Route path='/plan-my-trip' element={<PlanMyTrip />} />
+        <Route path='/testy-food' element={<FoodAndFun />} />
+
+        {/* Admin Routes */}
+        <Route path="/admin/register" element={<AdminRegister />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Footer />
-    </Router>
-
-  )
+      {/* {!isAdminRoute && <Footer />} */}
+      <Footer/>
+    </>
+  );
 }
 
-export default App
+function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+}
+
+export default App;

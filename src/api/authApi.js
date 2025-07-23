@@ -7,11 +7,8 @@ export const registerApi = async (userAuthData) => {
 }
 
 export const loginApi = async (credentials) => {
-  console.log("🟡 Login API hit", credentials);
-
   try {
     const response = await clientServer.post("/api/auth/login", credentials);
-    console.log("✅ Response from backend", response.data);
     return response.data;
 
   } catch (error) {

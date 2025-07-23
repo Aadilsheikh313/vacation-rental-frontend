@@ -1,0 +1,53 @@
+
+/* adminAuth.module.css */
+
+.registerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f6fa;
+    padding: 20px;
+}
+
+.formContainer {
+    width: 50%;
+    max-width: 450px;
+    background: #ffffff;
+    padding: 40px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.imageContainer {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sideImage {
+    width: 90%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.registerBtn {
+    width: 100%;
+    margin-top: 15px;
+    background-color: #007bff;
+    border: none;
+}
+
+.success {
+    color: green;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.error {
+    color: red;
+    margin-bottom: 10px;
+    font-weight: bold;
+}

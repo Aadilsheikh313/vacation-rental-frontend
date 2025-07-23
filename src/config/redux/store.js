@@ -5,6 +5,7 @@ import reviewReducer from './reducer/reviewReducer';
 import bookingReducer from "./reducer/bookingReducer";
 import paymentReducer from './reducer/paymentReducer';
 import invoiceReducer from './reducer/invoiceReducer';
+import adminAuthReducer from './reducer/adminAurhReducer';
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     booking: bookingReducer,
     payment: paymentReducer,
     invoice: invoiceReducer,
+    adminAuth: adminAuthReducer,
   },
 });
 
