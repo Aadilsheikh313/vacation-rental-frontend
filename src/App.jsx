@@ -39,6 +39,10 @@ import AdminNavbar from './AdminPlane/AdminNavbar';
 import AdminLogin from './AdminPlane/AdminLogin';
 import AdminDashboard from './AdminPlane/AdminDashboard';
 import AdminHome from './AdminPlane/AdminHome';
+import AdminGuestUser from './AdminPlane/AdminGuestUser';
+import AdminHostUser from './AdminPlane/AdminHostUser';
+import AdminProperty from './AdminPlane/AdminProperty';
+import AdminSinglePropertyDetails from './AdminPlane/AdminSinglePropertyDetails';
 
 function AppContent() {
   const location = useLocation();
@@ -87,6 +91,10 @@ function AppContent() {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/home" element={<AdminHome/>}/>
+        <Route path='/admin/guest-users' element={<AdminGuestUser/>}/>
+        <Route path='/admin/host-users' element={<AdminHostUser/>}/>
+        <Route path='/admin/properties' element={<AdminProperty/>}/>
+        <Route path='/admin/property/:id' element={<AdminSinglePropertyDetails/>}/>
 
         <Route path="*" element={<NotFound />} />
       </Routes>

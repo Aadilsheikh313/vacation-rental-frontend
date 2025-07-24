@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllPropertyAdminApi } from "../../../api/AdimApi/adminHomeDash";
+import { getAllPropertyAdminApi, getSinglePropertyAdminApi } from "../../../api/AdimApi/adminHomeDash";
 
 
 export const getAllPropertyAdminPosts = createAsyncThunk(
@@ -13,3 +13,15 @@ export const getAllPropertyAdminPosts = createAsyncThunk(
         }
     }
 );
+
+export const getSinglePropertyAdminPosts = createAsyncThunk(
+    "adminposts/getSinglePropertyAdminPosts",
+    async(propertyId,thunkAPI ) =>{
+        try {
+            const response = await getSinglePropertyAdminApi(propertyId);
+            return thunkAPI.fulfillWithValue(response);
+        } catch (error) {
+           return thunkAPI.rejectWithValue(error.response?.data || "Admin Failed to get a single fetch  posts"); 
+        }
+    }
+)

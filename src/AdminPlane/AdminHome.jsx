@@ -7,13 +7,16 @@ import {
   Card,
   Spinner,
   Alert,
+  Button,
 } from "react-bootstrap";
 import { getAllPropertyAdminPosts } from "../config/redux/action/adminHomeDashAction";
 import { resetAdminState } from "../config/redux/reducer/adminHomeDashReducer";
+import { Link } from "react-router-dom";
+import { FaEye } from "react-icons/fa";
 
 const AdminHome = () => {
   const dispatch = useDispatch();
-
+  const { posts } = useSelector((state) => state.post);
   const {
     adminProperties,
     isLoading,
@@ -22,6 +25,9 @@ const AdminHome = () => {
     message,
   } = useSelector((state) => state.adminHomeDash);
 
+  console.log("ADMIN Pr", adminProperties);
+  
+
   useEffect(() => {
     dispatch(getAllPropertyAdminPosts());
 
@@ -29,6 +35,7 @@ const AdminHome = () => {
       dispatch(resetAdminState());
     };
   }, [dispatch]);
+
 
   return (
     <Container className="py-4">
@@ -60,13 +67,14 @@ const AdminHome = () => {
         {adminProperties.map((property) => (
           <Col key={property._id} md={6} lg={4} className="mb-4">
             <Card className="shadow-sm">
-              {property.photos?.[0] && (
+              {property.image.url?.[0] && (
                 <Card.Img
                   variant="top"
-                  src={property.photos[0]}
+                  src={property.image.url}
                   style={{ height: "200px", objectFit: "cover" }}
                 />
               )}
+              
               <Card.Body>
                 <Card.Title>{property.title}</Card.Title>
                 <Card.Text>
@@ -74,12 +82,27 @@ const AdminHome = () => {
                   <br />
                   <strong>Price:</strong> ₹{property.price} /night
                   <br />
-                  <strong>Posted by:</strong>{" "}
-                  {property.userId?.name || "N/A"} <br />
+                  {/* <strong>Posted by:</strong> {property.userId?.name || "N/A"}
+                  <br />
                   <strong>Email:</strong> {property.userId?.email || "N/A"}
                   <br />
                   <strong>Phone:</strong> {property.userId?.phone || "N/A"}
+                  <br />
+                  <strong>Posted At:</strong>{" "}
+                  {property.userId?.createdAt
+                    ? new Date(property.userId.createdAt).toLocaleDateString()
+                    : "N/A"} */}
+
                 </Card.Text>
+                {property.totalReviews > 0 ? (
+                  <p className="text-warning"><b>Rating</b>⭐ {property.avgRating} ({property.totalReviews} reviews)</p>
+                ) : (
+                  <p className="text-white-muted">No rating and reviews yet.</p>
+                )}
+                <Link to={`/admin/property/${property._id}`} className="btn btn-primary">
+  <FaEye /> View
+</Link>
+
               </Card.Body>
             </Card>
           </Col>
