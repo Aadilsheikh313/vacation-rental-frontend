@@ -23,7 +23,7 @@ const adminAuthSlice = createSlice({
     initialState,
     reducers: {
         reset: () => initialState,
-        handleLogoutAdmin: (state) => {
+        logoutAdmin: (state) => {
             state.admin = null;
             state.loggedIn = false;
             state.message = "Logged out sucessfully";
@@ -84,7 +84,11 @@ const adminAuthSlice = createSlice({
 });
 
 export const {
-    reset, emptyMessage, setTokenIsThere, setTokenIsNotThere, handleLogoutAdmin
-} = adminAuthSlice;
+    logoutAdmin,
+    reset,
+    emptyMessage,
+    setTokenIsThere,
+    setTokenIsNotThere,
+} = adminAuthSlice.actions;
 
 export default adminAuthSlice.reducer;

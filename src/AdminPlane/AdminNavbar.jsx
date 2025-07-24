@@ -1,21 +1,28 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../adminStylesModule/adminNavbar.module.css";
 import NAS from "../assets/NAS.jpg";
 import { useDispatch, useSelector } from "react-redux";
-import { handleLogoutAdmin, reset } from "../config/redux/reducer/adminAurhReducer";
 import { Button } from "react-bootstrap";
+import { logoutAdmin, reset } from "../config/redux/reducer/adminAuthReducer";
+
 
 const AdminNavbar = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     // ✅ Correct admin login state
     const { loggedIn } = useSelector((state) => state.adminAuth);
+    const adminAuth = useSelector((state) => state.adminAuth);
+    const isLoggedIn = adminAuth.loggedIn && adminAuth.token;
+
 
     const handleAdminlogout = () => {
-        dispatch(handleLogoutAdmin());
+        dispatch( logoutAdmin());
         dispatch(reset());
+        navigate("/admin/login");
     };
+    
 
     return (
         <nav className={styles.navbar}>
@@ -42,7 +49,7 @@ const AdminNavbar = () => {
             </ul>
 
             <div className={styles.authButtons}>
-                {!loggedIn ? (
+                {!isLoggedIn ? (
                     <>
                         <Link to="/admin/register" className={styles.signupBtn}>Sign Up</Link>
                         <Link to="/admin/login" className={styles.loginBtn}>Login</Link>
@@ -50,6 +57,7 @@ const AdminNavbar = () => {
                 ) : (
                     <Button onClick={handleAdminlogout} className={styles.logoutBtn}>Logout</Button>
                 )}
+
             </div>
         </nav>
     );

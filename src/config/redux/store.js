@@ -5,7 +5,8 @@ import reviewReducer from './reducer/reviewReducer';
 import bookingReducer from "./reducer/bookingReducer";
 import paymentReducer from './reducer/paymentReducer';
 import invoiceReducer from './reducer/invoiceReducer';
-import adminAuthReducer from './reducer/adminAurhReducer';
+import adminAuthReducer from './reducer/adminAuthReducer';
+import adminHomeDashReducer from './reducer/adminHomeDashReducer';
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     payment: paymentReducer,
     invoice: invoiceReducer,
     adminAuth: adminAuthReducer,
+    adminHomeDash: adminHomeDashReducer,
   },
 });
 

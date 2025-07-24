@@ -3,9 +3,9 @@ import { Form, Button, Alert, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {  useNavigate } from "react-router-dom";
 import { adminRegisterAction } from "../config/redux/action/adminAuthAction";
-import {  emptyMessage, reset } from "../config/redux/reducer/adminAurhReducer";
 import styles from "../adminStylesModule/adminAuth.module.css";
 import { showError, showSuccess } from "../utils/toastUtils";
+import { reset } from "../config/redux/reducer/adminAuthReducer";
 
 
 
@@ -32,12 +32,14 @@ const AdminRegister = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(adminRegisterAction(formData));
+        console.log("ADMINREFIST",formData );
+        
     };
 
     useEffect(() => {
         if (isSuccess) {
-            dispatch(reset());
-            navigate("/admin/login");
+            dispatch(reset);
+            navigate("/admin/dashboard");
         }
     }, [dispatch, isSuccess, navigate]);
 
