@@ -26,7 +26,7 @@ const AdminHome = () => {
   } = useSelector((state) => state.adminHomeDash);
 
   console.log("ADMIN Pr", adminProperties);
-  
+
 
   useEffect(() => {
     dispatch(getAllPropertyAdminPosts());
@@ -74,7 +74,7 @@ const AdminHome = () => {
                   style={{ height: "200px", objectFit: "cover" }}
                 />
               )}
-              
+
               <Card.Body>
                 <Card.Title>{property.title}</Card.Title>
                 <Card.Text>
@@ -100,8 +100,8 @@ const AdminHome = () => {
                   <p className="text-white-muted">No rating and reviews yet.</p>
                 )}
                 <Link to={`/admin/property/${property._id}`} className="btn btn-primary">
-  <FaEye /> View
-</Link>
+                  <FaEye /> View
+                </Link>
 
               </Card.Body>
             </Card>

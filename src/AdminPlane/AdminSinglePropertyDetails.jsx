@@ -3,8 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Spinner, Container, Row, Col, Alert, Card } from "react-bootstrap";
 import { getSinglePropertyAdminPosts } from "../config/redux/action/adminHomeDashAction";
+import { useState } from "react";
+import LeafletMap from "../Map/MapComponent";
 
 const AdminSinglePropertyDetails = () => {
+  const [coordinates, setCoordinates] = useState(null);
+  const [loadingMap, setLoadingMap] = useState(true);
+
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -21,6 +26,34 @@ const AdminSinglePropertyDetails = () => {
       dispatch(getSinglePropertyAdminPosts(id));
     }
   }, [dispatch, id]);
+
+  useEffect(() => {
+     const location = adminSingleProperty?.location;
+  if (!location) return;
+
+    const fetchCoordinates = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/geocode?q=${encodeURIComponent(location)}`);
+        if (!res.ok) throw new Error("Failed to fetch coordinates");
+        const data = await res.json();
+
+
+        if (data.length > 0) {
+          setCoordinates({
+            lat: parseFloat(data[0].lat),
+            lng: parseFloat(data[0].lon),
+          });
+        }
+
+      } catch (err) {
+        console.error("Geocoding failed", err);
+      } finally {
+        setLoadingMap(false);
+      }
+    };
+
+    fetchCoordinates();
+  }, [adminSingleProperty]);
 
   if (isLoading) {
     return (
@@ -63,7 +96,8 @@ const AdminSinglePropertyDetails = () => {
     totalRevenue,
     totalBookings,
     avgRating,
-    userId
+    userId,
+    propertyPostedOn,
   } = adminSingleProperty;
 
   return (
@@ -79,9 +113,10 @@ const AdminSinglePropertyDetails = () => {
           <Card.Text>
             <strong>Location:</strong> {city}, {state} <br />
             <strong>Price:</strong> ₹{price} / night <br />
+            <strong>Description:</strong> {description} <br />
             <strong>Posted By:</strong> {userId?.name} | {userId?.email} <br />
-            <strong>Posted At:</strong>{" "}
-            {userId?.createdAt ? new Date(userId.createdAt).toLocaleDateString() : "N/A"}
+            <strong>Phone :</strong> {userId?.phone} <br />
+            <strong>Posted On:</strong> {propertyPostedOn ? new Date(propertyPostedOn).toLocaleDateString() : "N/A"}
           </Card.Text>
         </Card.Body>
       </Card>
@@ -148,6 +183,18 @@ const AdminSinglePropertyDetails = () => {
           )}
         </Col>
       </Row>
+      <div className="mt-4">
+        <h4>Where you'll be</h4>
+        <div className="map-container">
+          {loadingMap ? (
+            <p>Loading map...</p>
+          ) : coordinates ? (
+           <LeafletMap lat={coordinates.lat} lng={coordinates.lng} title={city} />
+          ) : (
+            <p>Map not available</p>
+          )}
+        </div>
+      </div>
     </Container>
   );
 };
