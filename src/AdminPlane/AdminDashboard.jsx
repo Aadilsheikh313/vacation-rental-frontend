@@ -24,6 +24,7 @@ const AdminDashboard = () => {
     message,
   } = useSelector((state) => state.adminDashboard);
 
+
   // 🧠 Dummy Analytics Data (replace with real API later)
   const [analytics, setAnalytics] = useState({
     totalRevenue: 352000,
@@ -91,55 +92,64 @@ const AdminDashboard = () => {
       {/* ❌ Error */}
       {isError && <Alert variant="danger">❌ {message}</Alert>}
 
-      {/* ✅ Booking Table */}
+      {/* ✅ Booking Cards */}
       {isSuccess && bookings.length > 0 && (
-        <Card className="shadow-sm">
-          <Card.Body>
-            <Table striped bordered hover responsive>
-              <thead className="table-dark">
-                <tr>
-                  <th>#</th>
-                  <th>Property</th>
-                  <th>Location</th>
-                  <th>Price</th>
-                  <th>User</th>
-                  <th>Phone</th>
-                  <th>Email</th>
-                  <th>Payment Method</th>
-                  <th>Payment Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bookings.map((booking, index) => (
-                  <tr key={booking._id}>
-                    <td>{index + 1}</td>
-                    <td>{booking.property?.title || "-"}</td>
-                    <td>
-                      {booking.property?.location || "-"},{" "}
-                      {booking.property?.city}
-                    </td>
-                    <td>₹{booking.property?.price?.toLocaleString()}</td>
-                    <td>{booking.user?.name}</td>
-                    <td>{booking.user?.phone}</td>
-                    <td>{booking.user?.email}</td>
-                    <td>{booking.paymentDetails?.paymentMethod || "N/A"}</td>
-                    <td>
-                      <Badge
-                        bg={
-                          booking.paymentStatus === "paid"
-                            ? "success"
-                            : "warning"
-                        }
-                      >
-                        {booking.paymentStatus}
-                      </Badge>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </Card.Body>
-        </Card>
+        <Row className="gy-4">
+          {bookings.map((booking, index) => {
+            const imageUrl = booking.property?.image?.url;
+            console.log(`Image URL [${index}]:`, imageUrl);
+
+            return (
+              <Col md={6} lg={4} key={booking._id}>
+                <Card className="shadow-sm h-100">
+                  {booking.property?.image?.url ? (
+                    <Card.Img
+                      variant="top"
+                      src={booking.property.image.url}
+                      onError={(e) => {
+                        e.target.onerror = null; // avoid infinite loop
+                        e.target.src = "/adminregister.jpg"; // local fallback image
+                      }}
+                      style={{ maxHeight: "300px", objectFit: "cover" }}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        height: "300px",
+                        backgroundColor: "#f5f5f5",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <span>No Image Available</span>
+                    </div>
+                  )}
+
+
+                  <Card.Body>
+                    <h5 className="mb-2">{booking.property?.title || "Untitled Property"}</h5>
+                    <p className="text-muted mb-1">
+                      📍 {booking.property?.location || "-"}, {booking.property?.city || ""}
+                    </p>
+                    <p className="mb-1">💰 ₹{booking.property?.price?.toLocaleString()}</p>
+                    <hr />
+                    <p className="mb-1">👤 {booking.user?.name}</p>
+                    <p className="mb-1">📞 {booking.user?.phone}</p>
+                    <p className="mb-1">✉️ {booking.user?.email}</p>
+                    <hr />
+                    <p className="mb-1">💳 Payment Method: {booking.paymentDetails?.paymentMethod || "N/A"}</p>
+                    <Badge
+                      bg={booking.paymentStatus === "paid" ? "success" : "warning"}
+                    >
+                      {booking.paymentStatus}
+                    </Badge>
+                  </Card.Body>
+                </Card>
+              </Col>
+            );
+          })}
+        </Row>
       )}
 
       {/* ℹ️ No Bookings */}

@@ -7,7 +7,7 @@ export const getAllActiveBookingPosts = createAsyncThunk(
     async(_ , thunkAPI)=> {
        try {
         const response = await getAllActiveBookingApi();
-        return thunkAPI.fulfillWithValue(response.data);
+        return thunkAPI.fulfillWithValue(response);
        } catch (error) {
         return thunkAPI.rejectWithValue(error.response?.data || "Admin Failed to all fetch  bookings");
        }
