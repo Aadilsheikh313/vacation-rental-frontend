@@ -47,31 +47,31 @@ const adminHomeDashSlice = createSlice({
         state.message = "Fetching all admin properties...";
       })
       .addCase(getSinglePropertyAdminPosts.fulfilled, (state, action) => {
-  state.isLoading = false;
-  state.isError = false;
-  state.isSuccess = true;
-  state.message = "Admin single property fetched successfully!";
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.message = "Admin single property fetched successfully!";
 
-  const {
-    property,
-    reviews,
-    bookings,
-    payments,
-    totalRevenue,
-    totalBookings,
-    avgRating,
-  } = action.payload;
+        const {
+          property,
+          reviews,
+          bookings,
+          payments,
+          totalRevenue,
+          totalBookings,
+          avgRating,
+        } = action.payload;
 
-  state.adminSingleProperty = {
-    ...property,
-    reviews,
-    bookings,
-    payments,
-    totalRevenue,
-    totalBookings,
-    avgRating,
-  };
-})
+        state.adminSingleProperty = {
+          ...property,
+          reviews,
+          bookings,
+          payments,
+          totalRevenue,
+          totalBookings,
+          avgRating,
+        };
+      })
 
 
       .addCase(getSinglePropertyAdminPosts.rejected, (state, action) => {

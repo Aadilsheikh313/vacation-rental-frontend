@@ -1,66 +1,76 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../adminStylesModule/adminNavbar.module.css";
 import NAS from "../assets/NAS.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "react-bootstrap";
 import { logoutAdmin, reset } from "../config/redux/reducer/adminAuthReducer";
-
+import { FaBars, FaTimes } from "react-icons/fa";
 
 const AdminNavbar = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
-    // ✅ Correct admin login state
-    const { loggedIn } = useSelector((state) => state.adminAuth);
-    const adminAuth = useSelector((state) => state.adminAuth);
-    const isLoggedIn = adminAuth.loggedIn && adminAuth.token;
+  const adminAuth = useSelector((state) => state.adminAuth);
+  const isLoggedIn = adminAuth.loggedIn && adminAuth.token;
 
+  const handleAdminlogout = () => {
+    dispatch(logoutAdmin());
+    dispatch(reset());
+    navigate("/admin/login");
+  };
 
-    const handleAdminlogout = () => {
-        dispatch( logoutAdmin());
-        dispatch(reset());
-        navigate("/admin/login");
-    };
-    
+  const toggleMenu = () => {
+    if (window.innerWidth <= 768) {
+      setMenuOpen(!menuOpen);
+    }
+  };
 
-    return (
-        <nav className={styles.navbar}>
-            <div className={styles.logoContainer}>
-                <img src={NAS} alt="Logo" className={styles.logo} />
-            </div>
+  const closeMenuIfMobile = () => {
+    if (window.innerWidth <= 768) {
+      setMenuOpen(false);
+    }
+  };
 
-            <ul className={styles.navLinks}>
-                <li><Link to="/admin/home">Home</Link></li>
-                <li><Link to="/admin/dashboard">Dashboard</Link></li>
+  return (
+    <nav className={styles.navbar}>
+      <div className={styles.logoContainer}>
+         <Link to="/admin/home">
+        <img src={NAS} alt="Logo" className={styles.logo}  />
+        </Link>
+      </div>
 
-                <div className={styles.navRight}>
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                        className={styles.searchInput}
-                    />
-                    <button className={styles.searchButton} type="submit">Search</button>
-                </div>
+      <div className={styles.menuToggle} onClick={toggleMenu}>
+        {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+      </div>
 
-                <li><Link to="/admin/host-users">Host Users</Link></li>
-                <li><Link to="/admin/guest-users">Guest Users</Link></li>
-                <li><Link to="/admin/properties">Properties</Link></li>
-            </ul>
+       <ul className={`${styles.navLinks} ${menuOpen ? styles.showMobileMenu : ""}`}>
+  <li><Link to="/admin/home" onClick={closeMenuIfMobile}>Home</Link></li>
+  <li><Link to="/admin/dashboard" onClick={closeMenuIfMobile}>Dashboard</Link></li>
+  <li><Link to="/admin/host-users" onClick={closeMenuIfMobile}>Host Users</Link></li>
+  <li><Link to="/admin/guest-users" onClick={closeMenuIfMobile}>Guest Users</Link></li>
+  <li><Link to="/admin/properties" onClick={closeMenuIfMobile}>Properties</Link></li>
+  <li className={styles.navRight}>
+    <input type="text" placeholder="Search..." className={styles.searchInput} />
+    <button className={styles.searchButton} type="submit">Search</button>
+  </li>
 
-            <div className={styles.authButtons}>
-                {!isLoggedIn ? (
-                    <>
-                        <Link to="/admin/register" className={styles.signupBtn}>Sign Up</Link>
-                        <Link to="/admin/login" className={styles.loginBtn}>Login</Link>
-                    </>
-                ) : (
-                    <Button onClick={handleAdminlogout} className={styles.logoutBtn}>Logout</Button>
-                )}
+  {/* 👉 Add this inside the ul */}
+  <li className={styles.authButtonsMobile}>
+    {!isLoggedIn ? (
+      <>
+        <Link to="/admin/register" className={styles.signupBtn}>Sign Up</Link>
+        <Link to="/admin/login" className={styles.loginBtn}>Login</Link>
+      </>
+    ) : (
+      <Button onClick={handleAdminlogout} className={styles.logoutBtn}>Logout</Button>
+    )}
+  </li>
+</ul>
 
-            </div>
-        </nav>
-    );
+    </nav>
+  );
 };
 
 export default AdminNavbar;

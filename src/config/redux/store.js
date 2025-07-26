@@ -7,6 +7,7 @@ import paymentReducer from './reducer/paymentReducer';
 import invoiceReducer from './reducer/invoiceReducer';
 import adminAuthReducer from './reducer/adminAuthReducer';
 import adminHomeDashReducer from './reducer/adminHomeDashReducer';
+import adminDashboardReducer from './reducer/adminDashboardReducer';
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     invoice: invoiceReducer,
     adminAuth: adminAuthReducer,
     adminHomeDash: adminHomeDashReducer,
+    adminDashboard: adminDashboardReducer,
   },
 });
 

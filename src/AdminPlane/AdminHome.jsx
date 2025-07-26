@@ -25,8 +25,6 @@ const AdminHome = () => {
     message,
   } = useSelector((state) => state.adminHomeDash);
 
-  console.log("ADMIN Pr", adminProperties);
-
 
   useEffect(() => {
     dispatch(getAllPropertyAdminPosts());

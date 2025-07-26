@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Spinner, Container, Row, Col, Alert, Card } from "react-bootstrap";
 import { getSinglePropertyAdminPosts } from "../config/redux/action/adminHomeDashAction";
 import { useState } from "react";
 import LeafletMap from "../Map/MapComponent";
+import Avatar from "../comman/Avatar";
+import { HiArrowLeft } from 'react-icons/hi';
+
 
 const AdminSinglePropertyDetails = () => {
   const [coordinates, setCoordinates] = useState(null);
@@ -12,6 +15,7 @@ const AdminSinglePropertyDetails = () => {
 
   const { id } = useParams();
   const dispatch = useDispatch();
+  const nvigate = useNavigate();
 
   const {
     adminSingleProperty,
@@ -28,8 +32,8 @@ const AdminSinglePropertyDetails = () => {
   }, [dispatch, id]);
 
   useEffect(() => {
-     const location = adminSingleProperty?.location;
-  if (!location) return;
+    const location = adminSingleProperty?.location;
+    if (!location) return;
 
     const fetchCoordinates = async () => {
       try {
@@ -142,15 +146,41 @@ const AdminSinglePropertyDetails = () => {
         <Col>
           <h4>🧾 Bookings</h4>
           {bookings?.length > 0 ? (
-            bookings.map((booking, idx) => (
-              <Card key={idx} className="mb-2 p-2">
-                <p><strong>User:</strong> {booking.user?.name}</p>
-                <p><strong>Date:</strong> {new Date(booking.createdAt).toLocaleDateString()}</p>
-              </Card>
-            ))
+            bookings.map((booking, idx) => {
+              const userReview = reviews?.find(
+                (rev) => rev.user?._id === booking.user?._id
+              );
+
+              return (
+                <Card key={idx} className="mb-3 p-3">
+                  <div className="d-flex align-items-center gap-2 mb-2">
+                    <Avatar user={booking.user} />
+                    <strong>{booking.user?.name}</strong>
+                  </div>
+                  <p><strong>Booking Date:</strong> {new Date(booking.createdAt).toLocaleDateString()}</p>
+                  <p><strong>Check-in:</strong> {new Date(booking.checkIn).toLocaleDateString()}</p>
+                  <p><strong>Check-out:</strong> {new Date(booking.checkOut).toLocaleDateString()}</p>
+                  <p><strong>Phone:</strong> {booking.user?.phone}</p>
+
+                  {userReview ? (
+                    <Card className="mt-3 p-2 bg-light">
+                      <h6 className="mb-1">📝 Review by this user</h6>
+                      <p><strong>Rating:</strong> ⭐ {userReview.rating}</p>
+                      <p><strong>Comment:</strong> {userReview.comment}</p>
+                    </Card>
+                  ) : (
+                    <Alert variant="warning" className="mt-3">
+                      Guest completed the booking but did not provide a review.
+                    </Alert>
+                  )}
+
+                </Card>
+              );
+            })
           ) : (
             <Alert variant="info">No bookings yet.</Alert>
           )}
+
         </Col>
         <Col>
           <h4>💸 Payments</h4>
@@ -171,16 +201,25 @@ const AdminSinglePropertyDetails = () => {
         <Col>
           <h4>📝 Reviews</h4>
           {reviews?.length > 0 ? (
-            reviews.map((review, idx) => (
-              <Card key={idx} className="mb-2 p-2">
-                <p><strong>User:</strong> {review.user?.name}</p>
-                <p><strong>Rating:</strong> ⭐ {review.rating}</p>
-                <p><strong>Comment:</strong> {review.comment}</p>
-              </Card>
-            ))
+            reviews
+              .filter(
+                (review) =>
+                  !bookings?.some((booking) => booking.user?._id === review.user?._id)
+              )
+              .map((review, idx) => (
+                <Card key={idx} className="mb-2 p-2">
+                  <div className="d-flex align-items-center gap-2 mb-2">
+                    <Avatar user={review.user} />
+                    <strong>{review.user?.name}</strong>
+                  </div>
+                  <p><strong>Rating:</strong> ⭐ {review.rating}</p>
+                  <p><strong>Comment:</strong> {review.comment}</p>
+                </Card>
+              ))
           ) : (
             <Alert variant="info">No reviews available.</Alert>
           )}
+
         </Col>
       </Row>
       <div className="mt-4">
@@ -189,11 +228,21 @@ const AdminSinglePropertyDetails = () => {
           {loadingMap ? (
             <p>Loading map...</p>
           ) : coordinates ? (
-           <LeafletMap lat={coordinates.lat} lng={coordinates.lng} title={city} />
+            <LeafletMap lat={coordinates.lat} lng={coordinates.lng} title={city} />
           ) : (
             <p>Map not available</p>
           )}
         </div>
+      </div>
+      <div>
+        <button
+          onClick={() => nvigate("/admin/home")}
+          style={{ marginTop: '10px', color: "blue", background: "none", border: "none", display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}
+        >
+          <HiArrowLeft size={24} style={{ color: "blueviolet" }} />
+          Back Home
+        </button>
+
       </div>
     </Container>
   );

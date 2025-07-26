@@ -1,94 +1,162 @@
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    padding: 12px 30px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 12px 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .logoContainer {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .logo {
-    width: 50px;
-    height: auto;
-    border-radius: 8px;
-}
-
-.brand {
-    font-size: 20px;
-    color: #333;
-    font-weight: 600;
+  width: 50px;
+  height: auto;
+  border-radius: 8px;
 }
 
 .navLinks {
-    display: flex;
-    gap: 25px;
-    list-style: none;
+  display: flex;
+  gap: 25px;
+  list-style: none;
 }
 
 .navLinks li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    transition: color 0.3s ease;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .navLinks li a:hover {
-    color: #007bff;
+  color: #007bff;
 }
 
 .navRight {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .searchInput {
-    padding: 6px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    outline: none;
-    font-size: 14px;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  font-size: 14px;
+}
+
+.searchButton {
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .authButtons {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .signupBtn,
 .loginBtn {
-    text-decoration: none;
-    padding: 6px 14px;
-    border-radius: 4px;
-    font-weight: 500;
-    transition: background 0.3s;
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background 0.3s;
 }
 
 .signupBtn {
-    background-color: #007bff;
-    color: white;
+  background-color: #007bff;
+  color: white;
 }
 
 .loginBtn {
-    background-color: transparent;
-    border: 1px solid #007bff;
-    color: #007bff;
+  background-color: transparent;
+  border: 1px solid #007bff;
+  color: #007bff;
 }
 
 .signupBtn:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .loginBtn:hover {
-    background-color: #007bff;
-    color: white;
+  background-color: #007bff;
+  color: white;
 }
+
+.menuToggle {
+  display: none;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Mobile specific styles */
+@media screen and (max-width: 768px) {
+  .navLinks {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #fff;
+    padding: 10px 20px;
+    width: 100%;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    z-index: 999;
+    gap: 15px;
+  }
+
+  .showMobileMenu {
+    display: flex !important;
+  }
+
+  .navRight {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .authButtons {
+    display: none;
+  }
+
+  .menuToggle {
+    display: block;
+  }
+}
+/* Hide original authButtons in mobile */
+/* @media screen and (max-width: 768px) {
+  .authButtons {
+    display: none;
+  }
+
+  .authButtonsMobile {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+}
+.authButtonsMobile {
+  display: none;
+} */
+
+/* @media screen and (max-width: 768px) {
+  .authButtonsMobile {
+    display: flex;
+  }
+} */
+
