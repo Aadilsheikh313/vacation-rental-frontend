@@ -34,7 +34,9 @@ const AdminDashboard = () => {
   });
 
   useEffect(() => {
-    dispatch(getAllActiveBookingPosts());
+    dispatch(getAllActiveBookingPosts()).then((res) => {
+      console.log("📦 Booking API Data:", res?.payload?.bookings);
+    });
 
     return () => {
       dispatch(resetDashboardState());
@@ -133,8 +135,13 @@ const AdminDashboard = () => {
                       📍 {booking.property?.location || "-"}, {booking.property?.city || ""}
                     </p>
                     <p className="mb-1">💰 ₹{booking.property?.price?.toLocaleString()}</p>
-                    <p className="mb-1">Posted by: {booking.property?.userId?.name}</p>
+                    <p>
+                      Posted by: {booking.property?.userId?.name }
+                    </p>
+                  <p className="mb-1">📞{booking.property?.userId?.phone}</p>
+                    <p className="mb-1">✉️ {booking.property && booking.property.userId &&  booking.property?.userId?.phone}</p>
                     <hr />
+                         {/* {booking.property && booking.property.image && booking.property.image.url ? ( */}
                     <p className="mb-1">Booking Property User</p>
                     <p className="mb-1">👤 {booking.user?.name}</p>
                     <p className="mb-1">📞 {booking.user?.phone}</p>
