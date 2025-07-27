@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllActiveBookingPosts } from "../action/adminDashboardAction";
+import {  getAllAdminActiveBookingPosts, getAllAdminBookingPosts } from "../action/adminDashboardAction";
 
 
 const initialState = {
-  bookings: [],
+  allBookings: [],
+  activeBookings: [],
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -24,24 +25,38 @@ const adminDashboardSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getAllActiveBookingPosts.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-        state.isError = false;
-        state.message = "Fetching active bookings...";
-      })
-      .addCase(getAllActiveBookingPosts.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.bookings = action.payload.bookings || []; // fallback to []
-        state.message = "Active bookings fetched successfully";
-      })
-      .addCase(getAllActiveBookingPosts.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.isSuccess = false;
-        state.message = action.payload || "Failed to fetch bookings.";
-      });
+  .addCase(getAllAdminBookingPosts.pending, (state) => {
+    state.isLoading = true;
+    state.message = "Fetching all bookings...";
+  })
+  .addCase(getAllAdminBookingPosts.fulfilled, (state, action) => {
+    state.isLoading = false;
+    state.isSuccess = true;
+    state.allBookings = action.payload.bookings || [];
+    state.message = "All bookings fetched.";
+  })
+  .addCase(getAllAdminBookingPosts.rejected, (state, action) => {
+    state.isLoading = false;
+    state.isError = true;
+    state.message = action.payload || "Failed to fetch all bookings.";
+  })
+
+  .addCase(getAllAdminActiveBookingPosts.pending, (state) => {
+    state.isLoading = true;
+    state.message = "Fetching active bookings...";
+  })
+  .addCase(getAllAdminActiveBookingPosts.fulfilled, (state, action) => {
+    state.isLoading = false;
+    state.isSuccess = true;
+    state.activeBookings = action.payload.activeBookings || [];
+    state.message = "Active bookings fetched.";
+  })
+  .addCase(getAllAdminActiveBookingPosts.rejected, (state, action) => {
+    state.isLoading = false;
+    state.isError = true;
+    state.message = action.payload || "Failed to fetch active bookings.";
+  });
+
   },
 });
 

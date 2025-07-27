@@ -5,27 +5,27 @@ import {
   Col,
   Spinner,
   Alert,
-  Table,
   Card,
   Badge,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllActiveBookingPosts } from "../config/redux/action/adminDashboardAction";
+import { getAllAdminBookingPosts } from "../config/redux/action/adminDashboardAction";
 import { resetDashboardState } from "../config/redux/reducer/adminDashboardReducer";
+import CustomButtonTop from "./CustomButtonTop";
+import AdminActiveBooking from "./AdminActivebooking";
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
 
   const {
-    bookings,
+    allBookings = [],
+    activeBookings = [],
     isLoading,
     isError,
     isSuccess,
     message,
   } = useSelector((state) => state.adminDashboard);
 
-
-  // 🧠 Dummy Analytics Data (replace with real API later)
   const [analytics, setAnalytics] = useState({
     totalRevenue: 352000,
     totalBookings: 58,
@@ -33,21 +33,28 @@ const AdminDashboard = () => {
     activeProperties: 23,
   });
 
+  const [selectedView, setSelectedView] = useState("all");
+
   useEffect(() => {
-    dispatch(getAllActiveBookingPosts()).then((res) => {
-      console.log("📦 Booking API Data:", res?.payload?.bookings);
-    });
+    dispatch(getAllAdminBookingPosts());
 
     return () => {
       dispatch(resetDashboardState());
     };
   }, [dispatch]);
 
+  // Dynamic bookings based on selectedView
+  const displayedBookings = selectedView === "all"
+    ? allBookings
+    : selectedView === "active"
+    ? activeBookings
+    : []; // Future: add `cancelledBookings`, `upcomingBookings` here
+
   return (
     <Container className="py-4">
       <h2 className="mb-4 text-center">📊 Admin Booking Dashboard</h2>
 
-      {/* 🔝 Top Summary Cards */}
+      {/* Summary Cards */}
       <Row className="mb-4">
         <Col md={3}>
           <Card className="text-center shadow-sm bg-light">
@@ -83,88 +90,70 @@ const AdminDashboard = () => {
         </Col>
       </Row>
 
-      {/* 🔄 Loading */}
+      <CustomButtonTop onSelectView={setSelectedView} />
+
+      {/* Loading Spinner */}
       {isLoading && (
         <div className="text-center my-4">
           <Spinner animation="border" variant="primary" />
-          <p className="mt-2">Loading active bookings...</p>
+          <p className="mt-2">Loading bookings...</p>
         </div>
       )}
 
-      {/* ❌ Error */}
+      {/* Error Alert */}
       {isError && <Alert variant="danger">❌ {message}</Alert>}
 
-      {/* ✅ Booking Cards */}
-      {isSuccess && bookings.length > 0 && (
+      {/* Main Content */}
+      {isSuccess && displayedBookings.length > 0 && selectedView === "all" && (
         <Row className="gy-4">
-          {bookings.map((booking, index) => {
-
-            return (
-              <Col md={6} lg={4} key={booking._id}>
-                <Card className="shadow-sm h-100">
-                  {booking.property && booking.property.image && booking.property.image.url ? (
-                    <Card.Img
-                      variant="top"
-                      src={booking.property.image.url}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoVtQqY2tbrwTqQj5m6f92dFDckL0yHjRLQQ&s"
-                      }}
-                      style={{ maxHeight: "300px", objectFit: "cover" }}
-                    />
-                  ) : (
-                    <div
-                      style={{
-                        height: "300px",
-                        backgroundColor: "#f5f5f5",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "1.1rem",
-                      }}
-                    >
-                      No Image Available
-                    </div>
-                  )}
-
-
-
-                  <Card.Body>
-                    <h5 className="mb-2">{booking.property?.title || "Host deleted property"}</h5>
-                    <p className="text-muted mb-1">
-                      📍 {booking.property?.location || "-"}, {booking.property?.city || ""}
-                    </p>
-                    <p className="mb-1">💰 ₹{booking.property?.price?.toLocaleString()}</p>
-                    <p>
-                      Posted by: {booking.property?.userId?.name }
-                    </p>
-                  <p className="mb-1">📞{booking.property?.userId?.phone}</p>
-                    <p className="mb-1">✉️ {booking.property && booking.property.userId &&  booking.property?.userId?.phone}</p>
-                    <hr />
-                         {/* {booking.property && booking.property.image && booking.property.image.url ? ( */}
-                    <p className="mb-1">Booking Property User</p>
-                    <p className="mb-1">👤 {booking.user?.name}</p>
-                    <p className="mb-1">📞 {booking.user?.phone}</p>
-                    <p className="mb-1">✉️ {booking.user?.email}</p>
-                    <hr />
-                    {/* <p className="mb-1">💳 Payment Method: {booking.paymentDetails?.paymentMethod || "N/A"}</p> */}
-                    <p className="mb-1">💳 Payment Method: {booking.paymentMethod || "N/A"}</p>
-                    <Badge
-                      bg={booking.paymentStatus === "paid" ? "success" : "warning"}
-                    >
-                      {booking.paymentStatus}
-                    </Badge>
-                  </Card.Body>
-                </Card>
-              </Col>
-            );
-          })}
+          {displayedBookings.map((booking) => (
+            <Col md={6} lg={4} key={booking._id}>
+              <Card className="shadow-sm h-100">
+                {booking.property?.image?.url ? (
+                  <Card.Img
+                    variant="top"
+                    src={booking.property.image.url}
+                    style={{ maxHeight: "300px", objectFit: "cover" }}
+                  />
+                ) : (
+                  <div style={{
+                    height: "300px",
+                    backgroundColor: "#f5f5f5",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}>
+                    No Image
+                  </div>
+                )}
+                <Card.Body>
+                  <h5>{booking.property?.title || "Deleted Property"}</h5>
+                  <p>📍 {booking.property?.location}, {booking.property?.city}</p>
+                  <p>💰 ₹{booking.property?.price}</p>
+                  <hr />
+                  <p>👤 Guest: {booking.user?.name}</p>
+                  <p>📞 {booking.user?.phone}</p>
+                  <p>✉️ {booking.user?.email}</p>
+                  <hr />
+                  <p>💳 Payment: {booking.paymentMethod}</p>
+                  <Badge bg={booking.paymentStatus === "paid" ? "success" : "warning"}>
+                    {booking.paymentStatus}
+                  </Badge>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
         </Row>
       )}
 
-      {/* ℹ️ No Bookings */}
-      {isSuccess && bookings.length === 0 && (
-        <Alert variant="info">No active bookings found.</Alert>
+      {/* Active View */}
+      {selectedView === "active" && <AdminActiveBooking />}
+
+      {/* No Data Message */}
+      {isSuccess && displayedBookings.length === 0 && (
+        <Alert variant="info" className="mt-4 text-center">
+          No bookings found for selected view.
+        </Alert>
       )}
     </Container>
   );

@@ -1,12 +1,23 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllActiveBookingApi } from "../../../api/AdimApi/adminDashboardApi";
+import {  getAllAdminActiveBookingApi, getAllAdminBookingApi } from "../../../api/AdimApi/adminDashboardApi";
 
 
-export const getAllActiveBookingPosts = createAsyncThunk(
-    "adminbooking/getAllActiveBookingPosts",
+export const getAllAdminBookingPosts = createAsyncThunk(
+    "adminbooking/getAllAdminBookingPosts",
     async(_ , thunkAPI)=> {
        try {
-        const response = await getAllActiveBookingApi();
+        const response = await getAllAdminBookingApi();
+        return thunkAPI.fulfillWithValue(response);
+       } catch (error) {
+        return thunkAPI.rejectWithValue(error.response?.data || "Admin Failed to all fetch  bookings");
+       }
+    }
+)
+export const getAllAdminActiveBookingPosts = createAsyncThunk(
+    "adminbooking/getAllAdminActiveBookingPosts",
+    async(_ , thunkAPI)=> {
+       try {
+        const response = await getAllAdminActiveBookingApi();
         return thunkAPI.fulfillWithValue(response);
        } catch (error) {
         return thunkAPI.rejectWithValue(error.response?.data || "Admin Failed to all fetch  bookings");
