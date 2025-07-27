@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {  getAllAdminActiveBookingApi, getAllAdminBookingApi } from "../../../api/AdimApi/adminDashboardApi";
+import {  getAdminAllCancelBookingApi, getAllAdminActiveBookingApi, getAllAdminBookingApi } from "../../../api/AdimApi/adminDashboardApi";
 
 
 export const getAllAdminBookingPosts = createAsyncThunk(
@@ -20,7 +20,19 @@ export const getAllAdminActiveBookingPosts = createAsyncThunk(
         const response = await getAllAdminActiveBookingApi();
         return thunkAPI.fulfillWithValue(response);
        } catch (error) {
-        return thunkAPI.rejectWithValue(error.response?.data || "Admin Failed to all fetch  bookings");
+        return thunkAPI.rejectWithValue(error.response?.data || "Admin Failed to all Active fetch  bookings");
        }
+    }
+)
+
+export const getAdminAllCancelBookingPosts = createAsyncThunk(
+    "adminbooking/getAdminAllCancelBookingPosts",
+    async(_, thunkAPI) =>{
+        try {
+            const response = await getAdminAllCancelBookingApi();
+            return thunkAPI.fulfillWithValue(response);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response?.data || "Admin Failed to all cancel fetch  bookings");
+        }
     }
 )

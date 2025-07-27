@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllAdminActiveBookingPosts, getAllAdminBookingPosts } from "../action/adminDashboardAction";
+import { getAdminAllCancelBookingPosts, getAllAdminActiveBookingPosts, getAllAdminBookingPosts } from "../action/adminDashboardAction";
 
 
 const initialState = {
   allBookings: [],
   activeBookings: [],
   activeBookingCount: 0,
+  cancelBooking: [],
+  cancelBookingCount: 0,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -49,18 +51,32 @@ const adminDashboardSlice = createSlice({
       .addCase(getAllAdminActiveBookingPosts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        console.log("ACTIVE BOOKING PAYLOAD:", action.payload); 
         state.activeBookings = action.payload.activeBookings || [];
-        state.activeBookingCount = action.payload.count || 0;
-        console.log("ACTIVE Booking",action.payload.count);
-        
+        state.activeBookingCount = action.payload.activeBookings?.length || 0;
         state.message = "Active bookings fetched.";
       })
       .addCase(getAllAdminActiveBookingPosts.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload || "Failed to fetch active bookings.";
-      });
+      })
+      .addCase(getAdminAllCancelBookingPosts.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Fetching cancel bookings...";
+      })
+      .addCase(getAdminAllCancelBookingPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.cancelBooking = action.payload.cancelledBookings || [];
+        state.cancelBookingCount = action.payload.cancelledBookings?.length || 0;
+        state.message = "Cancelled bookings fetched.";
+      })
+
+      .addCase(getAdminAllCancelBookingPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Failed to fetch cancel bookings.";
+      })
 
   },
 });

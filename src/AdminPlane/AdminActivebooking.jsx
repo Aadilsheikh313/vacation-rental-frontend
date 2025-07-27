@@ -31,7 +31,7 @@ const AdminActiveBooking = () => {
             <h4 className="text-center mb-3">🟢 Active Booking Properties</h4>
             <Card className="text-center shadow-sm bg-light">
                 <Card.Body>
-                    <h4 className="text-info"> Total Active Bookings :  { activeBookingCount}</h4>
+                    <h4 className="text-info">🏠 Total Active Bookings :  { activeBookingCount}</h4>
                 </Card.Body>
             </Card>
             {activeBookings && activeBookings.length > 0 ? (

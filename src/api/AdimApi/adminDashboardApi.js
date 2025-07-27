@@ -19,3 +19,13 @@ export const getAllAdminActiveBookingApi = async() =>{
         throw error;
     }
 }
+
+export const getAdminAllCancelBookingApi = async() =>{
+    try {
+        const response = await clientServer.get("/api/v1/admin/cancelbookings");
+        return response.data;
+    } catch (error) {
+       console.error("❌ Get All Admin Cancele Property API Error:", error.response?.data || error.message);
+        throw error; 
+    }
+}
