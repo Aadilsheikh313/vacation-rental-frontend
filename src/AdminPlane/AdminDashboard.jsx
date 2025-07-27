@@ -96,19 +96,17 @@ const AdminDashboard = () => {
       {isSuccess && bookings.length > 0 && (
         <Row className="gy-4">
           {bookings.map((booking, index) => {
-            const imageUrl = booking.property?.image?.url;
-            console.log(`Image URL [${index}]:`, imageUrl);
 
             return (
               <Col md={6} lg={4} key={booking._id}>
                 <Card className="shadow-sm h-100">
-                  {booking.property?.image?.url ? (
+                  {booking.property && booking.property.image && booking.property.image.url ? (
                     <Card.Img
                       variant="top"
                       src={booking.property.image.url}
                       onError={(e) => {
-                        e.target.onerror = null; // avoid infinite loop
-                        e.target.src = "/adminregister.jpg"; // local fallback image
+                        e.target.onerror = null;
+                        e.target.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoVtQqY2tbrwTqQj5m6f92dFDckL0yHjRLQQ&s"
                       }}
                       style={{ maxHeight: "300px", objectFit: "cover" }}
                     />
@@ -120,25 +118,30 @@ const AdminDashboard = () => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
+                        fontSize: "1.1rem",
                       }}
                     >
-                      <span>No Image Available</span>
+                      No Image Available
                     </div>
                   )}
 
 
+
                   <Card.Body>
-                    <h5 className="mb-2">{booking.property?.title || "Untitled Property"}</h5>
+                    <h5 className="mb-2">{booking.property?.title || "Host deleted property"}</h5>
                     <p className="text-muted mb-1">
                       📍 {booking.property?.location || "-"}, {booking.property?.city || ""}
                     </p>
                     <p className="mb-1">💰 ₹{booking.property?.price?.toLocaleString()}</p>
+                    <p className="mb-1">Posted by: {booking.property?.userId?.name}</p>
                     <hr />
+                    <p className="mb-1">Booking Property User</p>
                     <p className="mb-1">👤 {booking.user?.name}</p>
                     <p className="mb-1">📞 {booking.user?.phone}</p>
                     <p className="mb-1">✉️ {booking.user?.email}</p>
                     <hr />
-                    <p className="mb-1">💳 Payment Method: {booking.paymentDetails?.paymentMethod || "N/A"}</p>
+                    {/* <p className="mb-1">💳 Payment Method: {booking.paymentDetails?.paymentMethod || "N/A"}</p> */}
+                    <p className="mb-1">💳 Payment Method: {booking.paymentMethod || "N/A"}</p>
                     <Badge
                       bg={booking.paymentStatus === "paid" ? "success" : "warning"}
                     >
