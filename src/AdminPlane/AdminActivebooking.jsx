@@ -6,51 +6,72 @@ import { getAllAdminActiveBookingPosts } from "../config/redux/action/adminDashb
 import { resetDashboardState } from "../config/redux/reducer/adminDashboardReducer";
 
 const AdminActiveBooking = () => {
-  const dispatch = useDispatch();
-  const { bookings, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.adminDashboard
-  );
+    const dispatch = useDispatch();
+    const {
+        activeBookings,
+        activeBookingCount,
+        isLoading,
+        isError,
+        isSuccess,
+        message,
+        
+    } = useSelector((state) => state.adminDashboard);
 
-  useEffect(() => {
-    dispatch(getAllAdminActiveBookingPosts());
-    return () => dispatch(resetDashboardState());
-  }, [dispatch]);
 
-  if (isLoading) return <Spinner animation="border" className="mx-auto d-block my-4" />;
-  if (isError) return <Alert variant="danger">{message}</Alert>;
+    useEffect(() => {
+        dispatch(getAllAdminActiveBookingPosts());
+        return () => dispatch(resetDashboardState());
+    }, [dispatch]);
 
-  return (
-    <>
-      <h4 className="text-center mb-3">🟢 Active Booking Properties</h4>
-      {bookings.length === 0 ? (
-        <Alert variant="info">No active bookings found.</Alert>
-      ) : (
-        <Row className="gy-4">
-          {bookings.map((booking) => (
-            <Col md={6} lg={4} key={booking.bookingId}>
-              <Card className="shadow-sm h-100">
+    if (isLoading) return <Spinner animation="border" className="mx-auto d-block my-4" />;
+    if (isError) return <Alert variant="danger">{message}</Alert>;
+
+    return (
+        <>
+            <h4 className="text-center mb-3">🟢 Active Booking Properties</h4>
+            <Card className="text-center shadow-sm bg-light">
                 <Card.Body>
-                  <h5>{booking.property?.title}</h5>
-                  <p>📍 {booking.property?.location}, {booking.property?.city}</p>
-                  <p>💰 ₹{booking.property?.price}</p>
-                  <hr />
-                  <p>👤 Guest: {booking.guest?.name}</p>
-                  <p>📞 {booking.guest?.phone}</p>
-                  <p>✉️ {booking.guest?.email}</p>
-                  <p>🏠 Host: {booking.host?.name}</p>
-                  <hr />
-                  <p>💳 Payment Method: {booking.paymentMethod}</p>
-                  <Badge bg={booking.paymentStatus === "paid" ? "success" : "warning"}>
-                    {booking.paymentStatus}
-                  </Badge>
+                    <h4 className="text-info"> Total Active Bookings :  { activeBookingCount}</h4>
                 </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      )}
-    </>
-  );
+            </Card>
+            {activeBookings && activeBookings.length > 0 ? (
+                <Row className="gy-4">
+                    {activeBookings.map((booking) => (
+                        <Col md={6} lg={4} key={booking.bookingId}>
+                            <Card className="shadow-sm h-100">
+                                <Card.Img
+                                    variant="top"
+                                    src={booking.property?.image?.url}
+                                    style={{ maxHeight: "300px", objectFit: "cover" }}
+                                />
+                                <Card.Body>
+                                    <h5>{booking.property?.title}</h5>
+                                    <p>📍 {booking.property?.location}, {booking.property?.city}</p>
+                                    <p>💰 ₹{booking.property?.price}</p>
+                                    <hr />
+                                    <p>👤 Guest: {booking.guest?.name}</p>
+                                    <p>📞 {booking.guest?.phone}</p>
+                                    <p>✉️ {booking.guest?.email}</p>
+                                    <hr />
+                                    <p>👤 Host: {booking.host?.name}</p>
+                                    <p>📞 {booking.host?.phone}</p>
+                                    <p>✉️ {booking.host?.email}</p>
+                                    <hr />
+                                    <p>💳 Payment: {booking.paymentMethod}</p>
+                                    <Badge bg={booking.paymentStatus === "paid" ? "success" : "warning"}>
+                                        {booking.paymentStatus}
+                                    </Badge>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            ) : (
+                <Alert variant="info">No active bookings found.</Alert>
+            )}
+
+        </>
+    );
 };
 
 export default AdminActiveBooking;
