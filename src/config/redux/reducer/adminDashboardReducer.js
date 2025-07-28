@@ -110,7 +110,7 @@ const adminDashboardSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.pastBookings = action.payload.pastBookings || [];
-        state.totalPastCount = action.payload.count?.length || 0;
+        state.totalPastCount = action.payload.totalPastCount?.length || 0;
         state.totalPastAmount = action.payload.totalPastAmount || 0;
         state.message = "Past bookings fetched.";
       })
