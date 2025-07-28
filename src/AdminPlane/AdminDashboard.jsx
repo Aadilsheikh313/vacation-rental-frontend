@@ -6,6 +6,7 @@ import AdminActiveBooking from "./AdminActivebooking";
 import AdminAllBooking from "./AdminAllBooking"; 
 import AdminCancelBooking from "./AdminCancelbooking";
 import AdminUpcomingBooking from "./AdminUpcomingBooking";
+import AdminPastBooking from "./AdminPastBooking";
 
 const AdminDashboard = () => {
   const [selectedView, setSelectedView] = useState("all");
@@ -50,6 +51,7 @@ const AdminDashboard = () => {
       {selectedView === "active" && <AdminActiveBooking />}
       {selectedView === "cancelled" && <AdminCancelBooking/>}
       {selectedView === "upcoming" && <AdminUpcomingBooking/>}
+      {selectedView === "pastbooking" && <AdminPastBooking/>}
     </Container>
   );
 };

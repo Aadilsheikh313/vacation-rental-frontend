@@ -39,3 +39,13 @@ export const getAdminAllUpcomingBookingApi = async() =>{
         throw error; 
     }
 }
+
+export const getAdminAllPastBookingApi = async() =>{
+     try {
+        const response = await clientServer.get("/api/v1/admin/pastbookings");
+        return response.data;
+    } catch (error) {
+       console.error("❌ Get All Admin Past booking Property API Error:", error.response?.data || error.message);
+        throw error; 
+    }
+}
