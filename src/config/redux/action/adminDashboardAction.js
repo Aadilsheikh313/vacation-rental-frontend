@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {  getAdminAllCancelBookingApi, getAdminAllPastBookingApi, getAdminAllUpcomingBookingApi, getAllAdminActiveBookingApi, getAllAdminBookingApi } from "../../../api/AdimApi/adminDashboardApi";
+import {  getAdminAllCancelBookingApi, getAdminAllPastBookingApi, getAdminAllUpcomingBookingApi, getAllAdminActiveBookingApi, getAllAdminBookingApi, getTotalAmountgApi, getTotalBookingApi } from "../../../api/AdimApi/adminDashboardApi";
 
 
 export const getAllAdminBookingPosts = createAsyncThunk(
@@ -61,3 +61,26 @@ export const getAdminAllPastgBookingPosts = createAsyncThunk(
         }
     }
 )
+export const getTotalAmountPosts = createAsyncThunk(
+  "adminbooking/getTotalAmountPosts",
+  async (_, thunkAPI) => {
+    try {
+      const response = await getTotalAmountgApi();
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || "Failed to fetch total amount");
+    }
+  }
+);
+
+export const getTotalBookingPosts = createAsyncThunk(
+  "adminbooking/getTotalBookingPosts",
+  async (_, thunkAPI) => {
+    try {
+      const response = await getTotalBookingApi();
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || "Failed to fetch total bookings");
+    }
+  }
+);

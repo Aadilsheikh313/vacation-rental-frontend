@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAdminAllCancelBookingPosts, getAdminAllPastgBookingPosts, getAdminAllUpcomingBookingPosts, getAllAdminActiveBookingPosts, getAllAdminBookingPosts } from "../action/adminDashboardAction";
+import { getAdminAllCancelBookingPosts, getAdminAllPastgBookingPosts, getAdminAllUpcomingBookingPosts, getAllAdminActiveBookingPosts, getAllAdminBookingPosts, getTotalAmountPosts, getTotalBookingPosts } from "../action/adminDashboardAction";
 
 
 const initialState = {
@@ -14,6 +14,8 @@ const initialState = {
   pastBookings: [],
   totalPastCount: 0,
   totalPastAmount: 0,
+  totalAmount: 0,
+  totalBooking: 0,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -95,8 +97,6 @@ const adminDashboardSlice = createSlice({
         state.totalUpcomingAmount = action.payload.totalUpcomingAmount || 0;
         state.message = "Upcoming bookings fetched.";
       })
-
-
       .addCase(getAdminAllUpcomingBookingPosts.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
@@ -110,7 +110,7 @@ const adminDashboardSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.pastBookings = action.payload.pastBookings || [];
-        state.totalPastCount = action.payload.totalPastCount?.length || 0;
+        state.totalPastCount = action.payload.count || 0;
         state.totalPastAmount = action.payload.totalPastAmount || 0;
         state.message = "Past bookings fetched.";
       })
@@ -121,7 +121,23 @@ const adminDashboardSlice = createSlice({
         state.isError = true;
         state.message = action.payload || "Failed to fetch past bookings.";
       })
+      // Total Amount
+      .addCase(getTotalAmountPosts.fulfilled, (state, action) => {
+        state.totalAmount = action.payload.totalAmount || 0;
+      })
+      .addCase(getTotalAmountPosts.rejected, (state, action) => {
+        state.totalAmount = 0;
+        state.message = action.payload || "Failed to fetch total amount";
+      })
 
+      // Total Booking
+      .addCase(getTotalBookingPosts.fulfilled, (state, action) => {
+        state.totalBooking = action.payload.totalBooking || 0;
+      })
+      .addCase(getTotalBookingPosts.rejected, (state, action) => {
+        state.totalBooking = 0;
+        state.message = action.payload || "Failed to fetch total bookings";
+      })
 
   },
 });

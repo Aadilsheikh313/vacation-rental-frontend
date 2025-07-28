@@ -49,3 +49,21 @@ export const getAdminAllPastBookingApi = async() =>{
         throw error; 
     }
 }
+export const getTotalAmountgApi = async() =>{
+     try {
+        const response = await clientServer.get("/api/v1/admin/total-amount");
+        return response.data;
+    } catch (error) {
+       console.error("❌ Get Total amount Property API Error:", error.response?.data || error.message);
+        throw error; 
+    }
+}
+export const getTotalBookingApi = async() =>{
+     try {
+        const response = await clientServer.get("/api/v1/admin/total-bookings");
+        return response.data;
+    } catch (error) {
+       console.error("❌ Get Total booking Property API Error:", error.response?.data || error.message);
+        throw error; 
+    }
+}

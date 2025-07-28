@@ -7,16 +7,23 @@ import AdminAllBooking from "./AdminAllBooking";
 import AdminCancelBooking from "./AdminCancelbooking";
 import AdminUpcomingBooking from "./AdminUpcomingBooking";
 import AdminPastBooking from "./AdminPastBooking";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getTotalAmountPosts, getTotalBookingPosts } from "../config/redux/action/adminDashboardAction";
+
 
 const AdminDashboard = () => {
   const [selectedView, setSelectedView] = useState("all");
 
-  const [analytics, setAnalytics] = useState({
-    totalRevenue: 352000,
-    totalBookings: 58,
-    cancelledBookings: 7,
-    activeProperties: 23,
-  });
+  const dispatch = useDispatch();
+
+const { totalAmount, totalBooking } = useSelector((state) => state.adminDashboard);
+
+useEffect(() => {
+  dispatch(getTotalAmountPosts());
+  dispatch(getTotalBookingPosts());
+}, [dispatch]);
+
 
   return (
     <Container className="py-4">
@@ -24,25 +31,24 @@ const AdminDashboard = () => {
 
       {/* Summary Cards */}
       <Row className="mb-4">
-        <Col >
-          <Card className="text-center shadow-sm bg-light">
-            <Card.Body>
-              <h6 className="text-muted">💰 Total Revenue</h6>
-              <h4 className="text-success">
-                ₹{analytics.totalRevenue.toLocaleString()}
-              </h4>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col >
-          <Card className="text-center shadow-sm bg-light">
-            <Card.Body>
-              <h6 className="text-muted">📦 Total Bookings</h6>
-              <h4 className="text-primary">{analytics.totalBookings}</h4>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+  <Col>
+    <Card className="text-center shadow-sm bg-light">
+      <Card.Body>
+        <h6 className="text-muted">💰 Total Revenue</h6>
+        <h4 className="text-success">₹{totalAmount.toLocaleString()}</h4>
+      </Card.Body>
+    </Card>
+  </Col>
+  <Col>
+    <Card className="text-center shadow-sm bg-light">
+      <Card.Body>
+        <h6 className="text-muted">📦 Total Bookings</h6>
+        <h4 className="text-primary">{totalBooking}</h4>
+      </Card.Body>
+    </Card>
+  </Col>
+</Row>
+
 
       <CustomButtonTop onSelectView={setSelectedView} />
 
