@@ -17,6 +17,9 @@ const CustomButtonTop = ({ onSelectView }) => {
         <Button variant="warning" onClick={() => onSelectView("upcoming")}>
           Upcoming Booking Property
         </Button>
+        <Button variant="info" onClick={() => onSelectView("pastbooking")}>
+          Past Booking Property
+        </Button>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAdminAllCancelBookingPosts, getAllAdminActiveBookingPosts, getAllAdminBookingPosts } from "../action/adminDashboardAction";
+import { getAdminAllCancelBookingPosts, getAdminAllUpcomingBookingPosts, getAllAdminActiveBookingPosts, getAllAdminBookingPosts } from "../action/adminDashboardAction";
 
 
 const initialState = {
@@ -8,6 +8,9 @@ const initialState = {
   activeBookingCount: 0,
   cancelBooking: [],
   cancelBookingCount: 0,
+  upcomingBookings: [],
+  totalUpcomingAmount: 0,
+  totalUpcomingCount: 0,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -67,7 +70,7 @@ const adminDashboardSlice = createSlice({
       .addCase(getAdminAllCancelBookingPosts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.cancelBooking = action.payload.cancelledBookings || [];
+        state.cancelBooking = action.payload.cancelBooking || [];
         state.cancelBookingCount = action.payload.cancelledBookings?.length || 0;
         state.message = "Cancelled bookings fetched.";
       })
@@ -76,6 +79,25 @@ const adminDashboardSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload || "Failed to fetch cancel bookings.";
+      })
+      .addCase(getAdminAllUpcomingBookingPosts.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Fetching upcoming bookings...";
+      })
+      .addCase(getAdminAllUpcomingBookingPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.upcomingBookings = action.payload.upcomingBookings || [];
+        state.totalUpcomingCount = action.payload.totalUpcomingCount || 0;
+        state.totalUpcomingAmount = action.payload.totalUpcomingAmount || 0;
+        state.message = "Upcoming bookings fetched.";
+      })
+
+
+      .addCase(getAdminAllUpcomingBookingPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Failed to fetch upcoming bookings.";
       })
 
   },

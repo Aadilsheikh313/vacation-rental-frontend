@@ -5,6 +5,7 @@ import CustomButtonTop from "./CustomButtonTop";
 import AdminActiveBooking from "./AdminActivebooking";
 import AdminAllBooking from "./AdminAllBooking"; 
 import AdminCancelBooking from "./AdminCancelbooking";
+import AdminUpcomingBooking from "./AdminUpcomingBooking";
 
 const AdminDashboard = () => {
   const [selectedView, setSelectedView] = useState("all");
@@ -22,7 +23,7 @@ const AdminDashboard = () => {
 
       {/* Summary Cards */}
       <Row className="mb-4">
-        <Col md={3}>
+        <Col >
           <Card className="text-center shadow-sm bg-light">
             <Card.Body>
               <h6 className="text-muted">💰 Total Revenue</h6>
@@ -32,27 +33,11 @@ const AdminDashboard = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col md={3}>
+        <Col >
           <Card className="text-center shadow-sm bg-light">
             <Card.Body>
               <h6 className="text-muted">📦 Total Bookings</h6>
               <h4 className="text-primary">{analytics.totalBookings}</h4>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={3}>
-          <Card className="text-center shadow-sm bg-light">
-            <Card.Body>
-              <h6 className="text-muted">❌ Cancelled Bookings</h6>
-              <h4 className="text-danger">{analytics.cancelledBookings}</h4>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={3}>
-          <Card className="text-center shadow-sm bg-light">
-            <Card.Body>
-              <h6 className="text-muted">🏠 Active Properties</h6>
-              <h4 className="text-info">{analytics.activeProperties}</h4>
             </Card.Body>
           </Card>
         </Col>
@@ -64,6 +49,7 @@ const AdminDashboard = () => {
       {selectedView === "all" && <AdminAllBooking />}
       {selectedView === "active" && <AdminActiveBooking />}
       {selectedView === "cancelled" && <AdminCancelBooking/>}
+      {selectedView === "upcoming" && <AdminUpcomingBooking/>}
     </Container>
   );
 };

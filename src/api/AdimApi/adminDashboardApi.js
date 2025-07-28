@@ -29,3 +29,13 @@ export const getAdminAllCancelBookingApi = async() =>{
         throw error; 
     }
 }
+
+export const getAdminAllUpcomingBookingApi = async() =>{
+    try {
+        const response = await clientServer.get("/api/v1/admin/upcomingbookings");
+        return response.data;
+    } catch (error) {
+       console.error("❌ Get All Admin Upcoming booking Property API Error:", error.response?.data || error.message);
+        throw error; 
+    }
+}
