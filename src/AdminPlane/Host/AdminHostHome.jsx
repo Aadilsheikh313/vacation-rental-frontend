@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Spinner, Row, Col } from "react-bootstrap";
+import { Card, Spinner, Row, Col, Container } from "react-bootstrap";
 import { getTotalHostRegister } from "../../config/redux/action/adminHostAction";
+import AdminButtonTop from "./AdminTopButton";
+import { useState } from "react";
+import AdminGetAllHost from "./AdminGetAllHosts";
 
 const AdminHostHome = () => {
+   const [selectedView, setSelectedView] = useState("all");
   const dispatch = useDispatch();
 
   const {
@@ -19,6 +23,7 @@ const AdminHostHome = () => {
   }, [dispatch]);
 
   return (
+    <Container className="py-4">
     <Row className="justify-content-center mt-4">
       <Col xs={12} sm={10} md={8} lg={6}>
         <Card className="shadow-lg rounded-4 text-center">
@@ -41,6 +46,12 @@ const AdminHostHome = () => {
         </Card>
       </Col>
     </Row>
+
+    <AdminButtonTop onSelectView={setSelectedView} />
+
+    {/* Conditional Views */}
+          {selectedView === "all" && <AdminGetAllHost />}
+    </Container>
   );
 };
 

@@ -13,7 +13,7 @@ const AdminGuestHome = () => {
     isError,
     isSuccess,
     message,
-  } = useSelector((state) => state.adminHost);
+  } = useSelector((state) => state.adminGuest);
 
   useEffect(() => {
     dispatch(getTotalGuestRegister());

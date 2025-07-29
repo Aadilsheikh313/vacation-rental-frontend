@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getTotalHostRegisterApi } from "../../../api/AdimApi/adminHostApi";
+import { getAllHostRegisterApi, getTotalHostRegisterApi 
+
+} from "../../../api/AdimApi/adminHostApi";
 
 
 export const getTotalHostRegister = createAsyncThunk(
@@ -10,6 +12,17 @@ export const getTotalHostRegister = createAsyncThunk(
             return thunkAPI.fulfillWithValue(response);
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response?.data || "Admin Failed to all fetch  Host Register");
+        }
+    }
+);
+export const getAllHostRegister = createAsyncThunk(
+    "adminposts/getAllHostRegister",
+    async (_, thunkAPI) => {
+        try {
+            const response = await getAllHostRegisterApi();
+            return thunkAPI.fulfillWithValue(response);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response?.data || "Error in getAllHostRegister");
         }
     }
 );

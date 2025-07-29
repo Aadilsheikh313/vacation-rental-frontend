@@ -1,8 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getTotalHostRegister } from "../action/adminHostAction";
+import { getAllHostRegister,
+   getTotalHostRegister
+   } from "../action/adminHostAction";
 
 const initialState = {
   totalHostRegister: 0,
+  allHosts: [],
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -37,7 +40,22 @@ const adminHostSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload || "Failed to fetch host registrations.";
-      });
+      })
+       .addCase(getAllHostRegister.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Loading host list...";
+      })
+      .addCase(getAllHostRegister.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.allHosts = Array.isArray(action.payload.hosts) ? action.payload.hosts : [];
+        state.message = action.payload.message || "Host list loaded successfully.";
+      })
+      .addCase(getAllHostRegister.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Failed to load host list.";
+      })
   },
 });
 
