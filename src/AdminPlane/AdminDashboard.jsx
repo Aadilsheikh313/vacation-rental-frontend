@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import CustomButtonTop from "./CustomButtonTop";
 import AdminActiveBooking from "./AdminActivebooking";
-import AdminAllBooking from "./AdminAllBooking"; 
+import AdminAllBooking from "./AdminAllBooking";
 import AdminCancelBooking from "./AdminCancelbooking";
 import AdminUpcomingBooking from "./AdminUpcomingBooking";
 import AdminPastBooking from "./AdminPastBooking";
@@ -17,12 +17,12 @@ const AdminDashboard = () => {
 
   const dispatch = useDispatch();
 
-const { totalAmount, totalBooking } = useSelector((state) => state.adminDashboard);
+  const { totalAmount, totalBooking } = useSelector((state) => state.adminDashboard);
 
-useEffect(() => {
-  dispatch(getTotalAmountPosts());
-  dispatch(getTotalBookingPosts());
-}, [dispatch]);
+  useEffect(() => {
+    dispatch(getTotalAmountPosts());
+    dispatch(getTotalBookingPosts());
+  }, [dispatch]);
 
 
   return (
@@ -31,23 +31,23 @@ useEffect(() => {
 
       {/* Summary Cards */}
       <Row className="mb-4">
-  <Col>
-    <Card className="text-center shadow-sm bg-light">
-      <Card.Body>
-        <h6 className="text-muted">💰 Total Revenue</h6>
-        <h4 className="text-success">₹{totalAmount.toLocaleString()}</h4>
-      </Card.Body>
-    </Card>
-  </Col>
-  <Col>
-    <Card className="text-center shadow-sm bg-light">
-      <Card.Body>
-        <h6 className="text-muted">📦 Total Bookings</h6>
-        <h4 className="text-primary">{totalBooking}</h4>
-      </Card.Body>
-    </Card>
-  </Col>
-</Row>
+        <Col>
+          <Card className="text-center shadow-sm bg-light">
+            <Card.Body>
+              <h6 className="text-muted">💰 Total Revenue</h6>
+              <h4 className="text-success">₹{totalAmount.toLocaleString()}</h4>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col>
+          <Card className="text-center shadow-sm bg-light">
+            <Card.Body>
+              <h6 className="text-muted">📦 Total Bookings</h6>
+              <h4 className="text-primary">{totalBooking}</h4>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
 
 
       <CustomButtonTop onSelectView={setSelectedView} />
@@ -55,9 +55,9 @@ useEffect(() => {
       {/* Conditional Views */}
       {selectedView === "all" && <AdminAllBooking />}
       {selectedView === "active" && <AdminActiveBooking />}
-      {selectedView === "cancelled" && <AdminCancelBooking/>}
-      {selectedView === "upcoming" && <AdminUpcomingBooking/>}
-      {selectedView === "pastbooking" && <AdminPastBooking/>}
+      {selectedView === "cancelled" && <AdminCancelBooking />}
+      {selectedView === "upcoming" && <AdminUpcomingBooking />}
+      {selectedView === "pastbooking" && <AdminPastBooking />}
     </Container>
   );
 };

@@ -8,6 +8,7 @@ import invoiceReducer from './reducer/invoiceReducer';
 import adminAuthReducer from './reducer/adminAuthReducer';
 import adminHomeDashReducer from './reducer/adminHomeDashReducer';
 import adminDashboardReducer from './reducer/adminDashboardReducer';
+import adminHostReducer from './reducer/adminHostReducer';
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     adminAuth: adminAuthReducer,
     adminHomeDash: adminHomeDashReducer,
     adminDashboard: adminDashboardReducer,
+    adminHost: adminHostReducer,
   },
 });
 
