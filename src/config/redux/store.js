@@ -9,6 +9,7 @@ import adminAuthReducer from './reducer/adminAuthReducer';
 import adminHomeDashReducer from './reducer/adminHomeDashReducer';
 import adminDashboardReducer from './reducer/adminDashboardReducer';
 import adminHostReducer from './reducer/adminHostReducer';
+import adminGuestReducer from './reducer/adminGuestReducer';
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     adminHomeDash: adminHomeDashReducer,
     adminDashboard: adminDashboardReducer,
     adminHost: adminHostReducer,
+     adminGuest: adminGuestReducer,
   },
 });
 
