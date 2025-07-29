@@ -4,7 +4,7 @@ import { getTotalGuestRegisterApi } from "../../../api/AdimApi/adminGuestApi";
 
 
 export const getTotalGuestRegister = createAsyncThunk(
-    "adminposts/getTotalHostRegister",
+    "adminposts/getTotalGuestRegister",
     async (_, thunkAPI) => {
         try {
             const response = await getTotalGuestRegisterApi();
