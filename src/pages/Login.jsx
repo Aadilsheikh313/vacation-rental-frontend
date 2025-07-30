@@ -25,6 +25,8 @@ const Login = () => {
 
     const userData = { email, password, role };
     dispatch(loginUser(userData));
+    console.log("Password being sent:", password);
+
   };
 
   useEffect(() => {
