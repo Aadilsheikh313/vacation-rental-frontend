@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllHostRegister } from "../../config/redux/action/adminHostAction";
-import { resetAdminHostState } from "../../config/redux/reducer/adminHostReducer";
 import styles from "../../adminStylesModule/adminGetAllHost.module.css";
-import { Spinner } from "react-bootstrap";
+import { Card, Spinner } from "react-bootstrap";
+import { resetAdminHostState } from "../../config/redux/reducer/adminHostReducer";
+import { getAllActiveHostRegister } from "../../config/redux/action/adminHostAction";
 
-const AdminGetAllHost = () => {
+const AdminGetActvieAllHost = () => {
     const dispatch = useDispatch();
     const [selectedHost, setSelectedHost] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const {
-        allHosts,
+        allActiveHosts,
+        allActiveHostsCount,
         isLoading,
         isError,
         isSuccess,
@@ -19,7 +20,7 @@ const AdminGetAllHost = () => {
     } = useSelector((state) => state.adminHost);
 
     useEffect(() => {
-        dispatch(getAllHostRegister());
+        dispatch(getAllActiveHostRegister());
 
         return () => {
             dispatch(resetAdminHostState());
@@ -38,7 +39,13 @@ const AdminGetAllHost = () => {
 
     return (
         <div className="p-4">
-            <h2 className="text-xl font-bold mb-4">All Registered Hosts</h2>
+
+            <Card className="mb-4">
+                <Card.Body>
+                    <Card.Title>Total Active Registered Hosts</Card.Title>
+                    <Card.Text>{allActiveHostsCount}</Card.Text>
+                </Card.Body>
+            </Card>
 
             {isLoading && (
                 <div className="text-center my-4">
@@ -48,11 +55,11 @@ const AdminGetAllHost = () => {
             )}
 
             {isError && <p className="text-red-500">Error: {message}</p>}
-            {isSuccess && allHosts.length === 0 && (
-                <p className="text-gray-600">No hosts found.</p>
+            {isSuccess && allActiveHosts.length === 0 && (
+                <p className="text-gray-600">No Active hosts found.</p>
             )}
 
-            {!isLoading && allHosts.length > 0 && (
+            {!isLoading && allActiveHosts.length > 0 && (
                 <div className={styles.tableWrapper}>
                     <table className={styles.table}>
                         <thead>
@@ -68,7 +75,7 @@ const AdminGetAllHost = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {allHosts.map((host, index) => (
+                            {allActiveHosts.map((host, index) => (
                                 <tr key={host._id}>
                                     <td>{index + 1}</td>
                                     <td>{host.name}</td>
@@ -143,4 +150,4 @@ const AdminGetAllHost = () => {
     );
 };
 
-export default AdminGetAllHost;
+export default AdminGetActvieAllHost;

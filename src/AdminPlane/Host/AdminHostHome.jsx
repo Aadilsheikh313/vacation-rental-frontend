@@ -5,6 +5,8 @@ import { getTotalHostRegister } from "../../config/redux/action/adminHostAction"
 import AdminButtonTop from "./AdminTopButton";
 import { useState } from "react";
 import AdminGetAllHost from "./AdminGetAllHosts";
+import { resetAdminHostState } from "../../config/redux/reducer/adminHostReducer";
+import AdminGetActvieAllHost from "./AdminGetActiveHosts";
 
 const AdminHostHome = () => {
    const [selectedView, setSelectedView] = useState("all");
@@ -20,6 +22,9 @@ const AdminHostHome = () => {
 
   useEffect(() => {
     dispatch(getTotalHostRegister());
+    return () => {
+        dispatch(resetAdminHostState());
+    };
   }, [dispatch]);
 
   return (
@@ -51,6 +56,7 @@ const AdminHostHome = () => {
 
     {/* Conditional Views */}
           {selectedView === "all" && <AdminGetAllHost />}
+           {selectedView === "active" && <AdminGetActvieAllHost />}
     </Container>
   );
 };

@@ -1,1 +1,5 @@
 
+html, body {
+  scroll-behavior: smooth;
+  font-family: 'Segoe UI', sans-serif;
+}

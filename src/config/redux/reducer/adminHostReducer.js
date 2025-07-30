@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllHostRegister,
+import { getAllActiveHostRegister, getAllHostRegister,
    getTotalHostRegister
    } from "../action/adminHostAction";
 
 const initialState = {
   totalHostRegister: 0,
   allHosts: [],
+  allActiveHosts: [],
+  allActiveHostsCount: 0,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -34,7 +36,8 @@ const adminHostSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.totalHostRegister = action.payload.totalHosts || 0;
-        state.message = action.payload.message || "Host registrations fetched.";
+        state.message =  "Host registrations fetched.";
+        // state.message = action.payload.message || "Host registrations fetched.";
       })
       .addCase(getTotalHostRegister.rejected, (state, action) => {
         state.isLoading = false;
@@ -55,6 +58,22 @@ const adminHostSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload || "Failed to load host list.";
+      })
+      .addCase(getAllActiveHostRegister.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Loading actvie host list...";
+      })
+      .addCase(getAllActiveHostRegister.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.allActiveHosts = Array.isArray(action.payload.hosts) ? action.payload.hosts : [];
+        state.allActiveHostsCount = action.payload.count;
+        state.message =  "Host Actvie list loaded successfully.";
+      })
+      .addCase(getAllActiveHostRegister.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Failed to Actvie load host list.";
       })
   },
 });

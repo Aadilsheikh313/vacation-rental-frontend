@@ -19,3 +19,13 @@ export const getAllHostRegisterApi = async () =>{
         throw error;
     }
 }
+
+export const getAllActiveHostRegisterApi = async () =>{
+    try {
+        const response = await clientServer.get("/api/v1/admin/active-hosts");
+        return response.data;
+    } catch (error) {
+         console.error("❌ Get All Active Host API Error:", error.response?.data || error.message);
+        throw error;
+    }
+}

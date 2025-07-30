@@ -24,7 +24,7 @@ const store = configureStore({
     adminHomeDash: adminHomeDashReducer,
     adminDashboard: adminDashboardReducer,
     adminHost: adminHostReducer,
-     adminGuest: adminGuestReducer,
+    adminGuest: adminGuestReducer,
   },
 });
 
