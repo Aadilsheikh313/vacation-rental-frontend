@@ -3,17 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "../../adminStylesModule/adminGetAllHost.module.css";
 import { Card, Spinner } from "react-bootstrap";
 import { resetAdminHostState } from "../../config/redux/reducer/adminHostReducer";
-import { getAllOnlineHostRegister } from "../../config/redux/action/adminHostAction";
+import { getAllLogoutHostRegister } from "../../config/redux/action/adminHostAction";
 
 
-const AdminGetOnlineAllHost = () => {
+const AdminGetLogoutAllHost = () => {
     const dispatch = useDispatch();
     const [selectedHost, setSelectedHost] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const {
-        onlineHosts,
-        totalOnlineHostsCount,
+         logoutHosts,
+  totalLogoutHostsCount,
         isLoading,
         isError,
         isSuccess,
@@ -21,7 +21,7 @@ const AdminGetOnlineAllHost = () => {
     } = useSelector((state) => state.adminHost);
 
     useEffect(() => {
-        dispatch(getAllOnlineHostRegister());
+        dispatch(getAllLogoutHostRegister());
 
         return () => {
             dispatch(resetAdminHostState());
@@ -43,8 +43,8 @@ const AdminGetOnlineAllHost = () => {
 
             <Card className="mb-4">
                 <Card.Body>
-                    <Card.Title>Total Online Registered Hosts</Card.Title>
-                    <Card.Text>{totalOnlineHostsCount}</Card.Text>
+                    <Card.Title>Total Logout Registered Hosts</Card.Title>
+                    <Card.Text>{totalLogoutHostsCount}</Card.Text>
                 </Card.Body>
             </Card>
 
@@ -56,11 +56,11 @@ const AdminGetOnlineAllHost = () => {
             )}
 
             {isError && <p className="text-red-500">Error: {message}</p>}
-            {isSuccess && onlineHosts.length === 0 && (
+            {isSuccess && logoutHosts.length === 0 && (
                 <p className="text-gray-600">No Online hosts found.</p>
             )}
 
-            {!isLoading && onlineHosts.length > 0 && (
+            {!isLoading && logoutHosts.length > 0 && (
                 <div className={styles.tableWrapper}>
                     <table className={styles.table}>
                         <thead>
@@ -76,7 +76,7 @@ const AdminGetOnlineAllHost = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {onlineHosts.map((host, index) => (
+                            {logoutHosts.map((host, index) => (
                                 <tr key={host._id}>
                                     <td>{index + 1}</td>
                                     <td>{host.name}</td>
@@ -151,4 +151,4 @@ const AdminGetOnlineAllHost = () => {
     );
 };
 
-export default AdminGetOnlineAllHost;
+export default AdminGetLogoutAllHost;

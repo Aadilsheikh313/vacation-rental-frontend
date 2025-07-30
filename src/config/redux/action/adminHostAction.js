@@ -1,6 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getAllActiveHostRegisterApi, 
+    getAllBannedHostRegisterApi, 
     getAllHostRegisterApi,
+     getAllLogoutHostRegisterApi,
+     getAllNewHostRegisterApi,
      getAllOnlineHostRegisterApi,
      getTotalHostRegisterApi 
 
@@ -50,6 +53,41 @@ export const getAllOnlineHostRegister = createAsyncThunk(
             return thunkAPI.fulfillWithValue(response);
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response?.data || "Error in getAllOnlineHostRegister");
+        }
+    }
+);
+export const getAllNewHostRegister = createAsyncThunk(
+    "adminposts/getAllNewHostRegister",
+    async (_, thunkAPI) => {
+        try {
+            const response = await getAllNewHostRegisterApi();
+            return thunkAPI.fulfillWithValue(response);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response?.data || "Error in getAllNewHostRegister");
+        }
+    }
+);
+
+export const getAllLogoutHostRegister = createAsyncThunk(
+    "adminposts/getAllLogoutHostRegister",
+    async (_, thunkAPI) => {
+        try {
+            const response = await getAllLogoutHostRegisterApi();
+            return thunkAPI.fulfillWithValue(response);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response?.data || "Error in getAllLogoutHostRegister");
+        }
+    }
+);
+
+export const getAllBannedHostRegister = createAsyncThunk(
+    "adminposts/getAllBannedHostRegister",
+    async (_, thunkAPI) => {
+        try {
+            const response = await getAllBannedHostRegisterApi();
+            return thunkAPI.fulfillWithValue(response);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response?.data || "Error in getAllBannedHostRegister");
         }
     }
 );

@@ -8,6 +8,9 @@ import AdminGetAllHost from "./AdminGetAllHosts";
 import { resetAdminHostState } from "../../config/redux/reducer/adminHostReducer";
 import AdminGetActvieAllHost from "./AdminGetActiveHosts";
 import AdminGetOnlineAllHost from "./AdminGetOnlineHosts";
+import AdminGetNewAllHost from "./AdminGetNewHosts";
+import AdminGetLogoutAllHost from "./AdminGetLogoutHosts";
+import AdminGetBannedAllHost from "./AdminGetBannedHosts";
 
 const AdminHostHome = () => {
   const [selectedView, setSelectedView] = useState("all");
@@ -56,9 +59,12 @@ const AdminHostHome = () => {
       <AdminButtonTop onSelectView={setSelectedView} />
 
       {/* Conditional Views */}
-      {selectedView === "all" && <AdminGetAllHost />}
-      {selectedView === "active" && <AdminGetActvieAllHost />}
-      {selectedView === "online" && <AdminGetOnlineAllHost />}
+      {selectedView === "all" && <AdminGetAllHost/>}
+      {selectedView === "active" && <AdminGetActvieAllHost/>}
+      {selectedView === "online" && <AdminGetOnlineAllHost/>}
+      {selectedView === "newRegister" && <AdminGetNewAllHost/>}
+      {selectedView === "logout" && <AdminGetLogoutAllHost/>}
+      {selectedView === "banned" && <AdminGetBannedAllHost/>}
     </Container>
   );
 };

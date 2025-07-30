@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllActiveHostRegister, getAllHostRegister,
+import { getAllActiveHostRegister, getAllBannedHostRegister, getAllHostRegister,
+   getAllLogoutHostRegister,
+   getAllNewHostRegister,
    getAllOnlineHostRegister,
    getTotalHostRegister
    } from "../action/adminHostAction";
@@ -11,6 +13,12 @@ const initialState = {
   allActiveHostsCount: 0,
   onlineHosts: [],
   totalOnlineHostsCount: 0,
+  newHosts:[],
+  totalNewHostsCount:0,
+  logoutHosts:[],
+  totalLogoutHostsCount: 0,
+  bannedHosts:[],
+  totalBannedHostsCount:0,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -93,6 +101,54 @@ const adminHostSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload || "Failed to online load host list.";
+      })
+      .addCase(getAllNewHostRegister.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Loading new host list...";
+      })
+      .addCase(getAllNewHostRegister.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.newHosts = Array.isArray(action.payload.hosts) ? action.payload.hosts : [];
+        state.totalNewHostsCount = action.payload.count;
+        state.message =  "Host new list loaded successfully.";
+      })
+      .addCase(getAllNewHostRegister.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Failed to new load host list.";
+      })
+      .addCase(getAllLogoutHostRegister.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Loading logout host list...";
+      })
+      .addCase(getAllLogoutHostRegister.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.logoutHosts = Array.isArray(action.payload.hosts) ? action.payload.hosts : [];
+        state.totalLogoutHostsCount = action.payload.count;
+        state.message =  "Host Logout hosts list loaded successfully.";
+      })
+      .addCase(getAllLogoutHostRegister.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Failed to Logout  load host list.";
+      })
+      .addCase(getAllBannedHostRegister.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Loading Banned host list...";
+      })
+      .addCase(getAllBannedHostRegister.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.bannedHosts = Array.isArray(action.payload.hosts) ? action.payload.hosts : [];
+        state.totalBannedHostsCount = action.payload.count;
+        state.message =  "Host Banned hosts list loaded successfully.";
+      })
+      .addCase(getAllBannedHostRegister.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Failed to Banned  load host list.";
       })
   },
 });

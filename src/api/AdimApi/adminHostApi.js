@@ -39,3 +39,32 @@ export const getAllOnlineHostRegisterApi = async () =>{
         throw error;
     }
 }
+export const getAllNewHostRegisterApi = async () =>{
+    try {
+        const response = await clientServer.get("/api/v1/admin/new-hosts");
+        return response.data;
+    } catch (error) {
+         console.error("❌ Get All New Host API Error:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export const getAllLogoutHostRegisterApi = async () =>{
+    try {
+        const response = await clientServer.get("/api/v1/admin/logout-hosts");
+        return response.data;
+    } catch (error) {
+         console.error("❌ Get All New Host API Error:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export const getAllBannedHostRegisterApi = async () =>{
+    try {
+        const response = await clientServer.get("/api/v1/admin/banned-hosts");
+        return response.data;
+    } catch (error) {
+         console.error("❌ Get All New Host API Error:", error.response?.data || error.message);
+        throw error;
+    }
+}
