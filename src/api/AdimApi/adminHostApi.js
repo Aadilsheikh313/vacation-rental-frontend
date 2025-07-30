@@ -29,3 +29,13 @@ export const getAllActiveHostRegisterApi = async () =>{
         throw error;
     }
 }
+
+export const getAllOnlineHostRegisterApi = async () =>{
+    try {
+        const response = await clientServer.get("/api/v1/admin/online-hosts");
+        return response.data;
+    } catch (error) {
+         console.error("❌ Get All Online Host API Error:", error.response?.data || error.message);
+        throw error;
+    }
+}

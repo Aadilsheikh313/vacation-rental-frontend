@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getAllActiveHostRegisterApi, 
     getAllHostRegisterApi,
+     getAllOnlineHostRegisterApi,
      getTotalHostRegisterApi 
 
 } from "../../../api/AdimApi/adminHostApi";
@@ -37,6 +38,18 @@ export const getAllActiveHostRegister = createAsyncThunk(
             return thunkAPI.fulfillWithValue(response);
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response?.data || "Error in getAllActvieHostRegister");
+        }
+    }
+);
+
+export const getAllOnlineHostRegister = createAsyncThunk(
+    "adminposts/getAllOnlineHostRegister",
+    async (_, thunkAPI) => {
+        try {
+            const response = await getAllOnlineHostRegisterApi();
+            return thunkAPI.fulfillWithValue(response);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response?.data || "Error in getAllOnlineHostRegister");
         }
     }
 );

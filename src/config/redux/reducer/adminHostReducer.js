@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getAllActiveHostRegister, getAllHostRegister,
+   getAllOnlineHostRegister,
    getTotalHostRegister
    } from "../action/adminHostAction";
 
@@ -8,6 +9,8 @@ const initialState = {
   allHosts: [],
   allActiveHosts: [],
   allActiveHostsCount: 0,
+  onlineHosts: [],
+  totalOnlineHostsCount: 0,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -74,6 +77,22 @@ const adminHostSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload || "Failed to Actvie load host list.";
+      })
+      .addCase(getAllOnlineHostRegister.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Loading online host list...";
+      })
+      .addCase(getAllOnlineHostRegister.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.onlineHosts = Array.isArray(action.payload.hosts) ? action.payload.hosts : [];
+        state.totalOnlineHostsCount = action.payload.count;
+        state.message =  "Host online list loaded successfully.";
+      })
+      .addCase(getAllOnlineHostRegister.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Failed to online load host list.";
       })
   },
 });
