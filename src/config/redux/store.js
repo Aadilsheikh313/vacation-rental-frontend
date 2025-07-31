@@ -10,6 +10,7 @@ import adminHomeDashReducer from './reducer/adminHomeDashReducer';
 import adminDashboardReducer from './reducer/adminDashboardReducer';
 import adminHostReducer from './reducer/adminHostReducer';
 import adminGuestReducer from './reducer/adminGuestReducer';
+import adminBannedUserReducer from './reducer/adminBannedUserReducer';
 
 
 const store = configureStore({
@@ -25,6 +26,7 @@ const store = configureStore({
     adminDashboard: adminDashboardReducer,
     adminHost: adminHostReducer,
     adminGuest: adminGuestReducer,
+    adminBannedUser: adminBannedUserReducer,
   },
 });
 

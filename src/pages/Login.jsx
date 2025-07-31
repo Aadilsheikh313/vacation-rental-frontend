@@ -38,8 +38,13 @@ const Login = () => {
     }
 
     if (isError) {
-      showError(message || "Login failed!");
-    }
+  if (message === "Your account has been banned.") {
+    showError("🚫 Your account has been banned. Please contact support.");
+  } else {
+    showError(message || "Login failed!");
+  }
+}
+
   }, [isSuccess, isError, message, navigate]);
 
   return (

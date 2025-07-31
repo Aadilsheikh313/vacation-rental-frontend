@@ -17,6 +17,7 @@ import styles from "../stylesModule/Navbar.module.css";
 import { handleLogoutUser, reset } from "../config/redux/reducer/authReducer";
 import { useSearchContext } from "../context/SearchContext";
 import logoImg from "../assets/NAS.jpg";
+import { showInfo } from "../utils/toastUtils";
 
 const CustomNavbar = () => {
   const { searchQuery, setSearchQuery } = useSearchContext();
@@ -41,6 +42,7 @@ const CustomNavbar = () => {
     dispatch(handleLogoutUser());
     dispatch(reset());
     navigate("/");
+    showInfo("You have been logged out successfully!");
   };
 
   const handleHamburgerToggle = () => {

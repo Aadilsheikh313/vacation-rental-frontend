@@ -38,7 +38,7 @@ const AdminHostHome = () => {
           <Card className="shadow-lg rounded-4 text-center">
             <Card.Body>
               <Card.Title className="fs-4 fw-bold text-primary">
-                Total Registered Hosts
+                Total Registered Hosts : {totalHostRegister}
               </Card.Title>
 
               {isLoading ? (

@@ -4,11 +4,14 @@ import { getAllHostRegister } from "../../config/redux/action/adminHostAction";
 import { resetAdminHostState } from "../../config/redux/reducer/adminHostReducer";
 import styles from "../../adminStylesModule/adminGetAllHost.module.css";
 import { Spinner } from "react-bootstrap";
+import AdminBannedUserModal from "../BannedUser/AdminBannedUserModal";
 
 const AdminGetAllHost = () => {
     const dispatch = useDispatch();
     const [selectedHost, setSelectedHost] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [banModalOpen, setBanModalOpen] = useState(false);
+    const [selectedUserId, setSelectedUserId] = useState(null);
 
     const {
         allHosts,
@@ -64,7 +67,7 @@ const AdminGetAllHost = () => {
                                 <th>Created At</th>
                                 <th>Total Properties</th>
                                 <th>View</th>
-                                <th>Active</th>
+                                <th>Active/Banned</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -84,17 +87,34 @@ const AdminGetAllHost = () => {
                                             View
                                         </button>
                                     </td>
-                                    <td>
-                                        <button>
-                                            True
+                                    <td className="text-center">
+                                        <button
+                                            onClick={() => {
+                                                setSelectedUserId(host._id);
+                                                setBanModalOpen(true);
+                                            }}
+                                            className="btn btn-sm btn-warning"
+                                        >
+                                            Active
                                         </button>
                                     </td>
+
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
 
+            )}
+
+            {banModalOpen && selectedUserId && (
+                <AdminBannedUserModal
+                    userId={selectedUserId}
+                    onClose={() => {
+                        setBanModalOpen(false);
+                        setSelectedUserId(null);
+                    }}
+                />
             )}
 
             {/* Modal */}

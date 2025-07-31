@@ -57,7 +57,7 @@ const AdminGetBannedAllHost = () => {
 
             {isError && <p className="text-red-500">Error: {message}</p>}
             {isSuccess && bannedHosts.length === 0 && (
-                <p className="text-gray-600">No Online hosts found.</p>
+                <p className="text-gray-600">No Banned hosts found.</p>
             )}
 
             {!isLoading && bannedHosts.length > 0 && (

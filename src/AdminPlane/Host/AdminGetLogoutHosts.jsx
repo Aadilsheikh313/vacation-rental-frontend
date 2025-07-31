@@ -12,8 +12,8 @@ const AdminGetLogoutAllHost = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const {
-         logoutHosts,
-  totalLogoutHostsCount,
+        logoutHosts,
+        totalLogoutHostsCount,
         isLoading,
         isError,
         isSuccess,
