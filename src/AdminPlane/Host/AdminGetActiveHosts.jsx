@@ -4,11 +4,15 @@ import styles from "../../adminStylesModule/adminGetAllHost.module.css";
 import { Card, Spinner } from "react-bootstrap";
 import { resetAdminHostState } from "../../config/redux/reducer/adminHostReducer";
 import { getAllActiveHostRegister } from "../../config/redux/action/adminHostAction";
+import AdminBannedUserModal from "../BannedUser/AdminBannedUserModal";
 
 const AdminGetActvieAllHost = () => {
     const dispatch = useDispatch();
     const [selectedHost, setSelectedHost] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [banModalOpen, setBanModalOpen] = useState(false);
+    const [selectedUserId, setSelectedUserId] = useState(null);
+
 
     const {
         allActiveHosts,
@@ -71,7 +75,6 @@ const AdminGetActvieAllHost = () => {
                                 <th>Created At</th>
                                 <th>Total Properties</th>
                                 <th>View</th>
-                                <th>Active</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -91,17 +94,22 @@ const AdminGetActvieAllHost = () => {
                                             View
                                         </button>
                                     </td>
-                                    <td>
-                                        <button>
-                                            True
-                                        </button>
-                                    </td>
+
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
 
+            )}
+            {banModalOpen && selectedUserId && (
+                <AdminBannedUserModal
+                    userId={selectedUserId}
+                    onClose={() => {
+                        setBanModalOpen(false);
+                        setSelectedUserId(null);
+                    }}
+                />
             )}
 
             {/* Modal */}

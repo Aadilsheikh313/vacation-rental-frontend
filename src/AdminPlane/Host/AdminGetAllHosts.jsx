@@ -12,6 +12,7 @@ const AdminGetAllHost = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [banModalOpen, setBanModalOpen] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState(null);
+    const [isBanned, setIsBanned] = useState(false);
 
     const {
         allHosts,
@@ -92,10 +93,11 @@ const AdminGetAllHost = () => {
                                             onClick={() => {
                                                 setSelectedUserId(host._id);
                                                 setBanModalOpen(true);
+                                                setIsBanned(host.isBanned); // <-- you'll need this from backend
                                             }}
                                             className="btn btn-sm btn-warning"
                                         >
-                                            Active
+                                            {host.isBanned ? "Banned" : "Active"}
                                         </button>
                                     </td>
 
@@ -110,13 +112,13 @@ const AdminGetAllHost = () => {
             {banModalOpen && selectedUserId && (
                 <AdminBannedUserModal
                     userId={selectedUserId}
+                    isBanned={isBanned} // <-- pass here
                     onClose={() => {
                         setBanModalOpen(false);
                         setSelectedUserId(null);
                     }}
                 />
             )}
-
             {/* Modal */}
             {isModalOpen && selectedHost && (
                 <div className={`${styles.modalBackdrop}`}>

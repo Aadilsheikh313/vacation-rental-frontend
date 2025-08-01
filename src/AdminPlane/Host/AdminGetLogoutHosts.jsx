@@ -72,7 +72,7 @@ const AdminGetLogoutAllHost = () => {
                                 <th>Created At</th>
                                 <th>Total Properties</th>
                                 <th>View</th>
-                                <th>Active</th>
+                                <th>Banned/Active</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -92,11 +92,19 @@ const AdminGetLogoutAllHost = () => {
                                             View
                                         </button>
                                     </td>
-                                    <td>
-                                        <button>
-                                            True
-                                        </button>
-                                    </td>
+   <td className="text-center">
+  <button
+    className={
+      host.isBanned
+        ? `${styles.banButton}`
+        : `${styles.activeButton}`
+    }
+  >
+    {host.isBanned ? "Banned" : "Active"}
+  </button>
+</td>
+
+
                                 </tr>
                             ))}
                         </tbody>

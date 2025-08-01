@@ -4,16 +4,20 @@ import styles from "../../adminStylesModule/adminGetAllHost.module.css";
 import { Card, Spinner } from "react-bootstrap";
 import { resetAdminHostState } from "../../config/redux/reducer/adminHostReducer";
 import { getAllBannedHostRegister } from "../../config/redux/action/adminHostAction";
+import AdminBannedUserModal from "../BannedUser/AdminBannedUserModal";
 
 
 const AdminGetBannedAllHost = () => {
     const dispatch = useDispatch();
     const [selectedHost, setSelectedHost] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedBannedHost, setSelectedBannedHost] = useState(null); // 👈 new
+    const [isBanModalOpen, setIsBanModalOpen] = useState(false); // 👈 new
+
 
     const {
         bannedHosts,
-  totalBannedHostsCount,
+        totalBannedHostsCount,
         isLoading,
         isError,
         isSuccess,
@@ -37,6 +41,15 @@ const AdminGetBannedAllHost = () => {
         setIsModalOpen(false);
         setSelectedHost(null);
     };
+    const handleBanModalOpen = (host) => {
+        setSelectedBannedHost(host);
+        setIsBanModalOpen(true);
+    };
+    const handleBanModalClose = () => {
+        setSelectedBannedHost(null);
+        setIsBanModalOpen(false);
+    };
+
 
     return (
         <div className="p-4">
@@ -72,7 +85,7 @@ const AdminGetBannedAllHost = () => {
                                 <th>Created At</th>
                                 <th>Total Properties</th>
                                 <th>View</th>
-                                <th>Active</th>
+                                <th>Banned</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -92,17 +105,28 @@ const AdminGetBannedAllHost = () => {
                                             View
                                         </button>
                                     </td>
-                                    <td>
-                                        <button>
-                                            True
+                                    <td className="text-center">
+                                        <button
+                                            className={styles.viewButton}
+                                            onClick={() => handleBanModalOpen(host)}
+                                        >
+                                            Ban/Unban
                                         </button>
                                     </td>
+
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
 
+            )}
+            {isBanModalOpen && selectedBannedHost && (
+                <AdminBannedUserModal
+                    userId={selectedBannedHost._id}
+                    isBanned={selectedBannedHost.isBanned}
+                    onClose={handleBanModalClose}
+                />
             )}
 
             {/* Modal */}

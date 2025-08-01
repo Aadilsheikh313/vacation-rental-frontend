@@ -1,0 +1,130 @@
+/* Container styling */
+.wrapper {
+  background-color: #f9fafb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.05);
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Heading */
+.heading {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  color: #111827;
+}
+
+/* Table styles */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
+.table thead {
+  background-color: #e5e7eb;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table th {
+  font-weight: 600;
+  color: #374151;
+}
+
+.table td {
+  vertical-align: top;
+}
+
+.table-row:nth-child(even) {
+  background-color: #f3f4f6;
+}
+
+.actionBan {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.actionUnban {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+/* Admin & User cell styles */
+.cellUser,
+.cellAdmin {
+  display: flex;
+  flex-direction: column;
+}
+
+.cellEmail {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* Empty/Loading/Error Text */
+.infoText {
+  font-size: 1rem;
+  color: #6b7280;
+  padding: 1rem 0;
+}
+
+/* Unban Form */
+.unbanForm {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.unbanInput {
+  flex: 1;
+  padding: 0.65rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.unbanButton {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 0.65rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.unbanButton:hover {
+  background-color: #059669;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .table th,
+  .table td {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .heading {
+    font-size: 1.5rem;
+  }
+
+  .unbanInput {
+    font-size: 0.85rem;
+  }
+
+  .unbanButton {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+}

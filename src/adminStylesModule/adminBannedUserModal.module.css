@@ -1,0 +1,173 @@
+/* adminBannedUserModal.module.css */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 1000;
+  padding: 4rem 1rem 1rem;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.modalContainer {
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  padding: 2rem;
+  width: 100%;
+  max-width: 768px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideDown 0.4s ease;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #ef4444;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.closeButton:hover {
+  transform: scale(1.2);
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #111827;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.inputField,
+.textareaField,
+.selectField {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background-color: #f9fafb;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+.inputField:focus,
+.textareaField:focus,
+.selectField:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background-color: #ffffff;
+}
+
+.inputField:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+}
+
+.textareaField {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.actionRow {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btnPrimary {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.65rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btnPrimary:hover:enabled {
+  background-color: #2563eb;
+}
+
+.btnPrimary:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+.btnOutline {
+  background-color: transparent;
+  color: #0ea5e9;
+  border: 1px solid #0ea5e9;
+  padding: 0.6rem 1.4rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btnOutline:hover {
+  background-color: #0ea5e9;
+  color: white;
+}
+
+.logsSection {
+  border-top: 1px solid #e5e7eb;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  text-align: center;
+}
+
+/* Responsive layout */
+@media (max-width: 640px) {
+  .modalContainer {
+    padding: 1.25rem;
+  }
+
+  .actionRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Animations */
+@keyframes slideDown {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+}
