@@ -92,17 +92,17 @@ const AdminGetLogoutAllHost = () => {
                                             View
                                         </button>
                                     </td>
-   <td className="text-center">
-  <button
-    className={
-      host.isBanned
-        ? `${styles.banButton}`
-        : `${styles.activeButton}`
-    }
-  >
-    {host.isBanned ? "Banned" : "Active"}
-  </button>
-</td>
+                                    <td className="text-center">
+                                        <button
+                                            className={
+                                                host.isBanned
+                                                    ? `${styles.banButton}`
+                                                    : `${styles.activeButton}`
+                                            }
+                                        >
+                                            {host.isBanned ? "Banned" : "Active"}
+                                        </button>
+                                    </td>
 
 
                                 </tr>

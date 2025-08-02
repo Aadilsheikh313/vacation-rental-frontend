@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getTotalGuestRegister } from "../action/adminGuestAction";
+import { getAllGuestRegister, getTotalGuestRegister } from "../action/adminGuestAction";
 
 const initialState = {
   totalGuestRegister: 0,
+  allGuests: [],
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -13,8 +14,9 @@ const adminGuestSlice = createSlice({
   name: "adminGuest",
   initialState,
   reducers: {
-    resetAdminHostState: (state) => {
+     resetAdminGuesttState: (state) => {
       state.totalHostRegister = 0;
+       state.allGuests = [];
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = false;
@@ -37,6 +39,22 @@ const adminGuestSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload || "Failed to fetch Guest registrations.";
+      })
+       .addCase(getAllGuestRegister.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.message = "Fetching all guest details...";
+      })
+      .addCase(getAllGuestRegister.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.allGuests = action.payload.guests || [];
+        state.message = action.payload.message || "All guests fetched.";
+      })
+      .addCase(getAllGuestRegister.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Failed to fetch all guest register.";
       });
   },
 });

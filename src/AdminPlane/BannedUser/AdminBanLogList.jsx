@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { formatDate, formatTime } from "../../utils/dateUtils";
 import { fetchBanLogs } from "../../config/redux/action/adminBannedUserAction";
 import styles from "../../adminStylesModule/adminBanLogList.module.css";
 import {formatDate, formatTime} from "../../utils/dateUtils.js"

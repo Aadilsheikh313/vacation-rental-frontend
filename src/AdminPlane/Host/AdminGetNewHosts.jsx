@@ -73,7 +73,6 @@ const AdminGetNewAllHost = () => {
                                 <th>Created At</th>
                                 <th>Total Properties</th>
                                 <th>View</th>
-                                <th>Active</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -91,11 +90,6 @@ const AdminGetNewAllHost = () => {
                                             className={styles.viewButton}
                                         >
                                             View
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button>
-                                            True
                                         </button>
                                     </td>
                                 </tr>

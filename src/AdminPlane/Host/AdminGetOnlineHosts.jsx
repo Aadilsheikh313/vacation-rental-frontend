@@ -72,7 +72,6 @@ const AdminGetOnlineAllHost = () => {
                                 <th>Created At</th>
                                 <th>Total Properties</th>
                                 <th>View</th>
-                                <th>Active</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -90,11 +89,6 @@ const AdminGetOnlineAllHost = () => {
                                             className={styles.viewButton}
                                         >
                                             View
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button>
-                                            True
                                         </button>
                                     </td>
                                 </tr>
