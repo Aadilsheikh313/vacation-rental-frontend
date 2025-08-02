@@ -1,0 +1,178 @@
+/* adminGetAllHost.module.css */
+
+.tableWrapper {
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    margin-bottom: 1.5rem;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+.table th,
+.table td {
+    padding: 12px 16px;
+    border: 1px solid #e5e7eb;
+    text-align: left;
+    font-size: 14px;
+}
+
+.table thead {
+    background-color: #f3f4f6;
+    font-weight: 600;
+    color: #333;
+}
+
+.table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+.viewButton {
+    background-color: #3b82f6;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    transition: background-color 0.2s ease-in-out;
+    border: none;
+    cursor: pointer;
+}
+
+.viewButton:hover {
+    background-color: #2563eb;
+}
+
+
+.modalBackdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 7rem;
+}
+
+.modalCard {
+    background: white;
+    border-radius: 16px;
+    margin-top:1rem;
+    padding: 24px;
+    width: 95%;
+    max-width: 1100px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: slideUp 0.4s ease-out forwards;
+    
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.closeButton {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+}
+
+.closeButton:hover {
+    color: #e63946;
+}
+
+.modalTitle {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.cardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.card {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s;
+    margin-top: 1rem;
+    margin-bottom: 5rem;
+}
+
+.card:hover {
+    transform: translateY(-7px);
+}
+
+.cardImage {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.cardContent h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.cardContent p {
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #555;
+}
+
+.postedDate {
+    color: #888;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.noPropertyText {
+    color: #666;
+    font-size: 14px;
+}
+
+.banButton {
+    background-color: #dc2626;
+    /* red */
+    color: white;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+.activeButton {
+    background-color: #22c55e;
+    /* green */
+    color: white;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+}

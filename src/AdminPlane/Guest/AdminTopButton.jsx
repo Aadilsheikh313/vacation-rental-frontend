@@ -11,6 +11,9 @@ const AdminButtonTop = ({ onSelectView }) => {
         <Button variant="success" onClick={() => onSelectView("active")}>
           Active Guests
         </Button>
+        <Button variant="success" onClick={() => onSelectView("dailyactive")}>
+          Daily Active Guests
+        </Button>
         <Button variant="danger" onClick={() => onSelectView("online")}>
           Online Guests
         </Button>

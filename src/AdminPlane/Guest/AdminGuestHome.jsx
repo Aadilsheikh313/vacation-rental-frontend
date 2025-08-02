@@ -5,6 +5,12 @@ import { getTotalGuestRegister } from "../../config/redux/action/adminGuestActio
 import AdminButtonTop from "./AdminTopButton";
 import { useState } from "react";
 import AdminGetAllGuest from "./AdminGetAllGUests";
+import AdminGetActiveGuest from "./AdminGetActiveGuest";
+import AdminGetDailyActiveGuest from "./AdminGetDailyActiveGuest";
+import AdminGetOnlineGuest from "./AdminGetOnlineGuests";
+import AdminGetBannedGuest from "./AdminGetBannedGuests";
+import AdminGetNewRegisterGuest from "./AdminGetNewRegisterGuest";
+import AdminGetLogoutGuest from "./AdminGetLogoutGuests";
 
 const AdminGuestHome = () => {
   const [selectedView, setSelectedView] = useState("all");
@@ -51,12 +57,13 @@ const AdminGuestHome = () => {
 
       {/* Conditional Views */}
       {selectedView === "all" && <AdminGetAllGuest/>}
-      {/* {selectedView === "active" && <AdminGetActvieAllHost/>}
-          {selectedView === "online" && <AdminGetOnlineAllHost/>}
-          {selectedView === "newRegister" && <AdminGetNewAllHost/>}
-          {selectedView === "logout" && <AdminGetLogoutAllHost/>}
-          {selectedView === "banned" && <AdminGetBannedAllHost/>}
-        */}
+       {selectedView === "active" && <AdminGetActiveGuest/>}
+       {selectedView === "dailyactive" && <AdminGetDailyActiveGuest/>}
+          {selectedView === "online" && <AdminGetOnlineGuest/>}
+          {selectedView === "newRegister" && <AdminGetLogoutGuest/>}
+          {selectedView === "logout" && <AdminGetNewRegisterGuest/>}
+          {selectedView === "banned" && <AdminGetBannedGuest/>}
+        
     </Container>
   );
 };

@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllActiveHostRegister, getAllBannedHostRegister, getAllHostRegister,
-   getAllLogoutHostRegister,
-   getAllNewHostRegister,
-   getAllOnlineHostRegister,
-   getTotalHostRegister
-   } from "../action/adminHostAction";
+import {
+  getAllActiveHostRegister, getAllBannedHostRegister, getAllHostRegister,
+  getAllLogoutHostRegister,
+  getAllNewHostRegister,
+  getAllOnlineHostRegister,
+  getTotalHostRegister
+} from "../action/adminHostAction";
 
 const initialState = {
   totalHostRegister: 0,
@@ -13,12 +14,12 @@ const initialState = {
   allActiveHostsCount: 0,
   onlineHosts: [],
   totalOnlineHostsCount: 0,
-  newHosts:[],
-  totalNewHostsCount:0,
-  logoutHosts:[],
+  newHosts: [],
+  totalNewHostsCount: 0,
+  logoutHosts: [],
   totalLogoutHostsCount: 0,
-  bannedHosts:[],
-  totalBannedHostsCount:0,
+  bannedHosts: [],
+  totalBannedHostsCount: 0,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -31,6 +32,17 @@ const adminHostSlice = createSlice({
   reducers: {
     resetAdminHostState: (state) => {
       state.totalHostRegister = 0;
+      state.allHosts = [];
+      state.allActiveHosts = [];
+      state.allActiveHostsCount = 0;
+      state.onlineHosts = [];
+      state.totalOnlineHostsCount = 0;
+      state.newHosts = [];
+      state.totalNewHostsCount = 0;
+      state.logoutHosts = [];
+      state.totalLogoutHostsCount = 0;
+      state.bannedHosts = [];
+      state.totalBannedHostsCount = 0;
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = false;
@@ -47,15 +59,14 @@ const adminHostSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.totalHostRegister = action.payload.totalHosts || 0;
-        state.message =  "Host registrations fetched.";
-        // state.message = action.payload.message || "Host registrations fetched.";
+        state.message = "Host registrations fetched.";
       })
       .addCase(getTotalHostRegister.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload || "Failed to fetch host registrations.";
       })
-       .addCase(getAllHostRegister.pending, (state) => {
+      .addCase(getAllHostRegister.pending, (state) => {
         state.isLoading = true;
         state.message = "Loading host list...";
       })
@@ -79,7 +90,7 @@ const adminHostSlice = createSlice({
         state.isSuccess = true;
         state.allActiveHosts = Array.isArray(action.payload.hosts) ? action.payload.hosts : [];
         state.allActiveHostsCount = action.payload.count;
-        state.message =  "Host Actvie list loaded successfully.";
+        state.message = "Host Actvie list loaded successfully.";
       })
       .addCase(getAllActiveHostRegister.rejected, (state, action) => {
         state.isLoading = false;
@@ -95,7 +106,7 @@ const adminHostSlice = createSlice({
         state.isSuccess = true;
         state.onlineHosts = Array.isArray(action.payload.hosts) ? action.payload.hosts : [];
         state.totalOnlineHostsCount = action.payload.count;
-        state.message =  "Host online list loaded successfully.";
+        state.message = "Host online list loaded successfully.";
       })
       .addCase(getAllOnlineHostRegister.rejected, (state, action) => {
         state.isLoading = false;
@@ -111,7 +122,7 @@ const adminHostSlice = createSlice({
         state.isSuccess = true;
         state.newHosts = Array.isArray(action.payload.hosts) ? action.payload.hosts : [];
         state.totalNewHostsCount = action.payload.count;
-        state.message =  "Host new list loaded successfully.";
+        state.message = "Host new list loaded successfully.";
       })
       .addCase(getAllNewHostRegister.rejected, (state, action) => {
         state.isLoading = false;
@@ -127,7 +138,7 @@ const adminHostSlice = createSlice({
         state.isSuccess = true;
         state.logoutHosts = Array.isArray(action.payload.hosts) ? action.payload.hosts : [];
         state.totalLogoutHostsCount = action.payload.count;
-        state.message =  "Host Logout hosts list loaded successfully.";
+        state.message = "Host Logout hosts list loaded successfully.";
       })
       .addCase(getAllLogoutHostRegister.rejected, (state, action) => {
         state.isLoading = false;
@@ -143,7 +154,7 @@ const adminHostSlice = createSlice({
         state.isSuccess = true;
         state.bannedHosts = Array.isArray(action.payload.hosts) ? action.payload.hosts : [];
         state.totalBannedHostsCount = action.payload.count;
-        state.message =  "Host Banned hosts list loaded successfully.";
+        state.message = "Host Banned hosts list loaded successfully.";
       })
       .addCase(getAllBannedHostRegister.rejected, (state, action) => {
         state.isLoading = false;

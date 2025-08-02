@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../../adminStylesModule/adminGetAllGuest.module.css";
-import { Spinner } from "react-bootstrap";
-import { getAllGuestRegister } from "../../config/redux/action/adminGuestAction";
-import { resetAdminGuesttState } from "../../config/redux/reducer/adminGuestReducer";
+import { Card, Spinner } from "react-bootstrap";
 import AdminBannedUserModal from "../BannedUser/AdminBannedUserModal";
+import { resetAdminGuesttState } from "../../config/redux/reducer/adminGuestReducer";
+import { getAllActiveGuest } from "../../config/redux/action/adminGuestAction";
 
-const AdminGetAllGuest = () => {
+const AdminGetActiveGuest = () => {
     const dispatch = useDispatch();
     const [selectedGuest, setSelectedGuest] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,7 +15,8 @@ const AdminGetAllGuest = () => {
     const [isBanned, setIsBanned] = useState(false);
 
     const {
-        allGuests,
+        activeGuests,
+        activeGuestsCount,
         isLoading,
         isError,
         isSuccess,
@@ -23,7 +24,7 @@ const AdminGetAllGuest = () => {
     } = useSelector((state) => state.adminGuest);
 
     useEffect(() => {
-        dispatch(getAllGuestRegister());
+        dispatch(getAllActiveGuest());
 
         return () => {
             dispatch(resetAdminGuesttState());
@@ -42,7 +43,13 @@ const AdminGetAllGuest = () => {
 
     return (
         <div className="p-4">
-            <h2 className="text-xl font-bold mb-4">All Registered Guests</h2>
+            <Card className="mb-4">
+                <Card.Body>
+                    <Card.Title>Total Active Registered Guest</Card.Title>
+                    <Card.Text>{activeGuestsCount}</Card.Text>
+                </Card.Body>
+            </Card>
+
 
             {isLoading && (
                 <div className="text-center my-4">
@@ -52,11 +59,11 @@ const AdminGetAllGuest = () => {
             )}
 
             {isError && <p className="text-red-500">Error: {message}</p>}
-            {isSuccess && allGuests.length === 0 && (
-                <p className="text-gray-600">No guests found.</p>
+            {isSuccess && activeGuests.length === 0 && (
+                <p className="text-gray-600">No Actvie guests found.</p>
             )}
 
-            {!isLoading && allGuests.length > 0 && (
+            {!isLoading && activeGuests.length > 0 && (
                 <div className={styles.tableWrapper}>
                     <table className={styles.table}>
                         <thead>
@@ -72,7 +79,7 @@ const AdminGetAllGuest = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {allGuests.map((guest, index) => (
+                            {activeGuests.map((guest, index) => (
                                 <tr key={guest._id}>
                                     <td>{index + 1}</td>
                                     <td>{guest.name}</td>
@@ -173,4 +180,4 @@ const AdminGetAllGuest = () => {
     );
 };
 
-export default AdminGetAllGuest;
+export default AdminGetActiveGuest;
