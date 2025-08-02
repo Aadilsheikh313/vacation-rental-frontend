@@ -14,9 +14,9 @@ const adminGuestSlice = createSlice({
   name: "adminGuest",
   initialState,
   reducers: {
-     resetAdminGuesttState: (state) => {
+    resetAdminGuesttState: (state) => {
       state.totalHostRegister = 0;
-       state.allGuests = [];
+      state.allGuests = [];
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = false;
@@ -40,7 +40,7 @@ const adminGuestSlice = createSlice({
         state.isError = true;
         state.message = action.payload || "Failed to fetch Guest registrations.";
       })
-       .addCase(getAllGuestRegister.pending, (state) => {
+      .addCase(getAllGuestRegister.pending, (state) => {
         state.isLoading = true;
         state.isError = false;
         state.message = "Fetching all guest details...";

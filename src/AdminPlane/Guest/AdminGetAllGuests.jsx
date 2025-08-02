@@ -66,7 +66,7 @@ const AdminGetAllGuest = () => {
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Created At</th>
-                                <th>Total Properties</th>
+                                <th>Total Booking</th>
                                 <th>View</th>
                                 <th>Active/Banned</th>
                             </tr>
@@ -79,7 +79,7 @@ const AdminGetAllGuest = () => {
                                     <td>{guest.email}</td>
                                     <td>{guest.phone}</td>
                                     <td>{new Date(guest.createdAt).toLocaleDateString()}</td>
-                                    <td className="text-center">{guest.propertyCount}</td>
+                                    <td className="text-center">{guest.totalBookings}</td>
                                     <td className="text-center">
                                         <button
                                             onClick={() => handleViewProperties(guest)}
@@ -133,29 +133,38 @@ const AdminGetAllGuest = () => {
                             Properties of {selectedGuest.name}
                         </h3>
 
-                        {selectedGuest?.properties?.length > 0 ? (
-  <div className={styles.cardGrid}>
-    {selectedGuest.properties.map((property, idx) => (
-      <div key={idx} className={styles.card}>
-        <img
-          src={property.image}
-          alt="property"
-          className={styles.cardImage}
-        />
-        <div className={styles.cardContent}>
-          <h4>{property.title}</h4>
-          <p>{property.location}</p>
-          <p>₹{property.price}</p>
-          <p className={styles.postedDate}>
-            Posted on: {new Date(property.propertyPostedOn).toLocaleDateString()}
-          </p>
-        </div>
-      </div>
-    ))}
-  </div>
-) : (
-  <p className={styles.noPropertyText}>No properties found for this guest booking.</p>
-)}
+                        {selectedGuest?.bookings?.length > 0 ? (
+                            <div className={styles.cardGrid}>
+                                {selectedGuest.bookings.map((booking, idx) => (
+                                    <div key={idx} className={styles.card}>
+                                        <img
+                                            src={booking.image}
+                                            alt="property"
+                                            className={styles.cardImage}
+                                        />
+                                        <div className={styles.cardContent}>
+                                            <h4>{booking.propertyTitle}</h4>
+                                            <p>{booking.location}</p>
+                                            <p>₹{booking.price}</p>
+                                            <p>Booked-On: {new Date(booking.bookedOn).toLocaleDateString()}</p>
+                                            <p>Check-in: {new Date(booking.checkIn).toLocaleDateString()}</p>
+                                            <p>Check-out: {new Date(booking.checkOut).toLocaleDateString()}</p>
+                                            <p>Status: {booking.status}</p>
+                                        </div>
+                                        <hr />
+                                        <div className={styles.ownerInfo}>
+                                            <h5>Property Owner</h5>
+                                            <p><strong>Name:</strong> {booking.host?.name || "N/A"}</p>
+                                            <p><strong>Email:</strong> {booking.host?.email || "N/A"}</p>
+                                            <p><strong>Phone:</strong> {booking.host?.phone || "N/A"}</p>
+                                        </div>
+
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className={styles.noPropertyText}>No properties found for this guest booking.</p>
+                        )}
 
                     </div>
                 </div>
