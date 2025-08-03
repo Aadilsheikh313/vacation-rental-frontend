@@ -4,7 +4,7 @@ import { Card, Spinner, Row, Col, Container } from "react-bootstrap";
 import { getTotalGuestRegister } from "../../config/redux/action/adminGuestAction";
 import AdminButtonTop from "./AdminTopButton";
 import { useState } from "react";
-import AdminGetAllGuest from "./AdminGetAllGUests";
+import AdminGetAllGuest from "./AdminGetAllGuests";
 import AdminGetActiveGuest from "./AdminGetActiveGuest";
 import AdminGetDailyActiveGuest from "./AdminGetDailyActiveGuest";
 import AdminGetOnlineGuest from "./AdminGetOnlineGuests";
