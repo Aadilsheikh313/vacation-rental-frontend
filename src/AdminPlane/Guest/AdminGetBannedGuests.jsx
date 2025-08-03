@@ -4,7 +4,7 @@ import styles from "../../adminStylesModule/adminGetAllGuest.module.css";
 import { Card, Spinner } from "react-bootstrap";
 import AdminBannedUserModal from "../BannedUser/AdminBannedUserModal";
 import { resetAdminGuesttState } from "../../config/redux/reducer/adminGuestReducer";
-import { getAllNewRegisterGuest } from "../../config/redux/action/adminGuestAction";
+import { getAllBannedGuest } from "../../config/redux/action/adminGuestAction";
 
 
 const AdminGetBannedGuest = () => {
@@ -25,7 +25,7 @@ const AdminGetBannedGuest = () => {
     } = useSelector((state) => state.adminGuest);
 
     useEffect(() => {
-        dispatch(getAllNewRegisterGuest());
+        dispatch(getAllBannedGuest());
 
         return () => {
             dispatch(resetAdminGuesttState());

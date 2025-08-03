@@ -13,6 +13,7 @@ export const getTotalGuestRegisterApi = async () =>{
 export const getAllGuestRegisterApi = async () =>{
     try {
         const response = await clientServer.get("/api/v1/admin/all-guests");
+        console.log("API", response.data );
         return response.data;
     } catch (error) {
          console.error("❌ Get All Guest API Error:", error.response?.data || error.message);

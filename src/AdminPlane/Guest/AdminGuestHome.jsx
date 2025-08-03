@@ -60,8 +60,8 @@ const AdminGuestHome = () => {
        {selectedView === "active" && <AdminGetActiveGuest/>}
        {selectedView === "dailyactive" && <AdminGetDailyActiveGuest/>}
           {selectedView === "online" && <AdminGetOnlineGuest/>}
-          {selectedView === "newRegister" && <AdminGetLogoutGuest/>}
-          {selectedView === "logout" && <AdminGetNewRegisterGuest/>}
+          {selectedView === "logout" && <AdminGetLogoutGuest/>}
+          {selectedView === "newRegister" && <AdminGetNewRegisterGuest/>}
           {selectedView === "banned" && <AdminGetBannedGuest/>}
         
     </Container>
