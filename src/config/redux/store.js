@@ -11,7 +11,7 @@ import adminDashboardReducer from './reducer/adminDashboardReducer';
 import adminHostReducer from './reducer/adminHostReducer';
 import adminGuestReducer from './reducer/adminGuestReducer';
 import adminBannedUserReducer from './reducer/adminBannedUserReducer';
-
+import adminBannedPropertyReducer from './reducer/adminActivePropertyReducer';
 
 const store = configureStore({
   reducer: {
@@ -27,6 +27,7 @@ const store = configureStore({
     adminHost: adminHostReducer,
     adminGuest: adminGuestReducer,
     adminBannedUser: adminBannedUserReducer,
+    adminBannedProperty: adminBannedPropertyReducer,
   },
 });
 

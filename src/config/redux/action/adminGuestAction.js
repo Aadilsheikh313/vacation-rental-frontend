@@ -16,8 +16,6 @@ export const getTotalGuestRegister = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await getTotalGuestRegisterApi();   
-            console.log("ACTIN", response);
-                    
             return thunkAPI.fulfillWithValue(response);
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response?.data || "Admin Failed to all fetch  Guest Register");

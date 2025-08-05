@@ -5,6 +5,7 @@ import { resetAdminHostState } from "../../config/redux/reducer/adminHostReducer
 import styles from "../../adminStylesModule/adminGetAllHost.module.css";
 import { Spinner } from "react-bootstrap";
 import AdminBannedUserModal from "../BannedUser/AdminBannedUserModal";
+import AdminTogglePropertyModal from "../BannedProprty/AdminBanPropertyModel";
 
 const AdminGetAllHost = () => {
     const dispatch = useDispatch();
@@ -13,6 +14,8 @@ const AdminGetAllHost = () => {
     const [banModalOpen, setBanModalOpen] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [isBanned, setIsBanned] = useState(false);
+    const [selectedProperty, setSelectedProperty] = useState(null);
+    const [propertyActionModalOpen, setPropertyActionModalOpen] = useState(false);
 
     const {
         allHosts,
@@ -119,6 +122,17 @@ const AdminGetAllHost = () => {
                     }}
                 />
             )}
+
+            {propertyActionModalOpen && selectedProperty && (
+                <AdminTogglePropertyModal
+                    property={selectedProperty}
+                    onClose={() => {
+                        setPropertyActionModalOpen(false);
+                        setSelectedProperty(null);
+                    }}
+                />
+            )}
+
             {/* Modal */}
             {isModalOpen && selectedHost && (
                 <div className={`${styles.modalBackdrop}`}>
@@ -151,7 +165,16 @@ const AdminGetAllHost = () => {
                                             </p>
                                             <p>{property.expired}</p>
                                         </div>
-                                        <button> Active  & Unactive</button>
+                                        <button
+                                            onClick={() => {
+                                                setSelectedProperty(property);
+                                                setPropertyActionModalOpen(true);
+                                            }}
+                                            className="btn btn-sm btn-primary"
+                                        >
+                                            {property.expired ? "Inactive" : "Active"}
+                                        </button>
+
                                     </div>
                                 ))}
                             </div>
