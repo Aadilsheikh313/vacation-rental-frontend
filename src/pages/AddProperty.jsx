@@ -89,92 +89,164 @@ const AddPropertyForm = () => {
                 {/* Title */}
                 <Form.Group className={styles.formGroup}>
                     <Form.Label className={styles.formLabel}>Title</Form.Label>
-                    <Col >
-                        <Form.Control type="text" placeholder="Enter property title" name="title" className={styles.formControl} value={formData.title} onChange={handleChange} />
-                    </Col>
+                    <Form.Control
+                        type="text"
+                        placeholder="e.g. Luxury Beach Villa"
+                        name="title"
+                        className={styles.formControl}
+                        value={formData.title}
+                        onChange={handleChange}
+                        required
+                    />
                 </Form.Group>
 
                 {/* Description */}
                 <Form.Group className={styles.formGroup}>
                     <Form.Label className={styles.formLabel}>Description</Form.Label>
-                    <Col >
-                        <Form.Control type="text" placeholder="Enter property description" name="description" className={styles.formControl} value={formData.description} onChange={handleChange} />
-                    </Col>
+                    <Form.Control
+                        as="textarea"
+                        rows={3}
+                        placeholder="Add a short description about the property"
+                        name="description"
+                        className={styles.formControl}
+                        value={formData.description}
+                        onChange={handleChange}
+                        required
+                    />
                 </Form.Group>
 
                 {/* Price */}
                 <Form.Group className={styles.formGroup}>
-                    <Form.Label className={styles.formLabel}>Price</Form.Label>
-                    <Col >
-                        <InputGroup>
-                            <Form.Control type="number" placeholder="Price per night" name="price" className={styles.formControl} value={formData.price} onChange={handleChange} />
-                        </InputGroup>
-                    </Col>
+                    <Form.Label className={styles.formLabel}>Price (INR per night)</Form.Label>
+                    <Form.Control
+                        type="number"
+                        name="price"
+                        min="1"
+                        className={styles.formControl}
+                        value={formData.price}
+                        onChange={handleChange}
+                        required
+                    />
                 </Form.Group>
 
-                {/* Category */}
+                {/* Category Dropdown */}
                 <Form.Group className={styles.formGroup}>
                     <Form.Label className={styles.formLabel}>Category</Form.Label>
-                    <Col >
-                        <Form.Control type="text" placeholder="e.g. Flat, Villa, Hotel, FarmHouse" name="category" className={styles.formControl} value={formData.category} onChange={handleChange} />
-                    </Col>
+                    <Form.Control
+                        as="select"
+                        name="category"
+                        className={styles.formControl}
+                        value={formData.category}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="">Select Category</option>
+                        <option value="Hotels">Hotels</option>
+                        <option value="Apartments">Apartments</option>
+                        <option value="Villas">Villas</option>
+                        <option value="Guest Houses">Guest Houses</option>
+                        <option value="Resorts">Resorts</option>
+                        <option value="Farmhouses">Farmhouses</option>
+                        <option value="Cottages">Cottages</option>
+                        <option value="Bungalows">Bungalows</option>
+                        <option value="Homestays">Homestays</option>
+                        <option value="Cabins">Cabins</option>
+                        <option value="Treehouses">Treehouses</option>
+                        <option value="Boathouses">Boathouses</option>
+                        <option value="Hostels">Hostels</option>
+                        <option value="Serviced Apartments">Serviced Apartments</option>
+                        <option value="Tent Stays / Camping">Tent Stays / Camping</option>
+                        <option value="Houseboats">Houseboats</option>
+                        <option value="Luxury Stays">Luxury Stays</option>
+                        <option value="Bar">Bar</option>
+                    </Form.Control>
                 </Form.Group>
 
                 {/* Country */}
                 <Form.Group className={styles.formGroup}>
                     <Form.Label className={styles.formLabel}>Country</Form.Label>
-                    <Col >
-                        <Form.Control type="text" placeholder="Enter country" name="country" className={styles.formControl} value={formData.country} onChange={handleChange} />
-                    </Col>
+                    <Form.Control
+                        type="text"
+                        name="country"
+                        className={styles.formControl}
+                        value={formData.country}
+                        onChange={handleChange}
+                        required
+                    />
                 </Form.Group>
 
                 {/* City */}
                 <Form.Group className={styles.formGroup}>
                     <Form.Label className={styles.formLabel}>City</Form.Label>
-                    <Col >
-                        <Form.Control type="text" placeholder="Enter city" name="city" className={styles.formControl} value={formData.city} onChange={handleChange} />
-                    </Col>
+                    <Form.Control
+                        type="text"
+                        name="city"
+                        className={styles.formControl}
+                        value={formData.city}
+                        onChange={handleChange}
+                        required
+                    />
                 </Form.Group>
 
                 {/* Location */}
                 <Form.Group className={styles.formGroup}>
-                    <Form.Label className={styles.formLabel}>Location</Form.Label>
-                    <Col >
-                        <Form.Control type="text" placeholder="Enter location/address" name="location" className={styles.formControl} value={formData.location} onChange={handleChange} />
-                    </Col>
+                    <Form.Label className={styles.formLabel}>Exact Location / Address</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="location"
+                        className={styles.formControl}
+                        value={formData.location}
+                        onChange={handleChange}
+                        required
+                        minLength={10}
+                    />
                 </Form.Group>
 
-                {/* File Upload */}
-                <Form.Group className={styles.formGroup}>
-                    <Form.Label className={styles.formLabel}>Upload Image</Form.Label>
-                    <Col >
-                        <Form.Control type="file" accept=".pdf, .jpg, .jpeg" name="image" className={`${styles.formControl} ${styles.fileInput}`} onChange={handleChange} />
-                    </Col>
-                </Form.Group>
-
+                {/* Latitude */}
                 <Form.Group className={styles.formGroup}>
                     <Form.Label className={styles.formLabel}>Latitude</Form.Label>
-                    <Col >
-                        <Form.Control type="text" name="lat" className={styles.formControl} onChange={handleChange} />
-                    </Col>
+                    <Form.Control
+                        type="number"
+                        name="lat"
+                        className={styles.formControl}
+                        onChange={handleChange}
+                        required
+                        step="any"
+                    />
                 </Form.Group>
 
+                {/* Longitude */}
                 <Form.Group className={styles.formGroup}>
                     <Form.Label className={styles.formLabel}>Longitude</Form.Label>
-                    <Col >
-                        <Form.Control type="text" name="lng" className={styles.formControl} onChange={handleChange} />
-                    </Col>
+                    <Form.Control
+                        type="number"
+                        name="lng"
+                        className={styles.formControl}
+                        onChange={handleChange}
+                        required
+                        step="any"
+                    />
                 </Form.Group>
 
-
-                {/* Submit Button */}
+                {/* Image Upload */}
                 <Form.Group className={styles.formGroup}>
-                    <Button type="submit" className={styles.submitButton}>
-                        Submit Property
-                    </Button>
+                    <Form.Label className={styles.formLabel}>Property Image</Form.Label>
+                    <Form.Control
+                        type="file"
+                        name="image"
+                        accept=".jpg,.jpeg,.png"
+                        className={styles.formControl}
+                        onChange={handleChange}
+                        required
+                    />
                 </Form.Group>
 
+                {/* Submit */}
+                <Button type="submit" className={styles.submitButton}>
+                    Submit Property
+                </Button>
             </Form>
+
         </div>
     );
 };

@@ -40,7 +40,7 @@ const AdminTogglePropertyModal = ({ property, onClose }) => {
             onClose();
         }, 1500);
     };
-   
+
 
 
     return (
@@ -84,16 +84,16 @@ const AdminTogglePropertyModal = ({ property, onClose }) => {
                     </div>
                 </form>
                 <button
-  className={styles.btnSecondary}
-  onClick={() => setShowLogs(prev => !prev)}
->
-  {showLogs ? "Hide Logs" : "Show Ban Details "}
-</button>
- {showLogs && (
-  <div className="mt-4">
-    <AdminBanPropertyLogList propertyId={property._id} />
-  </div>
-)}
+                    className={styles.btnSecondary}
+                    onClick={() => setShowLogs(prev => !prev)}
+                >
+                    {showLogs ? "Hide Logs" : "Show Ban Details "}
+                </button>
+                {showLogs && (
+                    <div className="mt-4">
+                        <AdminBanPropertyLogList propertyId={property._id} />
+                    </div>
+                )}
             </div>
         </div>
     );

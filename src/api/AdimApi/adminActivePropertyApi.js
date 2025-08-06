@@ -5,7 +5,7 @@ export const adminInActivePropertyApi = async (propertyId, reason = "Violation o
     const response = await clientServer.put(`/api/active/inactive/admin/inactivate/${propertyId}`, { reason });
     return response.data;
   } catch (error) {
-    console.error("❌ Ban User Error:", error.response?.data || error.message);
+    console.error("❌ Ban Property Error:", error.response?.data || error.message);
     throw error;
   }
 };
@@ -16,7 +16,7 @@ export const adminActivePropertyApi = async (propertyId, note = "Unbanned after 
     const response = await clientServer.put(`/api/active/inactive/admin/activate/${propertyId}`, { note });
     return response.data;
   } catch (error) {
-    console.error("❌ Unban User Error:", error.response?.data || error.message);
+    console.error("❌ Unban Property Error:", error.response?.data || error.message);
     throw error;
   }
 };
@@ -24,7 +24,7 @@ export const adminActivePropertyApi = async (propertyId, note = "Unbanned after 
 /**
  * ✅ Fetch all ban/unban logs (Admin only)
  */
-export const getActiveLogsApi = async () => {
+export const getActiveLogsApi = async (propertyId) => {
   try {
     const response = await clientServer.get(`/api/active/inactive/admin/logs/${propertyId}`);
     return response.data.logs;

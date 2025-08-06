@@ -101,25 +101,25 @@ const adventureSportsSubcategories = [
   "Kite Surfing"
 ];
 const culinarySubcategories = [
-  "Street Food Tours",                   // Local markets me famous street food tasting
-  "Regional Cuisine Exploration",        // Specific region ki traditional dishes explore karna
-  "Wine & Brewery Tours",                // Local wine/brewery tasting aur tours
-  "Cooking Classes & Workshops",         // Local chefs ke saath traditional cooking seekhna
-  "Food Festivals & Culinary Events",    // Culinary fests with global chefs and stalls
-  "Farm-to-Table Experiences",           // Direct farm se serve hone wale meals ka experience
-  "Seafood & Coastal Cuisine Trails",    // Coastal areas ke seafood specials ka exploration
-  "Tea/Coffee Plantation Tours",         // Tea ya coffee farms me tasting aur production dekhna
-  "Dessert & Sweet Trails"               // Famous mithai aur sweets-focused guided tours
+  "Street Food Tours",                   
+  "Regional Cuisine Exploration",        
+  "Wine & Brewery Tours",                
+  "Cooking Classes & Workshops",         
+  "Food Festivals & Culinary Events",    
+  "Farm-to-Table Experiences",           
+  "Seafood & Coastal Cuisine Trails",    
+  "Tea/Coffee Plantation Tours",        
+  "Dessert & Sweet Trails"               
 ];
 const offbeatAndRemoteSubcategories = [
-  "Hidden Villages & Hamlets",               // Chhoti, kam-jani hui gaon aur culturally rich jagah
-  "Tribal Region Explorations",              // Adivasi areas ka cultural aur lifestyle experience
-  "Monastic Retreats & Meditation Centers",  // Peaceful stays in monasteries ya spiritual ashrams
-  "Remote Mountain Escapes",                 // High-altitude, untouched mountain destinations
-  "Forest & Jungle Retreats",                // Dense forests me eco-lodges ya wildlife-based stays
-  "Deserted Islands & Beach Getaways",       // Lesser-known islands with peaceful beaches
-  "Snow Villages & Frozen Towns",            // Remote snow-covered settlements like Spiti, Zanskar
-  "Nomadic Life Experiences",                // Nomads ke saath rehkar unka lifestyle explore karna
-  "Cultural Immersion Homestays",            // Local families ke saath rehkar unki life jeena
-  "Volunteering & Rural Development Trips"   // Villages me help karna (teaching, farming, etc.)
+  "Hidden Villages & Hamlets",               
+  "Tribal Region Explorations",              
+  "Monastic Retreats & Meditation Centers",  
+  "Remote Mountain Escapes",                 
+  "Forest & Jungle Retreats",                
+  "Deserted Islands & Beach Getaways",      
+  "Snow Villages & Frozen Towns",           
+  "Nomadic Life Experiences",                
+  "Cultural Immersion Homestays",            
+  "Volunteering & Rural Development Trips"   
 ];
