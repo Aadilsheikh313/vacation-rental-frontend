@@ -70,6 +70,8 @@ const adminAuthSlice = createSlice({
                 state.loggedIn = true;
                 state.admin = action.payload.admin;
                 state.token = action.payload.token;
+                console.log("ADIM RE", action.payload.admin);
+                console.log("ADIM RETOKEH", action.payload.token);
                 state.message = "Admin Login successful";
                 localStorage.setItem("admin", JSON.stringify(action.payload.admin));
                 localStorage.setItem("token", action.payload.token);

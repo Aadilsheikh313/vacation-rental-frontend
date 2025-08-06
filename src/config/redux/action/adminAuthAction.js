@@ -20,6 +20,8 @@ export const adminLoginAction = createAsyncThunk(
   async(credentials , thunkAPI) =>{
     try {
         const data = await adminLoginApi(credentials);
+        console.log("ACTUION AC",data);
+        
         return thunkAPI.fulfillWithValue(data);
     } catch (error) {
        return thunkAPI.rejectWithValue(error?.response?.data?.message || "Login failed");

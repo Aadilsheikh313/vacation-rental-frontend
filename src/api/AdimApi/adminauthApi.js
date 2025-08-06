@@ -14,7 +14,12 @@ export const adminRegisterApi = async(adminauthData)=>{
 export const adminLoginApi = async(credentials)=>{
     try {
          const response = await clientServer.post("/api/v1/admin/login", credentials);
+         console.log("API", response);
+         console.log("API A", response.data);
+         
+         
           return response.data;
+
     } catch (error) {
         console.error("❌ Error in AdminloginApi:", error?.response?.data || error.message);
     throw error;

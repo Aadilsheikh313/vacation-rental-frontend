@@ -191,7 +191,7 @@ const AdminPostProperty = () => {
               <Form.Label>Best Time to Visit</Form.Label>
               <Form.Control
                 type="textarea"
-                 rows={2}
+                rows={2}
                 name="bestTimeToVisit"
                 value={formData.bestTimeToVisit}
                 onChange={handleChange}

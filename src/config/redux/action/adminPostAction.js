@@ -7,6 +7,8 @@ export const adminPostExperience = createAsyncThunk(
     async(formData, thunkAPI) =>{
         try {
             const response = await PostAdminExperinceApi(formData);
+            console.log("RESPONSE", response);
+            
             return thunkAPI.fulfillWithValue(response);
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response?.data || "Failed to post Admin Experience");
