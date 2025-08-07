@@ -39,12 +39,13 @@ export const PostAdminExperinceApi = async (formData) => {
     }
 }
 
-export const getSinglePostAdminApi = async(id) =>{
+export const getSinglePostAdminApi = async(PostId) =>{
     try {
-        const response = await clientServer.get(`/api/adminpost/admin/${id}`);
+        const response = await clientServer.get(`/api/adminpost/admin/${PostId}`);
         return response.data;
     } catch (error) {
         console.error("❌ Admin Field a Single Post Error:", error.response?.data || error.message);
         throw error;
     }
 }
+

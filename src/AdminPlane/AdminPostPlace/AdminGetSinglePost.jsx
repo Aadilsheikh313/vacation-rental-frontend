@@ -7,6 +7,8 @@ import { resetSingleAdminPost } from "../../config/redux/reducer/adminPostReduce
 
 const AdminGetSinglePost = () => {
   const { id } = useParams();
+  console.log("ID",id);
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

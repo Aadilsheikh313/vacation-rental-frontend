@@ -20,7 +20,7 @@ const categories = [
 
 const GetAllAdminPosts = () => {
     const dispatch = useDispatch();
-    const navigate  = useNavigate();
+    const navigate = useNavigate();
     const [selectedCategory, setSelectedCategory] = useState("All");
 
     const {
@@ -105,10 +105,8 @@ const GetAllAdminPosts = () => {
                                 <p><strong>Country:</strong> {post.country}</p>
                             </Card.Body>
                             <Button onClick={() => navigate(`/admin/post/${post._id}`)}>
-  <FaEye /> View
-</Button>
-
-                            
+                                <FaEye /> View
+                            </Button>
                         </Card>
                     </Col>
                 ))}

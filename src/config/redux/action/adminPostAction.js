@@ -44,9 +44,9 @@ export const adminPostExperience = createAsyncThunk(
 
 export const getSinglePostAdmin = createAsyncThunk(
   "adminposts/getSinglePostAdmin",
-  async (id, thunkAPI) => {
+  async (PostId, thunkAPI) => {
     try {
-      const response = await getSinglePostAdminApi(id);
+      const response = await getSinglePostAdminApi(PostId);
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || "Failed to get single post admin");
