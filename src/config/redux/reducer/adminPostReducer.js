@@ -110,7 +110,7 @@ const adminPostSlice = createSlice({
       .addCase(getSinglePostAdmin.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.singleAdminPost = action.payload?.adminPosts || null;
+        state.singleAdminPost = action.payload?.adminPost || null;
         state.message = "Single admin posts fetched successfully!";
       })
 
