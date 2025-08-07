@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getAllPostAdminApi, getApprovedPostAdminApi,
+     getSinglePostAdminApi,
      PostAdminExperinceApi
      } from "../../../api/AdimApi/adminPostExperienceApi";
 
@@ -39,4 +40,16 @@ export const adminPostExperience = createAsyncThunk(
             return thunkAPI.rejectWithValue(error.response?.data || "Failed to post Admin Experience");
         }
     }
-)
+);
+
+export const getSinglePostAdmin = createAsyncThunk(
+  "adminposts/getSinglePostAdmin",
+  async (id, thunkAPI) => {
+    try {
+      const response = await getSinglePostAdminApi(id);
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || "Failed to get single post admin");
+    }
+  }
+);

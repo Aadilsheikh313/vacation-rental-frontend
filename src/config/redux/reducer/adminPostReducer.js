@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { adminPostExperience, getAllPostAdmin, getApprovedPostAdmin } from "../action/adminPostAction";
+import { adminPostExperience, getAllPostAdmin, getApprovedPostAdmin, getSinglePostAdmin } from "../action/adminPostAction";
 
 // ✅ Initial state
 const initialState = {
   adminPosts: [],
-   approvedPosts: [],
-   allAdminPosts: [],
+  approvedPosts: [],
+  allAdminPosts: [],
   totalPosts: 0,
+  singleAdminPost: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -27,11 +28,13 @@ const adminPostSlice = createSlice({
     resetAdminPostId: (state) => {
       state.adminPostId = "";
     },
-
+    resetSingleAdminPost: (state) => {
+      state.singlePost = null;
+    },
     // ✅ Reset only status flags
     resetStatus: (state) => {
       state.approvedPosts = [];
-        state.allAdminPosts = [];
+      state.allAdminPosts = [];
       state.totalPosts = 0;
       state.message = "";
       state.isError = false;
@@ -98,7 +101,24 @@ const adminPostSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload || "Failed to fetch all admin posts!";
-      });
+      })
+      .addCase(getSinglePostAdmin.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Fetching Single posts...";
+      })
+
+      .addCase(getSinglePostAdmin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.singleAdminPost = action.payload?.adminPosts || null;
+        state.message = "Single admin posts fetched successfully!";
+      })
+
+      .addCase(getSinglePostAdmin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Failed to fetch single admin posts!";
+      })
   },
 });
 
@@ -108,4 +128,5 @@ export const {
   reset,
   resetAdminPostId,
   resetStatus,
+  resetSingleAdminPost,
 } = adminPostSlice.actions;

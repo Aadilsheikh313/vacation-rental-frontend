@@ -1,7 +1,7 @@
 import { clientServer } from "../../config/axios";
 
 
-export const getApprovedPostAdminApi = async() =>{
+export const getApprovedPostAdminApi = async () => {
     try {
         const response = await clientServer.get("/api/adminpost/user-getallPosts");
         return response.data;
@@ -11,7 +11,7 @@ export const getApprovedPostAdminApi = async() =>{
     }
 }
 
-export const getAllPostAdminApi = async() =>{
+export const getAllPostAdminApi = async () => {
     try {
         const response = await clientServer.get("/api/adminpost/admin-getAllPosts");
         return response.data;
@@ -35,6 +35,16 @@ export const PostAdminExperinceApi = async (formData) => {
         return response.data;
     } catch (error) {
         console.error("❌ Admin Post Experience Error:", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export const getSinglePostAdminApi = async(id) =>{
+    try {
+        const response = await clientServer.get(`/api/adminpost/admin/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("❌ Admin Field a Single Post Error:", error.response?.data || error.message);
         throw error;
     }
 }

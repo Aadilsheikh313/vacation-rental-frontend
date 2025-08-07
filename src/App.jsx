@@ -44,6 +44,7 @@ import AdminHostHome from './AdminPlane/Host/AdminHostHome';
 import AdminGuestHome from './AdminPlane/Guest/AdminGuestHome';
 import AdminPostProperty from './AdminPlane/AdminPostPlace/AdminPostProperty';
 import GetAllAdminPosts from './AdminPlane/AdminPostPlace/getAllAdminPost';
+import AdminGetSinglePost from './AdminPlane/AdminPostPlace/AdminGetSinglePost';
 
 function AppContent() {
   const location = useLocation();
@@ -97,6 +98,7 @@ function AppContent() {
         <Route path='/admin/Post' element={<AdminPostProperty/>}/>
         <Route path='/admin/property/:id' element={<AdminSinglePropertyDetails/>}/>
         <Route path='/admin/get-posts' element={<GetAllAdminPosts/>}/>
+          <Route path="/admin/post/:id" element={<AdminGetSinglePost />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
