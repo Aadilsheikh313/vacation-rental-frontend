@@ -19,7 +19,6 @@ export const postReviewApi = async ({ propertyId, token, rating, comment }) => {
         },
       }
     );
-    console.log("✅ Review posted", response.data);
     return response.data;
   } catch (error) {
     console.error("❌ Review API error", error.response?.data || error.message);
@@ -39,7 +38,6 @@ export const editReviewApi = async ({ propertyId, reviewId, token, rating, comme
         },
       }
     );
-    console.log("✅ Review updated", response.data);
     return response.data;
   } catch (error) {
     console.error("❌ Edit Review API error", error.response?.data || error.message);
@@ -57,8 +55,7 @@ export const deleteReviewApi = async ({ propertyId, reviewId, token }) => {
           Authorization: `Bearer ${token}`,
         },
       }
-    );
-    console.log("✅ Review deleted", response.data);
+    ); 
     return response.data;
   } catch (error) {
     console.error("❌ Delete Review API error", error.response?.data || error.message);
