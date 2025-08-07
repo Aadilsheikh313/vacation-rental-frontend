@@ -39,11 +39,11 @@ import AdminNavbar from './AdminPlane/AdminNavbar';
 import AdminLogin from './AdminPlane/AdminLogin';
 import AdminDashboard from './AdminPlane/AdminDashboard';
 import AdminHome from './AdminPlane/AdminHome';
-import AdminProperty from './AdminPlane/AdminPostPlace/AdminPostProperty';
 import AdminSinglePropertyDetails from './AdminPlane/AdminSinglePropertyDetails';
 import AdminHostHome from './AdminPlane/Host/AdminHostHome';
 import AdminGuestHome from './AdminPlane/Guest/AdminGuestHome';
 import AdminPostProperty from './AdminPlane/AdminPostPlace/AdminPostProperty';
+import GetAllAdminPosts from './AdminPlane/AdminPostPlace/getAllAdminPost';
 
 function AppContent() {
   const location = useLocation();
@@ -96,6 +96,7 @@ function AppContent() {
         <Route path='/admin/guest-users' element={<AdminGuestHome/>}/>
         <Route path='/admin/Post' element={<AdminPostProperty/>}/>
         <Route path='/admin/property/:id' element={<AdminSinglePropertyDetails/>}/>
+        <Route path='/admin/get-posts' element={<GetAllAdminPosts/>}/>
 
         <Route path="*" element={<NotFound />} />
       </Routes>

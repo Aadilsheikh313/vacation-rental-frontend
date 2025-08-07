@@ -48,6 +48,7 @@ const AdminNavbar = () => {
        <ul className={`${styles.navLinks} ${menuOpen ? styles.showMobileMenu : ""}`}>
   <li><Link to="/admin/home" onClick={closeMenuIfMobile}>Home</Link></li>
   <li><Link to="/admin/dashboard" onClick={closeMenuIfMobile}>Dashboard</Link></li>
+  <li><Link to="/admin/get-posts" onClick={closeMenuIfMobile}>Admin Posts</Link></li>
   <li><Link to="/admin/host-users" onClick={closeMenuIfMobile}>Host Users</Link></li>
   <li><Link to="/admin/guest-users" onClick={closeMenuIfMobile}>Guest Users</Link></li>
   <li><Link to="/admin/Post" onClick={closeMenuIfMobile}>Post</Link></li>

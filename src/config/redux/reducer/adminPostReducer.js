@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { adminPostExperience } from "../action/adminPostAction";
+import { adminPostExperience, getAllPostAdmin, getApprovedPostAdmin } from "../action/adminPostAction";
 
 // ✅ Initial state
 const initialState = {
   adminPosts: [],
+   approvedPosts: [],
+   allAdminPosts: [],
+  totalPosts: 0,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -27,6 +30,9 @@ const adminPostSlice = createSlice({
 
     // ✅ Reset only status flags
     resetStatus: (state) => {
+      state.approvedPosts = [];
+        state.allAdminPosts = [];
+      state.totalPosts = 0;
       state.message = "";
       state.isError = false;
       state.isSuccess = false;
@@ -57,6 +63,41 @@ const adminPostSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload || "Something went wrong!";
+      })
+      .addCase(getApprovedPostAdmin.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Loading approved posts...";
+      })
+
+      .addCase(getApprovedPostAdmin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.approvedPosts = action.payload?.approvedPosts || [];
+        state.message = "Approved posts fetched successfully!";
+      })
+
+      .addCase(getApprovedPostAdmin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Failed to fetch approved posts!";
+      })
+      .addCase(getAllPostAdmin.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Fetching all posts...";
+      })
+
+      .addCase(getAllPostAdmin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.allAdminPosts = action.payload?.adminPosts || [];
+        state.totalPosts = action.payload?.totalPosts || 0;
+        state.message = "All admin posts fetched successfully!";
+      })
+
+      .addCase(getAllPostAdmin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Failed to fetch all admin posts!";
       });
   },
 });

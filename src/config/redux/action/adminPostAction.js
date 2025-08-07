@@ -1,5 +1,31 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { PostAdminExperinceApi } from "../../../api/AdimApi/adminPostExperienceApi";
+import { getAllPostAdminApi, getApprovedPostAdminApi,
+     PostAdminExperinceApi
+     } from "../../../api/AdimApi/adminPostExperienceApi";
+
+export const  getApprovedPostAdmin = createAsyncThunk(
+  "adminposts/getApprovedPostAdmin",
+  async (_, thunkAPI) => {
+    try {
+      const response = await getApprovedPostAdminApi();
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || "Failed to fetch posts");
+    }
+  }
+);
+
+export const getAllPostAdmin = createAsyncThunk(
+  "adminposts/getAllPostAdmin",
+  async (_, thunkAPI) => {
+    try {
+      const response = await getAllPostAdminApi();
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || "Failed to fetch posts");
+    }
+  }
+);
 
 
 export const adminPostExperience = createAsyncThunk(
@@ -7,7 +33,6 @@ export const adminPostExperience = createAsyncThunk(
     async(formData, thunkAPI) =>{
         try {
             const response = await PostAdminExperinceApi(formData);
-            console.log("RESPONSE", response);
             
             return thunkAPI.fulfillWithValue(response);
         } catch (error) {

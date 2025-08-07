@@ -1,178 +1,26 @@
-
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import NavigationButtons from "../components/NavigationButtons";
-const touristPlacesData = [
-  // 🏞️ Natural Attractions
-  {
-    id: 1,
-    category: "Natural Attractions",
-    subcategory: "Mountains",
-    name: "Swiss Alps",
-    location: "Switzerland",
-    image: "https://images.unsplash.com/photo-1521295121783-8a321d551ad2",
-    description: "Snow-covered peaks and valleys ideal for skiing and relaxation."
-  },
-  {
-    id: 2,
-    category: "Natural Attractions",
-    subcategory: "Waterfalls",
-    name: "Niagara Falls",
-    location: "Canada/USA",
-    image: "https://images.unsplash.com/photo-1532274402917-5aadf881bdfd",
-    description: "Majestic waterfall straddling two nations, a sight to behold."
-  },
-  {
-    id: 3,
-    category: "Natural Attractions",
-    subcategory: "Beaches",
-    name: "Bondi Beach",
-    location: "Australia",
-    image: "https://images.unsplash.com/photo-1589561253898-768105ca91a7",
-    description: "Surf waves, sunshine, and beachside cafes — a surfer's paradise."
-  },
+import { useDispatch, useSelector } from "react-redux";
+import { Container, Row, Col, Card, Spinner, Alert } from "react-bootstrap";
+import { getApprovedPostAdmin } from "../config/redux/action/adminPostAction";
+import { resetStatus } from "../config/redux/reducer/adminPostReducer";
 
-  // 🏛️ Historical & Cultural
-  {
-    id: 4,
-    category: "Historical & Cultural",
-    subcategory: "Ancient Wonders",
-    name: "Taj Mahal",
-    location: "India",
-    image: "https://images.unsplash.com/photo-1564501049412-61c2a3083791",
-    description: "Symbol of love and Mughal architecture in white marble."
-  },
-  {
-    id: 5,
-    category: "Historical & Cultural",
-    subcategory: "Heritage Towns",
-    name: "Kyoto",
-    location: "Japan",
-    image: "https://images.unsplash.com/photo-1526481280690-7c88f39a46b2",
-    description: "Temples, tea houses, and centuries of preserved Japanese culture."
-  },
+// Category mapping
+const mapDisplayCategoryToBackend = (label) => {
+  const mapping = {
+    "Natural Attractions": "Natural",
+    "Historical & Cultural": "Cultural",
+    "Urban & Modern Cities": "Urban",
+    "Theme Parks": "Theme Park",
+    "Wellness & Spiritual": "Wellness & Spiritual",
+    "Adventure & Sports": "Adventure Sports",
+    "Culinary": "Culinary",
+    "Offbeat & Remote": "Offbeat & Remote",
+  };
+  return mapping[label] || label;
+};
 
-  // 🌆 Urban & Modern Cities
-  {
-    id: 6,
-    category: "Urban & Modern Cities",
-    subcategory: "High-Tech",
-    name: "Tokyo",
-    location: "Japan",
-    image: "https://images.unsplash.com/photo-1549692520-acc6669e2f0c",
-    description: "Blend of tradition and tech — neon lights, temples, and anime vibes."
-  },
-  {
-    id: 7,
-    category: "Urban & Modern Cities",
-    subcategory: "Luxury Lifestyle",
-    name: "Dubai",
-    location: "UAE",
-    image: "https://images.unsplash.com/photo-1600607687920-4ec1e1d122b1",
-    description: "Skyscrapers, desert safaris, shopping festivals, and gold souks."
-  },
-
-  // 🎢 Theme Parks
-  {
-    id: 8,
-    category: "Theme Parks",
-    subcategory: "Fantasy",
-    name: "Disneyland",
-    location: "USA",
-    image: "https://images.unsplash.com/photo-1594583774207-ec49b7e3b3c6",
-    description: "Where fairy tales come alive — rides, shows, and magic!"
-  },
-  {
-    id: 9,
-    category: "Theme Parks",
-    subcategory: "Adventure",
-    name: "Universal Studios",
-    location: "Singapore",
-    image: "https://images.unsplash.com/photo-1587812445193-18b9271c6a1c",
-    description: "Movies, rollercoasters, and 3D action-packed fun for all ages."
-  },
-
-  // 🧘 Wellness & Spiritual
-  {
-    id: 10,
-    category: "Wellness & Spiritual",
-    subcategory: "Yoga & Meditation",
-    name: "Rishikesh",
-    location: "India",
-    image: "https://images.unsplash.com/photo-1574629810360-7efbbe195dd2",
-    description: "Peaceful town by the Ganges offering global yoga experiences."
-  },
-  {
-    id: 11,
-    category: "Wellness & Spiritual",
-    subcategory: "Healing Retreats",
-    name: "Ubud Retreats",
-    location: "Bali, Indonesia",
-    image: "https://images.unsplash.com/photo-1587825140708-8e5c13dcfb7b",
-    description: "Lush jungle hideouts offering healing, spa, and spirituality."
-  },
-
-  // 🧗 Adventure & Sports
-  {
-    id: 12,
-    category: "Adventure & Sports",
-    subcategory: "Skydiving",
-    name: "Dubai SkyDive",
-    location: "UAE",
-    image: "https://images.unsplash.com/photo-1508610048659-a06f1c692fa7",
-    description: "Skydive over Palm Jumeirah for an adrenaline-pumping view."
-  },
-  {
-    id: 13,
-    category: "Adventure & Sports",
-    subcategory: "Scuba Diving",
-    name: "Great Barrier Reef",
-    location: "Australia",
-    image: "https://images.unsplash.com/photo-1544551763-cc0328b2b2c3",
-    description: "Colorful corals, sea turtles, and undersea magic await here."
-  },
-
-  // 🍜 Culinary
-  {
-    id: 14,
-    category: "Culinary",
-    subcategory: "Street Food",
-    name: "Bangkok Street Food",
-    location: "Thailand",
-    image: "https://images.unsplash.com/photo-1600891963935-77aaad71f421",
-    description: "Affordable, spicy, and flavorful food sold at night markets."
-  },
-  {
-    id: 15,
-    category: "Culinary",
-    subcategory: "Wine & Dine",
-    name: "Tuscany Wine Trail",
-    location: "Italy",
-    image: "https://images.unsplash.com/photo-1551524187-7d1b3fcb3134",
-    description: "Rolling vineyards, fine wines, and traditional Italian meals."
-  },
-
-  // 🏔️ Offbeat & Remote
-  {
-    id: 16,
-    category: "Offbeat & Remote",
-    subcategory: "Highland Escapes",
-    name: "Faroe Islands",
-    location: "Denmark",
-    image: "https://images.unsplash.com/photo-1549887534-68c8c2b05092",
-    description: "Dramatic cliffs, sheep-dotted hills, and total isolation."
-  },
-  {
-    id: 17,
-    category: "Offbeat & Remote",
-    subcategory: "Valley Trails",
-    name: "Spiti Valley",
-    location: "India",
-    image: "https://images.unsplash.com/photo-1600234165730-19463ed2e34f",
-    description: "Rugged, untouched Himalayan desert with monasteries and beauty."
-  }
-]
-;
-
+// Display categories
 const categories = [
   "All",
   "Natural Attractions",
@@ -189,15 +37,29 @@ const TouristAndPlace = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const contentRef = useRef(null);
 
+  const dispatch = useDispatch();
+  const { approvedPosts, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.adminPost
+  );
+
+  useEffect(() => {
+    dispatch(getApprovedPostAdmin());
+    return () => {
+      dispatch(resetStatus());
+    };
+  }, [dispatch]);
+
   const scrollToContent = () => {
     contentRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Filter logic based on selected category
   const filteredPlaces =
     selectedCategory === "All"
-      ? touristPlacesData
-      : touristPlacesData.filter(
-          (place) => place.category === selectedCategory
+      ? approvedPosts
+      : approvedPosts.filter(
+          (post) =>
+            post.category === mapDisplayCategoryToBackend(selectedCategory)
         );
 
   return (
@@ -240,31 +102,59 @@ const TouristAndPlace = () => {
         ))}
       </div>
 
-      {/* Card Grid */}
-      <div ref={contentRef} className="row g-4">
-        {filteredPlaces.map((place) => (
-          <div className="col-md-6 col-lg-4" key={place.id}>
-            <div className="card h-100 shadow-sm border-0">
-              <img
-                src={place.image}
-                alt={place.name}
-                className="card-img-top"
-                style={{ height: "200px", objectFit: "cover" }}
-              />
-              <div className="card-body">
-                <h5 className="card-title fw-bold">{place.name}</h5>
-                <h6 className="text-muted mb-2">{place.location}</h6>
-                <p className="card-text text-secondary">{place.description}</p>
-              </div>
-              <div className="card-footer bg-transparent border-0">
-                <button className="btn btn-outline-primary w-100 rounded-pill">
-                  ✈️ Know More
-                </button>
-              </div>
-            </div>
+      <Container className="py-4" ref={contentRef}>
+        {isLoading && (
+          <div className="text-center my-3">
+            <Spinner animation="border" />
           </div>
-        ))}
-      </div>
+        )}
+
+        {isError && (
+          <Alert variant="danger">{message || "Something went wrong!"}</Alert>
+        )}
+
+        {!isLoading && isSuccess && filteredPlaces.length === 0 && (
+          <Alert variant="info">No Explore Tourist Moments available.</Alert>
+        )}
+
+        <Row>
+          {filteredPlaces?.map((post) => (
+            <Col key={post._id} md={6} lg={4} className="mb-4">
+              <Card className="h-100 shadow-sm">
+                {post.images && post.images[0]?.url && (
+                  <Card.Img
+                    variant="top"
+                    src={post.images[0].url}
+                    style={{ height: "200px", objectFit: "cover" }}
+                  />
+                )}
+                <Card.Body>
+                  <Card.Title>{post.title}</Card.Title>
+                  <Card.Text>{post.description}</Card.Text>
+                  <Card.Text className="text-muted" style={{ fontSize: "0.9rem" }}>
+                    {post.city}, {post.country}
+                  </Card.Text>
+                  <Card.Text>
+                    <strong>Category:</strong> {post.category} <br />
+                    <strong>Subcategory:</strong> {post.subcategory}
+                  </Card.Text>
+                  <Card.Text>
+                    <strong>Best Time:</strong> {post.bestTimeToVisit}
+                  </Card.Text>
+                  <Card.Text>
+                    <strong>History:</strong> {post.history}
+                  </Card.Text>
+                </Card.Body>
+                <div className="card-footer bg-transparent border-0">
+                  <button className="btn btn-outline-primary w-100 rounded-pill">
+                    ✈️ Know More
+                  </button>
+                </div>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
     </div>
   );
 };
