@@ -45,6 +45,7 @@ import AdminGuestHome from './AdminPlane/Guest/AdminGuestHome';
 import AdminPostProperty from './AdminPlane/AdminPostPlace/AdminPostProperty';
 import GetAllAdminPosts from './AdminPlane/AdminPostPlace/getAllAdminPost';
 import AdminGetSinglePost from './AdminPlane/AdminPostPlace/AdminGetSinglePost';
+import AdminEditPost from './AdminPlane/AdminPostPlace/AdminEditPost';
 
 function AppContent() {
   const location = useLocation();
@@ -61,7 +62,7 @@ function AppContent() {
 
   return (
     <>
-        {isAdminRoute ? <AdminNavbar /> : <CustomNavbar />}
+      {isAdminRoute ? <AdminNavbar /> : <CustomNavbar />}
       <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -92,18 +93,18 @@ function AppContent() {
         <Route path="/admin/register" element={<AdminRegister />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/home" element={<AdminHome/>}/>
-        <Route path='/admin/host-users' element={<AdminHostHome/>}/>
-        <Route path='/admin/guest-users' element={<AdminGuestHome/>}/>
-        <Route path='/admin/Post' element={<AdminPostProperty/>}/>
-        <Route path='/admin/property/:id' element={<AdminSinglePropertyDetails/>}/>
-        <Route path='/admin/get-posts' element={<GetAllAdminPosts/>}/>
-          <Route path="/admin/post/:id" element={<AdminGetSinglePost />} />
-
+        <Route path="/admin/home" element={<AdminHome />} />
+        <Route path='/admin/host-users' element={<AdminHostHome />} />
+        <Route path='/admin/guest-users' element={<AdminGuestHome />} />
+        <Route path='/admin/Post' element={<AdminPostProperty />} />
+        <Route path='/admin/property/:id' element={<AdminSinglePropertyDetails />} />
+        <Route path='/admin/get-posts' element={<GetAllAdminPosts />} />
+        <Route path="/admin/post/:id" element={<AdminGetSinglePost />} />
+        <Route path="/admin/edit/:id" element={<AdminEditPost />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {/* {!isAdminRoute && <Footer />} */}
-      <Footer/>
+      <Footer />
     </>
   );
 }

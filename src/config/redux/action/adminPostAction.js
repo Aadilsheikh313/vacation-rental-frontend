@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllPostAdminApi, getApprovedPostAdminApi,
+import { admineditPostApi, getAllPostAdminApi, getApprovedPostAdminApi,
      getSinglePostAdminApi,
      PostAdminExperinceApi
      } from "../../../api/AdimApi/adminPostExperienceApi";
@@ -49,7 +49,27 @@ export const getSinglePostAdmin = createAsyncThunk(
       const response = await getSinglePostAdminApi(PostId);
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data || "Failed to get single post admin");
+      const message =
+        error?.response?.data?.message || "Failed to get single post admin";
+      return thunkAPI.rejectWithValue(message); // ✅ string only
     }
   }
 );
+
+export const admineditPosts = createAsyncThunk(
+  "adminposts/admineditPosts",
+  async ({ id, updatedData, token }, thunkAPI) => {
+    if (!token) {
+      return thunkAPI.rejectWithValue("Token is missing before making API call!");
+    }
+
+    try {
+      const response = await admineditPostApi(id, updatedData, token); // ✅ Passed token
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      const message = error.response?.data?.message || error.message || "Failed to admin edit post";
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+

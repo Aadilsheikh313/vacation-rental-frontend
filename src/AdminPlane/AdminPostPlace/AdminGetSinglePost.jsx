@@ -1,14 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Card, Spinner, Alert, Button } from "react-bootstrap";
 import { getSinglePostAdmin } from "../../config/redux/action/adminPostAction";
 import { resetSingleAdminPost } from "../../config/redux/reducer/adminPostReducer";
+import LeafletMap from "../../Map/MapComponent";
+import { FaBackward, FaEdit } from "react-icons/fa";
 
 const AdminGetSinglePost = () => {
+  const [loadingMap, setLoadingMap] = useState(true);
+  const [coordinates, setCoordinates] = useState(null);
   const { id } = useParams();
-  console.log("ID",id);
-  
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -21,6 +24,15 @@ const AdminGetSinglePost = () => {
   } = useSelector((state) => state.adminPost);
 
   useEffect(() => {
+    if (singleAdminPost?.coordinates?.coordinates?.length === 2) {
+      const [lng, lat] = singleAdminPost.coordinates.coordinates;
+      setCoordinates({ lat, lng });
+    }
+    setLoadingMap(false);
+  }, [singleAdminPost]);
+
+
+  useEffect(() => {
     if (id) {
       dispatch(getSinglePostAdmin(id));
     }
@@ -30,6 +42,8 @@ const AdminGetSinglePost = () => {
     };
   }, [dispatch, id]);
 
+  // const handleEdit = () => navigate(`/adminedit/${id}`);
+const handleEdit = () => navigate("/admin/edit/:id");
   if (isLoading) {
     return (
       <Container className="text-center mt-5">
@@ -71,6 +85,11 @@ const AdminGetSinglePost = () => {
     country,
     location,
     postedOn,
+    isApproved,
+    postedBy,
+    tips,
+    history,
+    bestTimeToVisit,
     images = [],
   } = singleAdminPost;
 
@@ -96,12 +115,40 @@ const AdminGetSinglePost = () => {
           <p><strong>City:</strong> {city}</p>
           <p><strong>Country:</strong> {country}</p>
           <p><strong>Location:</strong> {location}</p>
-
-          <div className="text-end">
-            <Button variant="secondary" onClick={() => navigate(-1)}>
-              Back
-            </Button>
+          <p><strong>BestTimeToVisit:</strong> {bestTimeToVisit}</p>
+          <p><strong>History:</strong> {history}</p>
+          <p><strong>Tips:</strong> {tips}</p>
+          <hr />
+          <h5>Posted By</h5>
+          <p><strong>Name:</strong> {postedBy?.name}</p>
+          <p><strong>Email:</strong> {postedBy?.email}</p>
+          <p><strong>Phone:</strong> {postedBy?.phone}</p>
+          <hr />
+          <div className="mt-4">
+            <h4>Where you'll be</h4>
+            <div className="map-container">
+              {loadingMap ? (
+                <p>Loading map...</p>
+              ) : coordinates ? (
+                <LeafletMap lat={coordinates.lat} lng={coordinates.lng} title={singleAdminPost.city} />
+              ) : (
+                <p>Map not available</p>
+              )}
+            </div>
           </div>
+          <div className="">
+            <div className="text-start">
+              <Button variant="secondary" onClick={() => navigate(-1)}>
+                <FaBackward /> Back
+              </Button>
+            </div>
+            <div className="text-end">
+              <Button onClick={handleEdit} >
+                <FaEdit className="me-2" /> Edit
+              </Button>
+            </div>
+          </div>
+
         </Card.Body>
       </Card>
     </Container>

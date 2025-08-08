@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { adminPostExperience, getAllPostAdmin, getApprovedPostAdmin, getSinglePostAdmin } from "../action/adminPostAction";
+import { admineditPosts, adminPostExperience, getAllPostAdmin, getApprovedPostAdmin, getSinglePostAdmin } from "../action/adminPostAction";
 
 // ✅ Initial state
 const initialState = {
@@ -7,6 +7,7 @@ const initialState = {
   approvedPosts: [],
   allAdminPosts: [],
   totalPosts: 0,
+  admineditPosts: null,
   singleAdminPost: null,
   isError: false,
   isSuccess: false,
@@ -30,6 +31,9 @@ const adminPostSlice = createSlice({
     },
     resetSingleAdminPost: (state) => {
       state.singlePost = null;
+    },
+    resetadminEditPost: (state) => {
+      state.admineditPosts = null;
     },
     // ✅ Reset only status flags
     resetStatus: (state) => {
@@ -119,6 +123,28 @@ const adminPostSlice = createSlice({
         state.isError = true;
         state.message = action.payload || "Failed to fetch single admin posts!";
       })
+      .addCase(admineditPosts.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Fetching edit post ...";
+      })
+      .addCase(admineditPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.postFetched = true;
+        state.admineditPostse = action.payload.Post;
+        state.message = "Successfully edit the post";
+
+        // ✅ Also update the post in state.posts array
+        const index = state.posts.findIndex(p => p._id === action.payload.adminPost._id);
+        if (index !== -1) {
+          state.posts[index] = action.payload.Post;
+        }
+      })
+      .addCase(admineditPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
   },
 });
 
@@ -129,4 +155,5 @@ export const {
   resetAdminPostId,
   resetStatus,
   resetSingleAdminPost,
+  resetadminEditPost,
 } = adminPostSlice.actions;

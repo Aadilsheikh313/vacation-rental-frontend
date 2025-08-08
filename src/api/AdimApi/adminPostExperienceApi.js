@@ -49,3 +49,52 @@ export const getSinglePostAdminApi = async(PostId) =>{
     }
 }
 
+export const admineditPostApi = async (id, updatedData, token) => {
+  try {
+    const formData = new FormData();
+
+    // ✅ Append only the fields that exist in your Experience model
+    formData.append("title", updatedData.title || "");
+    formData.append("description", updatedData.description || "");
+    formData.append("category", updatedData.category || "");
+    formData.append("subcategory", updatedData.subcategory || "");
+    formData.append("country", updatedData.country || "");
+    formData.append("city", updatedData.city || "");
+    formData.append("location", updatedData.location || "");
+    formData.append("bestTimeToVisit", updatedData.bestTimeToVisit || "");
+    formData.append("history", updatedData.history || "");
+    
+    // Tips array ko handle karo (agar user ne diya hai)
+    if (Array.isArray(updatedData.tips)) {
+      updatedData.tips.forEach((tip, index) => {
+        formData.append(`tips[${index}]`, tip);
+      });
+    }
+
+    // Approval status
+    if (updatedData.isApproved !== undefined) {
+      formData.append("isApproved", updatedData.isApproved ? "true" : "false");
+    }
+
+    // ✅ Add image if provided
+    if (updatedData.image) {
+      formData.append("image", updatedData.image);
+    }
+
+    const response = await clientServer.put(
+      `/api/adminpost/admin/adminedit/${id}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("❌ Admin Edit Post API Error:", error.response?.data || error.message);
+    throw error; // Let thunk handle the error
+  }
+};
