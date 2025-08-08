@@ -43,7 +43,7 @@ import AdminSinglePropertyDetails from './AdminPlane/AdminSinglePropertyDetails'
 import AdminHostHome from './AdminPlane/Host/AdminHostHome';
 import AdminGuestHome from './AdminPlane/Guest/AdminGuestHome';
 import AdminPostProperty from './AdminPlane/AdminPostPlace/AdminPostProperty';
-import GetAllAdminPosts from './AdminPlane/AdminPostPlace/getAllAdminPost';
+import GetAllAdminPosts from './AdminPlane/AdminPostPlace/GetAllAdminPost';
 import AdminGetSinglePost from './AdminPlane/AdminPostPlace/AdminGetSinglePost';
 import AdminEditPost from './AdminPlane/AdminPostPlace/AdminEditPost';
 
