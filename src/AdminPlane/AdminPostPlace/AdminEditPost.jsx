@@ -72,26 +72,26 @@ const AdminEditPost = () => {
 
     // ✅ Submit form
     const handleSubmit = (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    const payload = new FormData();
-    Object.keys(formData).forEach((key) => {
-        if (key === "tips") {
-            payload.append(key, formData[key].split(",").map((tip) => tip.trim()));
-        } else if (formData[key] !== null) {
-            payload.append(key, formData[key]);
-        }
-    });
-
-    dispatch(admineditPosts({ id, updatedData: payload, token }))
-        .unwrap()
-        .then(() => {
-            navigate(`/admin-single-post/${id}`); // ✅ Edit ke baad single post page
-        })
-        .catch((err) => {
-            console.error("Edit failed:", err);
+        const payload = new FormData();
+        Object.keys(formData).forEach((key) => {
+            if (key === "tips") {
+                payload.append(key, formData[key].split(",").map((tip) => tip.trim()));
+            } else if (formData[key] !== null) {
+                payload.append(key, formData[key]);
+            }
         });
-};
+
+        dispatch(admineditPosts({ id, updatedData: payload, token }))
+            .unwrap()
+            .then(() => {
+                navigate(`/admin-single-post/${id}`); // ✅ Edit ke baad single post page
+            })
+            .catch((error) => {
+                console.error("Edit failed:", error);
+            });
+    };
 
 
     if (isLoading && !singleAdminPost) {
