@@ -1,10 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { admineditPostApi, getAllPostAdminApi, getApprovedPostAdminApi,
-     getSinglePostAdminApi,
-     PostAdminExperinceApi
-     } from "../../../api/AdimApi/adminPostExperienceApi";
+import {
+  admineditPostApi, getAllPostAdminApi, getApprovedPostAdminApi,
+  getSinglePostAdminApi,
+  PostAdminExperinceApi,
+  reApprovedPostAdminApi
+} from "../../../api/AdimApi/adminPostExperienceApi";
 
-export const  getApprovedPostAdmin = createAsyncThunk(
+export const getApprovedPostAdmin = createAsyncThunk(
   "adminposts/getApprovedPostAdmin",
   async (_, thunkAPI) => {
     try {
@@ -30,16 +32,16 @@ export const getAllPostAdmin = createAsyncThunk(
 
 
 export const adminPostExperience = createAsyncThunk(
-    "adminPost/adminPostExperience",
-    async(formData, thunkAPI) =>{
-        try {
-            const response = await PostAdminExperinceApi(formData);
-            
-            return thunkAPI.fulfillWithValue(response);
-        } catch (error) {
-            return thunkAPI.rejectWithValue(error.response?.data || "Failed to post Admin Experience");
-        }
+  "adminPost/adminPostExperience",
+  async (formData, thunkAPI) => {
+    try {
+      const response = await PostAdminExperinceApi(formData);
+
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || "Failed to post Admin Experience");
     }
+  }
 );
 
 export const getSinglePostAdmin = createAsyncThunk(
@@ -65,6 +67,7 @@ export const admineditPosts = createAsyncThunk(
 
     try {
       const response = await admineditPostApi(id, updatedData, token); // ✅ Passed token
+
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
       const message = error.response?.data?.message || error.message || "Failed to admin edit post";
@@ -72,4 +75,19 @@ export const admineditPosts = createAsyncThunk(
     }
   }
 );
+
+export const reApprovedPostAdminPosts = createAsyncThunk(
+  "adminposts/reApprovedPostAdminPosts",
+  async ({ id, token }, thunkAPI) => {
+    if (!token) {
+      throw new Error("Token is missing before making API call!");
+    }
+    try {
+      const response = await reApprovedPostAdminApi(id, token);
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || "Failed the Reactive Property")
+    }
+  }
+)
 

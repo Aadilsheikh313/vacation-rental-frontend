@@ -45,7 +45,6 @@ export const getSinglePosts = createAsyncThunk(
 export const editPropertyPosts = createAsyncThunk(
   "posts/editPropertyPosts",
   async ({ id, updatedData, token }, thunkAPI) => {
-    // console.log("🔥 token being sent:", token);
     if (!token) {
       throw new Error("Token is missing before making API call!");
     }

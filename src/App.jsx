@@ -50,15 +50,16 @@ import AdminEditPost from './AdminPlane/AdminPostPlace/AdminEditPost';
 function AppContent() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
+  const { token, user } = useSelector((state) => state.auth);
 
   const isAdminRoute = location.pathname.startsWith("/admin");
 
+
   useEffect(() => {
-    if (token) {
+    if (token && !user) {
       dispatch(getUser({ token }));
     }
-  }, [dispatch, token]);
+  }, [dispatch, token, user]);
 
   return (
     <>
@@ -100,7 +101,7 @@ function AppContent() {
         <Route path='/admin/property/:id' element={<AdminSinglePropertyDetails />} />
         <Route path='/admin/get-posts' element={<GetAllAdminPosts />} />
         <Route path="/admin/post/:id" element={<AdminGetSinglePost />} />
-        <Route path="/admin/edit/:id" element={<AdminEditPost />} />
+        <Route path="/admin/adminedit/:id" element={<AdminEditPost />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {/* {!isAdminRoute && <Footer />} */}

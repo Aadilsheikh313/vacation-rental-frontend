@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { admineditPosts, adminPostExperience, getAllPostAdmin, getApprovedPostAdmin, getSinglePostAdmin } from "../action/adminPostAction";
+import { admineditPosts, adminPostExperience, getAllPostAdmin, getApprovedPostAdmin, getSinglePostAdmin, reApprovedPostAdminPosts } from "../action/adminPostAction";
 
 // ✅ Initial state
 const initialState = {
@@ -7,7 +7,7 @@ const initialState = {
   approvedPosts: [],
   allAdminPosts: [],
   totalPosts: 0,
-  admineditPosts: null,
+  admineditPost: null,
   singleAdminPost: null,
   isError: false,
   isSuccess: false,
@@ -130,20 +130,47 @@ const adminPostSlice = createSlice({
       .addCase(admineditPosts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
-        state.postFetched = true;
-        state.admineditPostse = action.payload.Post;
-        state.message = "Successfully edit the post";
+        state.admineditPost = action.payload?.Post;
+        state.message = "Successfully edited the post";
 
-        // ✅ Also update the post in state.posts array
-        const index = state.posts.findIndex(p => p._id === action.payload.adminPost._id);
+        // ✅ Update in adminPosts array if it exists there
+        const index = state.adminPosts.findIndex(p => p._id === action.payload?.Post._id);
+
         if (index !== -1) {
-          state.posts[index] = action.payload.Post;
+          state.adminPosts[index] = action.payload.Post;
         }
       })
       .addCase(admineditPosts.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+      })
+      .addCase(reApprovedPostAdminPosts.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Reapproved post...";
+      })
+      .addCase(reApprovedPostAdminPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.message = "Post reapproved successfully!";
+
+        const updatedPost = action.payload.Post;
+
+        const index = state.adminPosts.findIndex(p => p._id === updatedPost._id);
+        if (index !== -1) {
+          state.adminPosts[index] = updatedPost;
+        }
+
+        const approvedIndex = state.approvedPosts.findIndex(p => p._id === updatedPost._id);
+        if (approvedIndex !== -1) {
+          state.approvedPosts[approvedIndex] = updatedPost;
+        }
+
+      })
+      .addCase(reApprovedPostAdminPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Reactive Post failed";
       })
   },
 });

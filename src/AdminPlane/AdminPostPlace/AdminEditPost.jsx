@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Container, Form, Button, Spinner, Alert, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getSinglePostAdmin, admineditPosts } from "../../config/redux/action/adminPostAction";
 import { resetadminEditPost } from "../../config/redux/reducer/adminPostReducer";
+import { admineditPosts, getSinglePostAdmin } from "../../config/redux/action/adminPostAction";
+import { showSuccess } from "../../utils/toastUtils";
 
 const AdminEditPost = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { singleAdminPost, isLoading, isError, message } = useSelector((state) => state.adminPost);
+    const { admineditPost, singleAdminPost, isLoading, isError, message } = useSelector(
+        (state) => state.adminPost
+    );
     const { token } = useSelector((state) => state.adminAuth);
 
     const [formData, setFormData] = useState({
@@ -28,7 +31,7 @@ const AdminEditPost = () => {
         image: null
     });
 
-    // ✅ Fetch existing post details
+    // Fetch post details
     useEffect(() => {
         if (id) {
             dispatch(getSinglePostAdmin(id));
@@ -38,27 +41,27 @@ const AdminEditPost = () => {
         };
     }, [dispatch, id]);
 
-    // ✅ Fill form data from API
+    // Fill form data from API response
     useEffect(() => {
-        if (singleAdminPost) {
+        if (singleAdminPost && typeof singleAdminPost === "object") {
             setFormData({
-                title: singleAdminPost.title || "",
-                description: singleAdminPost.description || "",
-                subcategory: singleAdminPost.subcategory || "",
-                category: singleAdminPost.category || "",
-                country: singleAdminPost.country || "",
-                city: singleAdminPost.city || "",
-                location: singleAdminPost.location || "",
-                bestTimeToVisit: singleAdminPost.bestTimeToVisit || "",
-                history: singleAdminPost.history || "",
-                tips: singleAdminPost.tips?.join(", ") || "",
-                isApproved: singleAdminPost.isApproved || false,
+                title: singleAdminPost?.title || "",
+                description: singleAdminPost?.description || "",
+                subcategory: singleAdminPost?.subcategory || "",
+                category: singleAdminPost?.category || "",
+                country: singleAdminPost?.country || "",
+                city: singleAdminPost?.city || "",
+                location: singleAdminPost?.location || "",
+                bestTimeToVisit: singleAdminPost?.bestTimeToVisit || "",
+                history: singleAdminPost?.history || "",
+                tips: Array.isArray(singleAdminPost?.tips) ? singleAdminPost.tips.join(", ") : "",
+                isApproved: singleAdminPost?.isApproved || false,
                 image: null
             });
         }
     }, [singleAdminPost]);
 
-    // ✅ Handle input change
+    // Handle form input change
     const handleChange = (e) => {
         const { name, value, type, checked, files } = e.target;
         if (type === "file") {
@@ -70,31 +73,43 @@ const AdminEditPost = () => {
         }
     };
 
-    // ✅ Submit form
+    // Submit form
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const payload = new FormData();
-        Object.keys(formData).forEach((key) => {
-            if (key === "tips") {
-                payload.append(key, formData[key].split(",").map((tip) => tip.trim()));
-            } else if (formData[key] !== null) {
-                payload.append(key, formData[key]);
-            }
-        });
+        // Prepare clean object without FormData
+        const updatedData = {
+            title: formData.title.trim(),
+            description: formData.description.trim(),
+            subcategory: formData.subcategory.trim(),
+            category: formData.category.trim(),
+            country: formData.country.trim(),
+            city: formData.city.trim(),
+            location: formData.location.trim(),
+            bestTimeToVisit: formData.bestTimeToVisit.trim(),
+            history: formData.history.trim(),
+            // tips: formData.tips
+            //     ? formData.tips.split(",").map((tip) => tip.trim()).filter(Boolean)
+            //     : [],
+            tips: formData.tips.trim(),
+            isApproved: formData.isApproved,
+            image: formData.image, // can be null or File
+        };
 
-        dispatch(admineditPosts({ id, updatedData: payload, token }))
+        dispatch(admineditPosts({ id, token, updatedData }))
             .unwrap()
             .then(() => {
-                navigate(`/admin-single-post/${id}`); // ✅ Edit ke baad single post page
+                showSuccess("Admin Post updated successfully");
+                dispatch(resetadminEditPost());
+                navigate(`/admin/post/${id}`);
             })
-            .catch((error) => {
-                console.error("Edit failed:", error);
+            .catch((err) => {
+                console.error("Update failed:", err);
             });
     };
 
 
-    if (isLoading && !singleAdminPost) {
+    if (isLoading && !admineditPost) {
         return (
             <Container className="text-center mt-5">
                 <Spinner animation="border" variant="primary" />
@@ -114,7 +129,7 @@ const AdminEditPost = () => {
     return (
         <Container className="mt-4">
             <Card className="shadow p-4">
-                <h3 className="mb-4 text-center">Edit Experience Post</h3>
+                <h3 className="mb-4 text-center">Edit Post</h3>
                 <Form onSubmit={handleSubmit}>
                     {/* Title */}
                     <Form.Group className="mb-3">
@@ -265,7 +280,7 @@ const AdminEditPost = () => {
                         <Button variant="secondary" onClick={() => navigate(-1)}>
                             Cancel
                         </Button>
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" type="submit" disabled={isLoading}>
                             {isLoading ? <Spinner size="sm" animation="border" /> : "Update Post"}
                         </Button>
                     </div>

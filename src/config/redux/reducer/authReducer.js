@@ -25,6 +25,9 @@ const authSlice = createSlice({
       state.user = null;
       state.loggedIn = false;
       state.token = null;
+      state.isTokenThere = false;
+      state.isSuccess = false;
+      state.isError = false;
       state.message = "Logged out successfully";
       localStorage.removeItem("user");
       localStorage.removeItem("token");
@@ -68,6 +71,8 @@ const authSlice = createSlice({
         state.isSuccess = true;
         state.loggedIn = true;
         state.user = action.payload.user;
+       
+        
         state.token = action.payload.token;
         state.message = "Login successful";
 
@@ -89,19 +94,22 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
+        console.log("Redcuer",action.payload);
         state.message = "User data fetched successfully";
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload || "Unauthorized";
+ 
+        if (action.payload === "Unauthorized") {
+          state.user = null;
+          state.loggedIn = false;
+          state.token = null;
+          localStorage.removeItem("user");
+          localStorage.removeItem("token");
+        }
 
-        // Clear auth on failure
-        state.user = null;
-        state.loggedIn = false;
-        state.token = null;
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
       });
 
   },

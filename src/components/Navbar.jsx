@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Navbar,
@@ -10,7 +10,6 @@ import {
 } from "react-bootstrap";
 import { FaUserCircle } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
-import { useAuthContext } from "../context/AuthContext";
 import { useSelector, useDispatch } from "react-redux";
 
 import styles from "../stylesModule/Navbar.module.css";
@@ -18,6 +17,9 @@ import { handleLogoutUser, reset } from "../config/redux/reducer/authReducer";
 import { useSearchContext } from "../context/SearchContext";
 import logoImg from "../assets/NAS.jpg";
 import { showInfo } from "../utils/toastUtils";
+import { getUser } from "../config/redux/action/authAction";
+
+
 
 const CustomNavbar = () => {
   const { searchQuery, setSearchQuery } = useSearchContext();
@@ -26,7 +28,7 @@ const CustomNavbar = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
+  const { user, loggedIn,  token } = useSelector((state) => state.auth);
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
   const closeDropdown = () => setIsOpen(false);
@@ -49,6 +51,13 @@ const CustomNavbar = () => {
     setMobileMenuOpen(!mobileMenuOpen);
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    const localToken = token || localStorage.getItem("token");
+    if (!user && localToken) {
+      dispatch(getUser({ token: localToken })); // pass token object expected by userProfileApi
+    }
+  }, [user, token, dispatch]);
 
   return (
     <Navbar expand="md" className={styles.navbar}>
@@ -96,7 +105,7 @@ const CustomNavbar = () => {
           </div>
 
           <Nav id={`${styles.navLinkicon} ${mobileMenuOpen ? styles.active : ""}`}>
-            {user?.role === "guest" && (
+            {loggedIn && user?.role?.toLowerCase() === "guest" && (
               <>
                 <Nav.Link as={Link} to="/guest/dashboard" className={styles.navguest}>Guest Dashboard</Nav.Link>
                 <Nav.Link as={Link} to="/my-bookings" className={styles.navguest}>My Trips</Nav.Link>
@@ -104,7 +113,7 @@ const CustomNavbar = () => {
                 <Nav.Link as={Link} to="/Experience-Hub" className={styles.navguest}>Experience Hub</Nav.Link>
               </>
             )}
-            {user?.role === "host" && (
+            {loggedIn && user?.role?.toLowerCase() === "host" && (
               <>
                 <Nav.Link as={Link} to="/host/dashboard" className={styles.navhost}>Host Dashboard</Nav.Link>
                 <Nav.Link as={Link} to="/host/add-property" className={styles.navhost}>Add Property</Nav.Link>

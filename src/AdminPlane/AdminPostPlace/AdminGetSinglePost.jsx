@@ -42,8 +42,7 @@ const AdminGetSinglePost = () => {
     };
   }, [dispatch, id]);
 
-  // const handleEdit = () => navigate(`/adminedit/${id}`);
-const handleEdit = () => navigate("/admin/edit/:id");
+const handleEdit = () => navigate(`/admin/adminedit/${id}`);
   if (isLoading) {
     return (
       <Container className="text-center mt-5">
