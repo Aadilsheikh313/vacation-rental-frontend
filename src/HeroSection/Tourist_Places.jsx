@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Card, Spinner, Alert } from "react-bootstrap";
 import { getApprovedPostAdmin } from "../config/redux/action/adminPostAction";
 import { resetStatus } from "../config/redux/reducer/adminPostReducer";
+import { useNavigate } from "react-router-dom";
 
 // Category mapping
 const mapDisplayCategoryToBackend = (label) => {
@@ -37,6 +38,7 @@ const TouristAndPlace = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const contentRef = useRef(null);
 
+   const navigate = useNavigate(); 
   const dispatch = useDispatch();
   const { approvedPosts, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.adminPost
@@ -130,14 +132,16 @@ const TouristAndPlace = () => {
                 )}
                 <Card.Body>
                   <Card.Title>{post.title}</Card.Title>
-                  <Card.Text>{post.description}</Card.Text>
-                  <Card.Text className="text-muted" style={{ fontSize: "0.9rem" }}>
-                    {post.city}, {post.country}
-                  </Card.Text>
-                  <Card.Text>
+                     <Card.Text>
                     <strong>Category:</strong> {post.category} <br />
-                    <strong>Subcategory:</strong> {post.subcategory}
+                    <strong>Subcategory:</strong> {post.subcategory} <br />
+                    <strong>City : {post.city} </strong> <br />
+                     <strong>Address : {post.location}</strong> <br />
+                    <strong>Country:  {post.country} </strong> 
+
                   </Card.Text>
+                  <Card.Text> <strong>Description : </strong>{post.description}</Card.Text>
+               
                   <Card.Text>
                     <strong>Best Time:</strong> {post.bestTimeToVisit}
                   </Card.Text>
@@ -146,7 +150,8 @@ const TouristAndPlace = () => {
                   </Card.Text>
                 </Card.Body>
                 <div className="card-footer bg-transparent border-0">
-                  <button className="btn btn-outline-primary w-100 rounded-pill">
+                  <button className="btn btn-outline-primary w-100 rounded-pill" 
+                    onClick={() => navigate(`/touristplace/${post._id}`)}>
                     ✈️ Know More
                   </button>
                 </div>
