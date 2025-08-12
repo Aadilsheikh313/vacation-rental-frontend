@@ -4,6 +4,7 @@ import { fetchTripInfo } from "../api/mytripApi.js";
 import MapView from "../Map/MapView.jsx";
 import PlaceCard from "../components/PlaceCard.jsx";
 import styles from "../stylesModule/HeroModule/PlanMyTrip.module.css";
+import NavigationButtons from "../components/NavigationButtons.jsx";
 
 export default function PlanMyTrip() {
   const [trip, setTrip] = useState({
@@ -67,6 +68,7 @@ export default function PlanMyTrip() {
 
   return (
     <Container className={styles.container + " py-4"}>
+      <NavigationButtons/>
       <h2 className={styles.title}>Plan My Trip</h2>
 
       <Form onSubmit={handleSearch} className={styles.formRow}>
