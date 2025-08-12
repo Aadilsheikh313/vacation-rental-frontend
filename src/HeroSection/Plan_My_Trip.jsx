@@ -81,7 +81,7 @@ export default function PlanMyTrip() {
               className={styles.formControl}
             />
           </Col>
-          {/* <Col md={2}>
+          <Col md={2}>
             <Form.Control
               type="date"
               name="startDate"
@@ -90,8 +90,8 @@ export default function PlanMyTrip() {
               required
               className={styles.formControl}
             />
-          </Col> */}
-          {/* <Col md={2}>
+          </Col>
+          <Col md={2}>
             <Form.Control
               type="date"
               name="endDate"
@@ -100,8 +100,8 @@ export default function PlanMyTrip() {
               required
               className={styles.formControl}
             />
-          </Col> */}
-          {/* <Col md={2}>
+          </Col>
+          <Col md={2}>
             <Form.Control
               type="number"
               name="adults"
@@ -111,8 +111,8 @@ export default function PlanMyTrip() {
               placeholder="Adults"
               className={styles.formControl}
             />
-          </Col> */}
-          {/* <Col md={2}>
+          </Col>
+          <Col md={2}>
             <Form.Control
               type="number"
               name="children"
@@ -122,7 +122,7 @@ export default function PlanMyTrip() {
               placeholder="Children"
               className={styles.formControl}
             />
-          </Col> */}
+          </Col>
           <Col md={1}>
             <Button type="submit" variant="primary" className={styles.buttonSearch + " w-100"}>
               Search
