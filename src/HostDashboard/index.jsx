@@ -52,6 +52,11 @@ const HostDashboard = () => {
       successRedirectTo: "/host/dashboard",
     });
   };
+{!hostDashboardLoading && hostDashboardPosts.length === 0 && (
+  <Alert variant="info">
+    {message || "You haven't posted any properties yet."}
+  </Alert>
+)}
 
   return (
     <Container className={styles.Container}>

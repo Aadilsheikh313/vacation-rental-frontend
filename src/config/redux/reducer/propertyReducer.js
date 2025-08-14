@@ -186,7 +186,7 @@ const postSlice = createSlice({
       .addCase(getMyPropertiesPosts.fulfilled, (state, action) => {
         state.hostDashboardLoading = false;
         state.isError = false;
-        state.message = "Host properties fetched successfully";
+        state.message = action.payload.message; 
         state.hostDashboardPosts = action.payload;
       })
       .addCase(getMyPropertiesPosts.rejected, (state, action) => {
