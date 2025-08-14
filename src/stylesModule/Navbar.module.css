@@ -18,7 +18,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  max-width: 100%;
   padding: 0 1rem;
   flex-wrap: nowrap;
   gap: 1rem;
@@ -28,6 +28,7 @@
 .logo {
   display: flex;
   align-items: center;
+
 }
 
 .navbar .logo img {
@@ -36,6 +37,8 @@
   border-radius: 50%;
   object-fit: cover;
   transition: transform 0.3s ease;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
 .navbar .logo img:hover {
@@ -53,8 +56,7 @@
 .leftSection {
   display: flex;
   align-items: center;
-  gap: 4rem;
-  margin-right: 4rem;
+  gap: 2rem;
 }
 
 .navLinkitem {
@@ -65,17 +67,17 @@
   background-color: transparent;
 }
 
+.navLinkitem:hover {
+ color: rgb(7, 173, 7) !important;
+ text-decoration: underline;
+ 
+}
 .navhome {
   color: white !important;
   font-size: 1.3rem;
   font-weight: 600;
   padding-left: 1rem;
   transition: color 0.3s;
-}
-
-.navhome:hover {
-  color: green !important;
-  text-decoration: underline;
 }
 
 .searchInput {
@@ -173,10 +175,11 @@
 }
 
 .modalContent {
+  margin-top: 1rem;
   position: fixed;
   top: 15%;
   right: 2rem;
-  background: #fff;
+  background: linear-gradient(to right, #f1f1f5, #dcd9ee);
   padding: 2rem;
   border-radius: 20px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
@@ -188,7 +191,22 @@
   max-width: 90vw;
   animation: fadeInScale 0.4s ease-in-out;
 }
-
+.closeButtonProfile{
+  display: flex;
+   gap: 2rem;
+   align-items: center;
+   text-align: center;
+}
+.closeButton{
+  width: 2rem;
+  padding: 10px;
+  background-color: transparent;
+}
+.closeButton:hover{
+  color: red;
+  transform: scale(1.0);
+  cursor: pointer;
+}
 @keyframes fadeInScale {
   from {
     opacity: 0;
@@ -266,6 +284,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5rem;
+    padding: 0 10px 0 10px;
   }
 
   .navLinkitem,
@@ -275,7 +294,7 @@
     align-items: flex-start;
     width: 100%;
     padding: 1rem;
-    background: #c07a68;
+    background-color: transparent;
     border-radius: 8px;
     gap: 1rem;
   }

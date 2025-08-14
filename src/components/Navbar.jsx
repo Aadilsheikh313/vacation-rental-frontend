@@ -28,7 +28,7 @@ const CustomNavbar = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { user, loggedIn,  token } = useSelector((state) => state.auth);
+  const { user, loggedIn, token } = useSelector((state) => state.auth);
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
   const closeDropdown = () => setIsOpen(false);
@@ -46,6 +46,9 @@ const CustomNavbar = () => {
     navigate("/");
     showInfo("You have been logged out successfully!");
   };
+  const handleCloseProfile = () => {
+  closeDropdown();
+};
 
   const handleHamburgerToggle = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -66,7 +69,6 @@ const CustomNavbar = () => {
           <Navbar.Brand
             className={styles.logo}
             onClick={handleLogoClick}
-            style={{ cursor: "pointer" }}
           >
             <img src={logoImg} alt="logoImage" />
           </Navbar.Brand>
@@ -158,7 +160,17 @@ const CustomNavbar = () => {
                         </>
                       ) : (
                         <>
-                          <span>Welcome, {user?.name} your Profile</span>
+                          <div className={styles.closeButtonProfile}>
+                            <span>Welcome, {user?.name} your Profile</span>
+                            <p
+                              className={styles.closeButton}
+                              onClick={handleCloseProfile}
+                              style={{ cursor: "pointer" }}
+                            >
+                              X
+                            </p>
+                          </div>
+
                           <Link to="/profile" className={styles.dropdownItem} onClick={closeDropdown}>Profile</Link>
                           <Link to="/explore" className={styles.dropdownItem} onClick={closeDropdown}>Explore</Link>
                           <Link to="/about" className={styles.dropdownItem} onClick={closeDropdown}>About</Link>

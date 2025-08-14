@@ -88,9 +88,6 @@ const AdminEditPost = () => {
             location: formData.location.trim(),
             bestTimeToVisit: formData.bestTimeToVisit.trim(),
             history: formData.history.trim(),
-            // tips: formData.tips
-            //     ? formData.tips.split(",").map((tip) => tip.trim()).filter(Boolean)
-            //     : [],
             tips: formData.tips.trim(),
             isApproved: formData.isApproved,
             image: formData.image, // can be null or File
