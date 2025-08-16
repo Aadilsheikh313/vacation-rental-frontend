@@ -23,6 +23,8 @@ export const createPosts = createAsyncThunk(
   async (formData, thunkAPI) => {
     try {
       const response = await postPropertyApi(formData);
+      console.log("ACTION PROPERTY",response);
+      
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || "Failed to post property");

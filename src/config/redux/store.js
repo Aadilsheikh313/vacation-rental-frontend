@@ -5,6 +5,7 @@ import reviewReducer from './reducer/reviewReducer';
 import bookingReducer from "./reducer/bookingReducer";
 import paymentReducer from './reducer/paymentReducer';
 import invoiceReducer from './reducer/invoiceReducer';
+import globalSearchReducer from './reducer/globalSearchReducer';
 import adminAuthReducer from './reducer/adminAuthReducer';
 import adminHomeDashReducer from './reducer/adminHomeDashReducer';
 import adminDashboardReducer from './reducer/adminDashboardReducer';
@@ -14,26 +15,17 @@ import adminBannedUserReducer from './reducer/adminBannedUserReducer';
 import adminBannedPropertyReducer from './reducer/adminActivePropertyReducer';
 import adminPostReducer from './reducer/adminPostReducer';
 
-import storage from "redux-persist/lib/storage";
-import { persistStore, persistReducer } from "redux-persist";
 
-// const persistConfig = {
-//   key: "root",
-//   storage,
-//   whitelist: ['user', 'token']
-// };
-
-// const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 
 const store = configureStore({
   reducer: {
-     auth: authReducer,
-    // auth: persistedAuthReducer,
+    auth: authReducer,
     post: propertyReducer,
     review: reviewReducer,
     booking: bookingReducer,
     payment: paymentReducer,
     invoice: invoiceReducer,
+    search: globalSearchReducer,
     adminAuth: adminAuthReducer,
     adminHomeDash: adminHomeDashReducer,
     adminDashboard: adminDashboardReducer,
@@ -44,7 +36,5 @@ const store = configureStore({
     adminPost: adminPostReducer,
   },
 });
-
-// export const persistor = persistStore(store);
 
 export default store;

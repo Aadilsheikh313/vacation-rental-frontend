@@ -15,6 +15,10 @@ import { getTotalAmountPosts, getTotalBookingPosts } from "../config/redux/actio
 const AdminDashboard = () => {
   const [selectedView, setSelectedView] = useState("all");
 
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const searchQuery = params.get("search");
+
   const dispatch = useDispatch();
 
   const { totalAmount, totalBooking } = useSelector((state) => state.adminDashboard);
@@ -27,6 +31,7 @@ const AdminDashboard = () => {
 
   return (
     <Container className="py-4">
+      {searchQuery && <GlobalSearch searchQuery={searchQuery} />}
       <h2 className="mb-4 text-center">📊 Admin Booking Dashboard</h2>
 
       {/* Summary Cards */}

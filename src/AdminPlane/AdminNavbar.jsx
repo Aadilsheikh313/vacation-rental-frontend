@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "react-bootstrap";
 import { logoutAdmin, reset } from "../config/redux/reducer/adminAuthReducer";
 import { FaBars, FaTimes } from "react-icons/fa";
+import SearchBox from "../comman/SearchBox";
 
 const AdminNavbar = () => {
   const dispatch = useDispatch();
@@ -54,7 +55,9 @@ const AdminNavbar = () => {
   <li><Link to="/admin/Post" onClick={closeMenuIfMobile}>Post</Link></li>
   <li className={styles.navRight}>
     <input type="text" placeholder="Search..." className={styles.searchInput} />
-    <button className={styles.searchButton} type="submit">Search</button>
+      <div style={{ maxWidth: "400px", flex: 1, marginLeft: "20px" }}>
+          <SearchBox placeholder="Search users, properties, bookings..." />
+        </div>
   </li>
 
   {/* 👉 Add this inside the ul */}

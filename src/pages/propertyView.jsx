@@ -42,21 +42,26 @@ const PropertyView = () => {
 
   useEffect(() => {
     const location = singlePost?.location;
+     console.log("📍 Location from post:", location);
     if (!location) return;
 
     const fetchCoordinates = async () => {
       try {
         const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/geocode?q=${encodeURIComponent(location)}`);
+         console.log("📡 API Response status:", res.status);
         if (!res.ok) throw new Error("Failed to fetch coordinates");
         const data = await res.json();
 
-
-        if (data.length > 0) {
+        if (Array.isArray(data) && data.length > 0) {
           setCoordinates({
             lat: parseFloat(data[0].lat),
             lng: parseFloat(data[0].lon),
           });
+              console.log("✅ Parsed coordinates:", { lat, lng });
+        } else {
+          console.warn("No location found for:", location);
         }
+
 
       } catch (err) {
         console.error("Geocoding failed", err);

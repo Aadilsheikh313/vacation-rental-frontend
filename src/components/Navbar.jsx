@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import {
   Navbar,
   Nav,
@@ -11,20 +10,24 @@ import {
 import { FaUserCircle } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
-
 import styles from "../stylesModule/Navbar.module.css";
 import { handleLogoutUser, reset } from "../config/redux/reducer/authReducer";
-import { useSearchContext } from "../context/SearchContext";
 import logoImg from "../assets/NAS.jpg";
 import { showInfo } from "../utils/toastUtils";
 import { getUser } from "../config/redux/action/authAction";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 
 
 const CustomNavbar = () => {
-  const { searchQuery, setSearchQuery } = useSearchContext();
   const [isOpen, setIsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const location = useLocation();
+  const [searchText, setSearchText] = useState(
+    () => new URLSearchParams(location.search).get("search") || ""
+  );
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -33,10 +36,30 @@ const CustomNavbar = () => {
   const toggleDropdown = () => setIsOpen((prev) => !prev);
   const closeDropdown = () => setIsOpen(false);
 
+
+  useEffect(() => {
+    setSearchText(new URLSearchParams(location.search).get("search") || "");
+  }, [location.search]);
+
+  // LIVE navigate with debounce (results Home par dikhenge)
+  useEffect(() => {
+    const q = searchText.trim();
+    const id = setTimeout(() => {
+      if (q) navigate(`/?search=${encodeURIComponent(q)}`, { replace: true });
+      else navigate("/", { replace: true });
+    }, 400); // 400ms debounce
+
+    return () => clearTimeout(id);
+  }, [searchText, navigate]);
+
+
   const handleSearch = (e) => {
     e.preventDefault();
-
+    const q = searchText.trim();
+    if (q) navigate(`/?search=${encodeURIComponent(q)}`);
+    else navigate("/");
   };
+
 
   const handleLogoClick = () => navigate("/");
 
@@ -47,8 +70,8 @@ const CustomNavbar = () => {
     showInfo("You have been logged out successfully!");
   };
   const handleCloseProfile = () => {
-  closeDropdown();
-};
+    closeDropdown();
+  };
 
   const handleHamburgerToggle = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -92,18 +115,16 @@ const CustomNavbar = () => {
                 Home
               </Nav.Link>
             </Nav>
-
             <Form className={styles.searchInput} onSubmit={handleSearch}>
               <FormControl
                 type="search"
-                placeholder="Search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Name, email, property, location, min price, max price..."
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
               />
-              <Button variant="outline-light" type="submit">
-                Search
-              </Button>
+              <Button variant="outline-light" type="submit">Search</Button>
             </Form>
+
           </div>
 
           <Nav id={`${styles.navLinkicon} ${mobileMenuOpen ? styles.active : ""}`}>

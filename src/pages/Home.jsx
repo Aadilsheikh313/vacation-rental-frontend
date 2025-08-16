@@ -2,12 +2,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../config/redux/action/propertyAction";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Spinner, Button } from "react-bootstrap";
-import { useSearchContext } from "../context/SearchContext";
 import styles from "../stylesModule/home.module.css";
 import { FaEye, FaHome, FaMapMarkedAlt, FaRegHeart, FaStar, FaSuitcaseRolling, FaUtensils } from "react-icons/fa";
 import NavigationButtons from "../components/NavigationButtons";
+import GlobalSearch from "../comman/GlobalSearch";
 
 
 const Home = () => {
@@ -15,30 +15,26 @@ const Home = () => {
   const { posts, isLoading } = useSelector((state) => state.post);
   const { reviewLoading, reviewPosts } = useSelector((state) => state.review)
   const { loggedIn } = useSelector((state) => state.auth);
+
+
+    const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const searchQuery = params.get("search");
+
+
   useEffect(() => {
     dispatch(getAllPosts());
   }, [dispatch]);
-  const { searchQuery } = useSearchContext();
-
-
-  const filteredPosts = posts
-    .filter((p) => p.status !== false)
-    .filter((property) => {
-      const query = searchQuery.toLowerCase();
-      return (
-        property.title.toLowerCase().includes(query) ||
-        property.location?.toLowerCase().includes(query) ||
-        property.price.toString().includes(query)
-      );
-    });
-
 
   return (
     <div className={styles.home} >
+         {!searchQuery && <h2>Welcome to Home Page</h2>}
+            {searchQuery && <GlobalSearch searchQuery={searchQuery} />}
       <h5 className="text-center mb-4">Where do you want to go today?</h5>
       
     <NavigationButtons />
       
+
 
       {isLoading && (
         <div className="text-center">

@@ -72,7 +72,9 @@ const postSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.postFetched = true;
-        state.posts.unshift(action.payload.property); // ✅ Add new post
+        state.posts.unshift(action.payload.newproperty); // ✅ Add new post
+        console.log("ACTIONREDUCER",action.payload.newproperty);
+        
       })
       .addCase(createPosts.rejected, (state, action) => {
         state.isLoading = false;

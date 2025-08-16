@@ -79,7 +79,12 @@ const AddPropertyForm = () => {
 
         dispatch(createPosts(postData));
     };
-
+    const categories = [
+        'Hotels', 'Apartments', 'Villas', 'Guest Houses', 'Resorts', 'Farmhouses',
+        'Cottages', 'Bungalows', 'Homestays', 'Cabins', 'Treehouses', 'Boathouses',
+        'Hostels', 'Serviced Apartments', 'Tent Stays / Camping', 'Houseboats',
+        'Luxury Stays', 'Bar'
+    ];
 
     return (
         <div className={styles.addPropertyContainer}>
@@ -132,34 +137,18 @@ const AddPropertyForm = () => {
                 {/* Category Dropdown */}
                 <Form.Group className={styles.formGroup}>
                     <Form.Label className={styles.formLabel}>Category</Form.Label>
-                    <Form.Control
-                        as="select"
+                    <Form.Select
                         name="category"
                         className={styles.formControl}
                         value={formData.category}
                         onChange={handleChange}
                         required
                     >
-                        <option value="">Select Category</option>
-                        <option value="Hotels">Hotels</option>
-                        <option value="Apartments">Apartments</option>
-                        <option value="Villas">Villas</option>
-                        <option value="Guest Houses">Guest Houses</option>
-                        <option value="Resorts">Resorts</option>
-                        <option value="Farmhouses">Farmhouses</option>
-                        <option value="Cottages">Cottages</option>
-                        <option value="Bungalows">Bungalows</option>
-                        <option value="Homestays">Homestays</option>
-                        <option value="Cabins">Cabins</option>
-                        <option value="Treehouses">Treehouses</option>
-                        <option value="Boathouses">Boathouses</option>
-                        <option value="Hostels">Hostels</option>
-                        <option value="Serviced Apartments">Serviced Apartments</option>
-                        <option value="Tent Stays / Camping">Tent Stays / Camping</option>
-                        <option value="Houseboats">Houseboats</option>
-                        <option value="Luxury Stays">Luxury Stays</option>
-                        <option value="Bar">Bar</option>
-                    </Form.Control>
+                        <option value="">-- Select Category --</option>
+                        {categories.map((cat, idx) => (
+                            <option key={idx} value={cat}>{cat}</option>
+                        ))}
+                    </Form.Select>
                 </Form.Group>
 
                 {/* Country */}
@@ -199,32 +188,6 @@ const AddPropertyForm = () => {
                         onChange={handleChange}
                         required
                         minLength={10}
-                    />
-                </Form.Group>
-
-                {/* Latitude */}
-                <Form.Group className={styles.formGroup}>
-                    <Form.Label className={styles.formLabel}>Latitude</Form.Label>
-                    <Form.Control
-                        type="number"
-                        name="lat"
-                        className={styles.formControl}
-                        onChange={handleChange}
-                        required
-                        step="any"
-                    />
-                </Form.Group>
-
-                {/* Longitude */}
-                <Form.Group className={styles.formGroup}>
-                    <Form.Label className={styles.formLabel}>Longitude</Form.Label>
-                    <Form.Control
-                        type="number"
-                        name="lng"
-                        className={styles.formControl}
-                        onChange={handleChange}
-                        required
-                        step="any"
                     />
                 </Form.Group>
 

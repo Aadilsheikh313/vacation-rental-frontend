@@ -18,7 +18,8 @@ export const postPropertyApi = async (formData) => {
       Authorization: `Bearer ${token}`,  // ✅ send token here
     },
   });
-
+ console.log("API", response.data);
+ 
   return response.data;
 };
 
