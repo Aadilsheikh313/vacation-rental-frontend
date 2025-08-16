@@ -1,7 +1,7 @@
 // src/components/common/SearchBox.jsx
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { searchPosts } from "../../config/redux/action/propertyAction";
+
 
 const SearchBox = ({ placeholder = "Search...", className = "" }) => {
   const [query, setQuery] = useState("");
