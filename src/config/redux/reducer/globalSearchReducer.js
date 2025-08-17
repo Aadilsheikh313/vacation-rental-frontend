@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { globalSearchAction } from "../action/globalSearchAction";
+import {
+  adminSearchAction,
+  guestSearchAction,
+  hostSearchAction,
+} from "../action/globalSearchAction";
 
 const initialState = {
   users: [],
@@ -16,7 +20,7 @@ const globalSearchSlice = createSlice({
   name: "globalSearch",
   initialState,
   reducers: {
-    resetSearch: () => initialState,  // pura state reset
+    resetSearch: () => initialState, // pura state reset
     resetStatus: (state) => {
       state.isLoading = false;
       state.isError = false;
@@ -25,33 +29,77 @@ const globalSearchSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // ================== ADMIN SEARCH ==================
     builder
-      .addCase(globalSearchAction.pending, (state) => {
+      .addCase(adminSearchAction.pending, (state) => {
         state.isLoading = true;
         state.isError = false;
         state.isSuccess = false;
-        state.message = "Searching...";
+        state.message = "Admin searching...";
       })
-      .addCase(globalSearchAction.fulfilled, (state, action) => {
+      .addCase(adminSearchAction.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.message = "Search completed successfully ✅";
+        state.message = "Admin search completed ✅";
 
-        // ✅ API ke response ka structure:
-        // { success: true, data: { users, properties, experiences, bookings } }
-        const { users, properties, experiences, bookings } = action.payload.data || {};
-
-        state.users = users || [];
-        state.properties = properties || [];
-        state.experiences = experiences || [];
-        state.bookings = bookings || [];
+        // API se { users, properties } aa raha hai
+        state.users = action.payload.users || [];
+        state.properties = action.payload.properties || [];
       })
-      .addCase(globalSearchAction.rejected, (state, action) => {
+      .addCase(adminSearchAction.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
-        state.message = action.payload || "Search failed ❌";
+        state.message = action.payload || "Admin search failed ❌";
+      });
+
+    // ================== GUEST SEARCH ==================
+    builder
+      .addCase(guestSearchAction.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.isSuccess = false;
+        state.message = "Guest searching...";
+      })
+      .addCase(guestSearchAction.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.message = "Guest search completed ✅";
+
+        // API se { properties } aa raha hai
+        state.properties = action.payload.properties || [];
+      })
+      .addCase(guestSearchAction.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.payload || "Guest search failed ❌";
+      });
+
+    // ================== HOST SEARCH ==================
+    builder
+      .addCase(hostSearchAction.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.isSuccess = false;
+        state.message = "Host searching...";
+      })
+      .addCase(hostSearchAction.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.message = "Host search completed ✅";
+
+        // API se { properties } aa raha hai
+        state.properties = action.payload.properties || [];
+      })
+      .addCase(hostSearchAction.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.payload || "Host search failed ❌";
       });
   },
 });

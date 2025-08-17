@@ -7,7 +7,6 @@ import { Spinner, Button } from "react-bootstrap";
 import styles from "../stylesModule/home.module.css";
 import { FaEye, FaHome, FaMapMarkedAlt, FaRegHeart, FaStar, FaSuitcaseRolling, FaUtensils } from "react-icons/fa";
 import NavigationButtons from "../components/NavigationButtons";
-import GlobalSearch from "../comman/GlobalSearch";
 
 
 const Home = () => {
@@ -16,20 +15,12 @@ const Home = () => {
   const { reviewLoading, reviewPosts } = useSelector((state) => state.review)
   const { loggedIn } = useSelector((state) => state.auth);
 
-
-    const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const searchQuery = params.get("search");
-
-
   useEffect(() => {
     dispatch(getAllPosts());
   }, [dispatch]);
 
   return (
     <div className={styles.home} >
-         {!searchQuery && <h2>Welcome to Home Page</h2>}
-            {searchQuery && <GlobalSearch searchQuery={searchQuery} />}
       <h5 className="text-center mb-4">Where do you want to go today?</h5>
       
     <NavigationButtons />

@@ -37,30 +37,6 @@ const CustomNavbar = () => {
   const closeDropdown = () => setIsOpen(false);
 
 
-  useEffect(() => {
-    setSearchText(new URLSearchParams(location.search).get("search") || "");
-  }, [location.search]);
-
-  // LIVE navigate with debounce (results Home par dikhenge)
-  useEffect(() => {
-    const q = searchText.trim();
-    const id = setTimeout(() => {
-      if (q) navigate(`/?search=${encodeURIComponent(q)}`, { replace: true });
-      else navigate("/", { replace: true });
-    }, 400); // 400ms debounce
-
-    return () => clearTimeout(id);
-  }, [searchText, navigate]);
-
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const q = searchText.trim();
-    if (q) navigate(`/?search=${encodeURIComponent(q)}`);
-    else navigate("/");
-  };
-
-
   const handleLogoClick = () => navigate("/");
 
   const handleLogout = () => {
@@ -115,7 +91,7 @@ const CustomNavbar = () => {
                 Home
               </Nav.Link>
             </Nav>
-            <Form className={styles.searchInput} onSubmit={handleSearch}>
+            <Form className={styles.searchInput} >
               <FormControl
                 type="search"
                 placeholder="Name, email, property, location, min price, max price..."
