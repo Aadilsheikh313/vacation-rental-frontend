@@ -30,7 +30,7 @@ import { getUser } from './config/redux/action/authAction';
 import ExploreAndStay from './HeroSection/Explore_Stays';
 import TouristAndPlace from './HeroSection/Tourist_Places';
 import TopSpots from './HeroSection/Top_Spots';
-import PlanMyTrip from './HeroSection/Plan_My_Trip';
+// import PlanMyTrip from './HeroSection/Plan_My_Trip';
 import FoodAndFun from './HeroSection/FoodAndFun';
 import PostTripMoments from './GuestDashbord/Post_Trip_Moments';
 import ExperienceHub from './GuestDashbord/Experience_Hub';
@@ -47,6 +47,7 @@ import GetAllAdminPosts from './AdminPlane/AdminPostPlace/GetAllAdminPost';
 import AdminGetSinglePost from './AdminPlane/AdminPostPlace/AdminGetSinglePost';
 import AdminEditPost from './AdminPlane/AdminPostPlace/AdminEditPost';
 import GetTouristSinglePlace from './HeroSection/Touriste_SinglePlaces';
+import TripHomePage from './PlanOurTrip/Home';
 
 function AppContent() {
   const location = useLocation();
@@ -89,7 +90,8 @@ function AppContent() {
         <Route path='/explore' element={<TouristAndPlace />} />
         <Route path="/touristplace/:id" element={<GetTouristSinglePlace />} />
         <Route path='/top-spots' element={<TopSpots />} />
-        <Route path='/plan-my-trip' element={<PlanMyTrip />} />
+        {/* <Route path='/plan-my-trip' element={<PlanMyTrip />} /> */}
+        <Route path='/plan-my-trip' element={<TripHomePage />} />
         <Route path='/testy-food' element={<FoodAndFun />} />
 
         {/* Admin Routes */}

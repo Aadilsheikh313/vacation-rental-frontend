@@ -23,6 +23,8 @@ export const guestSearchAction = createAsyncThunk(
     try {
       const response = await guestSearchApi(query);
       return thunkAPI.fulfillWithValue(response);
+      
+      
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error?.response?.data?.message || "Search Action failed"

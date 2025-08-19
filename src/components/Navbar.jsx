@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import {
   Navbar,
@@ -16,8 +17,7 @@ import logoImg from "../assets/NAS.jpg";
 import { showInfo } from "../utils/toastUtils";
 import { getUser } from "../config/redux/action/authAction";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
-
+import { guestSearchAction, hostSearchAction } from "../config/redux/action/globalSearchAction";
 
 const CustomNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,13 +29,11 @@ const CustomNavbar = () => {
   );
 
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
   const { user, loggedIn, token } = useSelector((state) => state.auth);
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
   const closeDropdown = () => setIsOpen(false);
-
 
   const handleLogoClick = () => navigate("/");
 
@@ -45,6 +43,7 @@ const CustomNavbar = () => {
     navigate("/");
     showInfo("You have been logged out successfully!");
   };
+
   const handleCloseProfile = () => {
     closeDropdown();
   };
@@ -57,18 +56,35 @@ const CustomNavbar = () => {
   useEffect(() => {
     const localToken = token || localStorage.getItem("token");
     if (!user && localToken) {
-      dispatch(getUser({ token: localToken })); // pass token object expected by userProfileApi
+      dispatch(getUser({ token: localToken }));
     }
   }, [user, token, dispatch]);
+
+const handleSearchSubmit = (e) => {
+  e.preventDefault();
+
+  const params = new URLSearchParams();
+  if (searchText) params.set("search", searchText);
+
+  if (loggedIn) {
+    const role = user?.role?.toLowerCase();
+
+    if (role === "guest") {
+      dispatch(guestSearchAction({ search: searchText }));
+    } else if (role === "host") {
+      dispatch(hostSearchAction({ search: searchText }));
+    }
+  }
+
+  navigate(`/?${params.toString()}`); // ✅ query set hamesha karo
+};
+
 
   return (
     <Navbar expand="md" className={styles.navbar}>
       <Container className={`${styles.Container}`}>
         <div className={styles.logo_hambuger}>
-          <Navbar.Brand
-            className={styles.logo}
-            onClick={handleLogoClick}
-          >
+          <Navbar.Brand className={styles.logo} onClick={handleLogoClick}>
             <img src={logoImg} alt="logoImage" />
           </Navbar.Brand>
 
@@ -82,7 +98,9 @@ const CustomNavbar = () => {
         </div>
 
         <Navbar.Collapse
-          className={`${styles.navLinkitem} ${mobileMenuOpen ? styles.active : ""}`}
+          className={`${styles.navLinkitem} ${
+            mobileMenuOpen ? styles.active : ""
+          }`}
           id="basic-navbar-nav"
         >
           <div className={styles.leftSection}>
@@ -91,33 +109,81 @@ const CustomNavbar = () => {
                 Home
               </Nav.Link>
             </Nav>
-            <Form className={styles.searchInput} >
+            <Form className={styles.searchInput} onSubmit={handleSearchSubmit}>
               <FormControl
                 type="search"
-                placeholder="Name, email, property, location, min price, max price..."
+                placeholder="property title, location, min price, max price..."
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
               />
-              <Button variant="outline-light" type="submit">Search</Button>
+              <Button variant="outline-light" type="submit">
+                Search
+              </Button>
             </Form>
-
           </div>
 
-          <Nav id={`${styles.navLinkicon} ${mobileMenuOpen ? styles.active : ""}`}>
+          <Nav
+            id={`${styles.navLinkicon} ${mobileMenuOpen ? styles.active : ""}`}
+          >
             {loggedIn && user?.role?.toLowerCase() === "guest" && (
               <>
-                <Nav.Link as={Link} to="/guest/dashboard" className={styles.navguest}>Guest Dashboard</Nav.Link>
-                <Nav.Link as={Link} to="/my-bookings" className={styles.navguest}>My Trips</Nav.Link>
-                <Nav.Link as={Link} to="/Post-Trip-Moments" className={styles.navguest}>Post Trip Moments</Nav.Link>
-                <Nav.Link as={Link} to="/Experience-Hub" className={styles.navguest}>Experience Hub</Nav.Link>
+                <Nav.Link
+                  as={Link}
+                  to="/guest/dashboard"
+                  className={styles.navguest}
+                >
+                  Guest Dashboard
+                </Nav.Link>
+                <Nav.Link as={Link} to="/my-bookings" className={styles.navguest}>
+                  My Trips
+                </Nav.Link>
+                <Nav.Link
+                  as={Link}
+                  to="/Post-Trip-Moments"
+                  className={styles.navguest}
+                >
+                  Post Trip Moments
+                </Nav.Link>
+                <Nav.Link
+                  as={Link}
+                  to="/Experience-Hub"
+                  className={styles.navguest}
+                >
+                  Experience Hub
+                </Nav.Link>
               </>
             )}
+
             {loggedIn && user?.role?.toLowerCase() === "host" && (
               <>
-                <Nav.Link as={Link} to="/host/dashboard" className={styles.navhost}>Host Dashboard</Nav.Link>
-                <Nav.Link as={Link} to="/host/add-property" className={styles.navhost}>Add Property</Nav.Link>
-                <Nav.Link as={Link} to="/host/check-bookings" className={styles.navhost}>Active Booking</Nav.Link>
-                <Nav.Link as={Link} to="/host/history-bookings" className={styles.navhost}>My Rentals</Nav.Link>
+                <Nav.Link
+                  as={Link}
+                  to="/host/dashboard"
+                  className={styles.navhost}
+                >
+                  Host Dashboard
+                </Nav.Link>
+                <Nav.Link
+                  as={Link}
+                  to="/host/add-property"
+                  className={styles.navhost}
+                >
+                  Add Property
+                </Nav.Link>
+                <Nav.Link
+                  as={Link}
+                  to="/host/check-bookings"
+                  className={styles.navhost}
+                >
+                  Active Booking
+                </Nav.Link>
+                <Nav.Link
+                  as={Link}
+                  to="/host/history-bookings"
+                  className={styles.navhost}
+                >
+                  My Rentals
+                </Nav.Link>
               </>
             )}
 
@@ -152,8 +218,20 @@ const CustomNavbar = () => {
                     >
                       {!user ? (
                         <>
-                          <Link to="/registerpage" className={styles.dropdownItem} onClick={closeDropdown}>Sign Up</Link>
-                          <Link to="/login" className={styles.dropdownItem} onClick={closeDropdown}>Login</Link>
+                          <Link
+                            to="/registerpage"
+                            className={styles.dropdownItem}
+                            onClick={closeDropdown}
+                          >
+                            Sign Up
+                          </Link>
+                          <Link
+                            to="/login"
+                            className={styles.dropdownItem}
+                            onClick={closeDropdown}
+                          >
+                            Login
+                          </Link>
                         </>
                       ) : (
                         <>
@@ -168,11 +246,41 @@ const CustomNavbar = () => {
                             </p>
                           </div>
 
-                          <Link to="/profile" className={styles.dropdownItem} onClick={closeDropdown}>Profile</Link>
-                          <Link to="/explore" className={styles.dropdownItem} onClick={closeDropdown}>Explore</Link>
-                          <Link to="/about" className={styles.dropdownItem} onClick={closeDropdown}>About</Link>
-                          <Link to="/contact" className={styles.dropdownItem} onClick={closeDropdown}>Contact</Link>
-                          <button onClick={() => { handleLogout(); closeDropdown(); }} className={styles.dropdownItemlogout}>
+                          <Link
+                            to="/profile"
+                            className={styles.dropdownItem}
+                            onClick={closeDropdown}
+                          >
+                            Profile
+                          </Link>
+                          <Link
+                            to="/explore"
+                            className={styles.dropdownItem}
+                            onClick={closeDropdown}
+                          >
+                            Explore
+                          </Link>
+                          <Link
+                            to="/about"
+                            className={styles.dropdownItem}
+                            onClick={closeDropdown}
+                          >
+                            About
+                          </Link>
+                          <Link
+                            to="/contact"
+                            className={styles.dropdownItem}
+                            onClick={closeDropdown}
+                          >
+                            Contact
+                          </Link>
+                          <button
+                            onClick={() => {
+                              handleLogout();
+                              closeDropdown();
+                            }}
+                            className={styles.dropdownItemlogout}
+                          >
                             Logout
                           </button>
                         </>

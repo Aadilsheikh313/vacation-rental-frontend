@@ -25,7 +25,7 @@ const store = configureStore({
     booking: bookingReducer,
     payment: paymentReducer,
     invoice: invoiceReducer,
-    search: globalSearchReducer,
+    globalSearch: globalSearchReducer,
     adminAuth: adminAuthReducer,
     adminHomeDash: adminHomeDashReducer,
     adminDashboard: adminDashboardReducer,

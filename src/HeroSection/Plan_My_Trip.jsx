@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Container, Row, Col, Form, Button, Card, Spinner, Alert } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Form, Button, Card, Spinner, Alert, CloseButton } from "react-bootstrap";
 import { fetchTripInfo } from "../api/mytripApi.js";
 import MapView from "../Map/MapView.jsx";
 import PlaceCard from "../components/PlaceCard.jsx";
 import styles from "../stylesModule/HeroModule/PlanMyTrip.module.css";
-import NavigationButtons from "../components/NavigationButtons.jsx";
 
-export default function PlanMyTrip() {
+
+export default function PlanMyTrip({ initialTrip, onClose }) {
   const [trip, setTrip] = useState({
     destination: "",
     startDate: "",
@@ -18,29 +18,66 @@ export default function PlanMyTrip() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  function handleChange(e) {
-    setTrip({ ...trip, [e.target.name]: e.target.value });
-  }
+  // Apply initialTrip if passed
+  useEffect(() => {
+    if (initialTrip) {
+      setTrip({
+        destination: initialTrip.destination || "",
+        startDate: initialTrip.startDate || "",
+        endDate: initialTrip.endDate || "",
+        adults: Number(initialTrip.adults ?? 1),
+        children: Number(initialTrip.children ?? 0),
+      });
 
+      // Auto-search only when destination is provided
+      if (initialTrip.destination) {
+        (async () => {
+          setError(null);
+          setLoading(true);
+          try {
+            const resp = await fetchTripInfo({
+              q: initialTrip.destination,
+              radius: 5000,
+              limit: 100,
+            });
+            setData(resp);
+          } catch (err) {
+            setError(err?.message || "Something went wrong");
+            setData(null);
+          } finally {
+            setLoading(false);
+          }
+        })();
+      }
+    }
+  }, [initialTrip]);
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setTrip((prev) => ({
+      ...prev,
+      [name]: name === "adults" || name === "children" ? Number(value) : value,
+    }));
+  }
 
   // Convert UNIX timestamp + timezone offset to HH:MM format
   function unixToTime(unixTimestamp, timezoneOffsetSeconds) {
     if (!unixTimestamp) return "N/A";
     const date = new Date((unixTimestamp + timezoneOffsetSeconds) * 1000);
-    return date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+    return date.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
   }
 
   // Helper to get wind direction from degrees
-  function getWindDirection(deg) {
+  function getWindDirection(deg = 0) {
     const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
     return directions[Math.round(deg / 45) % 8];
   }
 
-  // Find forecast for a particular date from weather list
+  // Find forecast for a particular date from weather list (OpenWeather 3h steps)
   function getWeatherForDate(weatherList, targetDate) {
     if (!targetDate) return null;
     const target = new Date(targetDate);
-    const forecast = weatherList.find(item => {
+    const forecast = weatherList.find((item) => {
       const itemDate = new Date(item.dt_txt);
       return (
         itemDate.getFullYear() === target.getFullYear() &&
@@ -56,10 +93,10 @@ export default function PlanMyTrip() {
     setError(null);
     setLoading(true);
     try {
-      const resp = await fetchTripInfo({ q: trip.destination, radius: 5000, limit: 12 });
+      const resp = await fetchTripInfo({ q: trip.destination, radius: 5000, limit: 100 });
       setData(resp);
     } catch (err) {
-      setError(err.message);
+      setError(err?.message || "Something went wrong");
       setData(null);
     } finally {
       setLoading(false);
@@ -68,80 +105,46 @@ export default function PlanMyTrip() {
 
   return (
     <Container className={styles.container + " py-4"}>
-      <NavigationButtons/>
-      <h2 className={styles.title}>Plan My Trip</h2>
+       <CloseButton
+        onClick={onClose}
+        className={styles.closeButton}
+      />
+     <h3>This is your Trip </h3>
+     <Card className="mb-4">
+  <Card.Body>
+    <h5 className="mb-3">Trip Summary</h5>
+    <Row>
+      <Col md={6}>
+        <p><strong>Destination:</strong> {trip.destination || "N/A"}</p>
+        <p><strong>Start Date:</strong> {trip.startDate || "N/A"}</p>
+        <p><strong>End Date:</strong> {trip.endDate || "N/A"}</p>
+      </Col>
+      <Col md={6}>
+        <p><strong>Adults:</strong> {trip.adults}</p>
+        <p><strong>Children:</strong> {trip.children}</p>
+        <p><strong>Tour Type:</strong> {trip.tourType || "Not Selected"}</p>
+      </Col>
+    </Row>
+  </Card.Body>
+</Card>
 
-      <Form onSubmit={handleSearch} className={styles.formRow}>
-        <Row className="g-3">
-          <Col md={3}>
-            <Form.Control
-              name="destination"
-              placeholder="Destination"
-              value={trip.destination}
-              onChange={handleChange}
-              required
-              className={styles.formControl}
-            />
-          </Col>
-          <Col md={2}>
-            <Form.Control
-              type="date"
-              name="startDate"
-              value={trip.startDate}
-              onChange={handleChange}
-              required
-              className={styles.formControl}
-            />
-          </Col>
-          <Col md={2}>
-            <Form.Control
-              type="date"
-              name="endDate"
-              value={trip.endDate}
-              onChange={handleChange}
-              required
-              className={styles.formControl}
-            />
-          </Col>
-          <Col md={2}>
-            <Form.Control
-              type="number"
-              name="adults"
-              min="1"
-              value={trip.adults}
-              onChange={handleChange}
-              placeholder="Adults"
-              className={styles.formControl}
-            />
-          </Col>
-          <Col md={2}>
-            <Form.Control
-              type="number"
-              name="children"
-              min="0"
-              value={trip.children}
-              onChange={handleChange}
-              placeholder="Children"
-              className={styles.formControl}
-            />
-          </Col>
-          <Col md={1}>
-            <Button type="submit" variant="primary" className={styles.buttonSearch + " w-100"}>
-              Search
-            </Button>
-          </Col>
-        </Row>
-      </Form>
-
-      {loading && <div className="text-center"><Spinner animation="border" /></div>}
+      {loading && (
+        <div className="text-center">
+          <Spinner animation="border" />
+        </div>
+      )}
       {error && <Alert variant="danger">{error}</Alert>}
+
+
 
       {data && data.currentWeather && (
         <>
           <Card className={styles.mainWeatherCard}>
             <Row className="align-items-center">
               <Col md={5} className={styles.weatherSummary}>
-                <h4>{data.currentWeather.name}, {data.currentWeather.sys?.country}</h4>
+                <h4>
+                  {data.currentWeather.name}, {data.currentWeather.sys?.country}
+                </h4>
                 <div className={styles.temperature}>
                   <img
                     src={`https://openweathermap.org/img/wn/${data.currentWeather.weather?.[0]?.icon}@4x.png`}
@@ -150,7 +153,10 @@ export default function PlanMyTrip() {
                   <div>
                     <h1>{Math.round(data.currentWeather.main?.temp)}°C</h1>
                     <p className={styles.description}>{data.currentWeather.weather?.[0]?.description}</p>
-                    <p>H {Math.round(data.currentWeather.main?.temp_max)}° L {Math.round(data.currentWeather.main?.temp_min)}°</p>
+                    <p>
+                      H {Math.round(data.currentWeather.main?.temp_max)}° L{" "}
+                      {Math.round(data.currentWeather.main?.temp_min)}°
+                    </p>
                   </div>
                 </div>
               </Col>
@@ -171,7 +177,9 @@ export default function PlanMyTrip() {
                   </Col>
                   <Col xs={6} md={4} className={styles.detailCard}>
                     <h6>Wind</h6>
-                    <p>{getWindDirection(data.currentWeather.wind?.deg)} {data.currentWeather.wind?.speed} m/s</p>
+                    <p>
+                      {getWindDirection(data.currentWeather.wind?.deg)} {data.currentWeather.wind?.speed} m/s
+                    </p>
                   </Col>
                   <Col xs={6} md={4} className={styles.detailCard}>
                     <h6>Sunrise</h6>
@@ -205,7 +213,10 @@ export default function PlanMyTrip() {
                           <div>
                             <h1>{Math.round(forecast.main.temp)}°C</h1>
                             <p className={styles.description}>{forecast.weather[0].description}</p>
-                            <p>H {Math.round(forecast.main.temp_max || forecast.main.temp)}° L {Math.round(forecast.main.temp_min || forecast.main.temp)}°</p>
+                            <p>
+                              H {Math.round(forecast.main.temp_max || forecast.main.temp)}° L{" "}
+                              {Math.round(forecast.main.temp_min || forecast.main.temp)}°
+                            </p>
                           </div>
                         </div>
                       </Col>
@@ -255,7 +266,10 @@ export default function PlanMyTrip() {
                           <div>
                             <h1>{Math.round(forecast.main.temp)}°C</h1>
                             <p className={styles.description}>{forecast.weather[0].description}</p>
-                            <p>H {Math.round(forecast.main.temp_max || forecast.main.temp)}° L {Math.round(forecast.main.temp_min || forecast.main.temp)}°</p>
+                            <p>
+                              H {Math.round(forecast.main.temp_max || forecast.main.temp)}° L{" "}
+                              {Math.round(forecast.main.temp_min || forecast.main.temp)}°
+                            </p>
                           </div>
                         </div>
                       </Col>
@@ -286,14 +300,13 @@ export default function PlanMyTrip() {
             </Card>
           )}
 
-
           {/* Price Summary */}
           <Row className="mb-4">
             <Col md={4}>
               <Card bg="light" className="text-center">
                 <Card.Body>
                   <Card.Title>Low Price</Card.Title>
-                  <h4>&#8377;{data.price?.low || "N/A"}</h4>
+                  <h4>&#8377;{data.price?.low ?? "N/A"}</h4>
                 </Card.Body>
               </Card>
             </Col>
@@ -301,7 +314,7 @@ export default function PlanMyTrip() {
               <Card bg="light" className="text-center">
                 <Card.Body>
                   <Card.Title>Median Price</Card.Title>
-                  <h4>&#8377;{data.price?.median || "N/A"}</h4>
+                  <h4>&#8377;{data.price?.median ?? "N/A"}</h4>
                 </Card.Body>
               </Card>
             </Col>
@@ -309,41 +322,41 @@ export default function PlanMyTrip() {
               <Card bg="light" className="text-center">
                 <Card.Body>
                   <Card.Title>High Price</Card.Title>
-                  <h4>&#8377;{data.price?.high || "N/A"}</h4>
+                  <h4>&#8377;{data.price?.high ?? "N/A"}</h4>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
 
           {/* Popular Locations + Map */}
-          {/* Popular Locations + Map */}
           <Row>
             <Col md={6}>
               <h4>Popular Locations</h4>
-              {data.pois?.map((p) => (
-                <PlaceCard key={p.id} place={p} />
-              ))}
+              {Array.isArray(data.pois) && data.pois.length > 0 ? (
+                data.pois.map((p) => <PlaceCard key={p.id || `${p.name}-${p.lat}-${p.lon}`} place={p} />)
+              ) : (
+                <p>No popular locations found.</p>
+              )}
             </Col>
             <Col md={6}>
               <h4>Map</h4>
               <p style={{ fontSize: "0.9rem", color: "#555" }}>
-                📍 Map center:
-                <strong>
-                  {data.center.local_name || data.center.display_name || "Selected Location"}
-                </strong>
-                {data.center.english_name && (
-                  <>{" "}(<em>{data.center.english_name}</em>)</>
+                📍 Map center:{" "}
+                <strong>{data.center?.local_name || data.center?.display_name || "Selected Location"}</strong>
+                {data.center?.english_name && (
+                  <>
+                    {" "}
+                    (<em>{data.center.english_name}</em>)
+                  </>
                 )}
                 <br />
-                ({data.center.lat.toFixed(4)}, {data.center.lon.toFixed(4)})
+                ({Number(data.center?.lat).toFixed(4)}, {Number(data.center?.lon).toFixed(4)})
                 <br />
                 All famous locations shown are around this center point.
               </p>
               <MapView center={data.center} pois={data.pois} />
             </Col>
-
           </Row>
-
         </>
       )}
     </Container>

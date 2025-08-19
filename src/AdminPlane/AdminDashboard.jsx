@@ -10,6 +10,7 @@ import AdminPastBooking from "./AdminPastBooking";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getTotalAmountPosts, getTotalBookingPosts } from "../config/redux/action/adminDashboardAction";
+import { useLocation } from "react-router-dom";
 
 
 const AdminDashboard = () => {

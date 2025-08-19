@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Container,
@@ -33,6 +33,25 @@ const AdminHome = () => {
       dispatch(resetAdminState());
     };
   }, [dispatch]);
+
+  // ✅ Filtering logic only
+  const filteredPosts = useMemo(() => {
+    if (adminProperties.length > 0) {
+      return adminProperties;  // ✅ Agar API result aaya hai to wahi show karo
+    }
+
+    return posts.filter((p) => {
+      if (p.status === false) return false;
+
+      const matchesText =
+        p.title.toLowerCase().includes(search) ||
+        p.city?.toLowerCase().includes(search);
+
+      const matchesPrice = p.price >= minPrice && p.price <= maxPrice;
+
+      return matchesText && matchesPrice;
+    });
+  }, [adminProperties, posts]);
 
 
   return (
@@ -80,17 +99,6 @@ const AdminHome = () => {
                   <br />
                   <strong>Price:</strong> ₹{property.price} /night
                   <br />
-                  {/* <strong>Posted by:</strong> {property.userId?.name || "N/A"}
-                  <br />
-                  <strong>Email:</strong> {property.userId?.email || "N/A"}
-                  <br />
-                  <strong>Phone:</strong> {property.userId?.phone || "N/A"}
-                  <br />
-                  <strong>Posted At:</strong>{" "}
-                  {property.userId?.createdAt
-                    ? new Date(property.userId.createdAt).toLocaleDateString()
-                    : "N/A"} */}
-
                 </Card.Text>
                 {property.totalReviews > 0 ? (
                   <p className="text-warning"><b>Rating</b>⭐ {property.avgRating} ({property.totalReviews} reviews)</p>
