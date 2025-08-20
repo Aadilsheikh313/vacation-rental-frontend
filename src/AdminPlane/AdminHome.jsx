@@ -37,7 +37,7 @@ const AdminHome = () => {
   // ✅ Filtering logic only
   const filteredPosts = useMemo(() => {
     if (adminProperties.length > 0) {
-      return adminProperties;  // ✅ Agar API result aaya hai to wahi show karo
+      return adminProperties;  
     }
 
     return posts.filter((p) => {

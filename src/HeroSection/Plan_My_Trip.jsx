@@ -105,28 +105,28 @@ export default function PlanMyTrip({ initialTrip, onClose }) {
 
   return (
     <Container className={styles.container + " py-4"}>
-       <CloseButton
+      <CloseButton
         onClick={onClose}
         className={styles.closeButton}
       />
-     <h3>This is your Trip </h3>
-     <Card className="mb-4">
-  <Card.Body>
-    <h5 className="mb-3">Trip Summary</h5>
-    <Row>
-      <Col md={6}>
-        <p><strong>Destination:</strong> {trip.destination || "N/A"}</p>
-        <p><strong>Start Date:</strong> {trip.startDate || "N/A"}</p>
-        <p><strong>End Date:</strong> {trip.endDate || "N/A"}</p>
-      </Col>
-      <Col md={6}>
-        <p><strong>Adults:</strong> {trip.adults}</p>
-        <p><strong>Children:</strong> {trip.children}</p>
-        <p><strong>Tour Type:</strong> {trip.tourType || "Not Selected"}</p>
-      </Col>
-    </Row>
-  </Card.Body>
-</Card>
+      <h3>This is your Trip </h3>
+      <Card className="mb-4">
+        <Card.Body>
+          <h5 className="mb-3">Trip Summary</h5>
+          <Row>
+            <Col md={6}>
+              <p><strong>Destination:</strong> {trip.destination || "N/A"}</p>
+              <p><strong>Start Date:</strong> {trip.startDate || "N/A"}</p>
+              <p><strong>End Date:</strong> {trip.endDate || "N/A"}</p>
+            </Col>
+            <Col md={6}>
+              <p><strong>Adults:</strong> {trip.adults}</p>
+              <p><strong>Children:</strong> {trip.children}</p>
+              <p><strong>Tour Type:</strong> {trip.tourType || "Not Selected"}</p>
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
 
       {loading && (
         <div className="text-center">

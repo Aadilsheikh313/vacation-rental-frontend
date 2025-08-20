@@ -48,6 +48,7 @@ import AdminGetSinglePost from './AdminPlane/AdminPostPlace/AdminGetSinglePost';
 import AdminEditPost from './AdminPlane/AdminPostPlace/AdminEditPost';
 import GetTouristSinglePlace from './HeroSection/Touriste_SinglePlaces';
 import TripHomePage from './PlanOurTrip/Home';
+import AboutPage from './About/aboutPage';
 
 function AppContent() {
   const location = useLocation();
@@ -90,9 +91,9 @@ function AppContent() {
         <Route path='/explore' element={<TouristAndPlace />} />
         <Route path="/touristplace/:id" element={<GetTouristSinglePlace />} />
         <Route path='/top-spots' element={<TopSpots />} />
-        {/* <Route path='/plan-my-trip' element={<PlanMyTrip />} /> */}
         <Route path='/plan-my-trip' element={<TripHomePage />} />
         <Route path='/testy-food' element={<FoodAndFun />} />
+        <Route path='/about' element={<AboutPage/>}/>
 
         {/* Admin Routes */}
         <Route path="/admin/register" element={<AdminRegister />} />

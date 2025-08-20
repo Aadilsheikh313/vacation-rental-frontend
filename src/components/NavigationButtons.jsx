@@ -13,19 +13,19 @@ const NavigationButtons = () => {
   return (
     <div className={styles.buttonWrapper}>
       <Link to="/explore/properties" className={styles.customButton}>
-        <FaHome /> Explore Stays
+        <FaHome /> EXPLORE ROOM
       </Link>
       <Link to="/explore" className={styles.customButton}>
-        <FaMapMarkedAlt /> Tourist Places
+        <FaMapMarkedAlt /> TOURIST PLACEES
       </Link>
       <Link to="/top-spots" className={styles.customButton}>
-        <FaStar /> Top Spots
+        <FaStar /> TOP SPOTS
       </Link>
       <Link to="/plan-my-trip" className={styles.customButton}>
-        <FaSuitcaseRolling /> Plan My Trip
+        <FaSuitcaseRolling /> PLAN MY TRIP
       </Link>
       <Link to="/testy-food" className={styles.customButton}>
-        <FaUtensils /> Food & Fun
+        <FaUtensils /> FOOD & FUN
       </Link>
     </div>
   );

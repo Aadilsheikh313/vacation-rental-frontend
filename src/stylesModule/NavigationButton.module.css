@@ -1,32 +1,53 @@
+
 .buttonWrapper {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  animation: fadeInUp 0.8s ease-in-out;
+  gap: 1.2rem;
+  margin: 2rem 0;
+  margin-top: 3rem;
 }
 
 .customButton {
-  background: #ffffff;
-  color: #333;
-  border: 2px solid #e0e0e0;
-  padding: 0.6rem 1.2rem;
-  border-radius: 12px;
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px; /* pill shaped */
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  font-size: 0.95rem;
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-.customButton:hover {
-  background: linear-gradient(135deg, #007bff, #00c2ff);
-  color: white;
-  border-color: transparent;
+/* Primary button (Golden filled) */
+.customButton:first-child {
+  background: #c19a5b;
+  color: #fff;
+  border: 2px solid #c19a5b;
+  box-shadow: 0 4px 14px rgba(193, 154, 91, 0.5);
+}
+
+.customButton:first-child:hover {
+  background: #a97c37;
+  border-color: #a97c37;
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 6px 18px rgba(193, 154, 91, 0.7);
+}
+
+/* Secondary buttons (transparent outline) */
+.customButton:not(:first-child) {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.customButton:not(:first-child):hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #c19a5b;
+  color: #f0c36c;
+  transform: translateY(-3px);
 }
 
 

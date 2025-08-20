@@ -43,118 +43,123 @@ const TripHomePage = () => {
 
   return (
     <Container fluid className={styles.tripContainer}>
-      <NavigationButtons />
+      <div className={styles.navbutton}>
+        <NavigationButtons />
+      </div>
 
       {/* Hero Section with Background Video */}
       <div className={styles.heroSection}>
+
         <video className={styles.videoBg} autoPlay loop muted>
           <source src={video} type="video/mp4" />
         </video>
         <div className={styles.overlay}></div>
+        <div className={styles.topbutton}>
 
-        <div className={styles.heroContent}>
-          <div className={styles.heroSection}>
-            <h2 className={styles.heroText}>Discover Your Perfect Journey</h2>
-            <p className={styles.heroSubtitle}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
-              Sed do eiusmod tempor incididunt ut labore et dolore <br />
-              magna aliqua. Ut enim ad minim veniam, quis nostrud <br />
-              exercitation.
-            </p>
-          </div>
+          <div className={styles.heroContent}>
+            <div className={styles.heroSection}>
+              <h2 className={styles.heroText}>Discover Your Perfect Journey</h2>
+              <p className={styles.heroSubtitle}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
+                Sed do eiusmod tempor incididunt ut labore et dolore <br />
+                magna aliqua. Ut enim ad minim veniam, quis nostrud <br />
+                exercitation.
+              </p>
+            </div>
 
-          {/* Dark Form Box */}
-          <div className={styles.formCard}>
-            <h3 className="text-white mb-3">Plan Your Adventure</h3>
-            <Form onSubmit={handleSearch}>
-              <Row className="g-3">
+            {/* Dark Form Box */}
+            <div className={styles.formCard}>
+              <h3 className="text-white mb-3">Plan Your Adventure</h3>
+              <Form onSubmit={handleSearch}>
                 <Row className="g-3">
-                  <Col>
-                    <Form.Control
-                      name="destination"
-                      placeholder="Where do you want to go?"
-                      value={trip.destination}
-                      onChange={handleChange}
-                      required
-                      className={styles.formControl}
-                    />
-                  </Col>
-                </Row>
+                  <Row className="g-3">
+                    <Col>
+                      <Form.Control
+                        name="destination"
+                        placeholder="Where do you want to go?"
+                        value={trip.destination}
+                        onChange={handleChange}
+                        required
+                        className={styles.formControl}
+                      />
+                    </Col>
+                  </Row>
 
-                <Row className="g-3">
-                  <Col md={6}>
-                    <Form.Control
-                      type="date"
-                      name="startDate"
-                      value={trip.startDate}
-                      onChange={handleChange}
-                      required
-                      className={styles.formControl}
-                    />
-                  </Col>
-                  <Col md={6}>
-                    <Form.Control
-                      type="date"
-                      name="endDate"
-                      value={trip.endDate}
-                      onChange={handleChange}
-                      required
-                      className={styles.formControl}
-                    />
-                  </Col>
-                </Row>
+                  <Row className="g-3">
+                    <Col md={6}>
+                      <Form.Control
+                        type="date"
+                        name="startDate"
+                        value={trip.startDate}
+                        onChange={handleChange}
+                        required
+                        className={styles.formControl}
+                      />
+                    </Col>
+                    <Col md={6}>
+                      <Form.Control
+                        type="date"
+                        name="endDate"
+                        value={trip.endDate}
+                        onChange={handleChange}
+                        required
+                        className={styles.formControl}
+                      />
+                    </Col>
+                  </Row>
 
-                <Row className="g-3">
-                  <Col md={6}>
+                  <Row className="g-3">
+                    <Col md={6}>
+                      <Form.Select
+                        name="adults"
+                        value={trip.adults}
+                        onChange={handleChange}
+                        className={styles.formControl}
+                      >
+                        <option value={1}>1 Adult</option>
+                        <option value={2}>2 Adults</option>
+                        <option value={3}>3 Adults</option>
+                        <option value={4}>4+ Adults</option>
+                      </Form.Select>
+                    </Col>
+
+                    <Col md={6}>
+                      <Form.Select
+                        name="children"
+                        value={trip.children}
+                        onChange={handleChange}
+                        className={styles.formControl}
+                      >
+                        <option value={0}>No Children</option>
+                        <option value={1}>1 Child</option>
+                        <option value={2}>2 Children</option>
+                        <option value={3}>3+ Children</option>
+                      </Form.Select>
+                    </Col>
+                  </Row>
+
+                  <Col md={12}>
                     <Form.Select
-                      name="adults"
-                      value={trip.adults}
+                      name="tourType"
+                      value={trip.tourType}
                       onChange={handleChange}
                       className={styles.formControl}
                     >
-                      <option value={1}>1 Adult</option>
-                      <option value={2}>2 Adults</option>
-                      <option value={3}>3 Adults</option>
-                      <option value={4}>4+ Adults</option>
+                      <option value="">Select tour type</option>
+                      <option value="adventure">Adventure</option>
+                      <option value="luxury">Luxury</option>
+                      <option value="family">Family</option>
                     </Form.Select>
                   </Col>
 
-                  <Col md={6}>
-                    <Form.Select
-                      name="children"
-                      value={trip.children}
-                      onChange={handleChange}
-                      className={styles.formControl}
-                    >
-                      <option value={0}>No Children</option>
-                      <option value={1}>1 Child</option>
-                      <option value={2}>2 Children</option>
-                      <option value={3}>3+ Children</option>
-                    </Form.Select>
+                  <Col md={12}>
+                    <Button type="submit" className={styles.searchBtn}>
+                      Find Your Perfect Trip
+                    </Button>
                   </Col>
                 </Row>
-
-                <Col md={12}>
-                  <Form.Select
-                    name="tourType"
-                    value={trip.tourType}
-                    onChange={handleChange}
-                    className={styles.formControl}
-                  >
-                    <option value="">Select tour type</option>
-                    <option value="adventure">Adventure</option>
-                    <option value="luxury">Luxury</option>
-                    <option value="family">Family</option>
-                  </Form.Select>
-                </Col>
-
-                <Col md={12}>
-                  <Button type="submit" className={styles.searchBtn}>
-                    Find Your Perfect Trip
-                  </Button>
-                </Col>
-              </Row>
-            </Form>
+              </Form>
+            </div>
           </div>
         </div>
       </div>
