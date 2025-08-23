@@ -1,217 +1,270 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
-import { useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { createPosts } from '../config/redux/action/propertyAction';
 import { showError, showSuccess } from '../utils/toastUtils';
 import { useNavigate } from 'react-router-dom';
 import { resetStatus } from '../config/redux/reducer/propertyReducer';
 import styles from "../stylesModule/addProperty.module.css";
 
-
 const AddPropertyForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isSuccess, isError, message } = useSelector((state) => state.post);
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const { isSuccess, isError, message } = useSelector((state) => state.post);
+  // Effect for success/error toast
+  useEffect(() => {
+    if (isSuccess) {
+      showSuccess("✅ Property added successfully!");
+      setTimeout(() => {
+        navigate("/");
+        dispatch(resetStatus());
+      }, 1000);
+    }
+    if (isError) {
+      showError(message || "❌ Failed to add property!");
+      dispatch(resetStatus());
+    }
+  }, [isSuccess, isError, message, navigate, dispatch]);
 
-    useEffect(() => {
-        console.log("isSuccess:", isSuccess, "isError:", isError);
-        if (isSuccess) {
-            showSuccess("✅ Property added successfully!");
-            setTimeout(() => {
-                navigate("/");
-                dispatch(resetStatus()); // ✅ Reset state after navigating
-            }, 1000);
-        }
-        if (isError) {
-            showError(message || "❌ Failed to add property!");
-            dispatch(resetStatus()); // ✅ Reset state after error
-        }
-    }, [isSuccess, isError, message, navigate, dispatch]);
+  // Form State
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    price: "",
+    category: "",
+    country: "",
+    city: "",
+    location: "",
+    maxGuests: 1,
+    bedType: "",
+    roomSize: "",
+    facilities: [],
+    views: [],
+    privacy: "Private",
+    workspace: false,
+    directPhone: "",
+    directEmail: "",
+    image: null,
+  });
 
+  // Handle text & select inputs
+  const handleChange = (e) => {
+    const { name, value, files, type, checked } = e.target;
+    if (name === "image") {
+      setFormData({ ...formData, image: files[0] });
+    } else if (type === "checkbox" && name !== "workspace") {
+      // handle facilities & views checkboxes
+      const arr = formData[name];
+      if (checked) {
+        setFormData({ ...formData, [name]: [...arr, value] });
+      } else {
+        setFormData({ ...formData, [name]: arr.filter((item) => item !== value) });
+      }
+    } else if (name === "workspace") {
+      setFormData({ ...formData, workspace: checked });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
 
+  // Submit form
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const postData = new FormData();
 
-    // State
-    const [formData, setFormData] = useState({
-        title: "",
-        description: "",
-        price: "",
-        category: "",
-        country: "",
-        city: "",
-        location: "",
-        image: null,
-    });
+    // Append text fields
+    for (let key in formData) {
+      if (key === "facilities" || key === "views") {
+        postData.append(key, JSON.stringify(formData[key])); // array as string
+      } else if (key === "roomSize" && formData.roomSize) {
+        postData.append("roomSize", JSON.stringify({ value: formData.roomSize, unit: "m²" }));
+      } else if (key === "directPhone" || key === "directEmail") {
+        continue; // handled separately
+      } else if (key !== "image") {
+        postData.append(key, formData[key]);
+      }
+    }
 
-    // Change handler
-    const handleChange = (e) => {
-        const { name, value, files } = e.target;
-        if (name === "image") {
-            setFormData({ ...formData, image: files[0] });
-        } else {
-            setFormData({ ...formData, [name]: value });
-        }
+    // Direct contact object
+    const directContact = {
+      phone: formData.directPhone,
+      email: formData.directEmail,
     };
+    postData.append("directContact", JSON.stringify(directContact));
 
-    // Submit handler
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const postData = new FormData();
+    // Append image
+    if (formData.image) {
+      postData.append("image", formData.image);
+    }
 
-        // Append text fields
-        for (let key in formData) {
-            if (key !== "image") {
-                postData.append(key, formData[key]);
-            }
-        }
+    dispatch(createPosts(postData));
+  };
 
-        // Append file separately
-        if (formData.image) {
-            postData.append("image", formData.image);
-        }
-        const coordinates = {
-            type: "Point",
-            coordinates: [formData.lng, formData.lat],
-        };
+  const categories = [
+    'Hotels', 'Apartments', 'Villas', 'Guest Houses', 'Resorts', 'Farmhouses',
+    'Cottages', 'Bungalows', 'Homestays', 'Cabins', 'Treehouses', 'Boathouses',
+    'Hostels', 'Serviced Apartments', 'Tent Stays / Camping', 'Houseboats',
+    'Luxury Stays', 'Bar'
+  ];
 
-        postData.append("coordinates", JSON.stringify(coordinates));
+  const bedTypes = ["Single", "Double", "Queen", "King", "Twin", "Bunk Bed", "Sofa Bed"];
 
-        dispatch(createPosts(postData));
-    };
-    const categories = [
-        'Hotels', 'Apartments', 'Villas', 'Guest Houses', 'Resorts', 'Farmhouses',
-        'Cottages', 'Bungalows', 'Homestays', 'Cabins', 'Treehouses', 'Boathouses',
-        'Hostels', 'Serviced Apartments', 'Tent Stays / Camping', 'Houseboats',
-        'Luxury Stays', 'Bar'
-    ];
+  const facilitiesOptions = [
+    "Free WiFi", "TV", "Gaming Console", "Coffee Machine", "Mini Bar",
+    "AC", "Heating", "Room Service", "Private Bathroom", "Balcony",
+    "Swimming Pool Access", "Fitness Center", "Spa Access", "Parking"
+  ];
 
-    return (
-        <div className={styles.addPropertyContainer}>
-            <h3 >Add New Property</h3>
+  const viewsOptions = [
+    "City View", "Ocean View", "Mountain View", "City Skyline", "Garden View", "Pool View"
+  ];
 
-            <Form onSubmit={handleSubmit} encType="multipart/form-data">
-                {/* Title */}
-                <Form.Group className={styles.formGroup}>
-                    <Form.Label className={styles.formLabel}>Title</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="e.g. Luxury Beach Villa"
-                        name="title"
-                        className={styles.formControl}
-                        value={formData.title}
-                        onChange={handleChange}
-                        required
-                    />
-                </Form.Group>
+  return (
+    <div className={styles.addPropertyContainer}>
+      <h3>Add New Property</h3>
 
-                {/* Description */}
-                <Form.Group className={styles.formGroup}>
-                    <Form.Label className={styles.formLabel}>Description</Form.Label>
-                    <Form.Control
-                        as="textarea"
-                        rows={3}
-                        placeholder="Add a short description about the property"
-                        name="description"
-                        className={styles.formControl}
-                        value={formData.description}
-                        onChange={handleChange}
-                        required
-                    />
-                </Form.Group>
+      <Form onSubmit={handleSubmit} encType="multipart/form-data">
+        {/* Title */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>Title</Form.Label>
+          <Form.Control type="text" name="title" value={formData.title} onChange={handleChange} required />
+        </Form.Group>
 
-                {/* Price */}
-                <Form.Group className={styles.formGroup}>
-                    <Form.Label className={styles.formLabel}>Price (INR per night)</Form.Label>
-                    <Form.Control
-                        type="number"
-                        name="price"
-                        min="1"
-                        className={styles.formControl}
-                        value={formData.price}
-                        onChange={handleChange}
-                        required
-                    />
-                </Form.Group>
+        {/* Description */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>Description</Form.Label>
+          <Form.Control as="textarea" rows={3} name="description" value={formData.description} onChange={handleChange} required />
+        </Form.Group>
 
-                {/* Category Dropdown */}
-                <Form.Group className={styles.formGroup}>
-                    <Form.Label className={styles.formLabel}>Category</Form.Label>
-                    <Form.Select
-                        name="category"
-                        className={styles.formControl}
-                        value={formData.category}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="">-- Select Category --</option>
-                        {categories.map((cat, idx) => (
-                            <option key={idx} value={cat}>{cat}</option>
-                        ))}
-                    </Form.Select>
-                </Form.Group>
+        {/* Price */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>Price (INR per night)</Form.Label>
+          <Form.Control type="number" min="1" name="price" value={formData.price} onChange={handleChange} required />
+        </Form.Group>
 
-                {/* Country */}
-                <Form.Group className={styles.formGroup}>
-                    <Form.Label className={styles.formLabel}>Country</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="country"
-                        className={styles.formControl}
-                        value={formData.country}
-                        onChange={handleChange}
-                        required
-                    />
-                </Form.Group>
+        {/* Category */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>Category</Form.Label>
+          <Form.Select name="category" value={formData.category} onChange={handleChange} required>
+            <option value="">-- Select Category --</option>
+            {categories.map((cat, idx) => (
+              <option key={idx} value={cat}>{cat}</option>
+            ))}
+          </Form.Select>
+        </Form.Group>
 
-                {/* City */}
-                <Form.Group className={styles.formGroup}>
-                    <Form.Label className={styles.formLabel}>City</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="city"
-                        className={styles.formControl}
-                        value={formData.city}
-                        onChange={handleChange}
-                        required
-                    />
-                </Form.Group>
+        {/* Country */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>Country</Form.Label>
+          <Form.Control type="text" name="country" value={formData.country} onChange={handleChange} required />
+        </Form.Group>
 
-                {/* Location */}
-                <Form.Group className={styles.formGroup}>
-                    <Form.Label className={styles.formLabel}>Exact Location / Address</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="location"
-                        className={styles.formControl}
-                        value={formData.location}
-                        onChange={handleChange}
-                        required
-                        minLength={10}
-                    />
-                </Form.Group>
+        {/* City */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>City</Form.Label>
+          <Form.Control type="text" name="city" value={formData.city} onChange={handleChange} required />
+        </Form.Group>
 
-                {/* Image Upload */}
-                <Form.Group className={styles.formGroup}>
-                    <Form.Label className={styles.formLabel}>Property Image</Form.Label>
-                    <Form.Control
-                        type="file"
-                        name="image"
-                        accept=".jpg,.jpeg,.png"
-                        className={styles.formControl}
-                        onChange={handleChange}
-                        required
-                    />
-                </Form.Group>
+        {/* Location */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>Exact Location / Address</Form.Label>
+          <Form.Control type="text" name="location" value={formData.location} onChange={handleChange} required />
+        </Form.Group>
 
-                {/* Submit */}
-                <Button type="submit" className={styles.submitButton}>
-                    Submit Property
-                </Button>
-            </Form>
+        {/* Max Guests */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>Max Guests</Form.Label>
+          <Form.Control type="number" name="maxGuests" min="1" max="8" value={formData.maxGuests} onChange={handleChange} required />
+        </Form.Group>
 
-        </div>
-    );
+        {/* Bed Type */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>Bed Type</Form.Label>
+          <Form.Select name="bedType" value={formData.bedType} onChange={handleChange} required>
+            <option value="">-- Select Bed Type --</option>
+            {bedTypes.map((b, i) => <option key={i} value={b}>{b}</option>)}
+          </Form.Select>
+        </Form.Group>
+
+        {/* Room Size */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>Room Size (m²)</Form.Label>
+          <Form.Control type="number" name="roomSize" value={formData.roomSize} onChange={handleChange} />
+        </Form.Group>
+
+        {/* Facilities */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>Facilities</Form.Label>
+          <div className={styles.checkboxGroup}>
+            {facilitiesOptions.map((fac, idx) => (
+              <Form.Check
+                key={idx}
+                type="checkbox"
+                label={fac}
+                value={fac}
+                name="facilities"
+                checked={formData.facilities.includes(fac)}
+                onChange={handleChange}
+              />
+            ))}
+          </div>
+        </Form.Group>
+
+        {/* Views */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>Views</Form.Label>
+          <div className={styles.checkboxGroup}>
+            {viewsOptions.map((view, idx) => (
+              <Form.Check
+                key={idx}
+                type="checkbox"
+                label={view}
+                value={view}
+                name="views"
+                checked={formData.views.includes(view)}
+                onChange={handleChange}
+              />
+            ))}
+          </div>
+        </Form.Group>
+
+        {/* Privacy */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>Privacy</Form.Label>
+          <Form.Select name="privacy" value={formData.privacy} onChange={handleChange}>
+            <option value="Private">Private</option>
+            <option value="Shared">Shared</option>
+            <option value="NoBalcony">NoBalcony</option>
+          </Form.Select>
+        </Form.Group>
+
+        {/* Workspace */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Check type="checkbox" label="Workspace Available" name="workspace" checked={formData.workspace} onChange={handleChange} />
+        </Form.Group>
+
+        {/* Direct Contact */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>Contact Phone</Form.Label>
+          <Form.Control type="text" name="directPhone" value={formData.directPhone} onChange={handleChange} />
+        </Form.Group>
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>Contact Email</Form.Label>
+          <Form.Control type="email" name="directEmail" value={formData.directEmail} onChange={handleChange} />
+        </Form.Group>
+
+        {/* Image Upload */}
+        <Form.Group className={styles.formGroup}>
+          <Form.Label>Property Image</Form.Label>
+          <Form.Control type="file" name="image" accept=".jpg,.jpeg,.png" onChange={handleChange} required />
+        </Form.Group>
+
+        {/* Submit */}
+        <Button type="submit" className={styles.submitButton}>Submit Property</Button>
+      </Form>
+    </div>
+  );
 };
 
 export default AddPropertyForm;
