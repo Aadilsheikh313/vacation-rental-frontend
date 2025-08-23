@@ -30,7 +30,6 @@ import { getUser } from './config/redux/action/authAction';
 import ExploreAndStay from './HeroSection/Explore_Stays';
 import TouristAndPlace from './HeroSection/Tourist_Places';
 import TopSpots from './HeroSection/Top_Spots';
-// import PlanMyTrip from './HeroSection/Plan_My_Trip';
 import FoodAndFun from './HeroSection/FoodAndFun';
 import PostTripMoments from './GuestDashbord/Post_Trip_Moments';
 import ExperienceHub from './GuestDashbord/Experience_Hub';
@@ -48,7 +47,7 @@ import AdminGetSinglePost from './AdminPlane/AdminPostPlace/AdminGetSinglePost';
 import AdminEditPost from './AdminPlane/AdminPostPlace/AdminEditPost';
 import GetTouristSinglePlace from './HeroSection/Touriste_SinglePlaces';
 import TripHomePage from './PlanOurTrip/Home';
-import AboutPage from './About/aboutPage';
+import AboutPage from './About/AboutPage';
 
 function AppContent() {
   const location = useLocation();
