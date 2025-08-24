@@ -73,14 +73,14 @@ const AddPropertyForm = () => {
     e.preventDefault();
     const postData = new FormData();
 
-    // Append text fields
+    // Append normal fields
     for (let key in formData) {
       if (key === "facilities" || key === "views") {
-        postData.append(key, JSON.stringify(formData[key])); // array as string
+        formData[key].forEach((item) => postData.append(key, item));
       } else if (key === "roomSize" && formData.roomSize) {
         postData.append("roomSize", JSON.stringify({ value: formData.roomSize, unit: "m²" }));
       } else if (key === "directPhone" || key === "directEmail") {
-        continue; // handled separately
+        continue;
       } else if (key !== "image") {
         postData.append(key, formData[key]);
       }

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import styles from "../stylesModule/AboutModule/about.module.css";
-import { Button, Card, Row } from "react-bootstrap";
+import { Button, Card, Row, Spinner } from "react-bootstrap";
 import hotel1 from "../assets/hotel1.jpg";
 import aboutimage from '../assets/about1.jpg';
 import { CiHeart, CiWifiOn } from "react-icons/ci";
-import { FaCarAlt, FaEye, FaGem, FaRegStar, FaTree } from "react-icons/fa";
+import { FaCarAlt, FaEye, FaGem, FaWifi, FaTv, FaCoffee, FaUsers, FaRegStar, FaTree } from "react-icons/fa";
 import { BsAward, BsCupHot } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllPosts } from "../config/redux/action/propertyAction";
@@ -147,36 +147,64 @@ const AboutPage = () => {
                 <h3>Rooms</h3>
                 <p>-------<b>---------</b>-------------</p>
                 <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+                {isLoading && (
+                    <div className="text-center">
+                        <Spinner animation="border" variant="primary" />
+                    </div>
+                )}
 
                 <div className={styles.propertyImageCard}>
                     {filteredPosts.length > 0 ? (
-                        filteredPosts.slice(0, 6).map((property) => (   // ✅ Sirf 6 dikhेंगे
-                            <div className="col-sm-6 col-md-4 mb-4" key={property._id}>
+                        filteredPosts.slice(0, 6).map((property) => (
+                            <div className={styles.cardproperty} key={property._id}>
                                 <div className={`card ${styles.customCard}`}>
-                                    <img
-                                        src={property.image.url}
-                                        className="card-img-top"
-                                        alt={property.title}
-                                        style={{ height: "200px", objectFit: "cover" }}
-                                    />
-                                    <div className="card-body">
-                                        <h5 className="card-title">{property.title}</h5>
+                                    <div style={{ position: "relative" }}>
+                                        <img
+                                            src={property.image.url}
+                                            className={styles.cardImage}
+                                            alt={property.title}
+                                        />
+                                        <div className={styles.imageUpperButton}>
+                                            <Button
+                                                as={Link}
+                                                to={`/property/${property._id}`}
+                                                className={`${styles.cardButton} ${styles.viewBtn}`}
+                                            >
+                                                Explore Room
+                                            </Button>
+                                        </div>
+                                    </div>
+
+
+                                    <div className={styles.cardBody}>
+                                        <h5 className={styles.cardTitle}>{property.title}</h5>
                                         <p>{property.description}</p>
-                                        <p className="card-text">₹{property.price} / night</p>
-                                        {property.totalReviews > 0 ? (
-                                            <p className="text-warning">
-                                                <b>Rating</b>⭐ {property.avgRating} ({property.totalReviews} reviews)
+                                        <div className={styles.facilities}>
+                                            {property.facilities?.includes("Free WiFi") && (
+                                                <p><FaWifi /> Free WiFi</p>
+                                            )}
+                                            {property.facilities?.includes("TV") && (
+                                                <p><FaTv /> Smart TV</p>
+                                            )}
+                                            {property.facilities?.includes("Coffee Machine") && (
+                                                <p><FaCoffee /> Coffee</p>
+                                            )}
+                                            <p><FaUsers /> {property.maxGuests} Guests</p>
+                                        </div>
+                                        <div className={styles.priceandview}>
+                                            <p className="card-text">
+                                                From <span className={styles.priceNumber}>₹{property.price}</span> / night
                                             </p>
-                                        ) : (
-                                            <p className="text-white-muted">No rating and reviews yet.</p>
-                                        )}
-                                        <Button
-                                            as={Link}
-                                            to={`/property/${property._id}`}
-                                            className={`${styles.cardButton} ${styles.viewBtn}`}
-                                        >
-                                            <FaEye /> View Details
-                                        </Button>
+
+                                            <Button
+                                                as={Link}
+                                                to={`/property/${property._id}`}
+                                                className={`${styles.cardButton} ${styles.viewBtn}`}
+                                            >
+                                                <FaEye /> View Details
+                                            </Button>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -187,15 +215,16 @@ const AboutPage = () => {
                             <p>Try changing filters or search again.</p>
                         </>
                     )}
-                        <div className="text-center mt-4">
-                            <Button
-                                className={styles.viewAllBtn}
-                                onClick={() => navigate("/getAllproperty")}
-                            >
-                                View All Rooms & Suites
-                            </Button>
-                        </div>
+                    
                 </div>
+                <div className={styles.viewAllRooms}>
+                        <Button
+                            className={styles.viewAllBtnRooms}
+                            onClick={() => navigate("/getAllproperty")}
+                        >
+                            View All Rooms & Suites
+                        </Button>
+                    </div>
             </div>
 
         </div>
