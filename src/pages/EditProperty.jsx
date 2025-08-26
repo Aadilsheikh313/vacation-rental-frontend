@@ -8,7 +8,11 @@ import {
 } from "../config/redux/action/propertyAction";
 import styles from "../stylesModule/edit.module.css";
 import { showError, showSuccess } from "../utils/toastUtils";
-import { FaMapMarkerAlt, FaTag, FaCity, FaGlobe, FaMoneyBillWave, FaFileImage, FaEdit, FaArrowLeft } from "react-icons/fa";
+import {
+  FaMapMarkerAlt, FaTag, FaCity, FaGlobe, FaMoneyBillWave, FaFileImage, FaEdit, FaArrowLeft
+} from "react-icons/fa";
+import AmenitiesEditForm from "../Amenity/AmenitiesEditForm";
+import PolicyEditForm from "../Policy/PolicyEditFrom";
 
 
 const EditProperty = () => {
@@ -209,14 +213,26 @@ const EditProperty = () => {
         </button>
         <button
           type="button"
-          onClick={() => navigate(-1)}  
+          onClick={() => navigate(-1)}
           className={styles.backButton}
         >
+
           <FaArrowLeft style={{ marginRight: "8px" }} />
           Go Back
         </button>
 
       </form>
+      {/* Amenities Section */}
+      <div style={{ marginTop: "30px" }}>
+        <h3>🛎️ Manage Amenities</h3>
+        <AmenitiesEditForm propertyId={id} />
+      </div>
+      {/* Policy Section */}
+      <div style={{ marginTop: "30px" }}>
+        <h3>📜 Manage Policy</h3>
+        <PolicyEditForm />
+      </div>
+
     </div>
   );
 };

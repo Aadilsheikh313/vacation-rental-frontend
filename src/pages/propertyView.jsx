@@ -214,8 +214,8 @@ const PropertyDetails = () => {
       <RoomsDescriptionBth activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {activeTab === "overview" && <Overview />}
-      {activeTab === "amenities" && <Amenities />}
-      {activeTab === "policies" && <Policies />}
+      {activeTab === "amenities" && <Amenities propertyId={id} />}
+      {activeTab === "policies" && <Policies propertyId={id}/>}
       {/* Show Reviews Section */}
       {activeTab === "reviews" && (
         <>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { amenitiesPost, amenitiesUpdate } from "../config/redux/action/amenityAction";
+import {  amenitiesUpdate } from "../config/redux/action/amenityAction";
 import styles from "../stylesModule/propertyView.module.css";
 import { motion } from "framer-motion";
 
-const AmenitiesForm = ({ propertyId }) => {
+const AmenitiesEditForm = ({ propertyId }) => {
   const dispatch = useDispatch();
   const { amenities, isLoading, isSuccess, isError, message } = useSelector(
     (state) => state.amenity
@@ -30,12 +30,6 @@ const AmenitiesForm = ({ propertyId }) => {
     }));
   };
 
-  // ✅ Create amenities
-  const handleCreate = (e) => {
-    e.preventDefault();
-    dispatch(amenitiesPost({ propertyId, amenitiesData: formData }));
-  };
-
   // ✅ Update amenities
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -45,8 +39,8 @@ const AmenitiesForm = ({ propertyId }) => {
   // ✅ Checkbox Component with Animation
   const AnimatedCheckbox = ({ category, field, label }) => (
     <motion.label
-      whileTap={{ scale: 0.9 }}
-      whileHover={{ scale: 1.05 }}
+      // whileTap={{ scale: 0.9 }}
+      // whileHover={{ scale: 1.05 }}
       className={styles.checkboxLabel}
     >
       <input
@@ -56,8 +50,8 @@ const AmenitiesForm = ({ propertyId }) => {
       />
       <motion.span
         animate={{
-          opacity: formData?.[category]?.[field] ? 1 : 0.5,
-          scale: formData?.[category]?.[field] ? 1.1 : 1,
+          // opacity: formData?.[category]?.[field] ? 1 : 0.5,
+          // scale: formData?.[category]?.[field] ? 1.1 : 1,
         }}
         transition={{ duration: 0.2 }}
       >
@@ -68,7 +62,7 @@ const AmenitiesForm = ({ propertyId }) => {
 
   return (
     <form className={styles.AmenitiesConatainer}>
-      <h2 className={styles.sectionTitle}>Amenities</h2>
+      <h2 className={styles.sectionTitle}>Amenities Update </h2>
 
       {/* Bedroom & Living */}
       <div className={styles.Bedroomandliving}>
@@ -153,17 +147,8 @@ const AmenitiesForm = ({ propertyId }) => {
         <AnimatedCheckbox category="business" field="monitorWorkspace" label="Monitor Workspace" />
       </div>
 
-      {/* Submit Buttons */}
+      {/* Update  Buttons */}
       <div className={styles.buttonGroup}>
-        <button
-          type="button"
-          onClick={handleCreate}
-          disabled={isLoading}
-          className={styles.createBtn}
-        >
-          {isLoading ? "Creating..." : "Create Amenities"}
-        </button>
-
         <button
           type="button"
           onClick={handleUpdate}
@@ -184,4 +169,4 @@ const AmenitiesForm = ({ propertyId }) => {
   );
 };
 
-export default AmenitiesForm;
+export default AmenitiesEditForm;

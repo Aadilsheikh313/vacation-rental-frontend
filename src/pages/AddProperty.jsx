@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { resetStatus } from '../config/redux/reducer/propertyReducer';
 import styles from "../stylesModule/addProperty.module.css";
 import { motion, AnimatePresence } from "framer-motion";
-import AmenitiesForm from '../Amenity/AmenityFrom';
+import AmenitiesForm from '../Amenity/AmenitiesPostForm';
+import PolicyPostForm from '../Policy/PolicyPostFrom';
 
 const AddPropertyForm = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const AddPropertyForm = () => {
 
   const [showAmenities, setShowAmenities] = useState(false); // ✅ Modal state
   const [propertyId, setPropertyId] = useState(null); // ✅ Save after post
+  const [showPolices, setShowPolices] = useState(false);
 
   // Effect for success/error toast
   useEffect(() => {
@@ -105,7 +107,6 @@ const AddPropertyForm = () => {
 
     // dispatch(createPosts(postData));
     dispatch(createPosts(postData)).then((res) => {
-      console.log("Create Post Response:", res);
       const id = res?.payload?.property?._id || res?.payload?.newproperty?._id;
       if (id) {
         setPropertyId(id); // ✅ ab button dikhega
@@ -280,20 +281,35 @@ const AddPropertyForm = () => {
         <Button type="submit" className={styles.submitButton}>Submit Property</Button>
 
         {/* Amenities Button */}
-        
-          <motion.button
-            type="button"
-            className={styles.amenitiesBtn}
-            onClick={() => setShowAmenities(true)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            🛎️ Add / Edit Amenities
-          </motion.button>
-       
+
+        <motion.button
+          type="button"
+          className={styles.amenitiesBtn}
+          onClick={() => setShowAmenities(true)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          Add  Amenities
+        </motion.button>
+
+
+        {/* Ploicy Button */}
+
+        <motion.button
+          type="button"
+          className={styles.policesBtn}
+          onClick={() => setShowPolices(true)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        //disabled={!propertyId} // ✅ disable until property created
+        >
+          Add Policies
+        </motion.button>
+
+
       </Form>
 
-      {/* Modal with animation */}
+      {/* Modal with animation for Amenities */}
       <AnimatePresence>
         {showAmenities && (
           <motion.div
@@ -311,6 +327,29 @@ const AddPropertyForm = () => {
             >
               <button className={styles.closeBtn} onClick={() => setShowAmenities(false)}>❌</button>
               <AmenitiesForm propertyId={propertyId} />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Modal with animation for Policies */}
+      <AnimatePresence>
+        {showPolices && (
+          <motion.div
+            className={styles.modalBackdrop}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className={styles.modalContent}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <button className={styles.closeBtn} onClick={() => setShowPolices(false)}>❌</button>
+              <PolicyPostForm propertyId={propertyId} />
             </motion.div>
           </motion.div>
         )}

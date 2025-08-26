@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "../stylesModule/propertyView.module.css";
+import styles from "../stylesModule/Amenites/Amenities.module.css";
 import { motion } from "framer-motion";
 import { amenitiesGet } from "../config/redux/action/amenityAction";
 
@@ -34,7 +34,7 @@ const Amenities = ({ propertyId }) => {
               transition={{ duration: 0.3, delay: idx * 0.1 }}
               className={styles.amenityItem}
             >
-              ✅ {formatLabel(field)}
+               {formatLabel(field)}
             </motion.div>
           ))}
         </div>
