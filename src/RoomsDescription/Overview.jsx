@@ -24,35 +24,35 @@ const Overview = () => {
 
                 <div className={styles.CardStyles}>
                     <div className={styles.card}>
-                          <div className={styles.cardvalue}>
-                        <FaUsers />
-                        <p>
-                            Max Occupancy <br />
-                            <strong>{singlePost.maxGuests} Guests</strong>
-                        </p>
+                        <div className={styles.cardvalue}>
+                            <FaUsers />
+                            <p>
+                                Max Occupancy <br />
+                                <strong>{singlePost.maxGuests} Guests</strong>
+                            </p>
+                        </div>
                     </div>
-</div>
                     <div className={styles.card}>
-                          <div className={styles.cardvalue}>
-                        <SlSizeFullscreen />
-                        <p>
-                            Room Size <br />
-                            <strong>
-                                {singlePost.roomSize?.value || "N/A"}{" "}
-                                {singlePost.roomSize?.unit || ""}
-                            </strong>
-                        </p>
+                        <div className={styles.cardvalue}>
+                            <SlSizeFullscreen />
+                            <p>
+                                Room Size <br />
+                                <strong>
+                                    {singlePost.roomSize?.value || "N/A"}{" "}
+                                    {singlePost.roomSize?.unit || ""}
+                                </strong>
+                            </p>
+                        </div>
                     </div>
-</div>
                     <div className={styles.card}>
-                          <div className={styles.cardvalue}>
-                        <IoMoonOutline />
-                        <p>
-                            Bed Type <br />
-                            <strong>{singlePost.bedType || "N/A"}</strong>
-                        </p>
+                        <div className={styles.cardvalue}>
+                            <IoMoonOutline />
+                            <p>
+                                Bed Type <br />
+                                <strong>{singlePost.bedType || "N/A"}</strong>
+                            </p>
+                        </div>
                     </div>
-</div>
                     <div className={styles.card}>
                         <div className={styles.cardvalue}>
                             <FaEye />

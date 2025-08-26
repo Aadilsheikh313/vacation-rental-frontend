@@ -14,6 +14,7 @@ import adminGuestReducer from './reducer/adminGuestReducer';
 import adminBannedUserReducer from './reducer/adminBannedUserReducer';
 import adminBannedPropertyReducer from './reducer/adminActivePropertyReducer';
 import adminPostReducer from './reducer/adminPostReducer';
+import amenityReducer from "./reducer/amenityReducer";
 
 
 
@@ -34,6 +35,7 @@ const store = configureStore({
     adminBannedUser: adminBannedUserReducer,
     adminBannedProperty: adminBannedPropertyReducer,
     adminPost: adminPostReducer,
+     amenity: amenityReducer,
   },
 });
 

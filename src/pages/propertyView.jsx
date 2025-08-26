@@ -218,39 +218,38 @@ const PropertyDetails = () => {
       {activeTab === "policies" && <Policies />}
       {/* Show Reviews Section */}
       {activeTab === "reviews" && (
-  <>
-    <ReviewList
-      reviews={singlePost.reviews || []}
-      isLoading={isLoading}
-      showAll={showAll}
-      toggleShowAll={() => setShowAll(!showAll)}
-      currentUserId={user?._id}
-      token={token}
-      propertyId={id}
-    />
+        <>
+          <ReviewList
+            reviews={singlePost.reviews || []}
+            isLoading={isLoading}
+            showAll={showAll}
+            toggleShowAll={() => setShowAll(!showAll)}
+            currentUserId={user?._id}
+            token={token}
+            propertyId={id}
+          />
 
-    {/* Review Form – Only show if user is guest and has NOT reviewed */}
-    {user?.role === "guest" && !hasUserReviewed && (
-      <div className="mt-5">
-        {!showReviewForm ? (
-          <button
-            className="btn btn-primary"
-            onClick={() => setShowReviewForm(true)}
-          >
-            Write a Review
-          </button>
-        ) : (
-          <>
-            <h4>Write a Review</h4>
-            <ReviewForm propertyId={singlePost._id} />
-          </>
-        )}
-      </div>
-    )}
-  </>
-)}
-
-
+          {/* Review Form – Only show if user is guest and has NOT reviewed */}
+          {user?.role === "guest" && !hasUserReviewed && (
+            <div className="mt-5">
+              {!showReviewForm ? (
+                <button
+                  className="btn btn-primary"
+                  onClick={() => setShowReviewForm(true)}
+                >
+                  Write a Review
+                </button>
+              ) : (
+                <>
+                  <h4>Write a Review</h4>
+                  <ReviewForm propertyId={singlePost._id} />
+                </>
+              )}
+            </div>
+          )}
+        </>
+      )}
+      <hr />
       {lat && lng && (
         <div className="mt-4">
           <h3><FaLocationArrow /> Location on Map</h3>
