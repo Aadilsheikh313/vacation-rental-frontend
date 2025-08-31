@@ -1,3 +1,4 @@
+// src/api/policyApi.js
 import { clientServer } from "../config/axios";
 
 // ✅ Helper to handle API response safely
@@ -21,21 +22,21 @@ const handleApiResponse = async (apiCall) => {
   }
 };
 
-// ✅ Create polices
+// ✅ Create policy
 export const policesPostApi = async (propertyId, policesData) => {
   return handleApiResponse(() =>
     clientServer.post(`/api/polices/${propertyId}`, { propertyId, ...policesData })
   );
 };
 
-// ✅ Get polices by Property
+// ✅ Get policy by Property
 export const policesGetApi = async (propertyId) => {
   return handleApiResponse(() =>
     clientServer.get(`/api/polices/${propertyId}`)
   );
 };
 
-// ✅ Update polices
+// ✅ Update policy
 export const policesUpdateApi = async (propertyId, policesData) => {
   return handleApiResponse(() =>
     clientServer.put(`/api/polices/${propertyId}`, policesData)

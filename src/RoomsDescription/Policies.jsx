@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { policesGet } from "../config/redux/action/policeyAction";
-import styles from "../stylesModule/propertyView.module.css";
+import styles from "../stylesModule/Policy/getpolicy.module.css";
 
 const Policies = () => {
   const { id: propertyId } = useParams();
@@ -28,18 +28,21 @@ const Policies = () => {
       {/* ✅ Check-in & Check-out */}
       <div className={styles.CheckinAndCheckout}>
         <h3>Check-in & Check-out</h3>
-        <p><strong>Check-In:</strong> {policy.checkIn?.start} - {policy.checkIn?.end}</p>
-        <p>
-          <strong>Early Check-In:</strong>{" "}
-          {policy.checkIn?.earlyCheckIn?.allowed ? "Allowed" : "Not Allowed"}{" "}
-          ({policy.checkIn?.earlyCheckIn?.note})
-        </p>
-        <p><strong>Check-Out:</strong> {policy.checkOut?.start} - {policy.checkOut?.end}</p>
-        <p>
-          <strong>Late Check-Out:</strong>{" "}
-          {policy.checkOut?.lateCheckOut?.allowed ? "Allowed" : "Not Allowed"}{" "}
-          ({policy.checkOut?.lateCheckOut?.charges})
-        </p>
+        <div className={styles.checkInRule}>
+          <p><strong>Check-In:</strong> {policy.checkIn?.start} - {policy.checkIn?.end}</p>
+          <p>
+            <strong>Early Check-In:</strong>{" "}
+            {policy.checkIn?.earlyCheckIn?.allowed ? "Allowed" : "Not Allowed"}{" "}
+            ({policy.checkIn?.earlyCheckIn?.note})
+          </p>
+          <p><strong>Check-Out:</strong> {policy.checkOut?.start} - {policy.checkOut?.end}</p>
+          <p>
+            <strong>Late Check-Out:</strong>{" "}
+            {policy.checkOut?.lateCheckOut?.allowed ? "Allowed" : "Not Allowed"}{" "}
+            ({policy.checkOut?.lateCheckOut?.charges})
+          </p>
+        </div>
+
       </div>
 
       {/* ✅ Cancellation */}

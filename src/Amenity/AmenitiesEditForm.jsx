@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  amenitiesUpdate } from "../config/redux/action/amenityAction";
+import {  amenitiesGet, amenitiesUpdate } from "../config/redux/action/amenityAction";
 import styles from "../stylesModule/propertyView.module.css";
 import { motion } from "framer-motion";
 
@@ -12,6 +12,12 @@ const AmenitiesEditForm = ({ propertyId }) => {
 
   const [formData, setFormData] = useState({});
 
+  useEffect(() => {
+  if (propertyId) {
+    dispatch(amenitiesGet(propertyId));  // fetch only once per property
+  }
+}, [dispatch, propertyId]);
+
   // ✅ Set form values from fetched data
   useEffect(() => {
     if (amenities) {
@@ -19,6 +25,7 @@ const AmenitiesEditForm = ({ propertyId }) => {
     }
   }, [amenities]);
 
+ 
   // ✅ Handle checkbox change
   const handleChange = (category, field, value) => {
     setFormData((prev) => ({

@@ -16,6 +16,7 @@ import Amenities from "../RoomsDescription/Amenities";
 import Policies from "../RoomsDescription/Policies";
 import LeafletMap from "../Map/MapComponent";
 import ReviewForm from "../Review/ReviewForm";
+import Review from "../RoomsDescription/Review";
 
 
 const PropertyDetails = () => {
@@ -215,40 +216,18 @@ const PropertyDetails = () => {
 
       {activeTab === "overview" && <Overview />}
       {activeTab === "amenities" && <Amenities propertyId={id} />}
-      {activeTab === "policies" && <Policies propertyId={id}/>}
+      {activeTab === "policies" && <Policies propertyId={id} />}
       {/* Show Reviews Section */}
       {activeTab === "reviews" && (
-        <>
-          <ReviewList
-            reviews={singlePost.reviews || []}
-            isLoading={isLoading}
-            showAll={showAll}
-            toggleShowAll={() => setShowAll(!showAll)}
-            currentUserId={user?._id}
-            token={token}
-            propertyId={id}
-          />
-
-          {/* Review Form – Only show if user is guest and has NOT reviewed */}
-          {user?.role === "guest" && !hasUserReviewed && (
-            <div className="mt-5">
-              {!showReviewForm ? (
-                <button
-                  className="btn btn-primary"
-                  onClick={() => setShowReviewForm(true)}
-                >
-                  Write a Review
-                </button>
-              ) : (
-                <>
-                  <h4>Write a Review</h4>
-                  <ReviewForm propertyId={singlePost._id} />
-                </>
-              )}
-            </div>
-          )}
-        </>
+        <Review
+          singlePost={singlePost}  
+          user={user}
+          isLoading={isLoading}
+          token={token}
+          id={id}                   
+        />
       )}
+
       <hr />
       {lat && lng && (
         <div className="mt-4">

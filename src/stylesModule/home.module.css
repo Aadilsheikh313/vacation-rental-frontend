@@ -342,3 +342,136 @@
         margin-bottom: 20px;
     }
 }
+/* ✅ Responsive Design */
+
+/* Tablet (max 1024px) */
+@media (max-width: 1024px) {
+  .heroText {
+    font-size: 2.2rem;
+  }
+  .heroSubtitle {
+    font-size: 1.2rem;
+    padding: 0 100px;
+  }
+  .homeicons {
+    padding-left: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .sectionContainer {
+    padding: 40px 30px;
+    flex-direction: column;
+    text-align: center;
+  }
+  .leftContainer {
+    margin-bottom: 40px;
+  }
+  .image2 {
+    margin-left: 0;
+    position: relative;
+    bottom: -30px;
+  }
+  .leftContainer .card {
+    bottom: 40px;
+    left: auto;
+    right: auto;
+  }
+}
+
+/* Mobile (max 768px) */
+@media (max-width: 768px) {
+  .heroSection {
+    height: auto;
+    min-height: 80vh;
+  }
+  .heroText {
+    font-size: 1.8rem;
+    margin-top: 40px;
+  }
+  .heroSubtitle {
+    font-size: 1rem;
+    padding: 0 20px;
+    margin-top: 1rem;
+  }
+  .homeicons {
+    flex-direction: column;
+    gap: 1rem;
+    padding-left: 0;
+  }
+  .achivmentstats {
+    gap: 20px;
+  }
+  .achivmentstats h4 {
+    font-size: 1.3rem;
+  }
+  .achivmentstats p {
+    font-size: 0.8rem;
+  }
+
+  .sectionContainer {
+    padding: 30px 20px;
+    flex-direction: column;
+  }
+  .leftContainer img:first-child {
+    width: 100%;
+    max-width: 350px;
+  }
+  .leftContainer img:nth-child(2) {
+    width: 220px;
+    left: 0;
+    bottom: -30px;
+  }
+  .rightContainer h2 {
+    font-size: 24px;
+  }
+  .premimumsuitelo {
+    margin-top: 20px;
+  }
+  .premimumsuitelo h3 {
+    font-size: 16px;
+  }
+  .premimumsuitelo p {
+    font-size: 13px;
+  }
+  .rightContainer button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Small Mobile (max 480px) */
+@media (max-width: 480px) {
+  .heroText {
+    font-size: 1.5rem;
+  }
+  .heroSubtitle {
+    font-size: 0.95rem;
+    padding: 0 15px;
+  }
+  .homeicons {
+    font-size: 0.9rem;
+  }
+  .achivmentstats {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .sectionContainer {
+    padding: 20px 15px;
+  }
+  .leftContainer img:first-child {
+    max-width: 280px;
+  }
+  .leftContainer img:nth-child(2) {
+    width: 180px;
+  }
+  .card-title {
+    font-size: 1rem;
+  }
+  .card-text {
+    font-size: 0.9rem;
+  }
+  .btn-primary {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+}

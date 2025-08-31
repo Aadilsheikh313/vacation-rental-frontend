@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { policesGet, policesPost, policesUpdate } from "../action/policeyAction";
 
 const initialState = {
-  policy: null,   // single property ke liye ek policy
+  policy: null,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -30,9 +30,8 @@ const policySlice = createSlice({
       })
       .addCase(policesPost.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isError = false;
         state.isSuccess = true;
-        state.policy = action.payload.data?.newPolicy || null; 
+        state.policy = action.payload.data?.newPolicy || null;
         state.message = action.payload.message || "Policy posted successfully";
       })
       .addCase(policesPost.rejected, (state, action) => {
@@ -48,9 +47,8 @@ const policySlice = createSlice({
       })
       .addCase(policesGet.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isError = false;
         state.isSuccess = true;
-        state.policy = action.payload.data?.policy || null; 
+        state.policy = action.payload.data?.policy || null; // fix
         state.message = action.payload.message || "Policy fetched successfully";
       })
       .addCase(policesGet.rejected, (state, action) => {
@@ -66,7 +64,6 @@ const policySlice = createSlice({
       })
       .addCase(policesUpdate.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isError = false;
         state.isSuccess = true;
         state.policy = action.payload.data?.updatedPolicy || state.policy;
         state.message = action.payload.message || "Policy updated successfully";

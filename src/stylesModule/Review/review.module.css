@@ -1,0 +1,154 @@
+.reviewContainer {
+    margin-top: 2rem;
+    padding: 1rem;
+}
+
+.reviewRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+/* Left Column */
+.leftCol {
+    flex: 1;
+    min-width: 280px;
+}
+
+.summaryCard {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.avgRating {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #f4b400;
+    margin-bottom: 0.5rem;
+}
+
+.starWrapper {
+    margin-bottom: 0.5rem;
+}
+
+.reviewCount {
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+
+.breakdownWrapper {
+    margin-top: 1.5rem;
+    text-align: left;
+}
+
+.breakdownItem {
+    margin-bottom: 1rem;
+}
+
+.breakdownLabel {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.breakdownValue {
+    font-weight: 600;
+    color: #333;
+}
+
+.progressBar {
+    height: 6px;
+    background: #eaeaea;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progressFill {
+    background: #f4b400;
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+/* Right Column */
+.rightCol {
+    flex: 2;
+    min-width: 350px;
+}
+
+.reviewCard {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.reviewTitle {
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: darkgoldenrod;
+    font-family: "Georgia", "Times New Roman", serif;
+}
+
+.reviewFormWrapper {
+    background: #fff7e6;
+    border: 1px solid #f4b40033;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.formTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: #333;
+}
+
+/* 🌍 Responsive Design */
+@media (max-width: 992px) {
+    .reviewRow {
+        flex-direction: column;
+    }
+
+    .leftCol,
+    .rightCol {
+        flex: 1 1 100%;
+        min-width: 100%;
+    }
+
+    .summaryCard,
+    .reviewCard {
+        padding: 1.5rem;
+    }
+
+    .avgRating {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .summaryCard,
+    .reviewCard {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .avgRating {
+        font-size: 2rem;
+    }
+
+    .reviewTitle {
+        font-size: 1.1rem;
+    }
+
+    .formTitle {
+        font-size: 0.95rem;
+    }
+}

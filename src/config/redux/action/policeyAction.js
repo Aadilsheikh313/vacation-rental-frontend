@@ -1,42 +1,33 @@
+
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { policesGetApi, policesPostApi, policesUpdateApi } from "../../../api/policyApi";
 
-
-// ✅ Create Amenities
+// ✅ Create Policy
 export const policesPost = createAsyncThunk(
   "policy/policesPost",
   async ({ propertyId, policesData }, thunkAPI) => {
-    try {
-      const response = await policesPostApi(propertyId, policesData);
-      return thunkAPI.fulfillWithValue(response);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data || "Failed to post policy");
-    }
+    const response = await policesPostApi(propertyId, policesData);
+    if (response.success) return thunkAPI.fulfillWithValue(response);
+    return thunkAPI.rejectWithValue(response.message);
   }
 );
 
-// ✅ Get Amenities
+// ✅ Get Policy
 export const policesGet = createAsyncThunk(
   "policy/policesGet",
   async (propertyId, thunkAPI) => {
-    try {
-      const response = await policesGetApi(propertyId);
-      return thunkAPI.fulfillWithValue(response);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data || "Failed to fetch polices");
-    }
+    const response = await policesGetApi(propertyId);
+    if (response.success) return thunkAPI.fulfillWithValue(response);
+    return thunkAPI.rejectWithValue(response.message);
   }
 );
 
-// ✅ Update Amenities
+// ✅ Update Policy
 export const policesUpdate = createAsyncThunk(
   "policy/policesUpdate",
   async ({ propertyId, policesData }, thunkAPI) => {
-    try {
-      const response = await policesUpdateApi(propertyId, policesData);
-      return thunkAPI.fulfillWithValue(response);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data || "Failed to update policy");
-    }
+    const response = await policesUpdateApi(propertyId, policesData);
+    if (response.success) return thunkAPI.fulfillWithValue(response);
+    return thunkAPI.rejectWithValue(response.message);
   }
 );

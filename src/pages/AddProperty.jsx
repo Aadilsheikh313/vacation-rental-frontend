@@ -1,40 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Alert } from 'react-bootstrap';
 import { createPosts } from '../config/redux/action/propertyAction';
 import { showError, showSuccess } from '../utils/toastUtils';
 import { useNavigate } from 'react-router-dom';
 import { resetStatus } from '../config/redux/reducer/propertyReducer';
 import styles from "../stylesModule/addProperty.module.css";
-import { motion, AnimatePresence } from "framer-motion";
-import AmenitiesForm from '../Amenity/AmenitiesPostForm';
-import PolicyPostForm from '../Policy/PolicyPostFrom';
 
 const AddPropertyForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isSuccess, isError, message } = useSelector((state) => state.post);
+  const { isSuccess, isError, message, propertyId } = useSelector((state) => state.post);
 
-  const [showAmenities, setShowAmenities] = useState(false); // ✅ Modal state
-  const [propertyId, setPropertyId] = useState(null); // ✅ Save after post
-  const [showPolices, setShowPolices] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
 
-  // Effect for success/error toast
-  useEffect(() => {
-    if (isSuccess) {
-      showSuccess("✅ Property added successfully!");
-      setTimeout(() => {
-        navigate("/");
-        dispatch(resetStatus());
-      }, 1000);
-    }
-    if (isError) {
-      showError(message || "❌ Failed to add property!");
-      dispatch(resetStatus());
-    }
-  }, [isSuccess, isError, message, navigate, dispatch]);
-
-  // Form State
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -55,13 +34,12 @@ const AddPropertyForm = () => {
     image: null,
   });
 
-  // Handle text & select inputs
+  // handle inputs
   const handleChange = (e) => {
     const { name, value, files, type, checked } = e.target;
     if (name === "image") {
       setFormData({ ...formData, image: files[0] });
     } else if (type === "checkbox" && name !== "workspace") {
-      // handle facilities & views checkboxes
       const arr = formData[name];
       if (checked) {
         setFormData({ ...formData, [name]: [...arr, value] });
@@ -75,17 +53,16 @@ const AddPropertyForm = () => {
     }
   };
 
-  // Submit form
+  // submit property form
   const handleSubmit = (e) => {
     e.preventDefault();
     const postData = new FormData();
 
-    // Append normal fields
     for (let key in formData) {
       if (key === "facilities" || key === "views") {
         formData[key].forEach((item) => postData.append(key, item));
       } else if (key === "roomSize" && formData.roomSize) {
-        postData.append("roomSize", JSON.stringify({ value: formData.roomSize, unit: "m²" }));
+        postData.append("roomSize", JSON.stringify({ value: Number(formData.roomSize), unit: "m²" }));
       } else if (key === "directPhone" || key === "directEmail") {
         continue;
       } else if (key !== "image") {
@@ -93,30 +70,31 @@ const AddPropertyForm = () => {
       }
     }
 
-    // Direct contact object
     const directContact = {
       phone: formData.directPhone,
       email: formData.directEmail,
     };
     postData.append("directContact", JSON.stringify(directContact));
 
-    // Append image
     if (formData.image) {
       postData.append("image", formData.image);
     }
 
-    // dispatch(createPosts(postData));
-    dispatch(createPosts(postData)).then((res) => {
-      const id = res?.payload?.property?._id || res?.payload?.newproperty?._id;
-      if (id) {
-        setPropertyId(id); // ✅ ab button dikhega
-      }
-    });
-
-
-
-
+    dispatch(createPosts(postData));
   };
+
+  // toast + info banner handling
+  useEffect(() => {
+    if (isSuccess) {
+      showSuccess("✅ Property added successfully!");
+      setShowInfo(true);
+      dispatch(resetStatus());
+    }
+    if (isError) {
+      showError(message || "❌ Failed to add property!");
+      dispatch(resetStatus());
+    }
+  }, [isSuccess, isError, message, dispatch]);
 
   const categories = [
     'Hotels', 'Apartments', 'Villas', 'Guest Houses', 'Resorts', 'Farmhouses',
@@ -140,6 +118,25 @@ const AddPropertyForm = () => {
   return (
     <div className={styles.addPropertyContainer}>
       <h3>Add New Property</h3>
+
+      {showInfo && (
+        <Alert variant="info" className="mt-2">
+          ℹ️ Property successfully added! <br />
+          👉 Go to the <strong>Edit Property</strong> page to add 
+          <strong> Amenities</strong> and <strong> Policies</strong>.
+          {propertyId && (
+            <div className="mt-2">
+              <Button 
+                variant="primary" 
+                size="sm" 
+                onClick={() => navigate(`/edit-property/${propertyId}`)}
+              >
+                Go to Edit Property
+              </Button>
+            </div>
+          )}
+        </Alert>
+      )}
 
       <Form onSubmit={handleSubmit} encType="multipart/form-data">
         {/* Title */}
@@ -279,82 +276,7 @@ const AddPropertyForm = () => {
 
         {/* Submit */}
         <Button type="submit" className={styles.submitButton}>Submit Property</Button>
-
-        {/* Amenities Button */}
-
-        <motion.button
-          type="button"
-          className={styles.amenitiesBtn}
-          onClick={() => setShowAmenities(true)}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Add  Amenities
-        </motion.button>
-
-
-        {/* Ploicy Button */}
-
-        <motion.button
-          type="button"
-          className={styles.policesBtn}
-          onClick={() => setShowPolices(true)}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        //disabled={!propertyId} // ✅ disable until property created
-        >
-          Add Policies
-        </motion.button>
-
-
       </Form>
-
-      {/* Modal with animation for Amenities */}
-      <AnimatePresence>
-        {showAmenities && (
-          <motion.div
-            className={styles.modalBackdrop}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className={styles.modalContent}
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <button className={styles.closeBtn} onClick={() => setShowAmenities(false)}>❌</button>
-              <AmenitiesForm propertyId={propertyId} />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Modal with animation for Policies */}
-      <AnimatePresence>
-        {showPolices && (
-          <motion.div
-            className={styles.modalBackdrop}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className={styles.modalContent}
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <button className={styles.closeBtn} onClick={() => setShowPolices(false)}>❌</button>
-              <PolicyPostForm propertyId={propertyId} />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
     </div>
   );
 };

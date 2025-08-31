@@ -1,0 +1,178 @@
+.reviewList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.loading,
+.noReviews {
+  font-size: 0.95rem;
+  color: #6c757d;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.reviewCard {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.reviewCard:hover {
+  transform: translateY(-2px);
+}
+
+.reviewHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #f4b400;
+  color: #222;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.reviewContent {
+  flex-grow: 1;
+}
+
+.reviewTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; /* responsive wrapping */
+}
+
+.userName {
+  font-weight: 600;
+  margin: 0;
+}
+
+.reviewDate {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.rating {
+  color: #f4b400;
+  margin: 0.3rem 0;
+}
+
+.comment {
+  font-style: italic;
+  margin: 0.4rem 0 0.6rem;
+  color: #333;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.editBtn,
+.deleteBtn {
+  border: none;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.editBtn {
+  background: #f1f1f1;
+  color: #333;
+}
+
+.editBtn:hover {
+  background: #e2e2e2;
+  color: #fff;
+}
+
+.deleteBtn {
+  background: #f3b5b5;
+  color: #d9534f;
+}
+
+.deleteBtn:hover {
+  background: #c77b7b;
+  color: #fff;
+}
+
+/* 🌍 Responsive Design */
+@media (max-width: 768px) {
+  .reviewCard {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .avatar,
+  .avatarPlaceholder {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .userName {
+    font-size: 0.95rem;
+  }
+
+  .reviewDate {
+    font-size: 0.75rem;
+  }
+
+  .comment {
+    font-size: 0.9rem;
+  }
+
+  .editBtn,
+  .deleteBtn {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .reviewHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .reviewTop {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .rating {
+    margin-top: 0.2rem;
+  }
+
+  .actionButtons {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}

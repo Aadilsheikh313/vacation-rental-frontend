@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { policesPost } from "../config/redux/action/policeyAction";
 import { resetStatus } from "../config/redux/reducer/policeyReducer";
+import { getSinglePosts } from "../config/redux/action/propertyAction";
 
 const PolicyPostForm = ({ propertyId }) => {
   const dispatch = useDispatch();
   const { isLoading, isSuccess, isError, message } = useSelector(
     (state) => state.policy
   );
+
 
   const [formData, setFormData] = useState({
     // CheckIn
@@ -67,9 +69,17 @@ const PolicyPostForm = ({ propertyId }) => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(policesPost({ propertyId, policesData: formData }));
-  };
+  e.preventDefault();
+  dispatch(policesPost({ propertyId, policesData: formData }))
+    .unwrap()
+    .then(() => {
+      dispatch(getSinglePosts(propertyId)); // refresh after success
+    })
+    .catch(() => {
+      // optional: error toast
+    });
+};
+
 
   useEffect(() => {
     if (isSuccess || isError) {

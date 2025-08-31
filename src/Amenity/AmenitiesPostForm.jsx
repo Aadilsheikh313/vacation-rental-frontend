@@ -4,6 +4,7 @@ import { amenitiesPost } from "../config/redux/action/amenityAction";
 import styles from "../stylesModule/propertyView.module.css";
 import { motion } from "framer-motion";
 import { resetAmenity } from "../config/redux/reducer/amenityReducer";
+import { getSinglePosts } from "../config/redux/action/propertyAction";
 
 const AmenitiesForm = ({ propertyId }) => {
   const dispatch = useDispatch();
@@ -11,7 +12,11 @@ const AmenitiesForm = ({ propertyId }) => {
     (state) => state.amenity
   );
 
+
   const [formData, setFormData] = useState({});
+
+
+
 
   // ✅ Set form values from fetched data
   useEffect(() => {
@@ -32,11 +37,17 @@ const AmenitiesForm = ({ propertyId }) => {
   };
 
   // ✅ Create amenities
-  const handleCreate = (e) => {
-    e.preventDefault();
-    dispatch(amenitiesPost({ propertyId, amenitiesData: formData }));
-    dispatch(resetAmenity());
-  };
+  
+const handleCreate = (e) => {
+  e.preventDefault();
+  dispatch(amenitiesPost({ propertyId, amenitiesData: formData }))
+    .unwrap()
+    .then(() => {
+      // ✅ Amenities post hone ke baad single property ko reload kar lo
+      dispatch(getSinglePosts(propertyId));
+    });
+  dispatch(resetAmenity());
+};
 
   // ✅ Checkbox Component with Animation
   const AnimatedCheckbox = ({ category, field, label }) => (

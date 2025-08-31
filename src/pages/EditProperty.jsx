@@ -12,7 +12,9 @@ import {
   FaMapMarkerAlt, FaTag, FaCity, FaGlobe, FaMoneyBillWave, FaFileImage, FaEdit, FaArrowLeft
 } from "react-icons/fa";
 import AmenitiesEditForm from "../Amenity/AmenitiesEditForm";
+import AmenitiesForm from '../Amenity/AmenitiesPostForm';
 import PolicyEditForm from "../Policy/PolicyEditFrom";
+import PolicyPostForm from '../Policy/PolicyPostFrom';
 
 
 const EditProperty = () => {
@@ -225,12 +227,22 @@ const EditProperty = () => {
       {/* Amenities Section */}
       <div style={{ marginTop: "30px" }}>
         <h3>🛎️ Manage Amenities</h3>
-        <AmenitiesEditForm propertyId={id} />
+        {
+          singlePost?.amenity ? (
+            <AmenitiesEditForm propertyId={id} />
+          ) : (
+            <AmenitiesForm propertyId={id} />
+          )}
+
       </div>
       {/* Policy Section */}
       <div style={{ marginTop: "30px" }}>
         <h3>📜 Manage Policy</h3>
-        <PolicyEditForm />
+        {singlePost?.policy ? (
+          <PolicyEditForm propertyId={id} />
+        ) : (
+          <PolicyPostForm propertyId={id} />
+        )}
       </div>
 
     </div>
