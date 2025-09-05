@@ -5,17 +5,14 @@ import { getSinglePosts, softdeletePropertyPosts } from "../config/redux/action/
 import { resetSinglePost } from "../config/redux/reducer/propertyReducer";
 import styles from "../stylesModule/propertyView.module.css";
 import { Card, Spinner } from "react-bootstrap";
-import RoomsDetails from "../assets/RoomsDetails.jpg";
 import CheckBookingConflict from "../Booking/CheckBookingConflict";
 import { showError } from "../utils/toastUtils";
 import { FaEdit, FaLocationArrow, FaTrashAlt } from "react-icons/fa";
 import RoomsDescriptionBth from "../RoomsDescription/RoomsDetailsBtn";
 import Overview from "../RoomsDescription/Overview";
-import ReviewList from "../Review/ReviewList";
 import Amenities from "../RoomsDescription/Amenities";
 import Policies from "../RoomsDescription/Policies";
 import LeafletMap from "../Map/MapComponent";
-import ReviewForm from "../Review/ReviewForm";
 import Review from "../RoomsDescription/Review";
 
 
@@ -25,9 +22,7 @@ const PropertyDetails = () => {
   const navigate = useNavigate();
 
   const [showCheckConflict, setShowCheckConflict] = useState(false);
-  const [showReviewForm, setShowReviewForm] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
-  const [showAll, setShowAll] = useState(false);
 
 
   const { singlePost, isLoading, isError, message } = useSelector(

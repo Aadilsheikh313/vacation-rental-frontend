@@ -1,104 +1,281 @@
-/* BookingForm Container */
+/* ====== Global Wrapper ====== */
 .bookingFormWrapper {
-  padding: 40px 20px;
-  background-color: #f8f9fb;
-  min-height: 100vh;
-  font-family: "Inter", sans-serif;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f8f9fa, #f0f0f5);
+  padding-bottom: 60px;
+  color: #2c2c2c;
+  margin-top: 0.3rem;
 }
 
-/* Booking Card */
-.bookingCard {
-  border: none;
-  border-radius: 16px;
-  padding: 32px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-  background-color: #ffffff;
-}
-
-/* Heading */
-.heading {
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 24px;
-  color: #1e1e2f;
-}
-
-/* Property Image */
-.propertyImage {
-  max-height: 350px;
-  object-fit: cover;
+/* ====== Top Hero Image ====== */
+.bookingTopImage {
+  position: relative;
   width: 100%;
-  border-radius: 12px;
-  margin-bottom: 16px;
-}
-
-/* Property Details Text */
-.propertyDetails p {
-  font-size: 1rem;
-  color: #444;
-  margin-bottom: 6px;
-}
-
-/* Form Group Labels */
-.formLabel {
-  font-weight: 500;
-  color: #2d2d2d;
-  margin-bottom: 6px;
-}
-
-/* Form Control Input */
-.formControl {
+  height: 350px;
+  overflow: hidden;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  padding: 8px 12px;
+}
+
+.bookingTopImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(350%);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+}
+
+.ImageUpperContent {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  text-align: center;
+  padding: 0 15px;
+}
+
+.ImageUpperContent h3 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.ImageUpperContent p {
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.breadcrumb {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
   font-size: 1rem;
-  transition: border-color 0.3s ease;
 }
 
-.formControl:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25);
+.breadcrumb input {
+  background: transparent;
+  border: none;
+  color: #6c757d;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 8px;
+  margin-bottom: 4rem;
 }
 
-/* Total Price Display */
+.breadcrumb input:hover {
+  text-decoration: underline;
+}
+
+/* ====== Booking Card ====== */
+.bookingCard {
+  background: #fff;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.heading {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+/* ====== Property Details ====== */
+.propertyImage {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.propertyDetails h4 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #3f2b1b;
+  font-family: 'Playfair Display', serif;
+}
+
+.propertyDetails p {
+  font-size: 1.2rem;
+  margin: 3px 0;
+  color: #525151;
+}
+
+/* ====== Form Styling ====== */
+.formLabel {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #444;
+}
+
+.formControl,
+.formSelect {
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  padding: 10px 14px;
+  transition: all 0.3s ease;
+}
+
+.formControl:focus,
+.formSelect:focus {
+  background-color: #3f2b1b;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+/* ====== Total Price ====== */
 .totalPrice {
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: right;
+  margin: 20px 0;
+  color: #5c3617;
+}
+
+/* ====== Buttons ====== */
+.bookBtn {
+  background: linear-gradient(135deg, #854d1f, #a7852a);
+  color: #fff;
   font-size: 1.2rem;
   font-weight: 600;
-  color: #1e1e2f;
-  margin: 20px 0;
-  background-color: #f1f5ff;
-  padding: 10px 16px;
-  border-radius: 10px;
-  display: inline-block;
-}
-
-/* Button Styles */
-.bookBtn {
-  font-size: 1rem;
-  font-weight: 600;
-  padding: 12px;
-  border-radius: 8px;
+  border-radius: 14px;
+  padding: 12px 20px;
   width: 100%;
-  background-color: #007bff;
+  transition: all 0.3s ease;
   border: none;
-  transition: background-color 0.3s ease;
 }
 
 .bookBtn:hover {
-  background-color: #0056b3;
+  background: linear-gradient(135deg, #6e3f19, #a7852a);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .bookingCard {
-    padding: 24px 16px;
-  }
+/* ====== Service Cards ====== */
+.serviecCard {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
 
-  .heading {
-    font-size: 1.5rem;
-  }
+.CardService {
+  background: #fff;
+  border-radius: 18px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  align-items: center;
+}
 
-  .totalPrice {
+.CardService:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.CardService h3 {
+  margin-top: 15px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.CardService p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.CardService svg {
+  font-size: 3.5rem;
+  padding: 10px;
+  border-radius: 50%;
+  color: #fff;
+  background-color: #704c2e;
+}
+
+/* ====== Responsive Media Queries ====== */
+
+/* Tablets (max-width: 992px) */
+@media (max-width: 992px) {
+  .ImageUpperContent h3 {
+    font-size: 2.2rem;
+  }
+  .ImageUpperContent p {
     font-size: 1rem;
+  }
+  .propertyDetails h4 {
+    font-size: 1.4rem;
+  }
+  .propertyDetails p {
+    font-size: 1rem;
+  }
+}
+
+/* Mobiles (max-width: 768px) */
+@media (max-width: 768px) {
+  .bookingTopImage {
+    height: 250px;
+  }
+  .ImageUpperContent {
+    top: 40%;
+    padding: 0 10px;
+  }
+  .ImageUpperContent h3 {
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+  }
+  .ImageUpperContent p {
+    font-size: 0.95rem;
+  }
+  .heading {
+    font-size: 1.6rem;
+  }
+  .propertyImage {
+    height: 220px;
+  }
+  .totalPrice {
+    text-align: center;
+    font-size: 1.1rem;
+  }
+  .bookBtn {
+    font-size: 1rem;
+    padding: 10px 16px;
+  }
+}
+
+/* Small Mobiles (max-width: 480px) */
+@media (max-width: 480px) {
+  .ImageUpperContent h3 {
+    font-size: 1.4rem;
+  }
+  .ImageUpperContent p {
+    font-size: 0.85rem;
+  }
+  .breadcrumb {
+    font-size: 0.85rem;
+  }
+  .CardService h3 {
+    font-size: 1.2rem;
+  }
+  .CardService p {
+    font-size: 0.85rem;
+  }
+  .CardService svg {
+    font-size: 2.5rem;
   }
 }

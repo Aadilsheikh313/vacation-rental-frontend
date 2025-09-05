@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../config/redux/action/propertyAction";
 import styles from "../stylesModule/HeroModule/Explore.module.css";
 import NavigationButtons from "../components/NavigationButtons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
+import RoomsBooking from '../assets/RoomsDetails.jpg';
 
 const categories = [
   "All",
@@ -34,6 +35,7 @@ const ExploreAndStay = () => {
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Redux State
   const { posts, isLoading } = useSelector((state) => state.post);
@@ -41,6 +43,10 @@ const ExploreAndStay = () => {
   useEffect(() => {
     dispatch(getAllPosts())
   }, [dispatch]);
+
+  const handleclickHome = () => {
+    navigate("/")
+  }
 
   // Category filter
   const filteredProperties =
@@ -62,11 +68,23 @@ const ExploreAndStay = () => {
 
   return (
     <Container className={styles.exploreContainer}>
-      <NavigationButtons/>
-      <h2 className={styles.stayTitle}>Discover. Stay. Enjoy.</h2>
-      <p className={styles.staySubtext}>
-        Where unforgettable journeys begin — explore hidden gems and peaceful stays across India 🌍
-      </p>
+      <div className={styles.imageUppertext}>
+        <img src={RoomsBooking} alt="RoomBookingImage" />
+        <div className={styles.overlay}></div>
+        <div className={styles.ImageUpperContent}>
+          <div className={styles.topbutton}>
+            <NavigationButtons />
+          </div>
+          <h2 className={styles.stayTitle}>Discover. Stay. Enjoy.</h2>
+          <p className={styles.staySubtext}>
+            Where unforgettable journeys begin — explore hidden gems and peaceful stays across India 🌍
+          </p>
+        </div>
+        <div className={styles.breadcrumb}>
+          <input type="button" value="Home" onClick={handleclickHome} /> / Explore
+        </div>
+      </div>
+
 
       <motion.div className={styles.propertyButtons}>
         {visibleCategories.map((cat, idx) => (
@@ -115,12 +133,12 @@ const ExploreAndStay = () => {
                     <Card.Text className={styles.cardText}><strong>City:</strong> {property.city}</Card.Text>
                     <Card.Text className={styles.cardText}><strong>Price:</strong> ₹{property.price}</Card.Text>
                     <Button
-                    as={Link}
-                    to={`/property/${property._id}`}
-                    className={`${styles.cardButton} `}
-                  >
-                    <FaEye />  View
-                  </Button>
+                      as={Link}
+                      to={`/property/${property._id}`}
+                      className={`${styles.cardButton} `}
+                    >
+                      <FaEye />  View
+                    </Button>
                   </Card.Body>
                 </Card>
               </motion.div>

@@ -475,3 +475,547 @@
     padding: 6px 12px;
   }
 }
+/* ROOMS CARD CSS */
+.aboutRooms {
+  text-align: center;
+}
+
+.aboutRooms h3 {
+  font-size: 2.5rem;
+  color: #493c2f;
+}
+
+.aboutRooms p {
+  color: #585537;
+  font-size: 1.5rem;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.propertyImageCard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+}
+
+.cardproperty {
+  display: flex;
+}
+
+/* Card Styling */
+.customCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 350px;
+  height: 100%;
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.customCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0px 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+/* Card Image with hover overlay */
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+
+.cardImage:hover .cardImage {
+  transform: scale(1.08);
+  filter: brightness(0.75);
+}
+
+.imageUpperButton {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 113, 227, 0.55);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.customCard:hover .imageUpperButton {
+  opacity: 1;
+}
+
+.cardImage {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Explore Room Button */
+.cardButton {
+  background: #fff;
+  color: #0071e3 !important;
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.cardButton:hover {
+  background: #0071e3;
+  color: #fff !important;
+}
+
+
+/* Card Body */
+.cardBody {
+  flex: 1;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #fff;
+}
+
+/* Title */
+.cardTitle  {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  color: #222;
+  font-family: 'Playfair Display', serif;
+}
+/* Description */
+.cardTitle p {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.cardBody p {
+  font-size: 0.92rem;
+  color: #666;
+  margin-bottom: 10px;
+  flex-grow: 1;
+}
+
+.facilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+/* Price & Button always bottom aligned */
+.priceandview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.facilities span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #f3f7ff;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.facilities p svg {
+  font-size: 18px;
+  color: #a67c52;
+}
+
+.priceNumber {
+  color: #a67c52;
+  font-size: 1.6rem;
+}
+
+/* View Details */
+.viewBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f5f5f5;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #333 !important;
+  font-weight: 500;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.viewBtn:hover {
+  background: #a67c52;
+  color: #fff !important;
+}
+
+.viewAllRooms {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.viewAllBtnRooms {
+  background: #835e39;         
+  color: #fff !important;      
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;         
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+.viewAllBtnRooms::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(0, 123, 255, 0.137), transparent);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+.viewAllBtnRooms:hover::before {
+  left: 100%;
+}
+.viewAllBtnRooms:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+}
+
+.viewAllBtnRooms:hover {
+          
+  transform: translateY(-3px); 
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Responsive */
+@media (max-width: 992px) {
+  .cardproperty {
+    flex: 1 1 calc(50% - 20px);
+  }
+}
+
+@media (max-width: 576px) {
+  .cardproperty {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 992px) {
+  .customCard {
+    width: 100%;
+    height: auto;
+    /* mobile me flexible */
+  }
+}
+
+/* Footer Container */
+.footer {
+  background: #f9f9f9;
+  padding: 2rem 1rem;
+  border-top: 1px solid #eaeaea;
+  text-align: center; /* ✅ Center align text and button */
+}
+
+/* Text Styling */
+.footer p {
+  color: #6c757d; /* Muted gray */
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+/* Heart Icon */
+.heartIcon {
+  color: #dc3545;
+  transition: transform 0.3s ease;
+}
+
+.heartIcon:hover {
+  transform: scale(1.3);
+}
+
+/* Button */
+.heartButton {
+  border-radius: 25px;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  background: transparent;
+  border: 2px solid #4e2f0f;
+  color: #343a40;
+  transition: all 0.3s ease-in-out;
+}
+
+.heartButton:hover {
+  border: 2px solid #4e2f0f;
+  background: #4e2f0f;
+  color: #fff !important;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .footer {
+    padding: 1.5rem 1rem;
+  }
+
+  .footer p {
+    font-size: 0.9rem;
+  }
+
+  .heartButton {
+    font-size: 0.9rem;
+    padding: 0.5rem 1.2rem;
+  }
+}
+
+.allAnimity {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: #f9f8f6;
+  text-align: center;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.allAnimity h2 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  color: #4a3c2c;
+  margin-bottom: 1rem;
+  text-align: center;
+  align-items: center;
+}
+
+.allAnimity p {
+  font-size: 1.5rem;
+  color: #6f6b63;
+  margin-bottom: 2.5rem;
+
+}
+
+.cardAnimity {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* by default 2 cards */
+  gap: 2rem;
+  width: 100%;
+}
+/* 🔹 Individual Card */
+.animityCard {
+  background: #fff;
+  border-radius: 16px;
+  padding: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease-in-out;
+  padding-top: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+/* Hover Effect */
+.animityCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* 🔹 Heading inside Card */
+.heading {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+.heading svg {
+  background-color: #f3f5f7;
+  border-radius: 10px;
+  font-size: 3.2rem;
+  padding: 10px;
+  color: #4a3c2c;
+}
+
+.heading h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  color: #4a3c2c;
+  transition: color 0.3s ease;
+}
+
+.animityCard:hover .heading h2 {
+  color: #b38b59;
+
+}
+.animityCard:hover .btnPragrph p{
+   color: #ffffff;
+   background-color: #b38b59;
+}
+
+/* 🔹 Paragraph inside Card */
+.animityCard p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  padding: 0;
+  color: #6f6b63;
+}
+
+/* 🔹 Amenities Labels */
+.btnPragrph {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.2rem;
+}
+
+.btnPragrph p {
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: #eee4d6;
+  padding: 6px 14px;
+  border-radius: 30px;
+  color: #4a3c2c;
+  transition: all 0.3s;
+}
+
+.btnPragrph p:hover {
+  background: #b38b59;
+  color: #fff;
+}
+
+/* 🔹 Explore All Amenities Card */
+.animityCardButton {
+  margin-top: 3rem;
+  background: linear-gradient(135deg, #f3ede3, #e7e1d6);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  align-items: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease-in-out;
+}
+
+.animityCardButton:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+}
+
+.animityCardButton button {
+  background: #b38b59;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.6rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.animityCardButton button:hover {
+  background: #8a6b3f;
+}
+/* Default (Desktop) → 2 Cards */
+.cardAnimity {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Tablet (768px and below) → 1 Card per row */
+@media (max-width: 768px) {
+  .cardAnimity {
+    grid-template-columns: 1fr;
+  }
+
+  .allAnimity {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+
+  .allAnimity h2 {
+    font-size: 2.2rem;
+  }
+
+  .allAnimity p {
+    font-size: 1.2rem;
+  }
+
+  .heading svg {
+    font-size: 2.6rem;
+    padding: 8px;
+  }
+
+  .heading h2 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Mobile (480px and below) → Full width + smaller text */
+@media (max-width: 480px) {
+  .allAnimity {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .allAnimity h2 {
+    font-size: 1.8rem;
+  }
+
+  .allAnimity p {
+    font-size: 1rem;
+  }
+
+  .heading {
+    gap: 1rem;
+  }
+
+  .heading svg {
+    font-size: 2.2rem;
+    padding: 6px;
+  }
+
+  .heading h2 {
+    font-size: 1rem;
+  }
+
+  .btnPragrph p {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+  }
+
+  .animityCardButton {
+    padding: 1.5rem;
+  }
+
+  .animityCardButton button {
+    font-size: 0.9rem;
+    padding: 0.7rem 1.4rem;
+  }
+}

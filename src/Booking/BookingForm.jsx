@@ -7,6 +7,10 @@ import { getSinglePosts } from "../config/redux/action/propertyAction";
 import { showError, showSuccess } from "../utils/toastUtils";
 import PaymentModal from "../Payment/Index";
 import styles from "../stylesModule/bookingFrom.module.css";
+import RoomsBooking from '../assets/RoomsDetails.jpg';
+import { FaPhone, FaStopwatch20, FaWatchmanMonitoring } from "react-icons/fa6";
+import { MdOutlineWatch, MdOutlineWatchLater } from "react-icons/md";
+import { IoLocationOutline } from "react-icons/io5";
 
 const BookingForm = () => {
   const dispatch = useDispatch();
@@ -88,11 +92,24 @@ const BookingForm = () => {
     parseInt(formData.serviceFee) +
     parseInt(formData.taxes);
 
+  const handleclickHome = () => {
+    navigate("/")
+  }
+
   return (
     <Container className={styles.bookingFormWrapper}>
+      <div className={styles.bookingTopImage}>
+        <img src={RoomsBooking} alt="RoomBookingImage" />
+        <div className={styles.overlay}></div>
+        <div className={styles.ImageUpperContent}>
+          <h3>Booking</h3>
+          <p>Esse dolorum voluptatum ullam est sint nemo et est ipsa porro placeat quibusdam quia assumenda numquam molestias.</p>
+        </div>
+        <div className={styles.breadcrumb}>
+          <input type="button" value="Home" onClick={handleclickHome} /> / Booking
+        </div>
+      </div>
       <Card className={styles.bookingCard}>
-        <h2 className={styles.heading}>Book This Property</h2>
-
         {isLoading && (
           <div className="text-center my-4">
             <Spinner animation="border" variant="primary" />
@@ -184,15 +201,6 @@ const BookingForm = () => {
               </Form.Group>
             </Col>
           </Row>
-          <Form.Group className="mb-3" controlId="paymentMethod">
-            <Form.Label>Payment Method</Form.Label>
-            <Form.Select name="paymentMethod" value={formData.paymentMethod} onChange={handleChange}>
-              <option value="card">Card</option>
-              <option value="upi">UPI</option>
-              <option value="paypal">PayPal</option>
-              <option value="cash">Cash</option>
-            </Form.Select>
-          </Form.Group>
           <div className={styles.totalPrice}>
             <strong>Total Price:</strong> ₹{totalCost}
           </div>
@@ -211,6 +219,27 @@ const BookingForm = () => {
           </Button>
         </Form>
       </Card>
+      <div className={styles.serviecCard}>
+        <Card className={styles.CardService}>
+          <FaPhone />
+          <h3>Need Help?</h3>
+          <p>Call our reservation team</p>
+          <p>{singlePost?.directContact?.phone} <br />
+            {singlePost?.directContact?.email}</p>
+        </Card>
+        <Card className={styles.CardService}>
+          <MdOutlineWatchLater />
+          <h3>Check-in Time</h3>
+          <p>2:00 PM onwards</p>
+          <p> <strong>Check-out:</strong> 11:00 AM</p>
+        </Card>
+        <Card className={styles.CardService}>
+          <IoLocationOutline />
+          <h3>Prime Location</h3>
+          <p>Downtown district</p>
+          <p>{singlePost?.location}</p>
+        </Card>
+      </div>
     </Container>
   );
 };

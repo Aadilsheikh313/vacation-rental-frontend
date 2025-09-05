@@ -49,6 +49,7 @@ import GetTouristSinglePlace from './HeroSection/Touriste_SinglePlaces';
 import TripHomePage from './PlanOurTrip/Home';
 import AboutPage from './About/AboutPage';
 import GetAllRooms from './pages/AllGetRooms';
+import HomeTroust from './TrouistPlace/Home';
 
 function AppContent() {
   const location = useLocation();
@@ -88,13 +89,14 @@ function AppContent() {
         <Route path='/host/history-bookings' element={<BookingHistory />} />
         <Route path="/payment/:id" element={<Payment />} />
         <Route path='/explore/properties' element={<ExploreAndStay />} />
-        <Route path='/explore' element={<TouristAndPlace />} />
+        {/* <Route path='/explore' element={<TouristAndPlace />} /> */}
         <Route path="/touristplace/:id" element={<GetTouristSinglePlace />} />
         <Route path='/top-spots' element={<TopSpots />} />
         <Route path='/plan-my-trip' element={<TripHomePage />} />
         <Route path='/testy-food' element={<FoodAndFun />} />
         <Route path='/about' element={<AboutPage/>}/>
         <Route path='/getAllproperty' element={<GetAllRooms/>}/>
+        <Route path='explore' element={<HomeTroust/>}/>
 
         {/* Admin Routes */}
         <Route path="/admin/register" element={<AdminRegister />} />

@@ -69,8 +69,6 @@
 
 .navLinkitem:hover {
  color: rgb(7, 173, 7) !important;
- text-decoration: underline;
- 
 }
 .navhome {
   color: white !important;
@@ -146,7 +144,7 @@
 .navguest:hover,
 .navhost:hover {
   color: green !important;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 /* 🔹 User Icon */
