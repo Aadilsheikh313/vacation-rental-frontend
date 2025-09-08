@@ -1,35 +1,80 @@
-
 .editContainer {
-  background-color: #ffffff;
-  padding: 48px;
-  max-width: 720px;
-  margin: 60px auto;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
-  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  transition: all 0.3s ease-in-out;
-  
+  margin: 0.2rem;
+}
+
+.editImage {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;  
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 0;
+}
+
+.editImage .editImageDown {
+  width: 100%;
+  height: 100%;       
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 20, 20, 0.39);
+  z-index: 1;
+}
+
+.formWrapper {
+  position: relative;
+  z-index: 2;
+  max-width: 750px;
+  width: 90%;
+  margin: 1rem auto;
+  padding: 25px 30px;
+  background: rgba(255, 255, 255, 0.959);
+  border-radius: 12px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .editContainer h2 {
   text-align: center;
-  color: #1a1a1a;
-  font-size: 2.25rem;
-  font-weight: 700;
-  margin-bottom: 35px;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 20px;
+  font-family: 'Playfair Display', serif;
+}
+.formWrapper {
+  margin: -40px auto 40px;
+  max-width: 100vw;
+  padding: 25px 30px;
+  background: rgba(233, 137, 12, 0.185);
+  border-radius: 12px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.12);
+  margin-top: 0.1rem;
 }
 
-.editContainer form {
+.propertyForm {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 }
 
 /* Input Fields */
 .editContainer input[type="text"],
 .editContainer input[type="number"],
 .editContainer input[type="file"],
-.editContainer textarea {
+.editContainer textarea,
+.editContainer select {
   padding: 12px 14px;
   border-radius: 10px;
   border: 1.5px solid #d0d0d0;
@@ -37,11 +82,11 @@
   background-color: #f9fafb;
   transition: border 0.3s ease, background-color 0.3s ease;
   color: #333;
-  height: 2.5rem;
 }
 
 .editContainer input:focus,
-.editContainer textarea:focus {
+.editContainer textarea:focus,
+.editContainer select:focus {
   border-color: #1e90ff;
   background-color: #ffffff;
   outline: none;
@@ -49,7 +94,7 @@
 
 .editContainer textarea {
   resize: vertical;
-  min-height: 130px;
+  min-height: 120px;
   line-height: 1.6;
 }
 
@@ -61,17 +106,10 @@
   align-items: center;
   gap: 10px;
   font-size: 15px;
- 
-}
-
-/* Checkbox */
-.editContainer input[type="checkbox"] {
-  transform: scale(1.2);
-  margin-left: 10px;
 }
 
 /* Image Preview */
-.editContainer img {
+.updateimge {
   width: 100%;
   max-height: 260px;
   object-fit: cover;
@@ -82,7 +120,7 @@
 
 /* Submit Button */
 .editContainer button {
-  padding: 16px;
+  padding: 14px;
   background-color: #1e90ff;
   color: white;
   font-weight: 600;
@@ -95,14 +133,14 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  letter-spacing: 0.5px;
-  height: 2rem;
 }
 
 .editContainer button:hover {
   background-color: #1a75d2;
-  transform: translateY(-1.5px);
+  transform: translateY(-1px);
 }
+
+/* Back Button */
 .backButton {
   display: inline-flex;
   align-items: center;
@@ -111,12 +149,9 @@
   color: #007bff;
   border: none;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 0.9rem;
   cursor: pointer;
-  margin-bottom: 20px;
-  padding: 4px 0;
-  transition: color 0.3s ease;
-  height: 2rem;
+  margin-top: 10px;
 }
 
 .backButton:hover {
@@ -124,24 +159,22 @@
   text-decoration: underline;
 }
 
-
 /* Mobile Styles */
 @media (max-width: 768px) {
   .editContainer {
-    padding: 28px;
-    margin: 20px;
+    margin: 12px;
   }
 
   .editContainer h2 {
-    font-size: 1.75rem;
+    font-size: 1.6rem;
   }
 
-  .editContainer form {
-    gap: 20px;
+  .formWrapper {
+    padding: 18px 20px;
   }
 
   .editContainer button {
     font-size: 0.95rem;
-    padding: 14px;
+    padding: 12px;
   }
 }

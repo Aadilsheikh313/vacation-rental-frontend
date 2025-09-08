@@ -18,7 +18,7 @@ export const postPropertyApi = async (formData) => {
       Authorization: `Bearer ${token}`,  // ✅ send token here
     },
   });
- 
+
   return response.data;
 };
 
@@ -42,6 +42,15 @@ export const editPropertyApi = async (id, updatedData, token) => {
     formData.append("city", updatedData.city || "");
     formData.append("location", updatedData.location || "");
     formData.append("expired", updatedData.expired ? "true" : "false");
+    formData.append("maxGuests", updatedData.maxGuests || "");
+    formData.append("roomSize", updatedData.roomSize || "");
+    formData.append("privacy", updatedData.privacy || "");
+    formData.append("workspace", updatedData.workspace ? "true" : "false");
+    formData.append("bedType", updatedData.bedType || "");
+    formData.append("facilities", JSON.stringify(updatedData.facilities || []));
+    formData.append("views", JSON.stringify(updatedData.views || []));
+    formData.append("directContact", JSON.stringify(updatedData.directContact || {}));
+
 
     if (updatedData.image) {
       formData.append("image", updatedData.image);
@@ -60,6 +69,7 @@ export const editPropertyApi = async (id, updatedData, token) => {
     throw error; // 🔁 Let thunk handle it
   }
 };
+
 
 export const softdeletedPropertyApi = async (id, token) => {
   const response = await clientServer.delete(`/api/property/soft-delete/${id}`, {
@@ -94,10 +104,10 @@ export const getMyPropertiesApi = async () => {
   return response.data;
 }
 
-export const getMyExpiredPropertyApi = async(token) =>{
-  const response = await clientServer.get('/api/property/expired/my',{
-    headers:{
-      Authorization:`Bearer ${token}`
+export const getMyExpiredPropertyApi = async (token) => {
+  const response = await clientServer.get('/api/property/expired/my', {
+    headers: {
+      Authorization: `Bearer ${token}`
     }
   });
   return response.data;

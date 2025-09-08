@@ -1,15 +1,15 @@
 .home {
-    padding: auto;
-    background: linear-gradient(to right, #fdfbfb, #ebedee);
-    min-height: 100vh;
+  padding: auto;
+  background: linear-gradient(to right, #fdfbfb, #ebedee);
+  min-height: 100vh;
 }
 
 .home h2 {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 40px;
-    color: #2c3e50;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 40px;
+  color: #2c3e50;
 }
 
 .heroSection {
@@ -31,7 +31,8 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6); /* dark overlay for luxury contrast */
+  background: rgba(0, 0, 0, 0.6);
+  /* dark overlay for luxury contrast */
 }
 
 .heroContent {
@@ -70,7 +71,8 @@
 .heroContent p {
   font-size: 1.3rem;
   margin: 6px 0;
-  color: #f0c36c; /* golden accent */
+  color: #f0c36c;
+  /* golden accent */
   font-weight: 500;
 }
 
@@ -78,18 +80,21 @@
   color: #fff;
   margin-left: 8px;
 }
+
 .homeicons {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-    text-align: center;
-    padding-left: 250px;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  text-align: center;
+  padding-left: 250px;
 }
-.homeicons svg{
-    color: #f0c36c;
-    gap: 0.4rem;
-    font-size: 1rem;
+
+.homeicons svg {
+  color: #f0c36c;
+  gap: 0.4rem;
+  font-size: 1rem;
 }
+
 /* -------- STATS SECTION -------- */
 .achivmentstats {
   display: flex;
@@ -134,9 +139,11 @@
   align-items: center;
   margin-left: 0;
 }
-.image2{
+
+.image2 {
   margin-left: 170px
 }
+
 .leftContainer img:first-child {
   width: 450px;
   height: auto;
@@ -158,22 +165,25 @@
 /* Card Badge */
 .leftContainer .card {
   position: absolute;
-  bottom: 220px;           /* neeche place karne ke liye */
+  bottom: 220px;
+  /* neeche place karne ke liye */
   left: 60px;
   color: #fff;
   padding: 10px 18px;
   border-radius: 10px;
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
   display: flex;
-  align-items: center;     /* icon + text align horizontally */
+  align-items: center;
+  /* icon + text align horizontally */
   gap: 10px;
   z-index: 2;
-  background-color:#b69363;
+  background-color: #b69363;
 }
 
 .leftContainer .card svg {
   font-size: 22px;
-  color: #fff;;
+  color: #fff;
+  ;
 }
 
 .leftContainer .card h4 {
@@ -268,80 +278,81 @@
 
 /* Card Styling */
 .customCard {
-    border: none;
-    border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: #ffffff;
-    overflow: hidden;
-    cursor: pointer;
-    transform: scale(1);
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #ffffff;
+  overflow: hidden;
+  cursor: pointer;
+  transform: scale(1);
 }
 
 .customCard:hover {
-    transform: scale(1.03) translateY(-5px);
-    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
-    z-index: 2;
+  transform: scale(1.03) translateY(-5px);
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+  z-index: 2;
 }
 
 .customCard:active {
-    transform: scale(0.98);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: scale(0.98);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 
 .card-img-top {
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
 }
 
 .card-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #34495e;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #34495e;
 }
 
 .card-text {
-    font-size: 1rem;
-    margin-bottom: 10px;
-    color: #2d3436;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #2d3436;
 }
 
 .text-warning {
-    font-size: 0.95rem;
-    font-weight: 500;
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 .btn-primary {
-    background-color: #3498db;
-    border: none;
-    border-radius: 10px;
-    padding: 8px 16px;
-    font-weight: 500;
-    transition: 0.3s ease;
+  background-color: #3498db;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-weight: 500;
+  transition: 0.3s ease;
 }
 
 .btn-primary:hover {
-    background-color: #2980b9;
-    transform: scale(1.03) translateY(-4px);
-    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+  background-color: #2980b9;
+  transform: scale(1.03) translateY(-4px);
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive Grid Padding */
 @media (max-width: 768px) {
-    .home {
-        padding: 20px 10px;
-    }
+  .home {
+    padding: 20px 10px;
+  }
 
-    .card {
-        margin-bottom: 20px;
-    }
+  .card {
+    margin-bottom: 20px;
+  }
 }
+
 /* ✅ Responsive Design */
 
 /* Tablet (max 1024px) */
@@ -349,28 +360,34 @@
   .heroText {
     font-size: 2.2rem;
   }
+
   .heroSubtitle {
     font-size: 1.2rem;
     padding: 0 100px;
   }
+
   .homeicons {
     padding-left: 0;
     flex-wrap: wrap;
     justify-content: center;
   }
+
   .sectionContainer {
     padding: 40px 30px;
     flex-direction: column;
     text-align: center;
   }
+
   .leftContainer {
     margin-bottom: 40px;
   }
+
   .image2 {
     margin-left: 0;
     position: relative;
     bottom: -30px;
   }
+
   .leftContainer .card {
     bottom: 40px;
     left: auto;
@@ -384,26 +401,32 @@
     height: auto;
     min-height: 80vh;
   }
+
   .heroText {
     font-size: 1.8rem;
     margin-top: 40px;
   }
+
   .heroSubtitle {
     font-size: 1rem;
     padding: 0 20px;
     margin-top: 1rem;
   }
+
   .homeicons {
     flex-direction: column;
     gap: 1rem;
     padding-left: 0;
   }
+
   .achivmentstats {
     gap: 20px;
   }
+
   .achivmentstats h4 {
     font-size: 1.3rem;
   }
+
   .achivmentstats p {
     font-size: 0.8rem;
   }
@@ -412,27 +435,34 @@
     padding: 30px 20px;
     flex-direction: column;
   }
+
   .leftContainer img:first-child {
     width: 100%;
     max-width: 350px;
   }
+
   .leftContainer img:nth-child(2) {
     width: 220px;
     left: 0;
     bottom: -30px;
   }
+
   .rightContainer h2 {
     font-size: 24px;
   }
+
   .premimumsuitelo {
     margin-top: 20px;
   }
+
   .premimumsuitelo h3 {
     font-size: 16px;
   }
+
   .premimumsuitelo p {
     font-size: 13px;
   }
+
   .rightContainer button {
     width: 100%;
     justify-content: center;
@@ -444,37 +474,47 @@
   .heroText {
     font-size: 1.5rem;
   }
+
   .heroSubtitle {
     font-size: 0.95rem;
     padding: 0 15px;
   }
+
   .homeicons {
     font-size: 0.9rem;
   }
+
   .achivmentstats {
     flex-direction: column;
     gap: 10px;
   }
+
   .sectionContainer {
     padding: 20px 15px;
   }
+
   .leftContainer img:first-child {
     max-width: 280px;
   }
+
   .leftContainer img:nth-child(2) {
     width: 180px;
   }
+
   .card-title {
     font-size: 1rem;
   }
+
   .card-text {
     font-size: 0.9rem;
   }
+
   .btn-primary {
     font-size: 0.9rem;
     padding: 6px 12px;
   }
 }
+
 /* ROOMS CARD CSS */
 .aboutRooms {
   text-align: center;
@@ -589,12 +629,13 @@
 }
 
 /* Title */
-.cardTitle  {
+.cardTitle {
   font-size: 1.5rem;
   margin-bottom: 8px;
   color: #222;
   font-family: 'Playfair Display', serif;
 }
+
 /* Description */
 .cardTitle p {
   font-size: 1.3rem;
@@ -674,16 +715,17 @@
 }
 
 .viewAllBtnRooms {
-  background: #835e39;         
-  color: #fff !important;      
+  background: #835e39;
+  color: #fff !important;
   padding: 12px 28px;
   font-size: 1rem;
   font-weight: 600;
   border: none;
-  border-radius: 30px;         
+  border-radius: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
 }
+
 .viewAllBtnRooms::before {
   content: "";
   position: absolute;
@@ -695,17 +737,19 @@
   transition: left 0.6s ease;
   pointer-events: none;
 }
+
 .viewAllBtnRooms:hover::before {
   left: 100%;
 }
+
 .viewAllBtnRooms:hover {
   transform: translateY(-6px);
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
 }
 
 .viewAllBtnRooms:hover {
-          
-  transform: translateY(-3px); 
+
+  transform: translateY(-3px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -736,12 +780,14 @@
   background: #f9f9f9;
   padding: 2rem 1rem;
   border-top: 1px solid #eaeaea;
-  text-align: center; /* ✅ Center align text and button */
+  text-align: center;
+  /* ✅ Center align text and button */
 }
 
 /* Text Styling */
 .footer p {
-  color: #6c757d; /* Muted gray */
+  color: #6c757d;
+  /* Muted gray */
   font-size: 1rem;
   margin-bottom: 1.2rem;
   display: flex;
@@ -823,10 +869,12 @@
 
 .cardAnimity {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* by default 2 cards */
+  grid-template-columns: repeat(2, 1fr);
+  /* by default 2 cards */
   gap: 2rem;
   width: 100%;
 }
+
 /* 🔹 Individual Card */
 .animityCard {
   background: #fff;
@@ -852,6 +900,7 @@
   gap: 2rem;
   margin-bottom: 1rem;
 }
+
 .heading svg {
   background-color: #f3f5f7;
   border-radius: 10px;
@@ -872,9 +921,10 @@
   color: #b38b59;
 
 }
-.animityCard:hover .btnPragrph p{
-   color: #ffffff;
-   background-color: #b38b59;
+
+.animityCard:hover .btnPragrph p {
+  color: #ffffff;
+  background-color: #b38b59;
 }
 
 /* 🔹 Paragraph inside Card */
@@ -940,6 +990,7 @@
 .animityCardButton button:hover {
   background: #8a6b3f;
 }
+
 /* Default (Desktop) → 2 Cards */
 .cardAnimity {
   display: grid;
@@ -1017,5 +1068,334 @@
   .animityCardButton button {
     font-size: 0.9rem;
     padding: 0.7rem 1.4rem;
+  }
+}
+
+/* Event CSS */
+.event {
+  align-items: center;
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.event h2 {
+  font-family: 'Playfair Display', serif;
+  color: #4e2f0f;
+  font-size: 2.8rem;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+.eventtopp {
+  font-size: 1.5rem;
+  color: #493c2f;
+
+}
+
+/* Parent container */
+.event .CardEvent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 20px;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+/* Card style */
+ .event .cardImage {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  height: 350px;
+  width: 350px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.event .cardImage:hover {
+  transform: scale(1.03);
+}
+
+/* Image style */
+.event .cardImage .image img {
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+  display: block;
+  border-radius: 15px;
+}
+
+/* Overlay text container (hidden initially) */
+.event.imageuppertext {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 55, 126, 0.7);
+  /* dark overlay */
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  text-align: center;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+/* Show overlay on hover */
+.cardImage:hover .imageuppertext {
+  opacity: 1;
+}
+
+/* Heading style */
+.imageuppertext h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-family: 'Playfair Display', serif;
+
+}
+
+/* Paragraph style */
+.imageuppertext p {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+/* Button style */
+.imageuppertext button {
+  background: #fff;
+  color: #333;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.imageuppertext button:hover {
+  background: #a67c52;
+  color: #fff;
+}
+
+.imageuppertext button svg {
+  font-size: 1.8rem;
+}
+
+/* --------- Responsive Media Queries --------- */
+
+/* Tablets */
+@media (max-width: 992px) {
+  .event h2 {
+    font-size: 2.2rem;
+  }
+
+  .cardImage {
+    height: 280px;
+  }
+
+  .imageuppertext h3 {
+    font-size: 1.5rem;
+  }
+
+  .imageuppertext p {
+    font-size: 0.95rem;
+  }
+}
+
+/* Mobile screens */
+@media (max-width: 576px) {
+  .event {
+    padding: 2rem 1rem;
+  }
+
+  .event h2 {
+    font-size: 2rem;
+  }
+
+  .eventtopp {
+    font-size: 1.2rem;
+  }
+
+  .cardImage {
+    height: 240px;
+  }
+
+  .imageuppertext h3 {
+    font-size: 1.3rem;
+  }
+
+  .imageuppertext p {
+    font-size: 0.9rem;
+  }
+
+  .imageuppertext button {
+    padding: 8px 10px;
+    font-size: 16px;
+  }
+}
+
+/* ===========================
+   Location & Activities Scoped
+   =========================== */
+.locationandActivites {
+  padding: 3rem;
+  background: #f3f5f7;
+  text-align: center;
+}
+
+.locationandActivites h3 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #4e2f0f;
+  margin-bottom: 0.5rem;
+  font-family: 'Playfair Display', serif;
+}
+
+.locationandActivites .loctionPragrph {
+  font-size: 1.5rem;
+  color: #4e3012;
+  margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* ===========================
+   Card Wrapper
+   =========================== */
+.locationandActivites .trouestCard {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+/* ===========================
+   Card Styles
+   =========================== */
+.locationandActivites .cardCustom {
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #f7f4f4;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.locationandActivites .cardCustom:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(32, 32, 32, 0.15);
+}
+
+.locationandActivites .cardImage {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  height: 250px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.locationandActivites .cardBody {
+  padding: 1.3rem;
+  text-align: left;
+  flex-grow: 1;
+
+}
+
+.locationandActivites .cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #4e3012;
+  margin-bottom: 0.8rem;
+  font-family: 'Playfair Display', serif;
+}
+
+.locationandActivites .cardText {
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+
+/* ===========================
+   Card Footer Button
+   =========================== */
+.locationandActivites .cardFooter {
+  background: transparent;
+  border: none;
+  padding: 1rem;
+}
+
+.locationandActivites .cardBtn {
+  width: 100%;
+  border: 1.5px solid #4e2f0f;
+  border-radius: 50px;
+  padding: 0.6rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #4e3012;
+  background: transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.locationandActivites .cardBtn  svg{
+   
+  font-size: 2rem;
+}
+
+
+.locationandActivites .cardBtn:hover {
+  background: #965c23;
+  color: #fff;
+  border-color: #643b11;
+}
+
+/* ===========================
+   Discover Button
+   =========================== */
+.locationandActivites .discoverBtn {
+  margin-top: 2rem;
+  background: #99723b;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.locationandActivites .discoverBtn:hover {
+  background: #7a501b;
+  transform: scale(1.05);
+}
+
+/* ===========================
+   Responsive
+   =========================== */
+@media (max-width: 768px) {
+  .locationandActivites {
+    padding: 2rem 1rem;
+  }
+
+  .locationandActivites h3 {
+    font-size: 2rem;
+  }
+
+  .locationandActivites .loctionPragrph {
+    font-size: 1.1rem;
+  }
+
+  .locationandActivites .trouestCard {
+    padding: 0;
   }
 }

@@ -72,9 +72,7 @@
           state.isError = false;
           state.isSuccess = true;
           state.postFetched = true;
-          state.posts.unshift(action.payload.newproperty); // ✅ Add new post
-          console.log("ACTIONREDUCER",action.payload.newproperty);
-          
+          state.posts.unshift(action.payload.newProperty); 
         })
         .addCase(createPosts.rejected, (state, action) => {
           state.isLoading = false;
@@ -107,7 +105,6 @@
           state.postFetched = true;
           state.editPosts = action.payload.property;
           state.message = "Successfully edit the post";
-
           // ✅ Also update the post in state.posts array
           const index = state.posts.findIndex(p => p._id === action.payload.property._id);
           if (index !== -1) {

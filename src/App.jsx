@@ -96,7 +96,7 @@ function AppContent() {
         <Route path='/testy-food' element={<FoodAndFun />} />
         <Route path='/about' element={<AboutPage/>}/>
         <Route path='/getAllproperty' element={<GetAllRooms/>}/>
-        <Route path='explore' element={<HomeTroust/>}/>
+        <Route path='/explore' element={<HomeTroust/>}/>
 
         {/* Admin Routes */}
         <Route path="/admin/register" element={<AdminRegister />} />

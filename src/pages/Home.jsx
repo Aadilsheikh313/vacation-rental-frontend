@@ -9,10 +9,20 @@ import NavigationButtons from "../components/NavigationButtons";
 import Discover from "../assets/Discover.jpg";
 import { FaLocationDot, FaWifi } from "react-icons/fa6";
 import { BsAward, BsBicycle, BsFillCupHotFill, BsWater } from "react-icons/bs";
-import { MdRestaurant, MdSecurity, MdSystemSecurityUpdate } from "react-icons/md";
+import { MdOutlineArrowRightAlt, MdRestaurant, MdSecurity } from "react-icons/md";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import hotel1 from "../assets/hotel1.jpg";
+import event1 from "../assets/event1.jpg";
+import event2 from "../assets/event2.jpg";
+import event3 from "../assets/event3.jpg";
+import event4 from "../assets/event4.jpg";
+import event5 from "../assets/event5.jpg";
+import event6 from "../assets/event6.jpg";
 import imagesbed1 from '../assets/imagesbed1.jpg';
+import { getApprovedPostAdmin } from "../config/redux/action/adminPostAction";
+import { resetStatus } from "../config/redux/reducer/adminPostReducer";
+import { PiAirplaneTiltThin } from "react-icons/pi";
+
 
 
 const Home = () => {
@@ -22,6 +32,9 @@ const Home = () => {
   const { properties, isLoading: searchLoading } = useSelector(
     (state) => state.globalSearch
   );
+  const { approvedPosts, isError, isSuccess, message } = useSelector(
+    (state) => state.adminPost
+  );
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -29,8 +42,30 @@ const Home = () => {
   const minPrice = Number(queryParams.get("minPrice")) || 0;
   const maxPrice = Number(queryParams.get("maxPrice")) || Infinity;
 
+  // ✅ Group properties by category and take only one property from each
+  const filteredPlaces = useMemo(() => {
+    const map = new Map();
+
+    approvedPosts.forEach((p) => {
+      if (p.status !== false && !map.has(p.category)) {
+        map.set(p.category, p); // store only first property of each category
+      }
+    });
+
+    return Array.from(map.values());
+  }, [approvedPosts]);
+
+
+
   useEffect(() => {
     dispatch(getAllPosts());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getApprovedPostAdmin());
+    return () => {
+      dispatch(resetStatus());
+    };
   }, [dispatch]);
 
   // ✅ Filtering logic only
@@ -345,18 +380,136 @@ const Home = () => {
       </div>
       <div className={styles.event}>
         <h2>Events</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        <h4>Event Card</h4>
+        <p className={styles.eventtopp}>-------- <b>--------</b>------------ </p>
+        <p className={styles.eventtopp}>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <div className={styles.CardEvent}>
+          <Card className={styles.cardImage}>
+            <div className={styles.image}>
+              <img src={event1} alt="Elegant Weddings" />
+            </div>
+            <div className={styles.imageuppertext}>
+              <h3>Elegant Weddings</h3>
+              <p>Create unforgettable moments in our stunning ballroom</p>
+              <Button><MdOutlineArrowRightAlt /></Button>
+            </div>
+
+          </Card>
+          <Card className={styles.cardImage}>
+            <div className={styles.image}>
+              <img src={event2} alt="Corporate Meetings" />
+            </div>
+            <div className={styles.imageuppertext}>
+              <h3>Corporate Meetings</h3>
+              <p>Professional spaces for productive business gatherings</p>
+              <Button><MdOutlineArrowRightAlt /></Button>
+            </div>
+
+          </Card>
+          <Card className={styles.cardImage}>
+            <div className={styles.image}>
+              <img src={event3} alt="Private Celebrations" />
+            </div>
+            <div className={styles.imageuppertext}>
+              <h3>Private Celebrations</h3>
+              <p>Intimate venues perfect for special occasions</p>
+              <Button><MdOutlineArrowRightAlt /></Button>
+            </div>
+
+          </Card>
+          <Card className={styles.cardImage}>
+            <div className={styles.image}>
+              <img src={event4} alt="Conference Facilities" />
+            </div>
+            <div className={styles.imageuppertext}>
+              <h3>Conference Facilities</h3>
+              <p>State-of-the-art technology for successful conferences</p>
+              <Button><MdOutlineArrowRightAlt /></Button>
+            </div>
+
+          </Card>
+          <Card className={styles.cardImage}>
+            <div className={styles.image}>
+              <img src={event5} alt="Social Gatherings" />
+            </div>
+            <div className={styles.imageuppertext}>
+              <h3>Social Gatherings</h3>
+              <p>Versatile spaces for memorable social events</p>
+              <Button><MdOutlineArrowRightAlt /></Button>
+            </div>
+          </Card>
+          <Card className={styles.cardImage}>
+            <div className={styles.image}>
+              <img src={event6} alt="Corporate Retreats" />
+            </div>
+            <div className={styles.imageuppertext}>
+              <h3>Corporate Retreats</h3>
+              <p>Inspiring environments for team building and planning</p>
+              <Button><MdOutlineArrowRightAlt /></Button>
+            </div>
+          </Card>
+        </div>
       </div>
       <div className={styles.locationandActivites}>
         <h3>Location & Activities</h3>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <p className={styles.loctionPragrph}>
+          Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit
+        </p>
 
         <div className={styles.trouestCard}>
-          <h2>Location & Activities Card</h2>
-          <button>Discover All Place</button>
+          <Row>
+            {filteredPlaces?.map((approvedPosts) => (
+              <Col key={approvedPosts._id} md={6} lg={4} className="mb-4">
+                <Card className={styles.cardCustom}>
+                  {approvedPosts.images && approvedPosts.images[0]?.url && (
+                    <Card.Img
+                      variant="top"
+                      src={approvedPosts.images[0].url}
+                      className={styles.cardImage}
+                    />
+                  )}
+                  <Card.Body className={styles.cardBody}>
+                    <Card.Title className={styles.cardTitle}>
+                      {approvedPosts.title}
+                    </Card.Title>
+                    <Card.Text className={styles.cardText}>
+                      <strong>Category:</strong> {approvedPosts.category} <br />
+                      <strong>Subcategory:</strong> {approvedPosts.subcategory} <br />
+                      <strong>City:</strong> {approvedPosts.city} <br />
+                      <strong>Address:</strong> {approvedPosts.location} <br />
+                      <strong>Country:</strong> {approvedPosts.country}
+                    </Card.Text>
+                    <Card.Text className={styles.cardText}>
+                      <strong>Description:</strong> {approvedPosts.description}
+                    </Card.Text>
+                    <Card.Text className={styles.cardText}>
+                      <strong>Best Time:</strong> {approvedPosts.bestTimeToVisit}
+                    </Card.Text>
+                    <Card.Text className={styles.cardText}>
+                      <strong>History:</strong> {approvedPosts.history}
+                    </Card.Text>
+                  </Card.Body>
+                  <div className={styles.cardFooter}>
+                    <button
+                      className={styles.cardBtn}
+                      onClick={() => navigate(`/touristplace/${approvedPosts._id}`)}
+                    >
+                      <PiAirplaneTiltThin /> Know More
+                    </button>
+                  </div>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+
+          <button
+            className={styles.discoverBtn}
+            onClick={() => navigate("/explore")}
+          >
+            Discover All Place
+          </button>
         </div>
       </div>
+
       <footer className={styles.footer}>
         <p>
           Made with <FaRegHeart className={styles.heartIcon} /> for travelers, by travelers

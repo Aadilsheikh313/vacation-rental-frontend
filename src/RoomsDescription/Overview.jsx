@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SlSizeFullscreen } from "react-icons/sl";
 import { IoMoonOutline } from "react-icons/io5";
 import { FaEye, FaUsers } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styles from "../stylesModule/propertyView.module.css";
+import { policesGet } from "../config/redux/action/policeyAction";
 
 const Overview = () => {
     const dispatch = useDispatch();
-    const { id } = useParams();
+    const { id: propertyId } = useParams();
     const { singlePost } = useSelector((state) => state.post);
-
+    const { policy, } = useSelector((state) => state.policy);
+    
+      useEffect(() => {
+        if (propertyId) {
+            dispatch(policesGet(propertyId));
+        }
+    }, [dispatch, propertyId]);
     if (!singlePost) return <p>No details available</p>;
 
     return (
@@ -83,12 +90,13 @@ const Overview = () => {
                     </p>
                     <p>
                         <strong>Check-in:</strong>{" "}
-                        {singlePost.checkIn || "N/A"}
+                        {policy?.checkIn?.start || "N/A"} - {policy?.checkIn?.end || "N/A"}
                     </p>
                     <p>
                         <strong>Check-out:</strong>{" "}
-                        {singlePost.checkOut || "N/A"}
+                        {policy?.checkOut?.start || "N/A"} - {policy?.checkOut?.end || "N/A"}
                     </p>
+
                 </div>
             </div>
         </div>
