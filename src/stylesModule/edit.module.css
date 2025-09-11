@@ -194,10 +194,7 @@
   transform: translateY(-1px);
 }
 
-.AnimateClass {
-
-  
-}
+.AnimateClass {}
 
 .AnimateClass h3 {
   display: flex;
@@ -222,7 +219,7 @@
   margin-bottom: 1rem;
 }
 
-.PolicyClass h3{
+.PolicyClass h3 {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -238,8 +235,9 @@
   padding: 10px;
   border-radius: 10px;
 }
+
 .policyBTN {
-   display: flex;
+  display: flex;
   justify-content: center;
   gap: 4rem;
   margin-bottom: 1rem;

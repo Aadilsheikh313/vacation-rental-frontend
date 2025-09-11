@@ -8,6 +8,7 @@ import { getAllPosts } from "../config/redux/action/propertyAction";
 import { FaCoffee, FaEye, FaTv, FaUsers, FaWifi } from "react-icons/fa";
 import CheckBookingConflict from "../Booking/CheckBookingConflict";
 import { showError } from "../utils/toastUtils";
+import { PricesBaseFilterPost } from "../config/redux/action/filterAction";
 
 const AnimatedCheckbox = ({ label }) => {
   return (
@@ -33,6 +34,8 @@ const GetAllRooms = () => {
   const [showCheckConflict, setShowCheckConflict] = useState(null);
   const { posts, isLoading } = useSelector((state) => state.post);
   const { token, user, loggedIn } = useSelector((state) => state.auth);
+  const { filter, isLoading: filterLoading } = useSelector((state) => state.filter);
+
 
   const handleclickHome = () => navigate("/");
 
@@ -52,7 +55,7 @@ const GetAllRooms = () => {
     dispatch(getAllPosts());
   }, [dispatch]);
 
-  const filteredPosts = posts || [];
+  const filteredPosts = filter.length > 0 ? filter : posts || [];
 
   return (
     <div className={styles.Container}>
@@ -135,7 +138,7 @@ const GetAllRooms = () => {
         {/* Right Content */}
 
         <div className={styles.rightContainerAllPropertyCard}>
-          {isLoading && (
+          {isLoading || filterLoading && (
             <div className="text-center">
               <Spinner animation="border" variant="primary" />
             </div>
@@ -143,11 +146,11 @@ const GetAllRooms = () => {
           <div className={styles.CountTotalRooms}>
             <p>Showing {filteredPosts.length} rooms</p>
             <FormGroup className={styles.Featured}>
-              <FormSelect>
-                <option>Sort by: Featured</option>
-                <option>Price : Low to High</option>
-                <option>Price : High to Low</option>
-                <option>Guest Rating</option>
+              <FormSelect onChange={(e) => dispatch(PricesBaseFilterPost(e.target.value))}>
+                <option value="featured">Sort by: Featured</option>
+                <option value="lowToHigh">Price : Low to High</option>
+                <option value="highToLow">Price : High to Low</option>
+                <option value="rating">Guest Rating</option>
               </FormSelect>
             </FormGroup>
           </div>
