@@ -19,7 +19,9 @@ import {
   FaEye, FaLock, FaDesktop, FaCheckCircle, FaPhone,
   FaRegFileAlt, FaHotel, FaListUl
 } from "react-icons/fa";
-import { Col, Row } from "react-bootstrap";
+import { MdOutlineAttachEmail } from "react-icons/md";
+
+import { Form, Row, Col, Button } from "react-bootstrap";
 
 const EditProperty = () => {
   const dispatch = useDispatch();
@@ -170,138 +172,203 @@ const EditProperty = () => {
           {isLoading && <p>Loading property details...</p>}
 
           {/* Property Edit Form */}
-          <form onSubmit={handleSubmit} encType="multipart/form-data" className={styles.propertyForm}>
+          <Form onSubmit={handleSubmit} encType="multipart/form-data" className={styles.propertyForm}>
             <Row>
-               <Col xs={12} md={6}>
-                {/* Title */}
-                <label><FaTag /> Title</label>
-                <input type="text" name="title" value={formData.title} onChange={handleChange} required />
-
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className={styles.fromlable}><FaTag /> Title</Form.Label>
+                  <Form.Control type="text" name="title" value={formData.title} onChange={handleChange} required />
+                </Form.Group>
               </Col>
-               <Col xs={12} md={6}>
-                {/* Price */}
-                <label><FaMoneyBillWave /> Price</label>
-                <input type="number" name="price" value={formData.price} onChange={handleChange} required />
-
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className={styles.fromlable}><FaMoneyBillWave /> Price</Form.Label>
+                  <Form.Control type="number" name="price" value={formData.price} onChange={handleChange} required />
+                </Form.Group>
               </Col>
             </Row>
 
-             <Row>
-              <Col xs={12} md={6}>
-                 {/* Description */}
-             <label><FaMoneyBillWave /> Description</label>
-            <textarea name="description" value={formData.description} onChange={handleChange} required />
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className={styles.fromlable}><FaRegFileAlt /> Description</Form.Label>
+                  <Form.Control as="textarea" rows={3} name="description" value={formData.description} onChange={handleChange} required />
+                </Form.Group>
               </Col>
-              <Col xs={12} md={6}>
-              {/* Category */}
-            <label><FaListUl /> Category</label>
-            <select name="category" value={formData.category} onChange={handleChange} required>
-              <option value="">-- Select Category --</option>
-              {categories.map((cat, idx) => <option key={idx} value={cat}>{cat}</option>)}
-            </select>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className={styles.fromlable}><FaListUl /> Category</Form.Label>
+                  <Form.Select name="category" value={formData.category} onChange={handleChange} required>
+                    <option value="">-- Select Category --</option>
+                    {categories.map((cat, idx) => <option key={idx} value={cat}>{cat}</option>)}
+                  </Form.Select>
+                </Form.Group>
               </Col>
-             </Row>
-         
+            </Row>
 
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className={styles.fromlable}><FaGlobe /> Country</Form.Label>
+                  <Form.Control type="text" name="country" value={formData.country} onChange={handleChange} required />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className={styles.fromlable}><FaCity /> City</Form.Label>
+                  <Form.Control type="text" name="city" value={formData.city} onChange={handleChange} required />
+                </Form.Group>
+              </Col>
+            </Row>
 
-            
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className={styles.fromlable}><FaMapMarkerAlt /> Location</Form.Label>
+                  <Form.Control type="text" name="location" value={formData.location} onChange={handleChange} required />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className={styles.fromlable}><FaUsers /> Max Guests</Form.Label>
+                  <Form.Control type="number" name="maxGuests" value={formData.maxGuests} onChange={handleChange} />
+                </Form.Group>
+              </Col>
+            </Row>
 
-            {/* Country & City */}
-            <label><FaGlobe /> Country</label>
-            <input type="text" name="country" value={formData.country} onChange={handleChange} required />
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className={styles.fromlable}><FaBed /> Bed Type</Form.Label>
+                  <Form.Select name="bedType" value={formData.bedType} onChange={handleChange}>
+                    <option value="">-- Select Bed Type --</option>
+                    {bedTypes.map((b, i) => <option key={i} value={b}>{b}</option>)}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className={styles.fromlable}>Room Size (m²)</Form.Label>
+                  <Form.Control type="number" value={formData.roomSize?.value || ""} onChange={handleRoomSizeChange} />
+                </Form.Group>
+              </Col>
+            </Row>
 
-            <label><FaCity /> City</label>
-            <input type="text" name="city" value={formData.city} onChange={handleChange} required />
+            <Row>
+              <Col md={6}>
+                <Form.Group  className={styles.propertyViewandFaci}>
+                  <Form.Label className={styles.fromlable}><FaCheckCircle /> Facilities</Form.Label>
+                  {facilitiesOptions.map((fac, idx) => (
+                    <Form.Check
+                      key={idx}
+                      type="checkbox"
+                      label={fac}
+                      value={fac}
+                      checked={formData.facilities.includes(fac)}
+                      onChange={(e) => handleArrayChange(e, "facilities")}
+                    />
+                  ))}
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className={styles.propertyViewandFaci}>
+                  <Form.Label className={styles.fromlable}><FaEye /> Views</Form.Label>
+                  {viewsOptions.map((view, idx) => (
+                    <Form.Check
+                      key={idx}
+                      type="checkbox"
+                      label={view}
+                      value={view}
+                      checked={formData.views.includes(view)}
+                      onChange={(e) => handleArrayChange(e, "views")}
+                    />
+                  ))}
+                </Form.Group>
+              </Col>
+            </Row>
 
-            {/* Location */}
-            <label><FaMapMarkerAlt /> Location</label>
-            <input type="text" name="location" value={formData.location} onChange={handleChange} required />
-
-            {/* Max Guests */}
-            <label><FaUsers /> Max Guests</label>
-            <input type="number" name="maxGuests" value={formData.maxGuests} onChange={handleChange} />
-
-            {/* Bed Type */}
-            <label><FaBed /> Bed Type</label>
-            <select name="bedType" value={formData.bedType} onChange={handleChange}>
-              <option value="">-- Select Bed Type --</option>
-              {bedTypes.map((b, i) => <option key={i} value={b}>{b}</option>)}
-            </select>
-
-            {/* Room Size */}
-            <label>Room Size (m²)</label>
-            <input type="number" value={formData.roomSize?.value || ""} onChange={handleRoomSizeChange} />
-
-            {/* Facilities */}
-            <label><FaCheckCircle /> Facilities</label>
-            <div>
-              {facilitiesOptions.map((fac, idx) => (
-                <label key={idx}>
-                  <input
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className={styles.fromlable}><FaLock /> Privacy</Form.Label>
+                  <Form.Select name="privacy" value={formData.privacy} onChange={handleChange}>
+                    <option value="Private">Private</option>
+                    <option value="Shared">Shared</option>
+                    <option value="NoBalcony">No Balcony</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Check
                     type="checkbox"
-                    value={fac}
-                    checked={formData.facilities.includes(fac)}
-                    onChange={(e) => handleArrayChange(e, "facilities")}
-                  /> {fac}
-                </label>
-              ))}
-            </div>
+                    name="workspace"
+                    label={<><FaDesktop /> Workspace</>}
+                    checked={formData.workspace}
+                    onChange={handleChange}
+                    className={styles.fromlable}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-            {/* Views */}
-            <label><FaEye /> Views</label>
-            <div>
-              {viewsOptions.map((view, idx) => (
-                <label key={idx}>
-                  <input
-                    type="checkbox"
-                    value={view}
-                    checked={formData.views.includes(view)}
-                    onChange={(e) => handleArrayChange(e, "views")}
-                  /> {view}
-                </label>
-              ))}
-            </div>
+            <Row>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className={styles.fromlable}><FaPhone /> Phone</Form.Label>
+                  <Form.Control type="text" name="phone" value={formData.directContact.phone} onChange={handleDirectContactChange} />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className={styles.fromlable}><MdOutlineAttachEmail /></Form.Label>
+                  <Form.Control type="email" name="email" value={formData.directContact.email} onChange={handleDirectContactChange} />
+                </Form.Group>
+              </Col>
+            </Row>
 
-            {/* Privacy */}
-            <label><FaLock /> Privacy</label>
-            <select name="privacy" value={formData.privacy} onChange={handleChange}>
-              <option value="Private">Private</option>
-              <option value="Shared">Shared</option>
-              <option value="NoBalcony">No Balcony</option>
-            </select>
+            <Row>
+              <Col md={6}>
+                <Form.Check
+                  type="checkbox"
+                  name="expired"
+                  label="Expired"
+                  checked={formData.expired}
+                  onChange={handleChange}
+                />
+              </Col>
+            </Row>
 
-            {/* Workspace */}
-            <label><FaDesktop /> Workspace</label>
-            <input type="checkbox" name="workspace" checked={formData.workspace} onChange={handleChange} />
+            <Row>
+              <Col>
+                {preview && <img src={preview} alt="Preview" className={styles.updateimge} />}
+                <Form.Group>
+                  <Form.Label className={styles.fromlable}><FaFileImage /> Upload New Image</Form.Label>
+                  <Form.Control type="file" accept="image/*" onChange={handleImageChange} />
+                </Form.Group>
+              </Col>
+            </Row>
 
-            {/* Direct Contact */}
-            <label><FaPhone /> Phone</label>
-            <input type="text" name="phone" value={formData.directContact.phone} onChange={handleDirectContactChange} />
-            <label>Email</label>
-            <input type="email" name="email" value={formData.directContact.email} onChange={handleDirectContactChange} />
-
-            {/* Image Upload */}
-            {preview && <img src={preview} alt="Preview" className={styles.updateimge} />}
-            <label><FaFileImage /> Upload New Image</label>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-
-            {/* Expired */}
-            <label>Expired</label>
-            <input type="checkbox" name="expired" checked={formData.expired} onChange={handleChange} />
-
-            {/* Buttons */}
-            <button type="submit"><FaEdit /> Update Property</button>
-            <button type="button" onClick={() => navigate(-1)} className={styles.backButton}>
-              <FaArrowLeft /> Go Back
-            </button>
-          </form>
+            <Row className={styles.backAndEditBTN}>
+              <Col md={6}>
+                <Button  type="button" onClick={() => navigate(-1)} className={styles.backButton}>
+                  <FaArrowLeft /> Go Back
+                </Button>
+              </Col>
+              <Col md={6} >
+                <Button  type="submit" className={styles.editButton}>
+                  <FaEdit /> Update Property
+                </Button>
+              </Col>
+            </Row>
+          </Form>
 
           {/* Amenities Section */}
-          <div style={{ marginTop: "30px" }}>
+          <div className={styles.AnimateClass}>
             <h3><FaRegFileAlt /> Manage Amenities</h3>
-            <div>
-              <button onClick={() => setShowAmenityForm("add")}>+ Add Amenities</button>
-              <button onClick={() => setShowAmenityForm("edit")}>✏️ Edit Amenities</button>
+            <div className={styles.animateBTN}>
+              <Button variant="success" onClick={() => setShowAmenityForm("add")}>+ Add Amenities</Button>
+              <Button variant="warning" onClick={() => setShowAmenityForm("edit")}><FaEdit/> Edit Amenities</Button>
             </div>
             <AnimatePresence>
               {showAmenityForm === "add" && (
@@ -318,11 +385,11 @@ const EditProperty = () => {
           </div>
 
           {/* Policy Section */}
-          <div style={{ marginTop: "30px" }}>
+          <div className={styles.PolicyClass}>
             <h3><FaHotel /> Manage Policy</h3>
-            <div>
-              <button onClick={() => setShowPolicyForm("add")}>+ Add Policy</button>
-              <button onClick={() => setShowPolicyForm("edit")}>✏️ Edit Policy</button>
+            <div className={styles.policyBTN}>
+              <Button variant="success" onClick={() => setShowPolicyForm("add")}>+ Add Policy</Button>
+              <Button variant="warning" onClick={() => setShowPolicyForm("edit")}><FaEdit/> Edit Policy</Button>
             </div>
             <AnimatePresence>
               {showPolicyForm === "add" && (

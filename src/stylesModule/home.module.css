@@ -1075,7 +1075,8 @@
 .event {
   align-items: center;
   text-align: center;
-  padding: 3rem 1rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
 
 .event h2 {
@@ -1097,8 +1098,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
   gap: 20px;
-  padding-left: 3rem;
-  padding-right: 3rem;
 }
 
 /* Card style */
@@ -1128,14 +1127,13 @@
 }
 
 /* Overlay text container (hidden initially) */
-.event.imageuppertext {
+.event .imageuppertext {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background: rgba(20, 55, 126, 0.7);
-  /* dark overlay */
   color: #fff;
   display: flex;
   flex-direction: column;

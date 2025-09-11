@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {  amenitiesGet, amenitiesUpdate } from "../config/redux/action/amenityAction";
-import styles from "../stylesModule/propertyView.module.css";
+import styles from "../stylesModule/Amenites/AmenitiesEdit.module.css";
 import { motion } from "framer-motion";
 
 const AmenitiesEditForm = ({ propertyId }) => {

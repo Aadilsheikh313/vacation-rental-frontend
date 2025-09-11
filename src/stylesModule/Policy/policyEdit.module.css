@@ -1,0 +1,104 @@
+.PolicyEditFormContainer {
+  background: none;
+  padding: 2rem;
+  border-radius: 12px;
+  color: #fff;
+  margin: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.formTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #f4b76b;
+  text-align: center;
+}
+
+.form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.formGroup label {
+  font-size: 1.3rem;
+  color: #f4b76b;
+}
+
+.formGroup input[type="text"],
+.formGroup input[type="number"] {
+  border: 1px solid #555;
+  padding: 0.6rem;
+  background: none;
+  padding: 0.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  color: #fff;
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: #f4b76b;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+.submitBtn {
+  background: #28a745;
+  color: white;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  width: 400px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-left: 350px;
+  transition: background 0.3s ease;
+}
+
+.submitBtn:hover {
+  background: #218838;
+}
+
+.submitBtn:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+.message {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.success {
+  color: #28a745;
+}
+
+.error {
+  color: #dc3545;
+}
+
+.info {
+  color: #aaa;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1rem;
+  color: #ccc;
+}

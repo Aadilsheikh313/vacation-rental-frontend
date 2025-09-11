@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { amenitiesPost } from "../config/redux/action/amenityAction";
-import styles from "../stylesModule/propertyView.module.css";
+import styles from "../stylesModule/Amenites/AmenitesPost.module.css";
 import { motion } from "framer-motion";
 import { resetAmenity } from "../config/redux/reducer/amenityReducer";
 import { getSinglePosts } from "../config/redux/action/propertyAction";
