@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { PricesBaseFilterPost } from "../action/filterAction";
+import { PricesBaseFilterPost, RoomFilterPost } from "../action/filterAction";
 
 const initialState = {
     filter: [],
+    roomFiltered: [],
     isSuccess: false,
     isError: false,
     isLoading: false,
@@ -17,6 +18,9 @@ const filterSlice = createSlice({
 
         filterPrice: (state) => {
             state.filter = [];
+        },
+        clearRoomFiltered: (state) =>{
+            state.roomFiltered = [];
         },
 
         filterresetStatus: (state) => {
@@ -44,8 +48,24 @@ const filterSlice = createSlice({
             state.isSuccess = false;
             state.message = action.payload?.message || action.payload || "Failed to fetch price filter properties";
         })  
+          .addCase(RoomFilterPost.pending, (state) =>{
+            state.isLoading = true;
+            state.message = "Fetching the Rooms Filter posts ..."; 
+        })
+        .addCase(RoomFilterPost.fulfilled, (state, action) =>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.roomFiltered = action.payload.properties || [];
+        })
+        .addCase(RoomFilterPost.rejected, (state, action) =>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.payload?.message || action.payload || "Failed to fetch Post filter properties";
+        })
     }
 })
 
 export default filterSlice.reducer;
-export const { reset, filterPrice, filterresetStatus } = filterSlice.actions;
+export const { reset, filterPrice, filterresetStatus , clearRoomFiltered} = filterSlice.actions;

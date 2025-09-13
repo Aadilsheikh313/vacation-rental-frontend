@@ -8,30 +8,29 @@ import { getAllPosts } from "../config/redux/action/propertyAction";
 import { FaCoffee, FaEye, FaTv, FaUsers, FaWifi } from "react-icons/fa";
 import CheckBookingConflict from "../Booking/CheckBookingConflict";
 import { showError } from "../utils/toastUtils";
-import { PricesBaseFilterPost } from "../config/redux/action/filterAction";
+import { PricesBaseFilterPost, RoomFilterPost } from "../config/redux/action/filterAction";
 
-const AnimatedCheckbox = ({ label }) => {
+const AnimatedCheckbox = ({ label, onChange }) => {
   return (
-    <label
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "0.5rem",
-        cursor: "pointer",
-        fontSize: "14px",
-      }}
-    >
-      <input type="checkbox" style={{ accentColor: "#b88c4a" }} />
+    <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer", fontSize: "14px" }}>
+      <input
+        type="checkbox"
+        style={{ accentColor: "#b88c4a" }}
+        onChange={(e) => onChange(label, e.target.checked)}
+      />
       {label}
     </label>
   );
 };
+
 
 const GetAllRooms = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showCheckConflict, setShowCheckConflict] = useState(null);
+  const [filters, setFilters] = useState({ priceRange: "", capacity: "", view: "", features: [], bedType: "" });
+
   const { posts, isLoading } = useSelector((state) => state.post);
   const { token, user, loggedIn } = useSelector((state) => state.auth);
   const { filter, isLoading: filterLoading } = useSelector((state) => state.filter);
@@ -83,11 +82,13 @@ const GetAllRooms = () => {
             <h3>Filter Rooms</h3>
             <FormGroup className={styles.formData}>
               <FormLabel>Price</FormLabel>
-              <FormSelect>
-                <option>All Price</option>
-                <option>500-1500</option>
-                <option>1500-4000</option>
-                <option>4000+</option>
+              <FormSelect
+                onChange={(e) => setFilters({ ...filters, priceRange: e.target.value })} >
+                <option value="">All Price</option>
+                <option value="0-1000">0-1000</option>
+                <option value="1000-2000">1000-2000</option>
+                <option value="2000-4000">2000-4000</option>
+                <option value="4000+">4000+</option>
               </FormSelect>
             </FormGroup>
           </div>
@@ -95,11 +96,12 @@ const GetAllRooms = () => {
           <div className={styles.leftCardFilterRoomCapacity}>
             <FormGroup className={styles.formData}>
               <FormLabel>Rooms Capacity</FormLabel>
-              <FormSelect>
-                <option>Any Capacity</option>
-                <option>1-2 Guest</option>
-                <option>2-4 Guest</option>
-                <option>5+ Guest</option>
+              <FormSelect
+                onChange={(e) => setFilters({ ...filters, capacity: e.target.value })}>
+                <option value="">Any Capacity</option>
+                <option value="1-2">1-2 Guest</option>
+                <option value="2-4">2-4 Guest</option>
+                <option value="5+">5+ Guest</option>
               </FormSelect>
             </FormGroup>
           </div>
@@ -107,32 +109,117 @@ const GetAllRooms = () => {
           <div className={styles.leftCardFilterRoomView}>
             <FormGroup className={styles.formData}>
               <FormLabel>View Type</FormLabel>
-              <FormSelect>
-                <option>All View</option>
-                <option>Ocean View</option>
-                <option>Garden View</option>
-                <option>City View</option>
-                <option>Mountain View</option>
-                <option>Beach View</option>
+              <FormSelect
+                onChange={(e) => setFilters({ ...filters, view: e.target.value })}
+              >
+                <option value="All">All View</option>
+                <option value="Ocean View">Ocean View</option>
+                <option value="Garden View">Garden View</option>
+                <option value="City View">City View</option>
+                <option value="Mountain View">Mountain View</option>
+                <option value="Beach View">Beach View</option>
               </FormSelect>
             </FormGroup>
           </div>
 
           <div className={styles.leftCardFilterRoomFeatures}>
             <h3>Room Features</h3>
-            <AnimatedCheckbox label="King Bed" />
-            <AnimatedCheckbox label="Living Area" />
-            <AnimatedCheckbox label="Work Desk" />
-            <AnimatedCheckbox label="Free Wi-Fi" />
-            <AnimatedCheckbox label="Air Conditioning" />
-            <AnimatedCheckbox label="Private Balcony" />
-            <AnimatedCheckbox label="Fireplace" />
-            <AnimatedCheckbox label="Soundproof Room" />
+            <AnimatedCheckbox
+              label="King Bed"
+              onChange={(label, checked) =>
+                setFilters((prev) => ({
+                  ...prev,
+                  features: checked
+                    ? [...prev.features, label]
+                    : prev.features.filter((f) => f !== label),
+                }))
+              }
+            />
+            <AnimatedCheckbox
+              label="Living Area"
+              onChange={(label, checked) =>
+                setFilters((prev) => ({
+                  ...prev,
+                  features: checked
+                    ? [...prev.features, label]
+                    : prev.features.filter((f) => f !== label),
+                }))
+              }
+            />
+            <AnimatedCheckbox
+              label="Work Desk"
+              onChange={(label, checked) =>
+                setFilters((prev) => ({
+                  ...prev,
+                  features: checked
+                    ? [...prev.features, label]
+                    : prev.features.filter((f) => f !== label),
+                }))
+              }
+            />
+            <AnimatedCheckbox
+              label="Free Wi-Fi"
+              onChange={(label, checked) =>
+                setFilters((prev) => ({
+                  ...prev,
+                  features: checked
+                    ? [...prev.features, label]
+                    : prev.features.filter((f) => f !== label),
+                }))
+              }
+            />
+            <AnimatedCheckbox
+              label="Air Conditioning"
+              onChange={(label, checked) =>
+                setFilters((prev) => ({
+                  ...prev,
+                  features: checked
+                    ? [...prev.features, label]
+                    : prev.features.filter((f) => f !== label),
+                }))
+              }
+            />
+            <AnimatedCheckbox
+              label="Private Balcony"
+              onChange={(label, checked) =>
+                setFilters((prev) => ({
+                  ...prev,
+                  features: checked
+                    ? [...prev.features, label]
+                    : prev.features.filter((f) => f !== label),
+                }))
+              }
+            />
+            <AnimatedCheckbox
+              label="Fireplace"
+              onChange={(label, checked) =>
+                setFilters((prev) => ({
+                  ...prev,
+                  features: checked
+                    ? [...prev.features, label]
+                    : prev.features.filter((f) => f !== label),
+                }))
+              }
+            />
+            <AnimatedCheckbox
+              label="Soundproof Room"
+              onChange={(label, checked) =>
+                setFilters((prev) => ({
+                  ...prev,
+                  features: checked
+                    ? [...prev.features, label]
+                    : prev.features.filter((f) => f !== label),
+                }))
+              }
+            />
           </div>
 
           <div className={styles.applyFilterBtn}>
-            <Button>Apply Filters</Button>
+            <Button onClick={() => dispatch(RoomFilterPost(filters))}>
+              Apply Filters
+            </Button>
           </div>
+
         </div>
 
         {/* Right Content */}
@@ -150,7 +237,7 @@ const GetAllRooms = () => {
                 <option value="featured">Sort by: Featured</option>
                 <option value="lowToHigh">Price : Low to High</option>
                 <option value="highToLow">Price : High to Low</option>
-                <option value="rating">Guest Rating</option>
+                <option value="ratingHighToLow">Guest Rating</option>
               </FormSelect>
             </FormGroup>
           </div>
