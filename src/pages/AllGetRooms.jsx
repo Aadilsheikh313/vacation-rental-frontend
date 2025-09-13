@@ -9,6 +9,7 @@ import { FaCoffee, FaEye, FaTv, FaUsers, FaWifi } from "react-icons/fa";
 import CheckBookingConflict from "../Booking/CheckBookingConflict";
 import { showError } from "../utils/toastUtils";
 import { PricesBaseFilterPost, RoomFilterPost } from "../config/redux/action/filterAction";
+import LeafletMap from "../Map/MapComponent";
 
 const AnimatedCheckbox = ({ label, onChange }) => {
   return (
@@ -33,7 +34,7 @@ const GetAllRooms = () => {
 
   const { posts, isLoading } = useSelector((state) => state.post);
   const { token, user, loggedIn } = useSelector((state) => state.auth);
-  const { filter, isLoading: filterLoading } = useSelector((state) => state.filter);
+  const { filter, roomFiltered, isLoading: filterLoading, isError, message } = useSelector((state) => state.filter);
 
 
   const handleclickHome = () => navigate("/");
@@ -54,7 +55,10 @@ const GetAllRooms = () => {
     dispatch(getAllPosts());
   }, [dispatch]);
 
-  const filteredPosts = filter.length > 0 ? filter : posts || [];
+  const filteredPosts =
+    roomFiltered.length > 0 ? roomFiltered :
+      filter.length > 0 ? filter :
+        posts || [];
 
   return (
     <div className={styles.Container}>
@@ -78,6 +82,9 @@ const GetAllRooms = () => {
       <div className={styles.mainContent}>
         {/* Left Sidebar */}
         <div className={styles.leftNavbarCard}>
+          <div className={styles.leftConatinereMap}>
+            Current user Location
+          </div>
           <div className={styles.leftCardFilterPrice}>
             <h3>Filter Rooms</h3>
             <FormGroup className={styles.formData}>
@@ -319,7 +326,11 @@ const GetAllRooms = () => {
             ) : (
               <>
                 <h5 className="mt-3">Oops! No properties found.</h5>
-                <p>Try changing filters or search again.</p>
+                <p>
+                  {message
+                    ? "Try adjusting your filters to find better results."
+                    : "Try changing filters or search again."}
+                </p>
               </>
             )}
           </div>
