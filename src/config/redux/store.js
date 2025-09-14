@@ -17,6 +17,7 @@ import adminPostReducer from './reducer/adminPostReducer';
 import amenityReducer from "./reducer/amenityReducer";
 import policyReducer from "./reducer/policeyReducer";
 import filterReducer from "./reducer/filterReducer";
+import PagesReducer from './reducer/paginationReducer';
 
 
 
@@ -40,6 +41,7 @@ const store = configureStore({
     amenity: amenityReducer,
     policy: policyReducer,
     filter: filterReducer,
+    Pages: PagesReducer,
   },
 });
 

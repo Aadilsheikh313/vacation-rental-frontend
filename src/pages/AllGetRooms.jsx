@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import styles from "../stylesModule/getAllRooms.module.css";
 import RoomsDetails from "../assets/RoomsDetails.jpg";
-import { Button, FormGroup, FormLabel, FormSelect, Spinner } from "react-bootstrap";
+import { Button, FormControl, FormGroup, FormLabel, FormSelect, FormText, Spinner } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPosts } from "../config/redux/action/propertyAction";
+import { getAllPosts, getPropertyByNearPosts } from "../config/redux/action/propertyAction";
 import { FaCoffee, FaEye, FaTv, FaUsers, FaWifi } from "react-icons/fa";
 import CheckBookingConflict from "../Booking/CheckBookingConflict";
 import { showError } from "../utils/toastUtils";
 import { PricesBaseFilterPost, RoomFilterPost } from "../config/redux/action/filterAction";
-import LeafletMap from "../Map/MapComponent";
+import Current from "../Map/Current";
+import CustomPagination from "../comman/Pagination";
+import { PaginationActionPost } from "../config/redux/action/paginationAction";
+
 
 const AnimatedCheckbox = ({ label, onChange }) => {
   return (
@@ -30,9 +33,12 @@ const GetAllRooms = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showCheckConflict, setShowCheckConflict] = useState(null);
-  const [filters, setFilters] = useState({ priceRange: "", capacity: "", view: "", features: [], bedType: "" });
+  const [useNearby, setUseNearby] = useState(false);
 
-  const { posts, isLoading } = useSelector((state) => state.post);
+  const [filters, setFilters] = useState({ priceRange: "", capacity: "", view: "", features: [], bedType: "", location: "" });
+
+  const { Page, totalPages, currentPage } = useSelector((state) => state.Pages);
+  const { posts, isLoading, nearbyPosts } = useSelector((state) => state.post);
   const { token, user, loggedIn } = useSelector((state) => state.auth);
   const { filter, roomFiltered, isLoading: filterLoading, isError, message } = useSelector((state) => state.filter);
 
@@ -51,14 +57,31 @@ const GetAllRooms = () => {
     setShowCheckConflict(propertyId);
   };
 
+  // user location found from Current component
+  const handleLocationFound = ({ latitude, longitude }) => {
+    setUseNearby(true);
+    dispatch(getPropertyByNearPosts({ latitude, longitude, distance: 20000 }));
+  };
+
+  // ✅ Pagination API call
+  useEffect(() => {
+      console.log("Calling Pagination API with:", { page: 1, limit: 1 });
+    dispatch(PaginationActionPost({ page: 1, limit: 1 }));
+  }, [dispatch]);
+
+
   useEffect(() => {
     dispatch(getAllPosts());
   }, [dispatch]);
 
+
+
   const filteredPosts =
-    roomFiltered.length > 0 ? roomFiltered :
-      filter.length > 0 ? filter :
-        posts || [];
+    nearbyPosts.length > 0 ? nearbyPosts :
+      roomFiltered.length > 0 ? roomFiltered :
+        filter.length > 0 ? filter :
+          Page.length > 0 ? Page :
+            posts || [];
 
   return (
     <div className={styles.Container}>
@@ -83,150 +106,165 @@ const GetAllRooms = () => {
         {/* Left Sidebar */}
         <div className={styles.leftNavbarCard}>
           <div className={styles.leftConatinereMap}>
-            Current user Location
+            <h4>Your Location</h4>
+            <Current onLocationFound={handleLocationFound} />
           </div>
-          <div className={styles.leftCardFilterPrice}>
-            <h3>Filter Rooms</h3>
-            <FormGroup className={styles.formData}>
-              <FormLabel>Price</FormLabel>
-              <FormSelect
-                onChange={(e) => setFilters({ ...filters, priceRange: e.target.value })} >
-                <option value="">All Price</option>
-                <option value="0-1000">0-1000</option>
-                <option value="1000-2000">1000-2000</option>
-                <option value="2000-4000">2000-4000</option>
-                <option value="4000+">4000+</option>
-              </FormSelect>
-            </FormGroup>
-          </div>
+          <div className={styles.leftNavItemCard}>
 
-          <div className={styles.leftCardFilterRoomCapacity}>
-            <FormGroup className={styles.formData}>
-              <FormLabel>Rooms Capacity</FormLabel>
-              <FormSelect
-                onChange={(e) => setFilters({ ...filters, capacity: e.target.value })}>
-                <option value="">Any Capacity</option>
-                <option value="1-2">1-2 Guest</option>
-                <option value="2-4">2-4 Guest</option>
-                <option value="5+">5+ Guest</option>
-              </FormSelect>
-            </FormGroup>
-          </div>
+            <div className={styles.leftCardFilterPrice}>
+              <h3>Filter Rooms</h3>
+              <FormGroup className={styles.formData}>
+                <FormLabel>Location</FormLabel>
+                <FormControl
+                  type="text"
+                  placeholder="Enter Location"
+                  value={filters.location}
+                  onChange={(e) => setFilters({ ...filters, location: e.target.value })}
+                />
 
-          <div className={styles.leftCardFilterRoomView}>
-            <FormGroup className={styles.formData}>
-              <FormLabel>View Type</FormLabel>
-              <FormSelect
-                onChange={(e) => setFilters({ ...filters, view: e.target.value })}
-              >
-                <option value="All">All View</option>
-                <option value="Ocean View">Ocean View</option>
-                <option value="Garden View">Garden View</option>
-                <option value="City View">City View</option>
-                <option value="Mountain View">Mountain View</option>
-                <option value="Beach View">Beach View</option>
-              </FormSelect>
-            </FormGroup>
-          </div>
+              </FormGroup>
 
-          <div className={styles.leftCardFilterRoomFeatures}>
-            <h3>Room Features</h3>
-            <AnimatedCheckbox
-              label="King Bed"
-              onChange={(label, checked) =>
-                setFilters((prev) => ({
-                  ...prev,
-                  features: checked
-                    ? [...prev.features, label]
-                    : prev.features.filter((f) => f !== label),
-                }))
-              }
-            />
-            <AnimatedCheckbox
-              label="Living Area"
-              onChange={(label, checked) =>
-                setFilters((prev) => ({
-                  ...prev,
-                  features: checked
-                    ? [...prev.features, label]
-                    : prev.features.filter((f) => f !== label),
-                }))
-              }
-            />
-            <AnimatedCheckbox
-              label="Work Desk"
-              onChange={(label, checked) =>
-                setFilters((prev) => ({
-                  ...prev,
-                  features: checked
-                    ? [...prev.features, label]
-                    : prev.features.filter((f) => f !== label),
-                }))
-              }
-            />
-            <AnimatedCheckbox
-              label="Free Wi-Fi"
-              onChange={(label, checked) =>
-                setFilters((prev) => ({
-                  ...prev,
-                  features: checked
-                    ? [...prev.features, label]
-                    : prev.features.filter((f) => f !== label),
-                }))
-              }
-            />
-            <AnimatedCheckbox
-              label="Air Conditioning"
-              onChange={(label, checked) =>
-                setFilters((prev) => ({
-                  ...prev,
-                  features: checked
-                    ? [...prev.features, label]
-                    : prev.features.filter((f) => f !== label),
-                }))
-              }
-            />
-            <AnimatedCheckbox
-              label="Private Balcony"
-              onChange={(label, checked) =>
-                setFilters((prev) => ({
-                  ...prev,
-                  features: checked
-                    ? [...prev.features, label]
-                    : prev.features.filter((f) => f !== label),
-                }))
-              }
-            />
-            <AnimatedCheckbox
-              label="Fireplace"
-              onChange={(label, checked) =>
-                setFilters((prev) => ({
-                  ...prev,
-                  features: checked
-                    ? [...prev.features, label]
-                    : prev.features.filter((f) => f !== label),
-                }))
-              }
-            />
-            <AnimatedCheckbox
-              label="Soundproof Room"
-              onChange={(label, checked) =>
-                setFilters((prev) => ({
-                  ...prev,
-                  features: checked
-                    ? [...prev.features, label]
-                    : prev.features.filter((f) => f !== label),
-                }))
-              }
-            />
-          </div>
+              <FormGroup className={styles.formData}>
+                <FormLabel>Price</FormLabel>
+                <FormSelect
+                  onChange={(e) => setFilters({ ...filters, priceRange: e.target.value })} >
+                  <option value="">All Price</option>
+                  <option value="0-1000">0-1000</option>
+                  <option value="1000-2000">1000-2000</option>
+                  <option value="2000-4000">2000-4000</option>
+                  <option value="4000+">4000+</option>
+                </FormSelect>
+              </FormGroup>
+            </div>
 
-          <div className={styles.applyFilterBtn}>
-            <Button onClick={() => dispatch(RoomFilterPost(filters))}>
-              Apply Filters
-            </Button>
-          </div>
+            <div className={styles.leftCardFilterRoomCapacity}>
+              <FormGroup className={styles.formData}>
+                <FormLabel>Rooms Capacity</FormLabel>
+                <FormSelect
+                  onChange={(e) => setFilters({ ...filters, capacity: e.target.value })}>
+                  <option value="">Any Capacity</option>
+                  <option value="1-2">1-2 Guest</option>
+                  <option value="2-4">2-4 Guest</option>
+                  <option value="5+">5+ Guest</option>
+                </FormSelect>
+              </FormGroup>
+            </div>
 
+            <div className={styles.leftCardFilterRoomView}>
+              <FormGroup className={styles.formData}>
+                <FormLabel>View Type</FormLabel>
+                <FormSelect
+                  onChange={(e) => setFilters({ ...filters, view: e.target.value })}
+                >
+                  <option value="All">All View</option>
+                  <option value="Ocean View">Ocean View</option>
+                  <option value="Garden View">Garden View</option>
+                  <option value="City View">City View</option>
+                  <option value="Mountain View">Mountain View</option>
+                  <option value="Beach View">Beach View</option>
+                </FormSelect>
+              </FormGroup>
+            </div>
+
+            <div className={styles.leftCardFilterRoomFeatures}>
+              <h3>Room Features</h3>
+              <AnimatedCheckbox
+                label="King Bed"
+                onChange={(label, checked) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    features: checked
+                      ? [...prev.features, label]
+                      : prev.features.filter((f) => f !== label),
+                  }))
+                }
+              />
+              <AnimatedCheckbox
+                label="Living Area"
+                onChange={(label, checked) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    features: checked
+                      ? [...prev.features, label]
+                      : prev.features.filter((f) => f !== label),
+                  }))
+                }
+              />
+              <AnimatedCheckbox
+                label="Work Desk"
+                onChange={(label, checked) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    features: checked
+                      ? [...prev.features, label]
+                      : prev.features.filter((f) => f !== label),
+                  }))
+                }
+              />
+              <AnimatedCheckbox
+                label="Free Wi-Fi"
+                onChange={(label, checked) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    features: checked
+                      ? [...prev.features, label]
+                      : prev.features.filter((f) => f !== label),
+                  }))
+                }
+              />
+              <AnimatedCheckbox
+                label="Air Conditioning"
+                onChange={(label, checked) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    features: checked
+                      ? [...prev.features, label]
+                      : prev.features.filter((f) => f !== label),
+                  }))
+                }
+              />
+              <AnimatedCheckbox
+                label="Private Balcony"
+                onChange={(label, checked) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    features: checked
+                      ? [...prev.features, label]
+                      : prev.features.filter((f) => f !== label),
+                  }))
+                }
+              />
+              <AnimatedCheckbox
+                label="Fireplace"
+                onChange={(label, checked) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    features: checked
+                      ? [...prev.features, label]
+                      : prev.features.filter((f) => f !== label),
+                  }))
+                }
+              />
+              <AnimatedCheckbox
+                label="Soundproof Room"
+                onChange={(label, checked) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    features: checked
+                      ? [...prev.features, label]
+                      : prev.features.filter((f) => f !== label),
+                  }))
+                }
+              />
+            </div>
+
+            <div className={styles.applyFilterBtn}>
+              <Button onClick={() => dispatch(RoomFilterPost(filters))}>
+                Apply Filters
+              </Button>
+            </div>
+
+          </div>
         </div>
 
         {/* Right Content */}
@@ -334,8 +372,16 @@ const GetAllRooms = () => {
               </>
             )}
           </div>
+          {/* ✅ Pagination Component */}
+          <CustomPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(page) => dispatch(PaginationActionPost({ page, limit: 1 }))}
+          />
+
         </div>
       </div>
+
     </div>
   );
 };

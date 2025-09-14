@@ -122,3 +122,16 @@ export const getPropertyByCategoryApi = async (token, category, filters = {}) =>
   });
   return response.data;
 };
+
+
+export const getPropertyByNearApi = async (latitude, longitude, distance = 20000) => {
+  try {
+    const response = await clientServer.get(`/api/property/nearby`, {
+      params: { latitude, longitude, distance },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching nearby properties:", error.response?.data || error.message);
+    throw error; // aage component me bhi catch ho sake
+  }
+};

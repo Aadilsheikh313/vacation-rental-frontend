@@ -20,6 +20,8 @@ export const RoomFilterPost = createAsyncThunk(
         async (filters, thunkAPI) => {
             try {
                 const response = await FilterRoomsApi(filters);
+                console.log("FILTER LOCTION", response);
+                
                 return response;
             } catch (error) {
                 return thunkAPI.rejectWithValue(error.response?.data || "Failed to Post filter Apply property");

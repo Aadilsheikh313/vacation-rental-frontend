@@ -1,11 +1,12 @@
   import { createSlice } from "@reduxjs/toolkit";
-  import { getAllPosts, createPosts, getSinglePosts, editPropertyPosts, getMyPropertiesPosts, softdeletePropertyPosts, harddeletePropertyPosts, reactivePropertyPosts, getMyExpiredPropertyPosts, getPropertyByCategoryPosts } from "../action/propertyAction";
+  import { getAllPosts, createPosts, getSinglePosts, editPropertyPosts, getMyPropertiesPosts, softdeletePropertyPosts, harddeletePropertyPosts, reactivePropertyPosts, getMyExpiredPropertyPosts, getPropertyByCategoryPosts, getPropertyByNearPosts } from "../action/propertyAction";
 
   const initialState = {
     posts: [],
     hostDashboardPosts: [],
     editPosts: null,
     singlePost: null,
+    nearbyPosts: [], 
     isError: false,
     isSuccess: false,
     postFetched: false,
@@ -48,7 +49,25 @@
     },
     extraReducers: (builder) => {
       builder
-        .addCase(getAllPosts.pending, (state) => {
+        // ✅ Nearby properties reducers
+      .addCase(getPropertyByNearPosts.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Fetching nearby properties...";
+      })
+      .addCase(getPropertyByNearPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.postFetched = true;
+        state.nearbyPosts = action.payload.properties || []; 
+        state.message = "Nearby properties fetched successfully!";
+      })
+      .addCase(getPropertyByNearPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Failed to fetch nearby properties";
+      })
+      .addCase(getAllPosts.pending, (state) => {
           state.isLoading = true;
           state.message = "Fetching all the posts ...";
         })

@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   editPropertyApi, getAllPropertyPostedApi, getMyPropertiesApi,
   getPropertyByCategoryApi,
+  getPropertyByNearApi,
   getSinglePropertyApi, harddeletedPropertyApi, postPropertyApi, reactivePropertyApi,
   softdeletedPropertyApi
 } from "../../../api/propertyApi";
@@ -23,8 +24,8 @@ export const createPosts = createAsyncThunk(
   async (formData, thunkAPI) => {
     try {
       const response = await postPropertyApi(formData);
-      console.log("ACTION PROPERTY",response);
-      
+      console.log("ACTION PROPERTY", response);
+
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || "Failed to post property");
@@ -119,7 +120,7 @@ export const getMyPropertiesPosts = createAsyncThunk(
 );
 export const getMyExpiredPropertyPosts = createAsyncThunk(
   "posts/getMyExpiredPropertyPosts",
-  async({token}, thunkAPI) =>{
+  async ({ token }, thunkAPI) => {
     try {
       const response = await getAllPropertyPostedApi(token);
       return thunkAPI.fulfillWithValue(response.property);
@@ -134,16 +135,30 @@ export const getMyExpiredPropertyPosts = createAsyncThunk(
 export const getPropertyByCategoryPosts = createAsyncThunk(
   "posts/getPropertyByCategoryPosts",
   async ({ token, category, ...filters }, thunkAPI) => {
-  try {
-    const response = await getPropertyByCategoryApi(token, category, filters);
-    return thunkAPI.fulfillWithValue(response.properties);
-  } catch (error) {
-    return thunkAPI.rejectWithValue(
-      error.response?.data?.message || "Failed to fetch filtered category property"
-    );
+    try {
+      const response = await getPropertyByCategoryApi(token, category, filters);
+      return thunkAPI.fulfillWithValue(response.properties);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to fetch filtered category property"
+      );
+    }
   }
-}
 
+);
+
+export const getPropertyByNearPosts = createAsyncThunk(
+  "posts/getPropertyByNearPosts",
+  async ({ latitude, longitude, distance = 20000 }, thunkAPI) => {
+    try {
+      const response = await getPropertyByNearApi(latitude, longitude, distance);
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to fetch the nearby properties"
+      );
+    }
+  }
 );
 
 
