@@ -1,7 +1,7 @@
 import { clientServer } from "../config/axios";
 
 
-export const PaginationApi = async (page = 1, limit = 1) => {
+export const PaginationApi = async (page = 1, limit = 10) => {
   try {
     const response = await clientServer.get(`/api/page/pagination?page=${page}&limit=${limit}`);
     console.log("API CALL URL:", `/api/page/pagination?page=${page}&limit=${limit}`);

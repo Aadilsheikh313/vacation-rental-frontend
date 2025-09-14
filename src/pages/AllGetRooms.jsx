@@ -65,8 +65,7 @@ const GetAllRooms = () => {
 
   // ✅ Pagination API call
   useEffect(() => {
-      console.log("Calling Pagination API with:", { page: 1, limit: 1 });
-    dispatch(PaginationActionPost({ page: 1, limit: 1 }));
+    dispatch(PaginationActionPost({ page: 1, limit: 10 }));
   }, [dispatch]);
 
 
@@ -77,11 +76,12 @@ const GetAllRooms = () => {
 
 
   const filteredPosts =
-    nearbyPosts.length > 0 ? nearbyPosts :
-      roomFiltered.length > 0 ? roomFiltered :
-        filter.length > 0 ? filter :
-          Page.length > 0 ? Page :
+    Page.length > 0 ? Page :
+      nearbyPosts.length > 0 ? nearbyPosts :
+        roomFiltered.length > 0 ? roomFiltered :
+          filter.length > 0 ? filter :
             posts || [];
+
 
   return (
     <div className={styles.Container}>
@@ -376,7 +376,7 @@ const GetAllRooms = () => {
           <CustomPagination
             currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={(page) => dispatch(PaginationActionPost({ page, limit: 1 }))}
+            onPageChange={(page) => dispatch(PaginationActionPost({ page, limit: 10 }))}
           />
 
         </div>

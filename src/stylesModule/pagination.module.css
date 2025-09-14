@@ -1,0 +1,137 @@
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+  font-family: "Inter", sans-serif;
+}
+
+/* Page Item */
+.pageItem {
+  border: none;
+  background: #f0f0f0;
+  color: #333;
+  padding: 0.5rem 0.9rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 38px;
+  text-align: center;
+}
+
+.pageItem:hover {
+  background: #b8700c;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(255, 159, 26, 0.3);
+}
+
+/* Active Page */
+.active {
+  background: #834e09;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(209, 127, 31, 0.4);
+}
+
+/* Navigation Buttons */
+.navButton {
+  border: none;
+  background: #f0f0f0;
+  color: #333;
+  padding: 0.45rem 0.7rem;
+  font-size: 1rem;
+  border-radius: 50%;
+  height: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.navButton svg{
+    font-size: 2rem;
+}
+
+.navButton:hover {
+  background: #916609;
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(209, 127, 31, 0.3);
+}
+
+.navButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Ellipsis */
+.ellipsis {
+  font-size: 1.2rem;
+  color: #999;
+  padding: 0 0.3rem;
+}
+
+/* Responsive: Tablets */
+@media (max-width: 768px) {
+  .paginationContainer {
+    gap: 0.35rem;
+    margin: 1.5rem 0;
+  }
+  
+  .pageItem {
+   padding: 0.35rem 0.55rem;
+    font-size: 1.5rem;
+    max-width: 50px;
+    height: 50px;
+  }
+  
+  .navButton {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.85rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+   .navButton  svg{
+    font-size: 2rem;
+  }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 480px) {
+  .paginationContainer {
+    gap: 0.25rem;
+    margin: 1rem 0;
+  }
+  
+  .pageItem {
+    padding: 0.35rem 0.55rem;
+    font-size: 1.5rem;
+    max-width: 50px;
+    height: 50px;
+  }
+  
+  .navButton {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.85rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  .navButton  svg{
+    font-size: 2rem;
+  }
+  .ellipsis {
+    font-size: 1rem;
+    border-radius: 50%;
+  }
+}

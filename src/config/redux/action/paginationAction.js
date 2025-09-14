@@ -4,7 +4,7 @@ import { PaginationApi } from "../../../api/pagenationApi";
 
 export const PaginationActionPost = createAsyncThunk(
     "Page/PaginationActionPost",
-    async ({ page = 1, limit = 1 }, thunkAPI) => {
+    async ({ page = 1, limit = 10 }, thunkAPI) => {
         try {
             const response = await PaginationApi(page, limit);
             console.log("ACTION", page, limit);
