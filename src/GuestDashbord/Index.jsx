@@ -1,11 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Spinner, Card, Row, Col, Badge } from "react-bootstrap";
+import GuestDash from '../assets/GuestDash.jpg';
 import { deleteGuestHistroyBookingPosts, getBookingPropertyPosts, getPastandCancelledBookingPosts } from "../config/redux/action/bookingAction ";
+import GuestDashBTN from "./ButtonGuestDashBord";
+import PastBooking from "./PastBooking";
+import CurrentBooking from "./CurrentBooking";
+import UpcommingBooking from "./UpcommingBooking";
+import CancelBooking from "./CancelBooking";
 
 
 const GuestDashboard = () => {
   const dispatch = useDispatch();
+  const [activeTab, setActiveTab] = useState("pastBooking");
 
   const {
     bookings,
@@ -36,22 +43,31 @@ const GuestDashboard = () => {
   );
 
   const handleDeleteBooking = (bookingId) => {
-  const confirmDelete = window.confirm("Are you sure you want to delete this booking?");
-  if (!confirmDelete) return;
+    const confirmDelete = window.confirm("Are you sure you want to delete this booking?");
+    if (!confirmDelete) return;
 
-  dispatch(
-    deleteGuestHistroyBookingPosts({
-      bookingId,
-      token: localStorage.getItem("token"),
-    })
-  );
-};
+    dispatch(
+      deleteGuestHistroyBookingPosts({
+        bookingId,
+        token: localStorage.getItem("token"),
+      })
+    );
+  };
 
 
   return (
     <div className="container py-4">
+      <div>
+        <img src={GuestDash} alt="Guest Dashbord Image" />
+      </div>
       <h2 className="mb-4 text-center">Your Bookings</h2>
-
+      <div>
+      <GuestDashBTN activeTab={activeTab} setActiveTab={setActiveTab}/>
+      {activeTab === "pastBooking" && <PastBooking/>}
+      {activeTab === "activeBooking" && <CurrentBooking/>}
+      {activeTab === "upcommingBooking" && <UpcommingBooking/>}
+      {activeTab === "cancelBooking" && <CancelBooking/>}
+      </div>
       {isLoading ? (
         <div className="text-center">
           <Spinner animation="border" variant="primary" />

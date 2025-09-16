@@ -1,0 +1,168 @@
+.myBookingContainer {
+    position: relative;
+    max-width: 100%;
+    margin-top: 0.2rem;
+}
+
+.backgroundImage {
+    position: relative;
+    max-width: 100%;
+    height: 330px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: brightness(0.8);
+}
+
+.backgroundImage img {
+    object-fit: cover;
+    border-radius: 12px;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    object-position: center center;
+    z-index: -1;
+
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 330px;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.heroText h3 {
+    font-size: 38px;
+    font-weight: 700;
+    margin-top: 1rem;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.heroText p {
+    font-size: 26px;
+    max-width: 800px;
+    margin: 0 auto 12px;
+    color: #fff;
+}
+
+.breadcrumb {
+    font-size: 20px;
+    margin-top: 10px;
+    color: #ddd;
+    text-align: center;
+}
+
+.breadcrumb input {
+    background: none;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.breadcrumb input:hover {
+    text-decoration: underline;
+}
+
+.CardRow {
+    margin-top: 1rem;
+    background-color: #e9e4e4;
+    padding-top: 2rem;
+}
+
+.bookingCard {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+}
+
+.bookingCard:hover {
+    transform: translateY(-5px);
+}
+
+.cardImage {
+    height: 200px;
+    object-fit: cover;
+}
+
+.cardTitle {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #a67c52;
+    margin-bottom: 0.5rem;
+}
+
+.cardText {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+}
+
+.ownerInfo {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.buttonGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    padding: 1rem;
+}
+
+/* Common Button Style */
+.actionButton {
+  flex: 1;
+  min-width: 120px;
+  height: 3rem;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+}
+
+/* Edit Button (wood tone) */
+.btnedit {
+  background-color: #A67C52;  /* wooden brown */
+  border: none;
+  color: #fff;
+}
+.btnedit:hover {
+  background-color: #8B5E3C;  /* darker brown */
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+/* Cancel Button (maroon) */
+.btncancel {
+  background-color: #7B2D26;
+  border: none;
+  color: #fff;
+}
+.btncancel:hover {
+  background-color: #5C1F1A;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+/* View Invoice (olive green) */
+.btninvoice {
+  background-color: #556B2F;
+  border: none;
+  color: #fff;
+}
+.btninvoice:hover {
+  background-color: #3E4E20;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}

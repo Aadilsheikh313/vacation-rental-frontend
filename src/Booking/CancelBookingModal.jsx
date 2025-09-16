@@ -3,6 +3,10 @@ import { Modal, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { showSuccess, showError } from "../utils/toastUtils";
 import { cancelBookingPosts, getHostBookingHistoryPosts } from "../config/redux/action/bookingAction ";
+import { FcCancel } from "react-icons/fc";
+import styles from "../stylesModule/Booking/CanncelBooking.module.css"
+import { IoMdWarning } from "react-icons/io";
+import { MdOutlineTipsAndUpdates } from "react-icons/md";
 
 const CancelBookingModal = ({ show, handleClose, bookingId, token }) => {
   const dispatch = useDispatch();
@@ -26,22 +30,32 @@ const CancelBookingModal = ({ show, handleClose, bookingId, token }) => {
 
 
   return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Cancel Booking</Modal.Title>
+    <Modal show={show} onHide={handleClose} dialogClassName={styles.cancelModal}>
+      <Modal.Header className={styles.HeaderModel} >
+        <Modal.Title className={styles.modalTitle}>
+          <FcCancel /> Confirm Cancellation
+        </Modal.Title>
       </Modal.Header>
+
       <Modal.Body>
-        Are you sure you want to cancel this booking? This action is irreversible.
+        <p><strong><IoMdWarning /> Are you absolutely sure?</strong></p>
+        <p>
+          Cancelling this booking means you may lose out on your planned stay and
+          memories. A penalty may also apply. Once cancelled, this action cannot
+          be undone.
+        </p>
+        <p className="text-muted"><MdOutlineTipsAndUpdates /> Tip: Consider rescheduling instead of cancelling.</p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
+        <Button className={styles.closeBtn} onClick={handleClose}>
+          Keep Booking
         </Button>
-        <Button variant="danger" onClick={handleCancel}>
-          Cancel Booking
+        <Button className={styles.cancelBtn} onClick={handleCancel}>
+          Yes, Cancel Booking
         </Button>
       </Modal.Footer>
     </Modal>
+
   );
 };
 

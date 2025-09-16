@@ -18,6 +18,7 @@ import amenityReducer from "./reducer/amenityReducer";
 import policyReducer from "./reducer/policeyReducer";
 import filterReducer from "./reducer/filterReducer";
 import PagesReducer from './reducer/paginationReducer';
+import guestDashReducer from './reducer/guestDashReducer';
 
 
 
@@ -42,6 +43,7 @@ const store = configureStore({
     policy: policyReducer,
     filter: filterReducer,
     Pages: PagesReducer,
+    guestDash: guestDashReducer,
   },
 });
 

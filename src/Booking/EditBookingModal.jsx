@@ -3,6 +3,8 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { showSuccess, showError } from "../utils/toastUtils";
 import { editBookingPosts } from "../config/redux/action/bookingAction ";
+import styles from "../stylesModule/Booking/EditBooking.module.css";
+import { MdOutlineTipsAndUpdates } from "react-icons/md";
 
 const EditBookingModal = ({ show, handleClose, booking, token }) => {
   const dispatch = useDispatch();
@@ -47,10 +49,14 @@ const EditBookingModal = ({ show, handleClose, booking, token }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal
+      show={show}
+      onHide={handleClose}
+      dialogClassName={styles.customModal}
+    >
       <Form onSubmit={handleSubmit}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Booking</Modal.Title>
+        <Modal.Header className={styles.HeaderEdit}>
+          <Modal.Title>Modify Your Booking – Change Dates or Guests</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group>
@@ -91,14 +97,15 @@ const EditBookingModal = ({ show, handleClose, booking, token }) => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button className={styles.closeBtn} onClick={handleClose}>
             Close
           </Button>
-          <Button type="submit" variant="primary">
+          <Button type="submit" className={styles.saveBtn}>
             Save Changes
           </Button>
         </Modal.Footer>
       </Form>
+      <p><MdOutlineTipsAndUpdates />Tip: You can extend your check-out date to enjoy a longer stay.</p>
     </Modal>
   );
 };

@@ -8,6 +8,8 @@ import NavigationButtons from "../components/NavigationButtons";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import RoomsBooking from '../assets/RoomsDetails.jpg';
+import CustomPagination from "../comman/Pagination";
+import { PaginationActionPost } from "../config/redux/action/paginationAction";
 
 const categories = [
   "All",
@@ -39,6 +41,7 @@ const ExploreAndStay = () => {
 
   // Redux State
   const { posts, isLoading } = useSelector((state) => state.post);
+  const { Page, totalPages, currentPage } = useSelector((state) => state.Pages);
 
   useEffect(() => {
     dispatch(getAllPosts())
@@ -48,11 +51,17 @@ const ExploreAndStay = () => {
     navigate("/")
   }
 
+  // ✅ Pagination API call
+  useEffect(() => {
+    dispatch(PaginationActionPost({ page: 1, limit: 10 }));
+  }, [dispatch]);
+
   // Category filter
   const filteredProperties =
     selectedCategory === "All"
-      ? posts
-      : posts.filter((p) => p.category === selectedCategory);
+      ? Page
+      : Page.filter((p) => p.category === selectedCategory);
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -150,6 +159,11 @@ const ExploreAndStay = () => {
       {!isLoading && filteredProperties?.length === 0 && (
         <p className="text-center text-danger">No properties found in this category.</p>
       )}
+      <CustomPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => dispatch(PaginationActionPost({ page, limit: 10 }))}
+      />
     </Container>
 
   );

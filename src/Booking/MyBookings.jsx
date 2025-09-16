@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Container, Card, Row, Col, Spinner, Alert } from "react-bootstrap";
-import { getBookingPropertyPosts } from "../config/redux/action/bookingAction ";
+import { Container, Card, Row, Col, Alert } from "react-bootstrap";
 import EditBookingModal from "./EditBookingModal";
 import CancelBookingModal from "./CancelBookingModal";
 import InvoiceModal from "../Invoice/InvoiceModal";
-import { downloadBookingInvoiceRecipet, viewInvoiceRecipet } from "../config/redux/action/invoiceAction";
+import { viewInvoiceRecipet } from "../config/redux/action/invoiceAction";
 import { showError } from "../utils/toastUtils";
 import { useNavigate } from "react-router-dom";
-
+import CustomSpinner from "../comman/Spinner";
+import styles from "../stylesModule/Booking/MyBooking.module.css";
+import BookingPage from "../assets/BookingPage.jpg";
+import { getBookingPropertyPosts } from "../config/redux/action/bookingAction ";
+import { TbCancel } from "react-icons/tb";
+import { MdOutlineEditCalendar, MdOutlineStreetview } from "react-icons/md";
 
 const MyBooking = () => {
   const dispatch = useDispatch();
@@ -21,9 +25,7 @@ const MyBooking = () => {
   const navigate = useNavigate();
   const { user, token } = useSelector((state) => state.auth);
   const { bookings, isLoading, isError, message } = useSelector((state) => state.booking);
-
   const { isLoading: invoiceLoading } = useSelector((state) => state.invoice);
-
 
   useEffect(() => {
     dispatch(getBookingPropertyPosts());
@@ -36,10 +38,8 @@ const MyBooking = () => {
   );
 
   const handleViewInvoice = async (bookingId) => {
-
     try {
       const result = await dispatch(viewInvoiceRecipet({ bookingId, token }));
-
       if (result?.payload?.invoice) {
         setInvoiceData(result.payload.invoice);
         setShowInvoiceModal(true);
@@ -55,99 +55,129 @@ const MyBooking = () => {
     if (!user || !token) {
       navigate("/login");
     }
-  }, [user, token]);
+  }, [user, token, navigate]);
+
+  const handleclickHome = () => {
+    navigate("/")
+  }
 
   return (
-    <Container className="my-5">
-      <h2 className="mb-4">My Active Bookings</h2>
+    <Container className={styles.myBookingContainer}>
+      <div
+        className={styles.backgroundImage}
+        style={{ backgroundImage: `url(${BookingPage})` }}
+      ></div>
+      <div className={styles.overlay}>
+        <div className={styles.heroText}>
+          <h3>Welcome to Your Journey</h3>
+          <p>
+            Every booking is more than just a stay – it’s a step towards new
+            memories, peaceful reflections, and unforgettable experiences.
+            Thank you for choosing us to be part of your story.
+          </p>
+          <div className={styles.breadcrumb}>
+            <input type="button" value="Home" onClick={handleclickHome} /> / Booked Page
+          </div>
+        </div>
+      </div>
 
-      {isLoading && <Spinner animation="border center" />}
+      {isLoading ? (
+        <CustomSpinner />
+      ) : (
+        <>
+          {isError && <Alert variant="danger">{message}</Alert>}
 
-      {isError && <Alert variant="danger">{message}</Alert>}
+          {!isLoading && bookings?.length === 0 && (
+            <Alert variant="info">No bookings found.</Alert>
+          )}
 
-      {!isLoading && bookings?.length === 0 && (
-        <Alert variant="info">No bookings found.</Alert>
-      )}
+          <Row className={styles.CardRow}>
+            {upcomingBookings?.map((booking) => (
+              <Col md={6} lg={4} key={booking._id} className="mb-4">
+                <Card className={`shadow-sm ${styles.bookingCard}`}>
+                  <Card.Img
+                    variant="top"
+                    src={booking.property?.image?.url}
+                    className={styles.cardImage}
+                  />
+                  <Card.Body>
+                    <Card.Title className={styles.cardTitle}>
+                      {booking.property?.title}
+                    </Card.Title>
+                    <Card.Text as="div" className={styles.cardText}>
+                      <div><strong>City:</strong> {booking.property?.city}</div>
+                      <div><strong>Check-In:</strong> {new Date(booking.checkIn).toDateString()}</div>
+                      <div><strong>Check-Out:</strong> {new Date(booking.checkOut).toDateString()}</div>
+                      <div><strong>Status:</strong> {booking.bookingStatus}</div>
+                      <div><strong>Total:</strong> ₹{booking.totalAmount}</div>
+                      <div><strong>Payment Mode:</strong> {booking.paymentMethod}</div>
+                    </Card.Text>
 
-      <Row>
-        {upcomingBookings?.map((booking) => (
-          <Col md={6} lg={4} key={booking._id} className="mb-4">
-            <Card className="shadow-sm">
-              <Card.Img
-                variant="top"
-                src={booking.property?.image?.url}
-                style={{ height: "200px", objectFit: "cover" }}
-              />
-              <Card.Body>
-                <Card.Title>{booking.property?.title}</Card.Title>
-                <Card.Text as="div">
-                  <div><strong>City:</strong> {booking.property?.city}</div>
-                  <div><strong>Check-In:</strong> {new Date(booking.checkIn).toDateString()}</div>
-                  <div><strong>Check-Out:</strong> {new Date(booking.checkOut).toDateString()}</div>
-                  <div><strong>Status:</strong> {booking.bookingStatus}</div>
-                  <div><strong>Total:</strong> ₹{booking.totalAmount}</div>
-                  <div><strong>Payment Mode:</strong> {booking.paymentMethod}</div>
-                </Card.Text>
-                <div><strong>Connect with Property Owner</strong></div>
-                <div><strong>Contact:</strong> {booking.property?.userId?.phone} / {booking.property?.userId?.email}</div>
-                <div><strong>Refunded:</strong> {booking.isRefunded ? "✅ Yes" : "❌ No"}</div>
-              </Card.Body>
+                    <div className={styles.ownerInfo}>
+                      <strong>Connect with Property Owner</strong>
+                      <div>
+                        <strong>Contact:</strong> {booking.property?.userId?.phone} / {booking.property?.userId?.email}
+                      </div>
+                      <div>
+                        <strong>Refunded:</strong> {booking.isRefunded ? "✅ Yes" : "❌ No"}
+                      </div>
+                    </div>
+                  </Card.Body>
 
-              <button
-                className="btn btn-warning mt-2 ms-2 m-2"
-                onClick={() => {
-                  setSelectedBooking(booking);
-                  setShowEditModal(true);
-                }}
-              >
-                Edit
-              </button>
+                  <div className={styles.buttonGroup}>
+                    <button
+                      className={`${styles.actionButton} ${styles.btnedit}`}
+                      onClick={() => { setSelectedBooking(booking); setShowEditModal(true); }}
+                    >
+                      <MdOutlineEditCalendar /> Edit
+                    </button>
 
-              <button
-                className="btn btn-danger mt-2 ms-2 m-2"
-                onClick={() => {
-                  setSelectedBooking(booking);
-                  setShowCancelModal(true);
-                }}
-              >
-                Cancel Booking
-              </button>
+                    <button
+                      className={`${styles.actionButton} ${styles.btncancel}`}
+                      onClick={() => { setSelectedBooking(booking); setShowCancelModal(true); }}
+                    >
+                      <TbCancel /> Cancel Booking
+                    </button>
 
-              <button
-                className="btn btn-success mt-2 ms-2 m-2"
-                onClick={() => handleViewInvoice(booking._id)}
-                disabled={invoiceLoading}
-              >
-                {invoiceLoading ? "Loading..." : "View Invoice"}
-              </button>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+                    <button
+                      className={`${styles.actionButton} ${styles.btninvoice}`}
+                      onClick={() => handleViewInvoice(booking._id)}
+                      disabled={invoiceLoading}
+                    >
+                      <MdOutlineStreetview /> {invoiceLoading ? "Loading..." : "View Invoice"}
+                    </button>
+                  </div>
 
-      {/* Modals */}
-      {selectedBooking && (
-        <EditBookingModal
-          show={showEditModal}
-          handleClose={() => setShowEditModal(false)}
-          booking={selectedBooking}
-          token={token}
-        />
-      )}
-      {selectedBooking && (
-        <CancelBookingModal
-          show={showCancelModal}
-          handleClose={() => setShowCancelModal(false)}
-          bookingId={selectedBooking._id}
-          token={token}
-        />
-      )}
-      {showInvoiceModal && (
-        <InvoiceModal
-          show={showInvoiceModal}
-          onClose={() => setShowInvoiceModal(false)}
-          invoice={invoiceData}
-        />
+                </Card>
+              </Col>
+            ))}
+          </Row>
+
+          {/* Modals */}
+          {selectedBooking && (
+            <EditBookingModal
+              show={showEditModal}
+              handleClose={() => setShowEditModal(false)}
+              booking={selectedBooking}
+              token={token}
+            />
+          )}
+          {selectedBooking && (
+            <CancelBookingModal
+              show={showCancelModal}
+              handleClose={() => setShowCancelModal(false)}
+              bookingId={selectedBooking._id}
+              token={token}
+            />
+          )}
+          {showInvoiceModal && (
+            <InvoiceModal
+              show={showInvoiceModal}
+              onClose={() => setShowInvoiceModal(false)}
+              invoice={invoiceData}
+            />
+          )}
+        </>
       )}
     </Container>
   );

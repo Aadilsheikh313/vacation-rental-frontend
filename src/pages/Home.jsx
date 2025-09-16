@@ -22,6 +22,7 @@ import imagesbed1 from '../assets/imagesbed1.jpg';
 import { getApprovedPostAdmin } from "../config/redux/action/adminPostAction";
 import { resetStatus } from "../config/redux/reducer/adminPostReducer";
 import { PiAirplaneTiltThin } from "react-icons/pi";
+import CustomSpinner from "../comman/Spinner";
 
 
 
@@ -203,92 +204,89 @@ const Home = () => {
         </div>
       </div>
 
-      {loading && (
-        <div className="text-center">
-          <Spinner animation="border" variant="primary" />
-        </div>
-      )}
-
       <div className={styles.aboutRooms}>
         <h3>Rooms</h3>
         <p>-------<b>---------</b>-------------</p>
         <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        {isLoading && (
-          <div className="text-center">
-            <Spinner animation="border" variant="primary" />
-          </div>
-        )}
 
-        <div className={styles.propertyImageCard}>
-          {filteredPosts.length > 0 ? (
-            filteredPosts.slice(0, 6).map((property) => (
-              <div className={styles.cardproperty} key={property._id}>
-                <div className={`card ${styles.customCard}`}>
-                  <div style={{ position: "relative" }}>
-                    <img
-                      src={property.image.url}
-                      className={styles.cardImage}
-                      alt={property.title}
-                    />
-                    <div className={styles.imageUpperButton}>
-                      <Button
-                        as={Link}
-                        to={`/property/${property._id}`}
-                        className={`${styles.cardButton} ${styles.viewBtn}`}
-                      >
-                        Explore Room
-                      </Button>
-                    </div>
-                  </div>
-                  <div className={styles.cardBody}>
-                    <h5 className={styles.cardTitle}>{property.title}</h5>
-                    <p>{property.description}</p>
-                    <div className={styles.facilities}>
-                      {property.facilities?.includes("Free WiFi") && (
-                        <p><FaWifi /> Free WiFi</p>
-                      )}
-                      {property.facilities?.includes("TV") && (
-                        <p><FaTv /> Smart TV</p>
-                      )}
-                      {property.facilities?.includes("Coffee Machine") && (
-                        <p><FaCoffee /> Coffee</p>
-                      )}
-                      <p><FaUsers /> {property.maxGuests} Guests</p>
-                    </div>
-                    <div className={styles.priceandview}>
-                      <p className="card-text">
-                        From <span className={styles.priceNumber}>₹{property.price}</span> / night
-                      </p>
-
-                      <Button
-                        as={Link}
-                        to={`/property/${property._id}`}
-                        className={`${styles.cardButton} ${styles.viewBtn}`}
-                      >
-                        <FaEye /> View Details
-                      </Button>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            ))
+        {
+          isLoading ? (
+            <CustomSpinner />
           ) : (
             <>
-              <h5 className="mt-3">Oops! No properties found.</h5>
-              <p>Try changing filters or search again.</p>
+              <div className={styles.propertyImageCard}>
+                {filteredPosts.length > 0 ? (
+                  filteredPosts.slice(0, 6).map((property) => (
+                    <div className={styles.cardproperty} key={property._id}>
+                      <div className={`card ${styles.customCard}`}>
+                        <div style={{ position: "relative" }}>
+                          <img
+                            src={property.image.url}
+                            className={styles.cardImage}
+                            alt={property.title}
+                          />
+                          <div className={styles.imageUpperButton}>
+                            <Button
+                              as={Link}
+                              to={`/property/${property._id}`}
+                              className={`${styles.cardButton} ${styles.viewBtn}`}
+                            >
+                              Explore Room
+                            </Button>
+                          </div>
+                        </div>
+                        <div className={styles.cardBody}>
+                          <h5 className={styles.cardTitle}>{property.title}</h5>
+                          <p>{property.description}</p>
+                          <div className={styles.facilities}>
+                            {property.facilities?.includes("Free WiFi") && (
+                              <p><FaWifi /> Free WiFi</p>
+                            )}
+                            {property.facilities?.includes("TV") && (
+                              <p><FaTv /> Smart TV</p>
+                            )}
+                            {property.facilities?.includes("Coffee Machine") && (
+                              <p><FaCoffee /> Coffee</p>
+                            )}
+                            <p><FaUsers /> {property.maxGuests} Guests</p>
+                          </div>
+                          <div className={styles.priceandview}>
+                            <p className="card-text">
+                              From <span className={styles.priceNumber}>₹{property.price}</span> / night
+                            </p>
+
+                            <Button
+                              as={Link}
+                              to={`/property/${property._id}`}
+                              className={`${styles.cardButton} ${styles.viewBtn}`}
+                            >
+                              <FaEye /> View Details
+                            </Button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <>
+                    <h5 className="mt-3">Oops! No properties found.</h5>
+                    <p>Try changing filters or search again.</p>
+                  </>
+                )}
+
+              </div>
+
+              <div className={styles.viewAllRooms}>
+                <Button
+                  className={styles.viewAllBtnRooms}
+                  onClick={() => navigate("/getAllproperty")}
+                >
+                  View All Rooms & Suites
+                </Button>
+              </div>
             </>
           )}
-
-        </div>
-        <div className={styles.viewAllRooms}>
-          <Button
-            className={styles.viewAllBtnRooms}
-            onClick={() => navigate("/getAllproperty")}
-          >
-            View All Rooms & Suites
-          </Button>
-        </div>
       </div>
       <div className={styles.allAnimity}>
         <h2>Amenities</h2>
@@ -454,60 +452,65 @@ const Home = () => {
         <p className={styles.loctionPragrph}>
           Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit
         </p>
+        {isLoading ? (
+          <CustomSpinner />
+        ) : (
+          <>
+            <div className={styles.trouestCard}>
+              <Row>
+                {filteredPlaces?.map((approvedPosts) => (
+                  <Col key={approvedPosts._id} md={6} lg={4} className="mb-4">
+                    <Card className={styles.cardCustom}>
+                      {approvedPosts.images && approvedPosts.images[0]?.url && (
+                        <Card.Img
+                          variant="top"
+                          src={approvedPosts.images[0].url}
+                          className={styles.cardImage}
+                        />
+                      )}
+                      <Card.Body className={styles.cardBody}>
+                        <Card.Title className={styles.cardTitle}>
+                          {approvedPosts.title}
+                        </Card.Title>
+                        <Card.Text className={styles.cardText}>
+                          <strong>Category:</strong> {approvedPosts.category} <br />
+                          <strong>Subcategory:</strong> {approvedPosts.subcategory} <br />
+                          <strong>City:</strong> {approvedPosts.city} <br />
+                          <strong>Address:</strong> {approvedPosts.location} <br />
+                          <strong>Country:</strong> {approvedPosts.country}
+                        </Card.Text>
+                        <Card.Text className={styles.cardText}>
+                          <strong>Description:</strong> {approvedPosts.description}
+                        </Card.Text>
+                        <Card.Text className={styles.cardText}>
+                          <strong>Best Time:</strong> {approvedPosts.bestTimeToVisit}
+                        </Card.Text>
+                        <Card.Text className={styles.cardText}>
+                          <strong>History:</strong> {approvedPosts.history}
+                        </Card.Text>
+                      </Card.Body>
+                      <div className={styles.cardFooter}>
+                        <button
+                          className={styles.cardBtn}
+                          onClick={() => navigate(`/touristplace/${approvedPosts._id}`)}
+                        >
+                          <PiAirplaneTiltThin /> Know More
+                        </button>
+                      </div>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
 
-        <div className={styles.trouestCard}>
-          <Row>
-            {filteredPlaces?.map((approvedPosts) => (
-              <Col key={approvedPosts._id} md={6} lg={4} className="mb-4">
-                <Card className={styles.cardCustom}>
-                  {approvedPosts.images && approvedPosts.images[0]?.url && (
-                    <Card.Img
-                      variant="top"
-                      src={approvedPosts.images[0].url}
-                      className={styles.cardImage}
-                    />
-                  )}
-                  <Card.Body className={styles.cardBody}>
-                    <Card.Title className={styles.cardTitle}>
-                      {approvedPosts.title}
-                    </Card.Title>
-                    <Card.Text className={styles.cardText}>
-                      <strong>Category:</strong> {approvedPosts.category} <br />
-                      <strong>Subcategory:</strong> {approvedPosts.subcategory} <br />
-                      <strong>City:</strong> {approvedPosts.city} <br />
-                      <strong>Address:</strong> {approvedPosts.location} <br />
-                      <strong>Country:</strong> {approvedPosts.country}
-                    </Card.Text>
-                    <Card.Text className={styles.cardText}>
-                      <strong>Description:</strong> {approvedPosts.description}
-                    </Card.Text>
-                    <Card.Text className={styles.cardText}>
-                      <strong>Best Time:</strong> {approvedPosts.bestTimeToVisit}
-                    </Card.Text>
-                    <Card.Text className={styles.cardText}>
-                      <strong>History:</strong> {approvedPosts.history}
-                    </Card.Text>
-                  </Card.Body>
-                  <div className={styles.cardFooter}>
-                    <button
-                      className={styles.cardBtn}
-                      onClick={() => navigate(`/touristplace/${approvedPosts._id}`)}
-                    >
-                      <PiAirplaneTiltThin /> Know More
-                    </button>
-                  </div>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-
-          <button
-            className={styles.discoverBtn}
-            onClick={() => navigate("/explore")}
-          >
-            Discover All Place
-          </button>
-        </div>
+              <button
+                className={styles.discoverBtn}
+                onClick={() => navigate("/explore")}
+              >
+                Discover All Place
+              </button>
+            </div>
+          </>
+        )}
       </div>
 
       <footer className={styles.footer}>

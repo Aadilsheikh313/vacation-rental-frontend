@@ -7,8 +7,6 @@ export const PaginationActionPost = createAsyncThunk(
     async ({ page = 1, limit = 10 }, thunkAPI) => {
         try {
             const response = await PaginationApi(page, limit);
-            console.log("ACTION", page, limit);
-            
             return { ...response.data, currentPage: page };
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response?.data || "Failed to fetch properties");
