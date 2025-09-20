@@ -12,7 +12,7 @@ import { MdOutlineTravelExplore } from "react-icons/md";
 const UpcommingBooking = () => {
     const dispath = useDispatch();
     const { UpcommingBooking, isLoading, isError, isSuccess, message } = useSelector((state) => state.guestDash);
-    const {user} = useSelector((state) => state.auth);
+    const { user } = useSelector((state) => state.auth);
 
     useEffect(() => {
         dispath(GetGuestUpcommingtBookingPost());
@@ -20,30 +20,30 @@ const UpcommingBooking = () => {
     return (
         <div className={styles.UpcommingBookingContainer}>
             <div className={styles.upperText}>
-        <h2 className={styles.headingTitle}>
-          <BsCalendar2Event /> Upcoming trips for{" "}
-          <span className={styles.username}>{user?.name}</span>
-        </h2>
-        <p className={styles.subHeading}>
-          Get ready for your next adventure{" "}
-          <MdOutlineTravelExplore className={styles.icon} />. Pack your bags and
-          plan ahead to make the most of your stay!
-        </p>
-      </div>
+                <h2 className={styles.headingTitle}>
+                    <BsCalendar2Event /> Upcoming trips for{" "}
+                    <span className={styles.username}>{user?.name}</span>
+                </h2>
+                <p className={styles.subHeading}>
+                    Get ready for your next adventure{" "}
+                    <MdOutlineTravelExplore className={styles.icon} />. Pack your bags and
+                    plan ahead to make the most of your stay!
+                </p>
+            </div>
             {isLoading ? (
                 <CustomSpinner />
             ) : (
                 <>
-                 {/* Error State */}
-          {isError && <Alert variant="danger">{message || "Something went wrong"}</Alert>}
+                    {/* Error State */}
+                    {isError && <Alert variant="danger">{message || "Something went wrong"}</Alert>}
 
-          {/* Success but no bookings */}
-          {isSuccess && UpcommingBooking?.length === 0 && (
-            <Alert variant="info"><strong>Sorry {user?.name}</strong>No upcoming bookings found</Alert>
-          )}
-          <div className={styles.pastBookingcount}>
-             <p><strong>Total Feature booking = </strong>{UpcommingBooking?.length}</p>
-          </div>
+                    {/* Success but no bookings */}
+                    {isSuccess && UpcommingBooking?.length === 0 && (
+                        <Alert variant="info"><strong>Sorry {user?.name}</strong>No upcoming bookings found</Alert>
+                    )}
+                    <div className={styles.pastBookingcount}>
+                        <p><strong>Total  booking = </strong>{UpcommingBooking?.length}</p>
+                    </div>
                     <div className={styles.CardConatiner}>
                         {UpcommingBooking?.map((booking) => (
                             <div className={styles.CardStyle} key={booking._id}>

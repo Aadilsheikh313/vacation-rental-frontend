@@ -1,159 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Spinner, Card, Row, Col, Badge } from "react-bootstrap";
+import React, { useState } from "react";
 import GuestDash from '../assets/GuestDash.jpg';
-import { deleteGuestHistroyBookingPosts, getBookingPropertyPosts, getPastandCancelledBookingPosts } from "../config/redux/action/bookingAction ";
 import GuestDashBTN from "./ButtonGuestDashBord";
 import PastBooking from "./PastBooking";
 import CurrentBooking from "./CurrentBooking";
 import UpcommingBooking from "./UpcommingBooking";
 import CancelBooking from "./CancelBooking";
-
+import styles from "../stylesModule/Booking/Index.module.css";
+import { useNavigate } from "react-router-dom";
 
 const GuestDashboard = () => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("pastBooking");
-
-  const {
-    bookings,
-    isLoading,
-    isError,
-    isSuccess,
-    message,
-  } = useSelector((state) => state.booking);
-
-  // Fetch bookings on mount
-  useEffect(() => {
-    dispatch(getBookingPropertyPosts());
-    dispatch(getPastandCancelledBookingPosts({ token: localStorage.getItem("token") }));
-  }, [dispatch]);
-
-
-  // Separate bookings
-  const upcomingBookings = bookings?.filter(
-    (b) =>
-      b.bookingStatus !== "cancelled" &&
-      new Date(b.checkOut) >= new Date()
-  );
-
-  const pastOrCancelledBookings = bookings?.filter(
-    (b) =>
-      b.bookingStatus === "cancelled" ||
-      new Date(b.checkOut) < new Date()
-  );
-
-  const handleDeleteBooking = (bookingId) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this booking?");
-    if (!confirmDelete) return;
-
-    dispatch(
-      deleteGuestHistroyBookingPosts({
-        bookingId,
-        token: localStorage.getItem("token"),
-      })
-    );
-  };
-
-
+  const handlaHomepage = () => {
+    navigate("/");
+  }
   return (
-    <div className="container py-4">
-      <div>
-        <img src={GuestDash} alt="Guest Dashbord Image" />
-      </div>
-      <h2 className="mb-4 text-center">Your Bookings</h2>
-      <div>
-      <GuestDashBTN activeTab={activeTab} setActiveTab={setActiveTab}/>
-      {activeTab === "pastBooking" && <PastBooking/>}
-      {activeTab === "activeBooking" && <CurrentBooking/>}
-      {activeTab === "upcommingBooking" && <UpcommingBooking/>}
-      {activeTab === "cancelBooking" && <CancelBooking/>}
-      </div>
-      {isLoading ? (
-        <div className="text-center">
-          <Spinner animation="border" variant="primary" />
-          <p>Loading bookings...</p>
+    <div className={styles.indexContainer}>
+      <div className={styles.imageindex}>
+        <img src={GuestDash} alt="Guest Dashboard Image" />
+        <div className={styles.overlay}></div>
+        <div className={styles.headindandpar}>
+          <h2 className={styles.headingtext}>Your Bookings</h2>
+          <p className={styles.subheading}>
+            Track and manage all your stays in one place.
+            View your <strong>past, current, upcoming</strong> and <strong>cancelled bookings</strong> anytime.
+            Stay organized and never miss an update!
+          </p>
+          <input type="button" value="Home" onClick={handlaHomepage} /><strong className={styles.dash}> / Guest Dashboard</strong> 
         </div>
-      ) : isError ? (
-        <p className="text-danger text-center">{message}</p>
-      ) : (
-        <>
-          {/* 🔹 Upcoming Bookings */}
-          <section className="mb-5">
-            <h4>Upcoming Bookings</h4>
-            {upcomingBookings.length === 0 ? (
-              <p className="text-muted">No upcoming bookings.</p>
-            ) : (
-              <Row>
-                {upcomingBookings.map((booking) => (
-                  <Col md={6} lg={4} key={booking._id} className="mb-3">
-                    <Card>
-                      <Card.Img
-                        variant="top"
-                        src={booking.property?.image?.url || "/default.jpg"}
-                        style={{ height: "180px", objectFit: "cover" }}
-                      />
-                      <Card.Body>
-                        <Card.Title>{booking.property?.title}</Card.Title>
-                        <p className="mb-1">
-                          <strong>City:</strong> {booking.property?.city}
-                        </p>
-                        <p className="mb-1">
-                          <strong>Check-In:</strong> {new Date(booking.checkIn).toLocaleDateString()}
-                        </p>
-                        <p className="mb-1">
-                          <strong>Check-Out:</strong> {new Date(booking.checkOut).toLocaleDateString()}
-                        </p>
-                        <Badge bg="success">{booking.bookingStatus}</Badge>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                ))}
-              </Row>
-            )}
-          </section>
+      </div>
 
-          {/* 🔹 Past or Cancelled */}
-          <section>
-            <h4>Past or Cancelled Bookings</h4>
-            {pastOrCancelledBookings.length === 0 ? (
-              <p className="text-muted">No past or cancelled bookings.</p>
-            ) : (
-              <Row>
-                {pastOrCancelledBookings.map((booking) => (
-                  <Col md={6} lg={4} key={booking._id} className="mb-3">
-                    <Card border={booking.bookingStatus === "cancelled" ? "danger" : "secondary"}>
-                      <Card.Img
-                        variant="top"
-                        src={booking.property?.image || "/default.jpg"}
-                        style={{ height: "180px", objectFit: "cover" }}
-                      />
-                      <Card.Body>
-                        <Card.Title>{booking.property?.title}</Card.Title>
-                        <p className="mb-1">
-                          <strong>Check-In:</strong> {new Date(booking.checkIn).toLocaleDateString()}
-                        </p>
-                        <p className="mb-1">
-                          <strong>Check-Out:</strong> {new Date(booking.checkOut).toLocaleDateString()}
-                        </p>
-                        <Badge bg={booking.bookingStatus === "cancelled" ? "danger" : "secondary"}>
-                          {booking.bookingStatus}
-                        </Badge>
-                        <Badge
-                          bg="danger"
-                          style={{ cursor: "pointer", marginLeft: "10px" }}
-                          onClick={() => handleDeleteBooking(booking._id)}
-                        >
-                          Delete
-                        </Badge>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                ))}
-              </Row>
-            )}
-          </section>
-        </>
-      )}
+      <div className={styles.Button}>
+        <GuestDashBTN activeTab={activeTab} setActiveTab={setActiveTab} />
+        {activeTab === "pastBooking" && <PastBooking />}
+        {activeTab === "activeBooking" && <CurrentBooking />}
+        {activeTab === "upcommingBooking" && <UpcommingBooking />}
+        {activeTab === "cancelBooking" && <CancelBooking />}
+      </div>
+
     </div>
   );
 };
