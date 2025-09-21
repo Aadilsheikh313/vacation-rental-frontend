@@ -91,6 +91,8 @@
 
 .image {
     height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
 }
 .image:hover .card-img-top {
     transform: scale(1.05);

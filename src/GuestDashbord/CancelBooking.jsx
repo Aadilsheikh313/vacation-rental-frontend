@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetGuestCancelBookingPost } from "../config/redux/action/guestDashAction";
-import { Card, Button, Alert } from "react-bootstrap";
+import { Card, Button, Alert, CardTitle } from "react-bootstrap";
 import CustomSpinner from "../comman/Spinner";
 import styles from '../stylesModule/Booking/CardCancelBooking.module.css';
 import { MdCancel, MdOutlineTravelExplore } from "react-icons/md";
+import { FaRegHeart, FaStreetView } from "react-icons/fa";
+import { GiJetFighter } from "react-icons/gi";
+import { WiStars } from "react-icons/wi";
 
 const CancelBooking = () => {
     const dispatch = useDispatch();
@@ -21,13 +24,13 @@ const CancelBooking = () => {
         <div className={styles.CancelBookingConatiner}>
             <div className={styles.uppertext}>
                 <h2 className={styles.headingTitle}>
-                    <MdCancel className={styles.icon} /> Cancelled trips for{" "}
+                    <MdCancel /> Cancelled trips for{" "}
                     <span className={styles.username}>{user?.name}</span>
                 </h2>
                 <p className={styles.subHeading}>
-                    Sometimes plans change, and that’s okay 💙.
+                    Sometimes plans change, and that’s okay <FaRegHeart />.
                     Here you can find the trips you had to cancel.
-                    Don’t worry, <MdOutlineTravelExplore className={styles.icon} /> new adventures are waiting for you! ✈️✨
+                    Don’t worry, <MdOutlineTravelExplore className={styles.icon} /> new adventures are waiting for you! <GiJetFighter /> <WiStars />
                 </p>
             </div>
 
@@ -39,17 +42,17 @@ const CancelBooking = () => {
 
             {CancelBooking?.length > 0 && (
                 <>
-                    <div className={styles.pastBookingcount}>
+                    <div className={styles.cancelBookingcount}>
                         <p><strong>Total Cancelled Bookings: </strong>{CancelBooking.length}</p>
                     </div>
                     <div className={styles.cardConatiner}>
                         {CancelBooking.map((booking) => (
                             <div className={styles.Carddata} key={booking._id}>
-                                <Card className={styles.CurrentBookingCard}>
-                                    <Card.Img variant="top" src={booking.property?.image?.url || "/default.jpg"} />
-                                    <Card.Body>
-                                        <Card.Title>{booking.property?.title || "Property"}</Card.Title>
-                                        <Card.Text>
+                                <Card className={styles.CancelBookingCard}>
+                                    <Card.Img className={styles.image} variant="top" src={booking.property?.image?.url || "/default.jpg"} />
+                                    <Card.Body className={styles.CardBody}>
+                                        <Card.Title className={styles.CardTitle}>{booking.property?.title || "Property"}</Card.Title>
+                                        <Card.Text className={styles.CardText}>
                                             <strong>City:</strong> {booking.property?.city} <br />
                                             <strong>Guests:</strong> {booking.guests.adults} Adults, {booking.guests.children} Children, {booking.guests.infants} Infants, {booking.guests.pets} Pets <br />
                                             <strong>Check In:</strong> {new Date(booking.checkIn).toLocaleDateString()} <br />
@@ -61,7 +64,9 @@ const CancelBooking = () => {
                                             {booking.cancelReason && <><strong>Cancel Reason:</strong> {booking.cancelReason} <br /></>}
                                             <strong>Cancelled At:</strong> {booking.cancelledAt ? new Date(booking.cancelledAt).toLocaleString() : "N/A"}
                                         </Card.Text>
-                                        <Button variant="primary">View Booking</Button>
+                                        <Button variant="outline-primary">
+                                            <FaStreetView /> More Details
+                                        </Button>
                                     </Card.Body>
                                 </Card>
                             </div>

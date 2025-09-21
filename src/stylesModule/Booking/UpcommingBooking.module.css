@@ -1,0 +1,193 @@
+.UpcommingBookingContainer{
+    padding: 2rem;
+    background: #f9fafb;
+    font-family: "Inter", sans-serif;
+}
+
+/* Heading Section */
+.upperText {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.headingTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #c09f70;
+    margin-bottom: 0.5rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.headingTitle svg {
+    background: linear-gradient(180deg, #ff6a00, #ee0979);
+    color: #fff;
+    font-size: 2.5rem;
+    padding: 0.3rem;
+    border-radius: 8px;
+}
+
+.username {
+    color: #ee0979;
+    font-weight: 800;
+}
+
+.subHeading {
+    font-size: 1.4rem;
+    color: #a57b41;
+    font-family: 'Lora', serif;
+}
+
+.subHeading svg {
+    background: linear-gradient(90deg, #ff6a00, #f3aecf);
+    font-size: 2.5rem;
+    padding: 0.3rem;
+    border-radius: 8px;
+    color: #fff;
+}
+
+/* Active Bookings Count */
+.upcommingBookingcount {
+    text-align: right;
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    color: #b69363;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    margin-right: 3.2rem;
+}
+
+.upcommingBookingcount strong {
+    background: linear-gradient(90deg, #ff6a00, #ee0979);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Cards Grid */
+.CardConatiner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-content: center;
+    gap: 1.5rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+/* Individual Card */
+.CardStyle {
+    transition: all 0.3s ease-in-out;
+}
+
+.CardBooking {
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #fff;
+}
+
+.CardBooking:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.image {
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.image:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.CardBody {
+    padding: 1rem 1.2rem;
+}
+
+.CardTitle {
+    font-size: 1.4rem;          
+    font-weight: 800;          
+    margin-bottom: 0.8rem;
+    margin-top: 0.5rem;
+    background: linear-gradient(90deg, #ff6a00, #ee0979);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Playfair Display', serif; 
+}
+
+.CardText {
+    font-size: 1rem;
+    color: #6b4f3f;           
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.CardText strong {
+    color: #c09f70;            
+    font-weight: 700;
+}
+
+/* Host Info */
+.HostInfo {
+    font-size: 1rem;
+    color: #4b2e1f;
+    font-weight: 700;
+    background: #fff3e6;
+    padding: 1rem 1.2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-top: 1rem;
+    line-height: 1.5;
+}
+
+.HostInfo strong {
+    color: #c09f70;
+}
+
+.HostInfo svg {
+    background: linear-gradient(90deg, #ff6a00, #ee0979);
+    color: #fff; 
+    padding: 0.1rem;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.HostLink {
+    color: #ee0979;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.HostLink:hover {
+    color: #ff6a00;
+    text-decoration: underline;
+}
+
+/* Button */
+.CardBooking button {
+    background: linear-gradient(90deg, #c09f70, #ffb347);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.65rem 1.3rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border: none;
+    margin: 1rem;
+}
+
+.CardBooking button:hover {
+    background: linear-gradient(90deg, #ffb347, #c09f70);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(192, 159, 112, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .headingTitle {
+        font-size: 1.6rem;
+    }
+
+    .subHeading {
+        font-size: 1rem;
+    }
+}
