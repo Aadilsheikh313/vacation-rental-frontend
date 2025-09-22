@@ -5,7 +5,6 @@ import { getSinglePosts, softdeletePropertyPosts } from "../config/redux/action/
 import { resetSinglePost } from "../config/redux/reducer/propertyReducer";
 import styles from "../stylesModule/propertyView.module.css";
 import { Card, Spinner } from "react-bootstrap";
-import CheckBookingConflict from "../Booking/CheckBookingConflict";
 import { showError } from "../utils/toastUtils";
 import { FaEdit, FaLocationArrow, FaTrashAlt } from "react-icons/fa";
 import RoomsDescriptionBth from "../RoomsDescription/RoomsDetailsBtn";
@@ -21,7 +20,6 @@ const PropertyDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [showCheckConflict, setShowCheckConflict] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
 
 
@@ -55,7 +53,8 @@ const PropertyDetails = () => {
       if (goToLogin) navigate("/login");
       return;
     }
-    setShowCheckConflict(true);
+    // Navigate to the booking form with property id
+    navigate(`/bookingFrom/${id}`);
   };
 
   if (isLoading) {
@@ -167,16 +166,6 @@ const PropertyDetails = () => {
             </p>
           </Card>
 
-          {/* Booking Conflict Check */}
-          {showCheckConflict && (
-            <CheckBookingConflict
-              propertyId={id}
-              token={token}
-              userId={user?._id}
-              onConflictCheck={() => navigate(`/bookingFrom/${id}`)}
-            />
-          )}
-
           {/* Guest Booking Button */}
           {user?.role === "guest" && (
             <div className="mt-4">
@@ -215,11 +204,11 @@ const PropertyDetails = () => {
       {/* Show Reviews Section */}
       {activeTab === "reviews" && (
         <Review
-          singlePost={singlePost}  
+          singlePost={singlePost}
           user={user}
           isLoading={isLoading}
           token={token}
-          id={id}                   
+          id={id}
         />
       )}
 

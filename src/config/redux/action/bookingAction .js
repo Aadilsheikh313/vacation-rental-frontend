@@ -1,5 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { cancelBookingApi, checkBookingConflictApi, deleteGuestHistroyBookingApi, editBookingApi, getActiveBookingApi, getBookingPropertyApi, getHostBookingHistoryApi, getPastandCancelledBookingApi, postBookingPropertyApi } from "../../../api/bookingApi";
+import {
+  cancelBookingApi,
+  checkBookingConflictApi,
+  deleteGuestHistroyBookingApi,
+  editBookingApi,
+  getActiveBookingApi,
+  getBookingPropertyApi,
+  getHostBookingHistoryApi,
+  postBookingPropertyApi
+} from "../../../api/bookingApi";
 
 
 // 🔹 GET Booking
@@ -83,21 +92,6 @@ export const checkBookingConflict = createAsyncThunk(
   }
 );
 
-//Get Guest Past and Cancelled 
-export const getPastandCancelledBookingPosts = createAsyncThunk(
-  "booking/getPastandCancelledBookingPosts",
-  async ({ token }, thunkAPI) => {
-    try {
-      const response = await getPastandCancelledBookingApi(token);
-      return thunkAPI.fulfillWithValue(response);
-    } catch (error) {
-      console.error("❌ Conflict check error:", error);
-      return thunkAPI.rejectWithValue(
-        error?.response?.data?.message || "Failed to check booking conflict"
-      );
-    }
-  }
-)
 
 // ✅ Delete Guest's cancelled or past booking
 export const deleteGuestHistroyBookingPosts = createAsyncThunk(

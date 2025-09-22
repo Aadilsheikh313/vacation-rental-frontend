@@ -4,7 +4,6 @@ import {
   editBookingPosts,
   cancelBookingPosts,
   checkBookingConflict,
-  getPastandCancelledBookingPosts,
   getActiveBookingPosts,
   getHostBookingHistoryPosts,
   deleteGuestHistroyBookingPosts,
@@ -134,22 +133,6 @@ const bookingSlice = createSlice({
         state.message = "Booking conflict check completed.";
       })
       .addCase(checkBookingConflict.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-      })
-      // 🔹 GET Past and Cancelled Bookings
-      .addCase(getPastandCancelledBookingPosts.pending, (state) => {
-        state.isLoading = true;
-        state.message = "Loading past or cancelled bookings...";
-      })
-      .addCase(getPastandCancelledBookingPosts.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.message = "Past or cancelled bookings fetched successfully.";
-        state.bookings = action.payload.bookings; // ✅ depends on backend response structure
-      })
-      .addCase(getPastandCancelledBookingPosts.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

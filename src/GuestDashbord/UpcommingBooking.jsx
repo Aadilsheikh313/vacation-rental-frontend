@@ -49,7 +49,7 @@ const UpcommingBooking = () => {
                         {UpcommingBooking?.map((booking) => (
                             <div className={styles.CardStyle} key={booking._id}>
                                 <Card className={styles.CardBooking}>
-                                                                            <Card.Img className={styles.image} variant="top" src={booking.property?.image?.url || "/default.jpg"} />
+                                    <Card.Img className={styles.image} variant="top" src={booking.property?.image?.url || "/default.jpg"} />
                                     <Card.Body className={styles.CardBody}>
 
                                         <Card.Title className={styles.CardTitle}>{booking.property?.title || "Property"}</Card.Title>

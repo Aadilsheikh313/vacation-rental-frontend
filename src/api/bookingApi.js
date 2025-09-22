@@ -89,21 +89,7 @@ export const checkBookingConflictApi = async ({ propertyId, token, userId }) => 
   }
 };
 
-//Guest past and Cancelled booking Property 
-export const getPastandCancelledBookingApi = async (token) => {
-  try {
-    const response = await clientServer.get("/api/booking/past-or-cancelled", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
-    return response.data;
-  } catch (error) {
-    console.error("❌ Past/Cancelled Booking API error:", error.response?.data || error.message);
-    throw error;
-  }
-};
 // ✅ Delete Guest's cancelled or past booking
 export const deleteGuestHistroyBookingApi = async (bookingId, token) => {
   try {

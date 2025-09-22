@@ -89,10 +89,10 @@ const PastBooking = () => {
                       {booking.paymentMethod})
                     </Card.Text>
                     <p className={styles.HostInfo}>
-  <strong>Hosted By:</strong> <FaUser /> {booking.property?.userId?.name} <br />
-  <strong>Email:</strong> <FaEnvelope /> <a href={`mailto:${booking.property?.userId?.email}`} className={styles.HostLink}>{booking.property?.userId?.email}</a> <br />
-  <strong>Phone:</strong> <FaPhone /> <a href={`tel:${booking.property?.userId?.phone}`} className={styles.HostLink}>{booking.property?.userId?.phone}</a>
-</p>
+                      <strong>Hosted By:</strong> <FaUser /> {booking.property?.userId?.name} <br />
+                      <strong>Email:</strong> <FaEnvelope /> <a href={`mailto:${booking.property?.userId?.email}`} className={styles.HostLink}>{booking.property?.userId?.email}</a> <br />
+                      <strong>Phone:</strong> <FaPhone /> <a href={`tel:${booking.property?.userId?.phone}`} className={styles.HostLink}>{booking.property?.userId?.phone}</a>
+                    </p>
 
                     <Button variant="outline-primary">
                       <FaStreetView />More Details

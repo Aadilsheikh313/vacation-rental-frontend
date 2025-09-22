@@ -89,7 +89,6 @@ function AppContent() {
         <Route path='/host/history-bookings' element={<BookingHistory />} />
         <Route path="/payment/:id" element={<Payment />} />
         <Route path='/explore/properties' element={<ExploreAndStay />} />
-        {/* <Route path='/explore' element={<TouristAndPlace />} /> */}
         <Route path="/touristplace/:id" element={<GetTouristSinglePlace />} />
         <Route path='/top-spots' element={<TopSpots />} />
         <Route path='/plan-my-trip' element={<TripHomePage />} />
