@@ -1,153 +1,131 @@
-// import React, { useEffect, useState } from "react";
-// import { useDispatch } from "react-redux";
+// import React from "react";
 // import { Modal, Button } from "react-bootstrap";
-// import { useNavigate } from "react-router-dom";
-// import { checkBookingConflict } from "../config/redux/action/bookingAction ";
 
-
-// const CheckBookingConflict = ({ propertyId, token, userId, onConflictCheck, bookingDates }) => {
-//   const dispatch = useDispatch();
-//   const navigate = useNavigate();
-
-//   const [conflictInfo, setConflictInfo] = useState(null);
-//   const [showConflictModal, setShowConflictModal] = useState(false);
-//   const [skipBooking, setSkipBooking] = useState(false);
-
-//   // Check conflict on mount or when triggered
-//   useEffect(() => {
-//   const checkConflict = async () => {
-//     try {
-//       const res = await dispatch(checkBookingConflict({ propertyId, token, userId })).unwrap();
-//       setConflictInfo(res);
-
-//       // ✅ Conflict found — show modal
-//       if (res.alreadyBooked || res.bookedDates.length > 0) {
-//         setShowConflictModal(true);
-//       } else {
-//         // ✅ No conflict — allow booking
-//         onConflictCheck();
-//       }
-//     } catch (error) {
-//       console.error("Conflict check error", error);
-//     }
-//   };
-
-//   checkConflict();
-// }, [propertyId, token, userId, dispatch, onConflictCheck]);
-
-//   const handleConflictCancel = () => {
-//     setShowConflictModal(false);
-//     // navigate(`/property/${propertyId}`);
-//   };
-
-//   const handleConflictOk = () => {
-//     setShowConflictModal(false);
-//     onConflictCheck();
-//   };
-
+// const CheckBookingConflict = ({ conflictData, existingBooking, isError, message, onClose }) => {
 //   return (
-//     <>
-//       <Modal show={showConflictModal} onHide={handleConflictCancel} centered>
-//         <Modal.Header closeButton>
-//           <Modal.Title>⚠️ Already Booked</Modal.Title>
-//         </Modal.Header>
-//         <Modal.Body>
-//           <p>This property is already booked by you or someone else for certain dates.</p>
-//           <p><strong>Booked Dates:</strong></p>
-//           <ul>
-//             {conflictInfo?.bookedDates?.map((d, i) => (
-//               <li key={i}>
-//                 {new Date(d.checkIn).toLocaleDateString()} - {new Date(d.checkOut).toLocaleDateString()}
-//               </li>
-//             ))}
-//           </ul>
-//           <p>Do you still want to try and book with different dates?</p>
-//         </Modal.Body>
-//         <Modal.Footer>
-//         <p className="text-muted">Please choose different check-in/check-out dates.</p>
+//     <Modal show={true} onHide={onClose} centered>
+//       <Modal.Header closeButton>
+//         <Modal.Title>⚠️ Booking Conflict</Modal.Title>
+//       </Modal.Header>
 
-//           <Button variant="secondary" onClick={handleConflictCancel}>Cancel</Button>
-//           <Button variant="primary" onClick={handleConflictOk}>OK</Button>
-//         </Modal.Footer>
-//       </Modal>
-//     </>
+//       <Modal.Body>
+//         {isError ? (
+//           <p className="text-danger">{message}</p>
+//         ) : existingBooking ? (
+//           <>
+//             {console.log("Already booking", existingBooking)}
+//             <div>
+//               <p className="text-warning">
+//                 You have already booked this property!
+//               </p>
+//               <p>
+//                 Booking Dates:{" "}
+//                 <b>
+//                   {new Date(existingBooking.checkIn).toLocaleDateString()} -{" "}
+//                   {new Date(existingBooking.checkOut).toLocaleDateString()}
+//                 </b>
+//               </p>
+//               <p>
+//                 To edit your booking, visit your <b>Guest Dashboard</b>.
+//               </p>
+//             </div>
+//           </>
+
+//         ) : conflictData?.bookedDates?.length > 0 ? (
+//           <div>
+//             <p>This property is already booked for the following dates:</p>
+//             <ul>
+//               {conflictData.bookedDates.map((d, i) => (
+//                 <li key={i}>
+//                   {new Date(d.checkIn).toLocaleDateString()} -{" "}
+//                   {new Date(d.checkOut).toLocaleDateString()}
+//                 </li>
+//               ))}
+//             </ul>
+//             <p className="text-danger">
+//               Please select different check-in / check-out dates.
+//             </p>
+//           </div>
+//         ) : (
+//           <p className="text-success">
+//             ✅ Good news! This property is available for your selected dates.
+//           </p>
+//         )}
+//       </Modal.Body>
+
+//       <Modal.Footer>
+//         <Button variant="secondary" onClick={onClose}>
+//           Close
+//         </Button>
+//       </Modal.Footer>
+//     </Modal>
 //   );
 // };
 
 // export default CheckBookingConflict;
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { checkBookingConflict } from "../config/redux/action/bookingAction ";
 
-
-const CheckBookingConflict = ({ propertyId, token, userId, onConflictCheck, bookingDates }) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [conflictInfo, setConflictInfo] = useState(null);
-  const [showConflictModal, setShowConflictModal] = useState(false);
-  const [skipBooking, setSkipBooking] = useState(false);
-
-  // Check conflict on mount or when triggered
+const CheckBookingConflict = ({ conflictData, existingBooking, isError, message, onClose }) => {
   useEffect(() => {
-  const checkConflict = async () => {
-    try {
-      const res = await dispatch(checkBookingConflict({ propertyId, token, userId })).unwrap();
-      setConflictInfo(res);
-
-      // ✅ Conflict found — show modal
-      if (res.alreadyBooked || res.bookedDates.length > 0) {
-        setShowConflictModal(true);
-      } else {
-        // ✅ No conflict — allow booking
-        onConflictCheck();
-      }
-    } catch (error) {
-      console.error("Conflict check error", error);
+    if (existingBooking) {
+      console.log("Already booking", existingBooking);
     }
-  };
-
-  checkConflict();
-}, [propertyId, token, userId, dispatch, onConflictCheck]);
-
-  const handleConflictCancel = () => {
-    setShowConflictModal(false);
-    // navigate(`/property/${propertyId}`);
-  };
-
-  const handleConflictOk = () => {
-    setShowConflictModal(false);
-    onConflictCheck();
-  };
+  }, [existingBooking]); // dependency array → jab existingBooking change ho tab log hoga
 
   return (
-    <>
-      <Modal show={showConflictModal} onHide={handleConflictCancel} centered>
-        <Modal.Header >
-          <Modal.Title>⚠️ Already Booked</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>This property is already booked by you or someone else for certain dates.</p>
-          <p><strong>Booked Dates:</strong></p>
-          <ul>
-            {conflictInfo?.bookedDates?.map((d, i) => (
-              <li key={i}>
-                {new Date(d.checkIn).toLocaleDateString()} - {new Date(d.checkOut).toLocaleDateString()}
-              </li>
-            ))}
-          </ul>
-          <p>Do you still want to try and book with different dates?</p>
-        </Modal.Body>
-        <Modal.Footer>
-        <p className="text-muted">Please choose different check-in/check-out dates.</p>
+    <Modal show={true} onHide={onClose} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>⚠️ Booking Conflict</Modal.Title>
+      </Modal.Header>
 
-          <Button variant="secondary" onClick={handleConflictCancel}>Cancel</Button>
-          <Button variant="primary" onClick={handleConflictOk}>OK</Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+      <Modal.Body>
+        {isError ? (
+          <p className="text-danger">{message}</p>
+        ) : existingBooking ? (
+          <div>
+            <p className="text-warning">
+              You have already booked this property!
+            </p>
+            <p>
+              Booking Dates:{" "}
+              <b>
+                {new Date(existingBooking.checkIn).toLocaleDateString()} -{" "}
+                {new Date(existingBooking.checkOut).toLocaleDateString()}
+              </b>
+            </p>
+            <p>
+              To edit your booking, visit your <b>Guest Dashboard</b>.
+            </p>
+          </div>
+        ) : conflictData?.bookedDates?.length > 0 ? (
+          <div>
+            <p>This property is already booked for the following dates:</p>
+            <ul>
+              {conflictData.bookedDates.map((d, i) => (
+                <li key={i}>
+                  {new Date(d.checkIn).toLocaleDateString()} -{" "}
+                  {new Date(d.checkOut).toLocaleDateString()}
+                </li>
+              ))}
+            </ul>
+            <p className="text-danger">
+              Please select different check-in / check-out dates.
+            </p>
+          </div>
+        ) : (
+          <p className="text-success">
+            ✅ Good news! This property is available for your selected dates.
+          </p>
+        )}
+      </Modal.Body>
+
+      <Modal.Footer>
+        <Button variant="secondary" onClick={onClose}>
+          Close
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

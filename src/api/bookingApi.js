@@ -67,27 +67,25 @@ export const cancelBookingApi = async (bookingId, token) => {
   }
 }
 
-//Check booking confilet api 
-export const checkBookingConflictApi = async ({ propertyId, token, userId }) => {
-  try {
-    if (!propertyId || !token) {
-      throw new Error("Missing required booking conflict parameters");
-    }
 
-    const { data } = await clientServer.get(
+// Check booking conflict
+export const checkBookingConflictApi = async (propertyId, userId, checkIn, checkOut) => {
+  try {
+    const response = await clientServer.get(
       `/api/booking/bookings/${propertyId}/conflict-check`,
       {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { userId },
+        params: { userId, checkIn, checkOut },
       }
     );
-
-    return data;
+    return response.data;
   } catch (error) {
-    console.error("❌ Booking conflict API error:", error.response?.data || error.message);
+    console.error("❌ Booking conflict check API error:", error.response?.data || error.message);
     throw error;
   }
 };
+
+
+ 
 
 
 // ✅ Delete Guest's cancelled or past booking

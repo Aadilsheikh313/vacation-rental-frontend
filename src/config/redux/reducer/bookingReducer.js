@@ -3,22 +3,24 @@ import {
   getBookingPropertyPosts, postBookingPropertyPosts,
   editBookingPosts,
   cancelBookingPosts,
-  checkBookingConflict,
   getActiveBookingPosts,
   getHostBookingHistoryPosts,
   deleteGuestHistroyBookingPosts,
+  checkBookingConflictPosts,
 } from "../action/bookingAction ";
 
 
 const initialState = {
   bookings: [],
   activeBookings: [],
-  historyBookings: [],
+  historyBookings: [],        
+  bookedDates: [],        
+  existingBooking: null,
   isLoading: false,
   isError: false,
   isSuccess: false,
   message: "",
-  conflictData: null,
+
 
   // Pagination state for host dashboard
   page: 1,
@@ -37,6 +39,11 @@ const bookingSlice = createSlice({
       state.isError = false;
       state.isSuccess = false;
       state.message = "";
+      state.conflictData = null;
+      state.existingBooking = null; // Reset existing booking
+    },
+    setExistingBooking: (state, action) => {
+      state.existingBooking = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -122,22 +129,33 @@ const bookingSlice = createSlice({
         state.message = action.payload;
       })
       // 🔹 CHECK Booking Conflict
-      .addCase(checkBookingConflict.pending, (state) => {
+      .addCase(checkBookingConflictPosts.pending, (state) => {
         state.isLoading = true;
-        state.message = "Checking availability...";
+        state.message = "Checking booking conflicts...";
+        state.conflictData = [];
+        state.existingBooking = null;
       })
-      .addCase(checkBookingConflict.fulfilled, (state, action) => {
+      .addCase(checkBookingConflictPosts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.conflictData = action.payload; // will include { alreadyBooked, bookedDates }
-        state.message = "Booking conflict check completed.";
+        const data = action.payload;
+
+        if (data.alreadyBookedByUser) {
+          state.existingBooking = data.existingBooking;
+          state.message = data.message;
+        } else {
+          state.bookedDates = data.bookedDates;
+          state.message = data.alreadyBooked
+            ? "This property has overlapping bookings."
+            : "No booking conflicts.";
+        }
       })
-      .addCase(checkBookingConflict.rejected, (state, action) => {
+      .addCase(checkBookingConflictPosts.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-
+    
       // 🔹 DELETE Guest Past/Cancelled Booking
       .addCase(deleteGuestHistroyBookingPosts.pending, (state) => {
         state.isLoading = true;
@@ -227,4 +245,4 @@ const bookingSlice = createSlice({
 });
 
 export default bookingSlice.reducer;
-export const { resetBookingStatus } = bookingSlice.actions;
+export const { resetBookingStatus, setExistingBooking } = bookingSlice.actions;

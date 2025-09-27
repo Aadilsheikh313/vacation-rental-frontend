@@ -76,21 +76,21 @@ export const cancelBookingPosts = createAsyncThunk(
   }
 );
 
-// 🔹 Check Booking Conflict
-export const checkBookingConflict = createAsyncThunk(
-  "booking/checkBookingConflict",
-  async ({ propertyId, token, userId }, thunkAPI) => {
+// ✅ Check Booking Conflict
+export const checkBookingConflictPosts = createAsyncThunk(
+  "booking/checkBookingConflictPosts",
+  async ({ propertyId, checkIn, checkOut }, thunkAPI) => {
     try {
-      const response = await checkBookingConflictApi({ propertyId, token, userId });
+      const response = await checkBookingConflictApi(propertyId, checkIn, checkOut);
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
-      console.error("❌ Conflict check error:", error);
       return thunkAPI.rejectWithValue(
         error?.response?.data?.message || "Failed to check booking conflict"
       );
-    }
+    } 
   }
-);
+)
+
 
 
 // ✅ Delete Guest's cancelled or past booking
