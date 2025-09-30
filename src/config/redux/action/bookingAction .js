@@ -76,12 +76,12 @@ export const cancelBookingPosts = createAsyncThunk(
   }
 );
 
-// ✅ Check Booking Conflict
+// 🔹 CHECK Booking Conflict
 export const checkBookingConflictPosts = createAsyncThunk(
   "booking/checkBookingConflictPosts",
-  async ({ propertyId, checkIn, checkOut }, thunkAPI) => {
+  async ({ propertyId, userId, checkIn, checkOut }, thunkAPI) => {
     try {
-      const response = await checkBookingConflictApi(propertyId, checkIn, checkOut);
+      const response = await checkBookingConflictApi(propertyId, userId, checkIn, checkOut); 
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -89,7 +89,8 @@ export const checkBookingConflictPosts = createAsyncThunk(
       );
     } 
   }
-)
+);
+
 
 
 

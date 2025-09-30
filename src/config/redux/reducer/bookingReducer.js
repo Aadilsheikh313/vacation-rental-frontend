@@ -13,8 +13,8 @@ import {
 const initialState = {
   bookings: [],
   activeBookings: [],
-  historyBookings: [],        
-  bookedDates: [],        
+  historyBookings: [],
+  bookedDates: [],
   existingBooking: null,
   isLoading: false,
   isError: false,
@@ -140,6 +140,8 @@ const bookingSlice = createSlice({
         state.isSuccess = true;
         const data = action.payload;
 
+        state.conflictData = data; // ✅ fix
+
         if (data.alreadyBookedByUser) {
           state.existingBooking = data.existingBooking;
           state.message = data.message;
@@ -150,12 +152,13 @@ const bookingSlice = createSlice({
             : "No booking conflicts.";
         }
       })
+
       .addCase(checkBookingConflictPosts.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-    
+
       // 🔹 DELETE Guest Past/Cancelled Booking
       .addCase(deleteGuestHistroyBookingPosts.pending, (state) => {
         state.isLoading = true;

@@ -1,0 +1,154 @@
+/* ====== Modal Container ====== */
+.modelContainer .modal-content {
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+    background: #fff;
+    font-family: "Poppins", sans-serif;
+}
+
+
+/* ====== Modal Header ====== */
+.modelTitle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(90deg, #ff6a00, #ee0979);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.modelTitle svg {
+    width: 35px;
+    height: 35px;
+    padding: 5px;
+    border-radius: 50%;
+    fill: #ff6a00;
+    color: #fff;
+    background: linear-gradient(90deg, #ff6a00, #ee0979);
+}
+
+.modelContainer .modal-header {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* ====== Error Message ====== */
+.isErrorMessage {
+    color: #e63946;
+    /* soft red */
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 10px 0;
+    text-align: center;
+}
+
+/* ====== Existing Booking Warning ====== */
+.woringMessage {
+    color: #c09f70;
+    font-weight: 700;
+    font-size: 1.5rem;
+    font-family: 'Lora', serif;
+    margin-bottom: 8px;
+}
+
+.editBookingMessage {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-top: 8px;
+}
+
+/* Dashboard Link Button Style */
+.dashboardLink {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 8px 16px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #ff6a00, #ee0979);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+
+}
+
+.dashboardLink:hover {
+    text-decoration: underline;
+    background: linear-gradient(90deg, #ee0979, #ff6a00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transform: translateY(-2px);
+    border-bottom: 2px solid rgba(238, 9, 121, 0.4);
+
+}
+
+/* ====== Conflict by Another User ====== */
+.Bookinganotheruser {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    text-align: center;
+    background: linear-gradient(90deg, #ff6a00, #ee0979);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Dates List for Another User */
+.anotherUserDates {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.anotherUserDates li {
+    background: #fff7f5;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin: 6px 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #5c3617;
+    box-shadow: 0 2px 8px rgba(255, 106, 0, 0.15);
+    border-left: 4px solid #ee0979;
+}
+
+/* Another User Check-in / Check-out Warning */
+.checkInAndCheckOut {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #c09f70;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* ====== Available Message ====== */
+.availableMessage {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #16a34a;
+    /* green */
+    text-align: center;
+}
+
+/* ====== Footer Button ====== */
+.closeButton {
+    border-radius: 10px;
+    background: linear-gradient(90deg, #ff6a00, #ee0979);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.closeButton:hover {
+    background: linear-gradient(90deg, #ee0979, #ff6a00);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(238, 9, 121, 0.4);
+}

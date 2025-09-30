@@ -1,19 +1,19 @@
 import React from "react";
-import "./Avatar.css"; // for styling
+import "./Avatar.css"; // Import the CSS file for styling
 
 const Avatar = ({ user }) => {
-  if (user?.profileImage?.url) {
+
+ if (user?.avatar?.url) {
     return (
       <img
-        src={user.profileImage.url}
+        src={user.avatar.url}
         alt={user.name}
         className="custom-avatar-img"
       />
     );
   }
 
-  const initial = user?.name?.charAt(0)?.toUpperCase() || "?";
-  return <div className="custom-avatar-letter">{initial}</div>;
-};
-
+  const initial = user?.initials || "?"; // use backend virtual
+  return <div className="custom-avatar-letter">{initial}</div>; 
+}; 
 export default Avatar;

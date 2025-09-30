@@ -1,90 +1,27 @@
-// import React from "react";
-// import { Modal, Button } from "react-bootstrap";
-
-// const CheckBookingConflict = ({ conflictData, existingBooking, isError, message, onClose }) => {
-//   return (
-//     <Modal show={true} onHide={onClose} centered>
-//       <Modal.Header closeButton>
-//         <Modal.Title>⚠️ Booking Conflict</Modal.Title>
-//       </Modal.Header>
-
-//       <Modal.Body>
-//         {isError ? (
-//           <p className="text-danger">{message}</p>
-//         ) : existingBooking ? (
-//           <>
-//             {console.log("Already booking", existingBooking)}
-//             <div>
-//               <p className="text-warning">
-//                 You have already booked this property!
-//               </p>
-//               <p>
-//                 Booking Dates:{" "}
-//                 <b>
-//                   {new Date(existingBooking.checkIn).toLocaleDateString()} -{" "}
-//                   {new Date(existingBooking.checkOut).toLocaleDateString()}
-//                 </b>
-//               </p>
-//               <p>
-//                 To edit your booking, visit your <b>Guest Dashboard</b>.
-//               </p>
-//             </div>
-//           </>
-
-//         ) : conflictData?.bookedDates?.length > 0 ? (
-//           <div>
-//             <p>This property is already booked for the following dates:</p>
-//             <ul>
-//               {conflictData.bookedDates.map((d, i) => (
-//                 <li key={i}>
-//                   {new Date(d.checkIn).toLocaleDateString()} -{" "}
-//                   {new Date(d.checkOut).toLocaleDateString()}
-//                 </li>
-//               ))}
-//             </ul>
-//             <p className="text-danger">
-//               Please select different check-in / check-out dates.
-//             </p>
-//           </div>
-//         ) : (
-//           <p className="text-success">
-//             ✅ Good news! This property is available for your selected dates.
-//           </p>
-//         )}
-//       </Modal.Body>
-
-//       <Modal.Footer>
-//         <Button variant="secondary" onClick={onClose}>
-//           Close
-//         </Button>
-//       </Modal.Footer>
-//     </Modal>
-//   );
-// };
-
-// export default CheckBookingConflict;
 import React, { useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
+import { IoWarningOutline } from "react-icons/io5";
+import styles from "../stylesModule/Booking/CheckConflict.module.css";
+import { Link } from "react-router-dom";
 
 const CheckBookingConflict = ({ conflictData, existingBooking, isError, message, onClose }) => {
   useEffect(() => {
     if (existingBooking) {
-      console.log("Already booking", existingBooking);
     }
-  }, [existingBooking]); // dependency array → jab existingBooking change ho tab log hoga
+  }, [existingBooking]);
 
   return (
-    <Modal show={true} onHide={onClose} centered>
-      <Modal.Header closeButton>
-        <Modal.Title>⚠️ Booking Conflict</Modal.Title>
+    <Modal show={true} onHide={onClose} centered className={styles.modelContainer}>
+      <Modal.Header >
+        <Modal.Title className={styles.modelTitle}><IoWarningOutline /> Booking Conflict</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
         {isError ? (
-          <p className="text-danger">{message}</p>
+          <p className={styles.isErrorMessage}>{message}</p>
         ) : existingBooking ? (
           <div>
-            <p className="text-warning">
+            <p className={styles.woringMessage}>
               You have already booked this property!
             </p>
             <p>
@@ -94,13 +31,21 @@ const CheckBookingConflict = ({ conflictData, existingBooking, isError, message,
                 {new Date(existingBooking.checkOut).toLocaleDateString()}
               </b>
             </p>
-            <p>
+            <p className={styles.editBookingMessage}>
               To edit your booking, visit your <b>Guest Dashboard</b>.
             </p>
+            <Link
+              to="/guest/dashboard"
+              className={styles.dashboardLink}
+              onClick={onClose}
+            >
+              Go to Guest Dashboard
+            </Link>
+
           </div>
-        ) : conflictData?.bookedDates?.length > 0 ? (
+        ) : (conflictData?.bookedDates || [])?.length > 0 ? (
           <div>
-            <p>This property is already booked for the following dates:</p>
+            <p className={styles.Bookinganotheruser}>This property is already booked for the following dates:</p>
             <ul>
               {conflictData.bookedDates.map((d, i) => (
                 <li key={i}>
@@ -109,19 +54,19 @@ const CheckBookingConflict = ({ conflictData, existingBooking, isError, message,
                 </li>
               ))}
             </ul>
-            <p className="text-danger">
+            <p className={styles.checkInAndCheckOut}>
               Please select different check-in / check-out dates.
             </p>
           </div>
         ) : (
-          <p className="text-success">
+          <p className={styles.availableMessage}>
             ✅ Good news! This property is available for your selected dates.
           </p>
         )}
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="secondary" onClick={onClose}>
+        <Button variant="secondary" onClick={onClose} className={styles.closeButton}>
           Close
         </Button>
       </Modal.Footer>
