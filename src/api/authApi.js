@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { clientServer } from "../config/axios"
 
 export const registerApi = async (userAuthData) => {

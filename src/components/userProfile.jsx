@@ -1,49 +1,53 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux"
-import axios from "axios";
+import styles from "../stylesModule/UserProfile/userProfile.module.css"
+import { useDispatch, useSelector } from "react-redux";
+import { profilereset } from "../config/redux/reducer/userReducer";
+import { userProfileAction } from "../config/redux/action/userAction";
+import CustomSpinner from "../comman/Spinner";
+
 
 
 const UserProfile = () => {
-
     const dispatch = useDispatch();
-    const { user, isLoading, isError, message } = useSelector((state) => state.auth);
 
-    useEffect(() => {       
-        const token = localStorage.getItem('token');
-        axios.get('http://localhost:4000/api/auth/getUser', {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-            .then(response => {
-                // Handle response
-            })
-            .catch(error => {
-                // Handle error
-            });
+    const { userProfile: user, isLoading, isError, isSuccess, message } = useSelector((state) => state.userProfile);
+    const { token } = useSelector((state) => state.auth);
 
-    }, [dispatch]);
+    const tokenObj = { token };
 
-    if (isLoading) {
-        return <p>Loading profile...</p>
+    useEffect(() => {
+        if (tokenObj.token) {
+            dispatch(userProfileAction(tokenObj));
+        }
 
-    }
-    if (isError) {
-        return <p>Error: {typeof message === 'string' ? message : JSON.stringify(message)}</p>
-    }
+        return () => {
+            dispatch(profilereset());
+        }
+    }, [dispatch, token]);
 
-    if (!user) {
-        return <p>No user data available</p>
-    }
     return (
-        <div style={{ padding: "20px", border: "1px solid gray", borderRadius: "10px" }}>
+        <div className={styles.profileContainer}>
             <h2>👤 User Profile</h2>
-            <p><strong>Role:</strong> {user.role}</p>
-            <p><strong>Name:</strong> {user.name}</p>
-            <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Phone:</strong> {user.phone}</p>
+            {isLoading ? (
+                <CustomSpinner />
+            ) : <>
+                {isError && <p style={{ color: 'red' }}>Error: {message}</p>}
+                {isSuccess && user && (
+                    <div>
+                        <p><strong>Role:</strong> {user.role}</p>
+                        <p><strong>Name:</strong> {user.name}</p>
+                        <p><strong>Email:</strong> {user.email}</p>
+                        <p><strong>Phone:</strong> {user.phone}</p>
+                        <p><strong>Registered On:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
+                    </div>
+                )}
+                {!isLoading && !isError && !isSuccess && <p>No profile data available.</p>}
+                <button>Update Profile</button>
+            </>
+            }
 
         </div>
+
     )
 }
 export default UserProfile

@@ -19,6 +19,7 @@ import policyReducer from "./reducer/policeyReducer";
 import filterReducer from "./reducer/filterReducer";
 import PagesReducer from './reducer/paginationReducer';
 import guestDashReducer from './reducer/guestDashReducer';
+import userProfileReducer from './reducer/userReducer';
 
 
 
@@ -44,6 +45,7 @@ const store = configureStore({
     filter: filterReducer,
     Pages: PagesReducer,
     guestDash: guestDashReducer,
+    userProfile: userProfileReducer,
   },
 });
 

@@ -1,0 +1,20 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { userProfileApi } from "../../../api/userApi";
+
+// ✅ GET User Profile
+export const userProfileAction = createAsyncThunk(
+    'profile/userProfileAction',
+    async (tokenObj, thunkAPI) => {
+        try {
+            const response = await userProfileApi(tokenObj);
+            if (!response) {
+                return thunkAPI.rejectWithValue("Failed to fetch user profile");
+            }
+            return thunkAPI.fulfillWithValue(response);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(
+                error.response?.data?.message || "Failed to fetch user profile"
+            )
+        }
+    }
+)
