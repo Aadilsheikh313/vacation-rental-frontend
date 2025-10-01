@@ -194,7 +194,21 @@ const handleSearchSubmit = (e) => {
                 style={{ cursor: "pointer" }}
               >
                 <Button variant="primary">
-                  <FaUserCircle size={26} />
+                  {
+                    user?.avatar?.url ? (
+                      <img
+                        src={user.avatar.url}
+                        alt={user.name}
+                        className={styles.navAvatar}
+                      />
+                    ): (
+                      user?.name ? (
+                        <div className={styles.navAvatarPlaceholder}>
+                          {user.name.charAt(0).toUpperCase()}
+                        </div>
+                      ) : null
+                    )
+                  }
                 </Button>
               </div>
 

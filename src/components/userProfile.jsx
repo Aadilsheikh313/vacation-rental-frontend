@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { profilereset } from "../config/redux/reducer/userReducer";
 import { userProfileAction } from "../config/redux/action/userAction";
 import CustomSpinner from "../comman/Spinner";
+import { FaRegHeart } from "react-icons/fa";
 
 
 
@@ -27,7 +28,20 @@ const UserProfile = () => {
 
     return (
         <div className={styles.profileContainer}>
-            <h2>👤 User Profile</h2>
+            <h2><FaRegHeart /> Welcome {user?.name} Profile</h2>
+            <div className={styles.avatarContainer}>
+                {user?.avatar?.url?.trim() ? (
+                    <img src={user.avatar.url} className={styles.navAvatar} />
+                ) : (
+                    user?.name && (
+                        <div className={styles.navAvatarPlaceholder}>
+                            {user.name.charAt(0).toUpperCase()}
+                        </div>
+                    )
+                )}
+
+            </div>
+
             {isLoading ? (
                 <CustomSpinner />
             ) : <>
