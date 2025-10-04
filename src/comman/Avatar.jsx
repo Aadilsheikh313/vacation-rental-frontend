@@ -13,7 +13,7 @@ const Avatar = ({ user }) => {
     );
   }
 
-  const initial = user?.initials || "?"; // use backend virtual
+  const initial = user?.initials || "?"; 
   return <div className="custom-avatar-letter">{initial}</div>; 
 }; 
 export default Avatar;

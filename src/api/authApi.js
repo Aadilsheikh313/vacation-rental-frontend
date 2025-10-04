@@ -25,8 +25,6 @@ export const userProfileApi = async (tokenObj) => {
       return null;
     }
 
-    console.log("Token in API call:", tokenObj.token);
-
     const response = await clientServer.get("/api/auth/getUser", {
       headers: {
         Authorization: `Bearer ${tokenObj.token}`,

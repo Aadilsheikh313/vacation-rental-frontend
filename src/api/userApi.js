@@ -23,3 +23,22 @@ export const userProfileApi = async (tokenObj) => {
         return null;
     }
 }
+
+export const updateUserProfileApi = async (tokenObj, formData) => {
+    try {
+        const response = await clientServer.put('/api/userProfile/profile/update', formData, {
+            headers: {
+                'Content-Type' : 'multipart/form-data',
+                Authorization: `Bearer ${tokenObj.token}`,
+            }
+        })
+        return response.data.user;
+    } catch (error) {
+        console.error("❌ Error in updateUserProfileApi:", {
+            status: error.response?.status,
+            message: error.response?.data?.message || error.message,
+            stack: error.stack,
+        });
+        return null;
+    }
+}

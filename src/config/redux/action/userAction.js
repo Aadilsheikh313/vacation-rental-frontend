@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { userProfileApi } from "../../../api/userApi";
+import { updateUserProfileApi, userProfileApi } from "../../../api/userApi";
 
 // ✅ GET User Profile
 export const userProfileAction = createAsyncThunk(
@@ -15,6 +15,23 @@ export const userProfileAction = createAsyncThunk(
             return thunkAPI.rejectWithValue(
                 error.response?.data?.message || "Failed to fetch user profile"
             )
+        }
+    }
+)
+
+export const userProfileUpdateAction = createAsyncThunk(
+    'profile/userProfileUpdateAction',
+    async ({tokenObj, FormData}, thunkAPI) =>{
+        try {
+            const response = await updateUserProfileApi(tokenObj, FormData);
+            if (!response) {
+                return thunkAPI.rejectWithValue("Failed to update user profile");
+            }
+            return thunkAPI.fulfillWithValue(response);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(
+                error.response?.data?.message || "Failed to update user profile"
+            );
         }
     }
 )
