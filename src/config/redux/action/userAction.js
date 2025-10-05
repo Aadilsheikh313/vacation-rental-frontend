@@ -18,12 +18,12 @@ export const userProfileAction = createAsyncThunk(
         }
     }
 )
-
+        
 export const userProfileUpdateAction = createAsyncThunk(
     'profile/userProfileUpdateAction',
-    async ({tokenObj, FormData}, thunkAPI) =>{
+    async ({tokenObj, formData}, thunkAPI) =>{
         try {
-            const response = await updateUserProfileApi(tokenObj, FormData);
+            const response = await updateUserProfileApi(tokenObj, formData);
             if (!response) {
                 return thunkAPI.rejectWithValue("Failed to update user profile");
             }
