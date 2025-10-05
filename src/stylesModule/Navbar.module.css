@@ -171,6 +171,14 @@
   z-index: 999;
   backdrop-filter: blur(3px);
 }
+.navAvatar{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
 
 .modalContent {
   margin-top: 1rem;
