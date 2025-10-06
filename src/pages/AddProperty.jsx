@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Form, Alert, Spinner, Row, Col } from 'react-bootstrap';
+import { Button, Form, Alert, Spinner, Row, Col, Modal } from 'react-bootstrap';
 import { createPosts } from '../config/redux/action/propertyAction';
 import { showError, showSuccess } from '../utils/toastUtils';
 import { useNavigate } from 'react-router-dom';
@@ -9,12 +9,14 @@ import styles from "../stylesModule/addProperty.module.css";
 import postImage from '../assets/Postimage.jpg';
 import { FaRegHandPointRight } from 'react-icons/fa';
 
+
 const AddPropertyForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isSuccess, isError, message, isLoading, propertyId } = useSelector((state) => state.post);
 
   const [showInfo, setShowInfo] = useState(false);
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -88,20 +90,27 @@ const AddPropertyForm = () => {
   };
 
   // toast + info banner handling
-  useEffect(() => {
-    if (isSuccess) {
-      showSuccess("✅ Property added successfully!");
-      setShowInfo(true);
-
-      setTimeout(() => {
-        dispatch(resetStatus());
-      }, 2500);
-    }
-    if (isError) {
-      showError(message || "❌ Failed to add property!");
+ useEffect(() => {
+  if (isSuccess) {
+    showSuccess("✅ Property added successfully!");
+    setShowInfo(true);
+    setTimeout(() => {
       dispatch(resetStatus());
+      navigate("/");
+    }, 2000);
+  }
+
+  if (isError) {
+    if (message.includes("not verified host")) {
+      showError("⚠️ You are not verified by admin yet. Please wait for approval.");
+      setShowVerificationModal(true);
+    } else {
+      showError(message || "❌ Failed to add property!");
     }
-  }, [isSuccess, isError, message, dispatch]);
+    dispatch(resetStatus());
+  }
+}, [isSuccess, isError, message, dispatch, navigate]);
+
 
   const categories = [
     'Hotels', 'Apartments', 'Villas', 'Guest Houses', 'Resorts', 'Farmhouses',
@@ -148,6 +157,23 @@ const AddPropertyForm = () => {
               )}
             </Alert>
           )}
+
+          <Modal show={showVerificationModal} onHide={() => setShowVerificationModal(false)} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Verification Required</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>
+                Your host account has not been verified by the admin yet.
+                Please complete your verification process to post a property.
+              </p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={() => setShowVerificationModal(false)}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
 
           <Form onSubmit={handleSubmit} encType="multipart/form-data" className={styles.propertyForm}>
             <Row>
@@ -332,6 +358,7 @@ const AddPropertyForm = () => {
         </div>
       </div>
     </div>
+
   );
 };
 

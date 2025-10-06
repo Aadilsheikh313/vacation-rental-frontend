@@ -12,14 +12,19 @@ export const postPropertyApi = async (formData) => {
   const authData = JSON.parse(localStorage.getItem("auth"));
   const token = authData?.token;
 
+  try {
   const response = await clientServer.post("/api/property/postProperty", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${token}`,  // ✅ send token here
+      Authorization: `Bearer ${token}`,
     },
   });
-
   return response.data;
+} catch (err) {
+  console.error("Post Property API Error:", err.response?.data);
+  throw err;
+}
+
 };
 
 
