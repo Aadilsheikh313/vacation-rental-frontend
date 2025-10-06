@@ -92,6 +92,12 @@
           state.isSuccess = true;
           state.postFetched = true;
           state.posts.unshift(action.payload.newProperty); 
+          state.message = "Post created successfully";
+          state.postId = action.payload.newProperty._id;
+           console.log("Post created with ID:", state.postId);
+           console.log("Post created successfully:", action.payload.newProperty);
+           
+
         })
         .addCase(createPosts.rejected, (state, action) => {
           state.isLoading = false;

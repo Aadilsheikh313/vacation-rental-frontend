@@ -13,17 +13,19 @@ export const postPropertyApi = async (formData) => {
   const token = authData?.token;
 
   try {
-  const response = await clientServer.post("/api/property/postProperty", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
-} catch (err) {
-  console.error("Post Property API Error:", err.response?.data);
-  throw err;
-}
+    const response = await clientServer.post("/api/property/postProperty", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("✅ Post Property API Response:", response.data);
+    
+    return response.data;
+  } catch (err) {
+    console.error("Post Property API Error:", err.response?.data);
+    throw err;
+  }
 
 };
 
