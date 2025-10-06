@@ -209,7 +209,7 @@ const UserProfile = () => {
                 <p><strong>Status:</strong> {user.isBanned ? "Banned" : "Active"}</p>
               </div>
 
-              <p><strong>Registered On:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
+              <p className={styles.registerDate}><strong>Registered On:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
             </div>
           )}
         </>
@@ -232,19 +232,22 @@ const EditableField = ({ label, field, value, userValue, editField, setEditField
 
     {editField === field && (
       <>
-        <input
-          type={type}
-          value={value}
-          onChange={(e) => onChange(field, e.target.value)}
-          className={styles.inputBox}
-        />
-        <button
-          type="button"
-          onClick={() => onSubmit({ [field]: value })}
-          className={styles.saveButton}
-        >
-          <FaUserEdit />
-        </button>
+        <div className={styles.inputContainer}>
+          <input
+            type={type}
+            value={value}
+            onChange={(e) => onChange(field, e.target.value)}
+            className={styles.inputBox}
+          />
+          <button
+            type="button"
+            onClick={() => onSubmit({ [field]: value })}
+            className={styles.saveButton}
+          >
+            <FaUserEdit />
+          </button>
+        </div>
+
       </>
     )}
   </div>
@@ -263,15 +266,18 @@ const EditableSelect = ({ label, field, value, userValue, options, editField, se
 
     {editField === field && (
       <>
-        <select value={value} onChange={(e) => onChange(field, e.target.value)} className={styles.inputBox}>
-          <option value="">Select {label}</option>
-          {options.map((opt) => (
-            <option key={opt} value={opt}>{opt}</option>
-          ))}
-        </select>
-        <button type="button" onClick={() => onSubmit({ [field]: value })} className={styles.saveButton}>
-          <FaUserEdit />
-        </button>
+        <div className={styles.selectContainer}>
+          <select value={value} onChange={(e) => onChange(field, e.target.value)} className={styles.inputBox}>
+            <option value="">Select {label}</option>
+            {options.map((opt) => (
+              <option key={opt} value={opt}>{opt}</option>
+            ))}
+          </select>
+          <button type="button" onClick={() => onSubmit({ [field]: value })} className={styles.saveButton}>
+            <FaUserEdit />
+          </button>
+        </div>
+
       </>
     )}
   </div>
@@ -290,19 +296,22 @@ const EditableTextarea = ({ label, field, value, userValue, editField, setEditFi
 
     {editField === field && (
       <>
-        <textarea
-          placeholder={`Enter your ${label.toLowerCase()}`}
-          value={value}
-          onChange={(e) => onChange(field, e.target.value)}
-          className={styles.textAreaBox}
-        />
-        <button
-          type="button"
-          onClick={() => onSubmit({ [field]: value })}
-          className={styles.saveButton}
-        >
-          <FaUserEdit />
-        </button>
+        <div className={styles.textAreaContainer}>
+          <textarea
+            placeholder={`Enter your ${label.toLowerCase()}`}
+            value={value}
+            onChange={(e) => onChange(field, e.target.value)}
+            className={styles.textAreaBox}
+          />
+          <button
+            type="button"
+            onClick={() => onSubmit({ [field]: value })}
+            className={styles.saveButton}
+          >
+            <FaUserEdit />
+          </button>
+        </div>
+
       </>
     )}
   </div>

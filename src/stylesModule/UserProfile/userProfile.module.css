@@ -1,86 +1,375 @@
 .profileContainer {
-  padding: 20px;
-  border: 1px solid gray;
-  border-radius: 10px;
-  background-color: aliceblue;
-  margin-top: 2rem;
+  padding: 40px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #e3f2fd, #e8f5e9);
+  border-radius: 20px;
+  max-width: 800px;
+  margin: 2rem auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.avatarContainer{
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-    padding: 20px;
-    background-color: yellowgreen;
-    border-radius: 50%;
-    height: 80px;
-    width: 80px;
-     border: 2px solid white;
-}
-.avatarContainer img{
-    border-radius: 50%;
-    height: 80px;
-    width: 80px;
-    object-fit: cover;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-right: 4rem;
-
-}
-.addPhotoIcon{
-    font-size: 24px;
-    cursor: pointer;
-    color: #007bff;
-    transition: transform 0.2s;
-    top: 0%;
-    position: relative;
-    background-color: red;
-    border-radius: 50%;
-    padding: 4px;
-}
-.navAvatarPlaceholder {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: red;
+/* === HEADING === */
+.profileContainer h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ff6a00, #ee0979);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-size: 16px;
-  font-weight: bold;
-  color: white;   /* yaha dhyan do */
+  align-items: center;
+  gap: 10px;
+}
+
+.profileContainer h2 svg {
+  color: #ee0979;
+}
+
+/* === AVATAR === */
+.avatarContainer {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  height: 120px;
+  width: 120px;
+  overflow: hidden;
+  border: 3px solid white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.navAvatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.navAvatar:hover {
+  transform: scale(1.08);
 }
 
 .addPhotoIcon {
-    font-size: 24px;
-    cursor: pointer;
-    color: #007bff;
-    transition: transform 0.2s;
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  background: linear-gradient(90deg, #ee0979, #ff6a00);
+  color: white;
+  border-radius: 50%;
+  padding: 3px;
+  font-size: 30px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .addPhotoIcon:hover {
-    transform: scale(1.2);
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
 }
 
-.profileDetails p {
-    margin: 8px 0;
+.navAvatarPlaceholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff8a00, #e52e71);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+}
+
+/* === PROFILE DETAILS === */
+.profileDetails {
+  margin-top: 25px;
+  font-family: 'Lora', serif;
+  font-size: 1.2rem;
+  color: #333;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease-in-out;
+}
+
+.profileDetails:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.profileDetails strong {
+ background: linear-gradient(90deg, #ffb75e, #d4af37);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+text-shadow: 0 0 10px rgba(255, 200, 150, 0.3);
+  font-weight: 600;
+}
+
+/* === FIELD CONTAINERS === */
+.fieldContainer {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 12px 15px;
+  border-radius: 10px;
+  background-color: #f8f9fa;
+  transition: all 0.3s ease-in-out;
+}
+
+.fieldContainer:hover {
+  background-color: #f1faff;
+}
+
+.Pargraph {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 1.4rem;
+}
+.Pargraph p{
+  align-items: center;
+  padding-top: 5px;
+}
+
+.Pargraph button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.Pargraph svg {
+  color: #d4af37;
+  font-size: 1.4rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+.Pargraph svg:hover {
+  transform: scale(1.2);
+}
+
+/* === INPUTS & TEXTAREAS === */
+.inputBox,
+.textAreaBox,
+select {
+  margin-top: 8px;
+  width: 92%;
+  padding: 8px 10px;
+  border-bottom-left-radius: 6px;
+  border-top-left-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  font-family: 'Lora', serif;
+  transition: border-color 0.3s;
+}
+.textAreaContainer {
+  padding: 0;
+  padding-right: 7px;
+  display: flex;
+  align-items: center;
+}
+.textAreaContainer .textAreaBox {
+  height: 4rem;
+  margin-top: 2rem ;
+}
+.textAreaContainer .saveButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4rem;
+  margin-top: 2rem ;
+}
+.inputBox:focus,
+.textAreaBox:focus,
+select:focus {
+  outline: none;
+  border-color: #d4af37;
+}
+
+/* === SAVE BUTTON === */
+.saveButton {
+  margin-top: 10px;
+  background: linear-gradient(135deg, #ffb75e, #d4af37);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-bottom-right-radius: 6px;
+  border-top-right-radius: 6px;
+  cursor: pointer;
+  font-size: 1.12rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+.saveButton:hover {
+  transform: scale(1.05);
+}
+
+.saveButton svg{
+  vertical-align: middle;
+  font-size: 1.5rem;
+}
+/* === STATUS TEXT === */
+.statusContainer {
+  margin-top: 15px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: 500;
+  background: linear-gradient(135deg, #ff8a00, #e52e71);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.registerDate{
+   background: linear-gradient(135deg, #ff8a00, #e52e71);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .errorText {
-    color: red;
-    font-weight: bold;
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
 }
 
-.updateBtn {
-    padding: 10px 20px;
-    margin-top: 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+/* === RESPONSIVE ADJUSTMENTS === */
+
+/* Small devices (mobile phones) */
+@media (max-width: 480px) {
+  .profileContainer {
+    padding: 20px 15px;
+    max-width: 95%;
+    margin: 1rem auto;
+  }
+
+  .profileContainer h2 {
+    font-size: 1.8rem;
+    gap: 5px;
+  }
+
+  .avatarContainer {
+    height: 90px;
+    width: 90px;
+  }
+
+  .navAvatarPlaceholder {
+    font-size: 28px;
+  }
+
+  .profileDetails {
+    font-size: 1rem;
+    padding: 15px;
+  }
+
+  .fieldContainer {
+    padding: 10px 12px;
+  }
+
+  .inputBox,
+  .textAreaBox,
+  select {
+    width: 100%;
+    font-size: 0.95rem;
+  }
+
+  .textAreaContainer .textAreaBox,
+  .textAreaContainer .saveButton {
+    height: 3.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .saveButton {
+    font-size: 1rem;
+    padding: 6px 12px;
+  }
+
+  .Pargraph svg {
+    font-size: 1.2rem;
+  }
 }
 
-.updateBtn:hover {
-    background-color: #0056b3;
+/* Medium devices (tablets) */
+@media (max-width: 768px) {
+  .profileContainer {
+    padding: 30px 20px;
+  }
+
+  .profileContainer h2 {
+    font-size: 2rem;
+  }
+
+  .avatarContainer {
+    height: 100px;
+    width: 100px;
+  }
+
+  .navAvatarPlaceholder {
+    font-size: 32px;
+  }
+
+  .profileDetails {
+    font-size: 1.1rem;
+    padding: 18px;
+  }
+
+  .inputBox,
+  .textAreaBox,
+  select {
+    width: 96%;
+  }
+
+  .textAreaContainer .textAreaBox,
+  .textAreaContainer .saveButton {
+    height: 3.8rem;
+    margin-top: 1.8rem;
+  }
+
+  .saveButton {
+    font-size: 1.1rem;
+    padding: 7px 13px;
+  }
+}
+
+/* Extra large screens (desktop wide) */
+@media (min-width: 1200px) {
+  .profileContainer {
+    max-width: 900px;
+    padding: 50px 30px;
+  }
+
+  .profileContainer h2 {
+    font-size: 2.8rem;
+  }
+
+  .avatarContainer {
+    height: 140px;
+    width: 140px;
+  }
+
+  .navAvatarPlaceholder {
+    font-size: 38px;
+  }
+
+  .profileDetails {
+    font-size: 1.25rem;
+    padding: 22px;
+  }
+
+  .inputBox,
+  .textAreaBox,
+  select {
+    font-size: 1.05rem;
+  }
+
+  .saveButton {
+    font-size: 1.25rem;
+    padding: 9px 16px;
+  }
 }

@@ -60,24 +60,24 @@ const CustomNavbar = () => {
     }
   }, [user, token, dispatch]);
 
-const handleSearchSubmit = (e) => {
-  e.preventDefault();
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
 
-  const params = new URLSearchParams();
-  if (searchText) params.set("search", searchText);
+    const params = new URLSearchParams();
+    if (searchText) params.set("search", searchText);
 
-  if (loggedIn) {
-    const role = user?.role?.toLowerCase();
+    if (loggedIn) {
+      const role = user?.role?.toLowerCase();
 
-    if (role === "guest") {
-      dispatch(guestSearchAction({ search: searchText }));
-    } else if (role === "host") {
-      dispatch(hostSearchAction({ search: searchText }));
+      if (role === "guest") {
+        dispatch(guestSearchAction({ search: searchText }));
+      } else if (role === "host") {
+        dispatch(hostSearchAction({ search: searchText }));
+      }
     }
-  }
 
-  navigate(`/?${params.toString()}`); // ✅ query set hamesha karo
-};
+    navigate(`/?${params.toString()}`); // ✅ query set hamesha karo
+  };
 
 
   return (
@@ -98,9 +98,8 @@ const handleSearchSubmit = (e) => {
         </div>
 
         <Navbar.Collapse
-          className={`${styles.navLinkitem} ${
-            mobileMenuOpen ? styles.active : ""
-          }`}
+          className={`${styles.navLinkitem} ${mobileMenuOpen ? styles.active : ""
+            }`}
           id="basic-navbar-nav"
         >
           <div className={styles.leftSection}>
@@ -193,22 +192,29 @@ const handleSearchSubmit = (e) => {
                 onClick={toggleDropdown}
                 style={{ cursor: "pointer" }}
               >
-                <Button variant="primary">
-                  {
-                    user?.avatar?.url ? (
-                      <img
-                        src={user.avatar.url}
-                        alt={user.name}
-                        className={styles.navAvatar}
-                      />
-                    ): (
-                      user?.name ? (
-                        <div className={styles.navAvatarPlaceholder}>
-                          {user.name.charAt(0).toUpperCase()}
-                        </div>
-                      ) : null
-                    )
-                  }
+                <Button className={styles.profileBuTN}>
+                  {!loggedIn ? (
+                    <FaUserCircle  className={styles.iconButton} />
+                  ) : (
+                    <>
+                      {
+                        user?.avatar?.url ? (
+                          <img
+                            src={user.avatar.url}
+                            alt={user.name}
+                            className={styles.navAvatar}
+                          />
+                        ) : (
+                          user?.name ? (
+                            <div className={styles.navAvatarPlaceholder}>
+                              {user.name.charAt(0).toUpperCase()}
+                            </div>
+                          ) : null
+                        )
+                      }
+                    </>
+                  )}
+
                 </Button>
               </div>
 
