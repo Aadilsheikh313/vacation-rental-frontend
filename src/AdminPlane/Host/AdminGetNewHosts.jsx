@@ -14,7 +14,7 @@ const AdminGetNewAllHost = () => {
 
     const {
         newHosts,
-  totalNewHostsCount,
+        totalNewHostsCount,
         isLoading,
         isError,
         isSuccess,
