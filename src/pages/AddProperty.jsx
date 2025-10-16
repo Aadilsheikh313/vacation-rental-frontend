@@ -7,16 +7,19 @@ import { useNavigate } from 'react-router-dom';
 import { resetStatus } from '../config/redux/reducer/propertyReducer';
 import styles from "../stylesModule/addProperty.module.css";
 import postImage from '../assets/Postimage.jpg';
-import { FaRegHandPointRight } from 'react-icons/fa';
+import { FaRegHandPointRight, FaRegTimesCircle } from 'react-icons/fa';
+import { MdPendingActions } from 'react-icons/md';
 
 
 const AddPropertyForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isSuccess, isError, message, isLoading, propertyId } = useSelector((state) => state.post);
+  const { user, host } = useSelector((state) => state.auth);
 
   const [showInfo, setShowInfo] = useState(false);
   const [showVerificationModal, setShowVerificationModal] = useState(false);
+  const [showRejectVerific, setShowrRejectVerific] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -60,6 +63,11 @@ const AddPropertyForm = () => {
   // submit property form
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (user?.role === "host" && host?.verificationStatus === "pending") {
+      showError("⚠️ Your host profile is under review. You can post properties after admin approval.");
+      setShowVerificationModal(true);
+      return; // stop submission
+    }
     if (isLoading) return;
     const postData = new FormData();
 
@@ -86,30 +94,36 @@ const AddPropertyForm = () => {
     }
 
     dispatch(createPosts(postData));
-    navigate("/");
   };
 
   // toast + info banner handling
- useEffect(() => {
-  if (isSuccess) {
-    showSuccess("✅ Property added successfully!");
-    setShowInfo(true);
-    setTimeout(() => {
-      dispatch(resetStatus());
-      navigate("/");
-    }, 2000);
-  }
-
-  if (isError) {
-    if (message.includes("not verified host")) {
-      showError("⚠️ You are not verified by admin yet. Please wait for approval.");
-      setShowVerificationModal(true);
-    } else {
-      showError(message || "❌ Failed to add property!");
+  useEffect(() => {
+    if (isSuccess) {
+      showSuccess("✅ Property added successfully!");
+      setShowInfo(true);
+      setTimeout(() => {
+        dispatch(resetStatus());
+        navigate("/");
+      }, 2000);
     }
-    dispatch(resetStatus());
-  }
-}, [isSuccess, isError, message, dispatch, navigate]);
+
+  }, [isSuccess, isError, message, dispatch, navigate]);
+
+  useEffect(() => {
+    if (user?.role === "host") {
+      if (host?.verificationStatus === "pending") {
+        setShowVerificationModal(true);
+        setShowrRejectVerific(false);
+      } else if (host?.verificationStatus === "rejected") {
+        setShowVerificationModal(false);
+        setShowrRejectVerific(true);
+      } else {
+        setShowVerificationModal(false);
+        setShowrRejectVerific(false);
+      }
+    }
+  }, [user, host]);
+
 
 
   const categories = [
@@ -158,22 +172,84 @@ const AddPropertyForm = () => {
             </Alert>
           )}
 
-          <Modal show={showVerificationModal} onHide={() => setShowVerificationModal(false)} centered>
-            <Modal.Header closeButton>
-              <Modal.Title>Verification Required</Modal.Title>
+          {/* Pending Verification Modal */}
+          <Modal
+            show={showVerificationModal}
+            onHide={() => setShowVerificationModal(false)}
+            centered
+            className={styles.HostModel}
+          >
+            <Modal.Header >
+              <Modal.Title className={styles.titleModel}>Verification Pending</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <p>
-                Your host account has not been verified by the admin yet.
-                Please complete your verification process to post a property.
+              <p className={styles.modelParagraph}>
+                <MdPendingActions /> Your host account is currently under <strong>admin review</strong>.
+                You’ll be able to post properties once your verification is approved.
               </p>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={() => setShowVerificationModal(false)}>
+              <Button className={styles.CloseBTN} onClick={() => setShowVerificationModal(false)}>
                 Close
+              </Button>
+              <Button
+                className={styles.goBackeHomeBTN}
+                onClick={() => {
+                  setShowVerificationModal(false);
+                  navigate("/"); // redirect to Home
+                }}
+              >
+                Go to Home
               </Button>
             </Modal.Footer>
           </Modal>
+
+          {/* Rejected Verification Modal */}
+          <Modal
+            show={showRejectVerific}
+            onHide={() => {
+              setShowrRejectVerific(false);
+              navigate("/"); // default redirect to Home if they try to close manually
+            }}
+            centered
+            backdrop="static" // prevents closing by clicking outside
+            keyboard={false} // prevents closing via Esc key
+            className={styles.HostModel}
+          >
+            <Modal.Header>
+              <Modal.Title className={styles.RejecttitleModel}>Verification Rejected</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p className={styles.modelParagraph}>
+                <FaRegTimesCircle /> Your host verification request has been <strong>rejected by the admin</strong>.
+                Please update your documents and start the verification process again.
+              </p>
+              <p className="mt-2">
+                You can either return to the <strong>Home</strong> page or go to your <strong>Profile</strong> to re-upload your verification details.
+              </p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                className={styles.goBackeHomeBTN}
+                onClick={() => {
+                  setShowrRejectVerific(false);
+                  navigate("/"); // redirect to Home
+                }}
+              >
+                Go to Home
+              </Button>
+              <Button
+                className={styles.goUpdateProfileBTN}
+                onClick={() => {
+                  setShowrRejectVerific(false);
+                  navigate("/profile"); // redirect to Profile
+                }}
+              >
+                Go to Profile
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
 
           <Form onSubmit={handleSubmit} encType="multipart/form-data" className={styles.propertyForm}>
             <Row>
@@ -350,9 +426,18 @@ const AddPropertyForm = () => {
 
             {/* Submit */}
             <div className={styles.submitWrapper}>
-              <Button type="submit" className={styles.submitButton} disabled={isLoading}>
+              <Button
+                type="submit"
+                className={styles.submitButton}
+                disabled={
+                  isLoading ||
+                  (user?.role === "host" &&
+                    (host?.verificationStatus === "pending" || host?.verificationStatus === "rejected"))
+                }
+              >
                 {isLoading ? <Spinner size="sm" animation="border" /> : "Submit Property"}
               </Button>
+
             </div>
           </Form>
         </div>

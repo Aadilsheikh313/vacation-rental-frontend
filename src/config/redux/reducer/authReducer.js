@@ -1,12 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUser, loginUser, registerUser } from "../action/authAction";
+import { loginUser, registerUser } from "../action/authAction";
 
 const userFromStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
   : null;
 
+const hostFromStorage = localStorage.getItem("host")
+  ? JSON.parse(localStorage.getItem("host"))
+  : null;
+
 const initialState = {
   user: userFromStorage,
+  host: hostFromStorage,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -15,6 +20,7 @@ const initialState = {
   message: "",
   isTokenThere: !!localStorage.getItem("token"),
 };
+
 
 const authSlice = createSlice({
   name: "auth",
@@ -30,6 +36,7 @@ const authSlice = createSlice({
       state.isError = false;
       state.message = "Logged out successfully";
       localStorage.removeItem("user");
+      localStorage.removeItem("host");
       localStorage.removeItem("token");
     },
     emptyMessage: (state) => {
@@ -70,47 +77,25 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.loggedIn = true;
+
+        // Save both user and host if available
         state.user = action.payload.user;
-       
-        
+        state.host = action.payload.host || null;
         state.token = action.payload.token;
         state.message = "Login successful";
 
         localStorage.setItem("user", JSON.stringify(action.payload.user));
+        if (action.payload.host) {
+          localStorage.setItem("host", JSON.stringify(action.payload.host));
+        }
         localStorage.setItem("token", action.payload.token);
       })
+
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-
-      // Get User Profile
-      .addCase(getUser.pending, (state) => {
-        state.isLoading = true;
-        state.message = "Fetching user profile...";
-      })
-      .addCase(getUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.user = action.payload;
-        console.log("Redcuer",action.payload);
-        state.message = "User data fetched successfully";
-      })
-      .addCase(getUser.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload || "Unauthorized";
- 
-        if (action.payload === "Unauthorized") {
-          state.user = null;
-          state.loggedIn = false;
-          state.token = null;
-          localStorage.removeItem("user");
-          localStorage.removeItem("token");
-        }
-
-      });
 
   },
 });

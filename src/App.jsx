@@ -26,7 +26,6 @@ import CurrentBooking from './HostDashboard/Booking-Property/Current-booking';
 import BookingHistory from './HostDashboard/Booking-Property/Booking-History';
 import Payment from './Payment/Index';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from './config/redux/action/authAction';
 import ExploreAndStay from './HeroSection/Explore_Stays';
 import TouristAndPlace from './HeroSection/Tourist_Places';
 import TopSpots from './HeroSection/Top_Spots';

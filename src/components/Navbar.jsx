@@ -15,7 +15,6 @@ import styles from "../stylesModule/Navbar.module.css";
 import { handleLogoutUser, reset } from "../config/redux/reducer/authReducer";
 import logoImg from "../assets/NAS.jpg";
 import { showInfo } from "../utils/toastUtils";
-import { getUser } from "../config/redux/action/authAction";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { guestSearchAction, hostSearchAction } from "../config/redux/action/globalSearchAction";
 
@@ -52,13 +51,6 @@ const CustomNavbar = () => {
     setMobileMenuOpen(!mobileMenuOpen);
     setIsOpen(false);
   };
-
-  useEffect(() => {
-    const localToken = token || localStorage.getItem("token");
-    if (!user && localToken) {
-      dispatch(getUser({ token: localToken }));
-    }
-  }, [user, token, dispatch]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -194,7 +186,7 @@ const CustomNavbar = () => {
               >
                 <Button className={styles.profileBuTN}>
                   {!loggedIn ? (
-                    <FaUserCircle  className={styles.iconButton} />
+                    <FaUserCircle className={styles.iconButton} />
                   ) : (
                     <>
                       {
@@ -238,10 +230,19 @@ const CustomNavbar = () => {
                     >
                       {!user ? (
                         <>
-                          <Link
+                          {/* <Link
                             to="/registerpage"
                             className={styles.dropdownItem}
                             onClick={closeDropdown}
+                          >
+                            Sign Up
+                          </Link> */}
+                          <Link
+                            to="/registerpage"
+                            className={styles.dropdownItem}
+                            onClick={() => {
+                              closeDropdown();
+                            }}
                           >
                             Sign Up
                           </Link>

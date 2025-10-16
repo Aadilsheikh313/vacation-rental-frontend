@@ -18,29 +18,5 @@ export const loginApi = async (credentials) => {
 };
 
 
-export const userProfileApi = async (tokenObj) => {
-  try {
-    if (!tokenObj?.token) {
-      console.error("❌ No token provided to userProfileApi");
-      return null;
-    }
-
-    const response = await clientServer.get("/api/auth/getUser", {
-      headers: {
-        Authorization: `Bearer ${tokenObj.token}`,
-      },
-    });
-
-    return response.data.user;
-
-  } catch (error) {
-    console.error("❌ Error in userProfileApi:", {
-      status: error.response?.status,
-      message: error.response?.data?.message || error.message,
-      stack: error.stack,
-    });
-    return null;
-  }
-};
 
 

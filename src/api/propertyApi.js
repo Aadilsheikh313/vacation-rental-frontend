@@ -19,8 +19,6 @@ export const postPropertyApi = async (formData) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("✅ Post Property API Response:", response.data);
-    
     return response.data;
   } catch (err) {
     console.error("Post Property API Error:", err.response?.data);

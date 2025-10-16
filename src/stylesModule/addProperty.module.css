@@ -108,7 +108,7 @@
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 12px 15px;
   margin-top: 5px;
-  
+
 }
 
 .submitWrapper {
@@ -192,13 +192,132 @@
     padding: 12px;
   }
 }
+
 /* Small screen ke liye Col / grid items 100% */
 @media (max-width: 576px) {
+
   .formGroup,
   .checkboxGroup {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    
+
   }
 }
+
+
+/* Modal Card Style */
+.HostModel {
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+  background: rgba(7, 7, 7, 0.85); /* thoda dark transparent background */
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+/* Pending Title - Rainbow Gradient Animation */
+.titleModel {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: linear-gradient(
+    90deg,
+    #ff9900,
+    #ffff00,
+    #33ff00,
+    #0066ff,
+    #cc00ff,
+    #ff0099
+  );
+  background-size: 600%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowText 10s linear infinite;
+}
+
+/* Rejected Title - Red-Orange Gradient Animation */
+.RejecttitleModel {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: linear-gradient(
+    90deg,
+    #ff4d4d,
+    #ff944d,
+    #ffcc00,
+    #ff4d4d
+  );
+  background-size: 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowTextReject 8s linear infinite;
+  text-align: center;
+}
+
+/* Animation for Pending */
+@keyframes rainbowText {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Animation for Rejected */
+@keyframes rainbowTextReject {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Paragraph inside Modal */
+/* Paragraph inside Modal with golden-brown gradient */
+.modelParagraph {
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.5;
+  background: linear-gradient(90deg, #FFD700, #DAA520, #B8860B, #FFD700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* Optional: subtle animation for shimmering effect */
+  background-size: 200%;
+  animation: goldShimmer 5s linear infinite;
+}
+
+/* Gold shimmer animation */
+@keyframes goldShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.modelParagraph svg{
+  background: linear-gradient(135deg, #ff6a00, #ee0979);
+  font-size: 2rem;
+  padding: 5px;
+  color: #fff;
+  border-radius: 4px;
+}
+
+
+
+/* Buttons */
+.CloseBTN,
+.goBackeHomeBTN,
+.goUpdateProfileBTN {
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  transition: all 0.3s ease;
+  background: linear-gradient(90deg, #ff6a00, #ee0979);
+}
+
+.CloseBTN:hover,
+.goBackeHomeBTN:hover,
+.goUpdateProfileBTN:hover {
+  transform: translateY(-3px);
+  opacity: 0.9;
+   background: linear-gradient(90deg,#ee0979, #ff6a00);
+}
+

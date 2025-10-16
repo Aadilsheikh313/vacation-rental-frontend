@@ -5,6 +5,7 @@ import { userProfileAction, userProfileUpdateAction } from "../action/userAction
 const initialState = {
     userProfile: null,
     updateuserProfile: null,
+    Host: null,
     isLoading: false,
     isError: false,
     isSuccess: false,
@@ -27,7 +28,8 @@ const userSlice = createSlice({
             .addCase(userProfileAction.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.userProfile = action.payload;
+                state.userProfile = action.payload.user;
+                state.Host = action.payload.host
                 state.message = "User profile loaded successfully";
             })
             .addCase(userProfileAction.rejected, (state, action) => {
@@ -44,7 +46,7 @@ const userSlice = createSlice({
             .addCase(userProfileUpdateAction.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.updateuserProfile = action.payload;
+                state.updateuserProfile = action.payload.user;
                 state.userProfile = action.payload;
                 state.message = "User profile updated successfully";
             })

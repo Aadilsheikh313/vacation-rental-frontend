@@ -13,7 +13,7 @@ export const userProfileApi = async (tokenObj) => {
             }
         }
         )
-        return response.data.user;
+        return response.data;
     } catch (error) {
         console.error("❌ Error in userProfileApi:", {
             status: error.response?.status,
