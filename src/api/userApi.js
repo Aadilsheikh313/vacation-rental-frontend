@@ -32,7 +32,7 @@ export const updateUserProfileApi = async (tokenObj, formData) => {
                 Authorization: `Bearer ${tokenObj.token}`,
             }
         })
-        return response.data.user;
+        return response.data;
     } catch (error) {
         console.error("❌ Error in updateUserProfileApi:", {
             status: error.response?.status,

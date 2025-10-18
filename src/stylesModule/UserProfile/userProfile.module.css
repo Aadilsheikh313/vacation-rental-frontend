@@ -20,12 +20,13 @@
   position: relative;
   display: inline-block;
   border-radius: 50%;
-  height: 80px;
-  width: 80px;
+  height: 60px;
+  width: 60px;
   overflow: hidden;
   border: 3px solid white;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
   z-index: 1;
+  top: 2rem;
 }
 
 .navAvatar {
@@ -74,25 +75,35 @@
 }
 
 .BaseContainer {
-  display: flex;
-  flex-wrap: wrap; /* Helps wrapping on smaller screens */
-  gap: 1rem;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-
-  /* Golden gradient text */
-  background: linear-gradient(90deg, #ffb75e, #d4af37);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  font-size: 1.2rem;
-  font-weight: 500;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease-in-out;
 }
 
 /* Make sure strong labels look clear */
 .BaseContainer strong {
   font-weight: 700;
+}
+
+.BaseContainer:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.BaseContainer p {
+  color: #b71c1c;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  font-size: 1.2rem;
+}
+
+.UserRole {
+  text-transform: uppercase;
 }
 
 /* Status container stays aligned properly */
@@ -123,6 +134,7 @@
   line-height: 1.5;
   font-size: 0.95rem;
 }
+
 /* Host verification section */
 .verifiAndRejectdate {
   justify-content: space-between;
@@ -148,19 +160,45 @@
 }
 
 @keyframes colorChange {
-  0%   { color: #FFD700; }   /* Golden */
-  20%  { color: #E53935; }   /* Red */
-  40%  { color: #4CAF50; }   /* Green */
-  60%  { color: #1E90FF; }   /* Blue */
-  80%  { color: #FF69B4; }   /* Pink */
-  100% { color: #FFA500; }   /* Orange */
+  0% {
+    color: #FFD700;
+  }
+
+  /* Golden */
+  20% {
+    color: #E53935;
+  }
+
+  /* Red */
+  40% {
+    color: #4CAF50;
+  }
+
+  /* Green */
+  60% {
+    color: #1E90FF;
+  }
+
+  /* Blue */
+  80% {
+    color: #FF69B4;
+  }
+
+  /* Pink */
+  100% {
+    color: #FFA500;
+  }
+
+  /* Orange */
 }
+
 .colorChangeHeading {
   animation: colorChange 6s infinite;
   transition: color 0.5s ease-in-out;
   font-weight: 300;
   text-transform: capitalize;
 }
+
 .hostLeft p {
   margin: 5px 0;
   font-size: 1rem;
@@ -396,18 +434,20 @@ select:focus {
   .profileDetails {
     font-size: 1rem;
     padding: 15px;
-   
+
   }
+
   /* Responsive behavior */
 
   .BaseContainer {
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
-     
+
   }
-  .statusContainer{
-background-color: #e52e71;
+
+  .statusContainer {
+    background-color: #e52e71;
   }
 
   .fieldContainer {
@@ -448,8 +488,8 @@ background-color: #e52e71;
   }
 
   .avatarContainer {
-    height: 100px;
-    width: 100px;
+    height: 60px;
+    width: 60px;
   }
 
   .navAvatarPlaceholder {
@@ -491,8 +531,8 @@ background-color: #e52e71;
   }
 
   .avatarContainer {
-    height: 140px;
-    width: 140px;
+    height: 80px;
+    width: 80px;
   }
 
   .navAvatarPlaceholder {
@@ -518,4 +558,14 @@ background-color: #e52e71;
 
 .imageRow img {
   width: 250px;
+}
+
+.extraHostInfo {
+  justify-content: space-between;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease-in-out;
 }
