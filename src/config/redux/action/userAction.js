@@ -27,6 +27,8 @@ export const userProfileUpdateAction = createAsyncThunk(
             if (!response) {
                 return thunkAPI.rejectWithValue("Failed to update user profile");
             }
+            console.log("ACTION", response);
+            
             return thunkAPI.fulfillWithValue(response);
         } catch (error) {
             return thunkAPI.rejectWithValue(

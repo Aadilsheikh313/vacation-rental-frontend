@@ -15,16 +15,9 @@ import { showWarning } from "../utils/toastUtils";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const {
-    userProfile: user,
-    Host,
-    isLoading,
-    isError,
-    isSuccess,
-    message,
-  } = useSelector((state) => state.userProfile);
+  const { userProfile: user, Host, isLoading, isError, isSuccess, message } =
+    useSelector((state) => state.userProfile);
   const { token } = useSelector((state) => state.auth);
-
   const tokenObj = { token };
 
   const [editField, setEditField] = useState(null);
@@ -39,17 +32,22 @@ const UserProfile = () => {
     governmentID: "",
     governmentIDNumber: "",
     governmentIDImage: null,
+    cancelledChequeImage: null,
+    upiId: "",
+    qrCodeImage: null,
+    accountHolderName: "",
+    accountNumber: "",
+    bankName: "",
+    ifscCode: "",
   });
 
-  // Get user profile on mount
+  // ✅ Fetch user profile on mount
   useEffect(() => {
-    if (tokenObj.token) {
-      dispatch(userProfileAction(tokenObj));
-    }
+    if (tokenObj.token) dispatch(userProfileAction(tokenObj));
     return () => dispatch(profilereset());
   }, [dispatch, token]);
 
-  // Set form data after user and host data is loaded
+  // ✅ Populate data when user & host are fetched
   useEffect(() => {
     if (user && Host) {
       setFormData({
@@ -63,19 +61,33 @@ const UserProfile = () => {
         governmentID: Host.governmentID || "",
         governmentIDNumber: Host.governmentIDNumber || "",
         governmentIDImage: null,
+        cancelledChequeImage: null,
+        upiId: Host?.payout?.upiId || "",
+        qrCodeImage: null,
+        accountHolderName: Host?.payout?.bankDetails?.accountHolderName || "",
+        accountNumber: Host?.payout?.bankDetails?.accountNumber || "",
+        bankName: Host?.payout?.bankDetails?.bankName || "",
+        ifscCode: Host?.payout?.bankDetails?.ifscCode || "",
       });
     }
   }, [user, Host]);
 
-  // Handle avatar upload
-  const handleFileChange = (e) => {
-    if (e.target.files[0]) {
-      setFormData({ ...formData, avatar: e.target.files[0] });
-      handleSubmit({ avatar: e.target.files[0] });
+  // ✅ Handle file input (avatar / cheque / QR)
+  const handleFileChange = (field, file) => {
+    if (file) {
+      setFormData({ ...formData, [field]: file });
     }
   };
+  
+  // ✅ Add this function before return(...)
+const handleFieldChange = (field, value) => {
+  setFormData((prev) => ({
+    ...prev,
+    [field]: value,
+  }));
+};
 
-  // Generic submit function for updating user profile fields
+  // ✅ Submit profile update (generic)
   const handleSubmit = async (updatedField = null) => {
     const updatedFormData = new FormData();
     if (updatedField) {
@@ -83,48 +95,26 @@ const UserProfile = () => {
       updatedFormData.append(key, updatedField[key]);
     } else {
       Object.keys(formData).forEach((key) => {
-        if (key === "avatar" || key === "governmentIDImage") {
-          if (formData[key]) updatedFormData.append(key, formData[key]);
-        } else {
-          updatedFormData.append(key, formData[key]);
-        }
+        if (formData[key]) updatedFormData.append(key, formData[key]);
       });
     }
+
     await dispatch(userProfileUpdateAction({ tokenObj, formData: updatedFormData }));
-    setEditField(null); // close edit input
+    setEditField(null);
   };
-
-  // Handle field change dynamically
-  const handleFieldChange = (field, value) => {
-    setFormData({ ...formData, [field]: value });
-  };
-
-  // Reset form data for government ID after success
-  useEffect(() => {
-    if (isSuccess && message.includes("updated")) {
-      setFormData({
-        ...formData,
-        governmentID: "",
-        governmentIDNumber: "",
-        governmentIDImage: null,
-      });
-    }
-  }, [isSuccess]);
 
   const handleHostSubmit = async () => {
-    if (!formData.governmentID || !formData.governmentIDNumber || !formData.governmentIDImage) {
-      showWarning("All Government ID fields are required!");
-      return; // Stop submission
-    }
+    const { governmentID, governmentIDNumber, governmentIDImage } = formData;
+    if (!governmentID || !governmentIDNumber || !governmentIDImage)
+      return showWarning("All Government ID fields are required!");
+
     const updatedFormData = new FormData();
-    if (formData.governmentID)
-      updatedFormData.append("governmentID", formData.governmentID);
-    if (formData.governmentIDNumber)
-      updatedFormData.append("governmentIDNumber", formData.governmentIDNumber);
-    if (formData.governmentIDImage)
-      updatedFormData.append("governmentIDImage", formData.governmentIDImage);
+    updatedFormData.append("governmentID", governmentID);
+    updatedFormData.append("governmentIDNumber", governmentIDNumber);
+    updatedFormData.append("governmentIDImage", governmentIDImage);
 
     await dispatch(userProfileUpdateAction({ tokenObj, formData: updatedFormData }));
+    setEditField(null);
   };
 
   return (
@@ -321,156 +311,29 @@ const UserProfile = () => {
                 onSubmit={handleSubmit}
               />
 
-              {/* Host Section */}
+              {/* ===== Host Specific Section ===== */}
               {user?.role === "host" && (
                 <>
-                  <div className={styles.hostSection}>
-                    {/* Government ID */}
-                    <div className={styles.GovermentId}>
-                      <div className={styles.sectionHeader}>
-                        <h4>Government ID Details</h4>
-                        {editField !== "governmentID" && (
-                          <button
-                            type="button"
-                            onClick={() => setEditField("governmentID")}
-                            className={styles.editButton}
-                          >
-                            <MdOutlineEdit />
-                          </button>
-                        )}
-                      </div>
+                    {/* Government ID Section */}
+                  <HostGovernmentID
+                    Host={Host}
+                    formData={formData}
+                    setFormData={setFormData}
+                    editField={editField}
+                    setEditField={setEditField}
+                    handleHostSubmit={handleHostSubmit}
+                  />
 
-                      {editField !== "governmentID" ? (
-                        <div className={styles.readOnlySection}>
-                          <Row>
-                            <Col md="6" xs="12">
-                              <p><strong>Government ID:</strong> {Host?.governmentID || "N/A"}</p>
-                            </Col>
-                            <Col md="6" xs="12">
-                              <p><strong>ID Number:</strong> {Host?.governmentIDNumber || "N/A"}</p>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col md="12" className={styles.imageRow}>
-                              {Host?.governmentIDImage?.url ? (
-                                <img
-                                  src={Host.governmentIDImage.url}
-                                  alt="Government ID"
-                                  className={styles.govImage}
-                                />
-                              ) : (
-                                <p>No Government ID Image Uploaded</p>
-                              )}
-                            </Col>
-                          </Row>
-                        </div>
-                      ) : (
-                        <div className={styles.editSection}>
-                          <Row>
-                            <Col md="6" xs="12">
-                              <label>Government ID Type</label>
-                              <select
-                                value={formData.governmentID}
-                                onChange={(e) => handleFieldChange("governmentID", e.target.value)}
-                              >
-                                <option value="">Select ID Type</option>
-                                <option value="passport">Passport</option>
-                                <option value="voter-id">Voter ID</option>
-                                <option value="driving-license">Driving License</option>
-                                <option value="Aadhaar-card">Aadhaar Card</option>
-                                <option value="other">Other</option>
-                              </select>
-
-                            </Col>
-                            <Col md="6" xs="12">
-                              <label>ID Number</label>
-                              <input
-                                type="text"
-                                value={formData.governmentIDNumber}
-                                onChange={(e) =>
-                                  handleFieldChange("governmentIDNumber", e.target.value)
-                                }
-                                placeholder="Enter ID number"
-                                className={styles.inputBox}
-                              />
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col md="12">
-                              <label>Upload Government ID Image</label>
-                              <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) =>
-                                  handleFieldChange("governmentIDImage", e.target.files[0])
-                                }
-                                className={styles.fileInput}
-                              />
-                            </Col>
-                          </Row>
-                          <div className={styles.buttonRow}>
-                            <button
-                              className={styles.saveButton}
-                              onClick={async () => {
-                                await handleHostSubmit();
-                                setEditField(null);
-                              }}
-                            >
-                              <FaUserEdit /> Update
-                            </button>
-                            <button
-                              className={styles.cancelButton}
-                              onClick={() => setEditField(null)}
-                            >
-                              Cancel
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-
-                  <Row>
-                    <div className={styles.imageRow}>
-                      <Col md="6" xs="12">
-                        <img src={Host?.cancelledChequeImage?.url} alt="Cancelled Cheque" />
-                      </Col>
-                      <Col md="6" xs="12">
-                        <img src={Host?.payout?.qrCodeUrl} alt="UPI QR Code" />
-                      </Col>
-                    </div>
-                  </Row>
-
-                  <div className={styles.bankDetails}>
-                    <Row>
-                      <Col md="6" xs="12">
-                        <p><strong>UPI ID:</strong> {Host?.payout?.upiId || "N/A"}</p>
-                      </Col>
-                      <Col md="6" xs="12">
-                        <p><strong>Account Number:</strong> {Host?.payout?.bankDetails?.accountNumber || "N/A"}</p>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="6" xs="12">
-                        <p><strong>Bank Name:</strong> {Host?.payout?.bankDetails?.bankName || "N/A"}</p>
-                      </Col>
-                      <Col md="6" xs="12">
-                        <p><strong>IFSC Code:</strong> {Host?.payout?.bankDetails?.ifscCode || "N/A"}</p>
-                      </Col>
-                    </Row>
-                  </div>
-
-                  <div className={styles.earnings}>
-                    <Row>
-                      <Col md="6" xs="12">
-                        <p><strong>Total Earnings:</strong> ₹{Host?.earnings?.totalEarnings || 0}</p>
-                      </Col>
-                      <Col md="6" xs="12">
-                        <p><strong>Pending Payouts:</strong> ₹{Host?.earnings?.pendingPayouts || 0}</p>
-                      </Col>
-                    </Row>
-                  </div>
+                  {/* Cancelled Cheque, QR, and Bank Section */}
+                  <HostBankDetails
+                    Host={Host}
+                    formData={formData}
+                    setFormData={setFormData}
+                    editField={editField}
+                    setEditField={setEditField}
+                    handleSubmit={handleSubmit}
+                    handleFileChange={handleFileChange}
+                  />
 
                   {/* ====== Full Host Info Section ====== */}
                   <div className={styles.extraHostInfo}>
@@ -613,5 +476,247 @@ const EditableTextarea = ({ label, field, value, userValue, editField, setEditFi
     )}
   </div>
 );
+/* ======================================================
+   ✅ Host Government ID Sub-Component
+====================================================== */
+const HostGovernmentID = ({ Host, formData, setFormData, editField, setEditField, handleHostSubmit }) => (
+  <div className={styles.GovermentId}>
+    {editField !== "governmentID" ? (
+      <div>
+        <Row>
+          <Col md="6"><p><strong>ID Type:</strong> {Host?.governmentID || "N/A"}</p></Col>
+          <Col md="6"><p><strong>ID Number:</strong> {Host?.governmentIDNumber || "N/A"}</p></Col>
+        </Row>
+        <img src={Host?.governmentIDImage?.url} alt="Gov ID" className={styles.govImage} />
+        <button onClick={() => setEditField("governmentID")} className={styles.editButton}><MdOutlineEdit /></button>
+      </div>
+    ) : (
+      <div className={styles.editSection}>
+        <Row>
+          <Col md="6">
+            <label>ID Type</label>
+            <select value={formData.governmentID} onChange={(e) => setFormData({ ...formData, governmentID: e.target.value })}>
+              <option value="">Select</option>
+              <option value="Aadhaar">Aadhaar</option>
+              <option value="PAN">PAN</option>
+              <option value="Passport">Passport</option>
+              <option value="voter-id">Voter-id</option>
+              <option value="driving-license">Driving-license</option>
+              <option value="other">Other</option>
+            </select>
+          </Col>
+          <Col md="6">
+            <label>ID Number</label>
+            <input
+              type="text"
+              value={formData.governmentIDNumber}
+              onChange={(e) => setFormData({ ...formData, governmentIDNumber: e.target.value })}
+            />
+          </Col>
+        </Row>
+        <input type="file" accept="image/*" onChange={(e) => setFormData({ ...formData, governmentIDImage: e.target.files[0] })} />
+        <div className={styles.buttonRow}>
+          <button onClick={handleHostSubmit} className={styles.saveButton}><FaUserEdit /> Update</button>
+          <button onClick={() => setEditField(null)} className={styles.cancelButton}>Cancel</button>
+        </div>
+      </div>
+    )}
+  </div>
+);
+
+
+/* ======================================================
+   ✅ Host Bank + QR + Cheque Sub-Component (Fixed & Editable)
+====================================================== */
+const HostBankDetails = ({
+  Host,
+  formData,
+  setFormData,
+  editField,
+  setEditField,
+  handleSubmit,
+  handleFileChange,
+}) => (
+  <div className={styles.bankSection}>
+    <h4>Payout & Bank Details</h4>
+
+    {/* ✅ VIEW MODE */}
+    {editField !== "bankDetails" ? (
+      <div>
+        <Row>
+          <Col md="6">
+            <p><strong>Cancelled Cheque:</strong></p>
+            {Host?.cancelledChequeImage?.url ? (
+              <img
+                src={Host.cancelledChequeImage.url}
+                alt="Cancelled Cheque"
+                className={styles.bankImage}
+              />
+            ) : (
+              <p>N/A</p>
+            )}
+          </Col>
+
+          <Col md="6">
+            <p><strong>QR Code:</strong></p>
+            {Host?.payout?.qrCodeUrl ? (
+              <img
+                src={Host.payout.qrCodeUrl}
+                alt="UPI QR Code"
+                className={styles.bankImage}
+              />
+            ) : (
+              <p>N/A</p>
+            )}
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md="6">
+            <p><strong>UPI ID:</strong> {Host?.payout?.upiId || "N/A"}</p>
+          </Col>
+          <Col md="6">
+            <p>
+              <strong>Account Holder:</strong>{" "}
+              {Host?.payout?.bankDetails?.accountHolderName || "N/A"}
+            </p>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md="6">
+            <p>
+              <strong>Account No:</strong>{" "}
+              {Host?.payout?.bankDetails?.accountNumber || "N/A"}
+            </p>
+          </Col>
+          <Col md="6">
+            <p>
+              <strong>Bank Name:</strong>{" "}
+              {Host?.payout?.bankDetails?.bankName || "N/A"}
+            </p>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md="6">
+            <p>
+              <strong>IFSC Code:</strong>{" "}
+              {Host?.payout?.bankDetails?.ifscCode || "N/A"}
+            </p>
+          </Col>
+        </Row>
+
+        <button
+          onClick={() => setEditField("bankDetails")}
+          className={styles.editButton}
+        >
+          <MdOutlineEdit />
+        </button>
+      </div>
+    ) : (
+      /* ✅ EDIT MODE */
+      <div className={styles.editSection}>
+        <Row>
+          <Col md="6">
+            <label>Cancelled Cheque Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) =>
+                handleFileChange("cancelledChequeImage", e.target.files[0])
+              }
+            />
+          </Col>
+          <Col md="6">
+            <label>UPI QR Code Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) =>
+                handleFileChange("qrCodeImage", e.target.files[0])
+              }
+            />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md="6">
+            <label>UPI ID</label>
+            <input
+              type="text"
+              value={formData.upiId}
+              onChange={(e) =>
+                setFormData({ ...formData, upiId: e.target.value })
+              }
+            />
+          </Col>
+          <Col md="6">
+            <label>Account Holder Name</label>
+            <input
+              type="text"
+              value={formData.accountHolderName}
+              onChange={(e) =>
+                setFormData({ ...formData, accountHolderName: e.target.value })
+              }
+            />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md="6">
+            <label>Account Number</label>
+            <input
+              type="text"
+              value={formData.accountNumber}
+              onChange={(e) =>
+                setFormData({ ...formData, accountNumber: e.target.value })
+              }
+            />
+          </Col>
+          <Col md="6">
+            <label>Bank Name</label>
+            <input
+              type="text"
+              value={formData.bankName}
+              onChange={(e) =>
+                setFormData({ ...formData, bankName: e.target.value })
+              }
+            />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md="6">
+            <label>IFSC Code</label>
+            <input
+              type="text"
+              value={formData.ifscCode}
+              onChange={(e) =>
+                setFormData({ ...formData, ifscCode: e.target.value })
+              }
+            />
+          </Col>
+        </Row>
+
+        <div className={styles.buttonRow}>
+          <button
+            onClick={() => handleSubmit()}
+            className={styles.saveButton}
+          >
+            <FaUserEdit /> Update
+          </button>
+          <button
+            onClick={() => setEditField(null)}
+            className={styles.cancelButton}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
+);
+
 
 export default UserProfile;
