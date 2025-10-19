@@ -18,22 +18,25 @@ export const userProfileAction = createAsyncThunk(
         }
     }
 )
-        
+
+// ✅ Update user profile action
 export const userProfileUpdateAction = createAsyncThunk(
     'profile/userProfileUpdateAction',
-    async ({tokenObj, formData}, thunkAPI) =>{
+    async ({tokenObj, formData}, thunkAPI) => {
         try {
             const response = await updateUserProfileApi(tokenObj, formData);
             if (!response) {
                 return thunkAPI.rejectWithValue("Failed to update user profile");
             }
-            console.log("ACTION", response);
-            
-            return thunkAPI.fulfillWithValue(response);
+            // ✅ UPDATED: Ensure host is always updated in state
+            return thunkAPI.fulfillWithValue({
+                user: response.user,
+                host: response.host
+            });
         } catch (error) {
             return thunkAPI.rejectWithValue(
                 error.response?.data?.message || "Failed to update user profile"
             );
         }
     }
-)
+);

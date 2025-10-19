@@ -87,21 +87,22 @@ const handleFieldChange = (field, value) => {
   }));
 };
 
-  // ✅ Submit profile update (generic)
-  const handleSubmit = async (updatedField = null) => {
+ // ✅ UPDATED: Submit profile update with nested Host fields
+const handleSubmit = async (updatedField = null) => {
     const updatedFormData = new FormData();
     if (updatedField) {
-      const key = Object.keys(updatedField)[0];
-      updatedFormData.append(key, updatedField[key]);
+        const key = Object.keys(updatedField)[0];
+        updatedFormData.append(key, updatedField[key]);
     } else {
-      Object.keys(formData).forEach((key) => {
-        if (formData[key]) updatedFormData.append(key, formData[key]);
-      });
+        Object.keys(formData).forEach((key) => {
+            if (formData[key] !== null && formData[key] !== "") {
+                updatedFormData.append(key, formData[key]);
+            }
+        });
     }
-
     await dispatch(userProfileUpdateAction({ tokenObj, formData: updatedFormData }));
     setEditField(null);
-  };
+};
 
   const handleHostSubmit = async () => {
     const { governmentID, governmentIDNumber, governmentIDImage } = formData;
@@ -559,9 +560,9 @@ const HostBankDetails = ({
 
           <Col md="6">
             <p><strong>QR Code:</strong></p>
-            {Host?.payout?.qrCode ? (
+            {Host?.qrCode?.url ? (
               <img
-                src={Host?.payout?.qrCode}
+                src={Host?.qrCode?.url}
                 alt="UPI QR Code"
                 className={styles.bankImage}
               />
