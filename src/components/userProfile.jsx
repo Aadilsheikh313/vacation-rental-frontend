@@ -34,7 +34,7 @@ const UserProfile = () => {
     governmentIDImage: null,
     cancelledChequeImage: null,
     upiId: "",
-    qrCodeImage: null,
+    qrCode: null,
     accountHolderName: "",
     accountNumber: "",
     bankName: "",
@@ -63,7 +63,7 @@ const UserProfile = () => {
         governmentIDImage: null,
         cancelledChequeImage: null,
         upiId: Host?.payout?.upiId || "",
-        qrCodeImage: null,
+        qrCode: null,
         accountHolderName: Host?.payout?.bankDetails?.accountHolderName || "",
         accountNumber: Host?.payout?.bankDetails?.accountNumber || "",
         bankName: Host?.payout?.bankDetails?.bankName || "",
@@ -559,9 +559,9 @@ const HostBankDetails = ({
 
           <Col md="6">
             <p><strong>QR Code:</strong></p>
-            {Host?.payout?.qrCodeUrl ? (
+            {Host?.payout?.qrCode ? (
               <img
-                src={Host.payout.qrCodeUrl}
+                src={Host?.payout?.qrCode}
                 alt="UPI QR Code"
                 className={styles.bankImage}
               />
@@ -599,10 +599,16 @@ const HostBankDetails = ({
         </Row>
 
         <Row>
-          <Col md="6">
+          <Col md="6" xs="12">
             <p>
               <strong>IFSC Code:</strong>{" "}
               {Host?.payout?.bankDetails?.ifscCode || "N/A"}
+            </p>
+          </Col>
+          <Col md="6" xs="12">
+            <p>
+              <strong>Branch:</strong>{" "}
+              {Host?.payout?.bankDetails?.branchName || "N/A"}
             </p>
           </Col>
         </Row>
@@ -633,9 +639,7 @@ const HostBankDetails = ({
             <input
               type="file"
               accept="image/*"
-              onChange={(e) =>
-                handleFileChange("qrCodeImage", e.target.files[0])
-              }
+              onChange={(e) => handleFileChange("qrCode", e.target.files[0])}
             />
           </Col>
         </Row>
