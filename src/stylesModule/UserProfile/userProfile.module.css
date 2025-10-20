@@ -568,9 +568,278 @@ select:focus {
   padding: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease-in-out;
+  display: flex;
+  margin: 10px;
 }
 
+.infoGrid {
+  justify-content: space-between;
+  text-align: left;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease-in-out;
+}
+
+.infoGrid:hover {
+  transform: translateY(-3px);
+  box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.08);
+
+}
+
+.infoGrid svg {
+  background: linear-gradient(135deg, #ee0979, #ff6a00);
+  font-size: 2rem;
+  padding: 5px;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.GovermentId {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 12px 15px;
+  border-radius: 10px;
+  background-color: #f8f9fa;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+  margin-top: 10px;
+}
+
+.GovermentId:hover {
+  background-color: #f1faff;
+}
+
+
+.govImage {
+  width: 60%;
+  height: 250px;
+  object-fit: contain;
+  border-radius: 10px;
+  background-color: #f0f0f0;
+  margin: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.govImage:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px 15px rgba(0, 0, 0, 0.08);
+}
+
+.editButton {
+  border: none;
+  background-color: #f8f9fa;
+  font-size: 2rem;
+  margin: 20px;
+  color: #d4af37;
+}
+
+.editButton:hover {
+  background-color: #f1faff;
+}
+
+.editSection label {
+  display: flex;
+  color: #d4af37;
+}
+
+.editSection input,
+select {
+  border: 1px solid #81817f;
+  border-radius: 8px;
+  text-align: center;
+  margin: 5px;
+}
+
+/* Hide the ugly default input completely */
+.fileUpload {
+  display: none;
+}
+
+/* Custom label that looks like a button */
+.customFileLabel {
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  text-align: center;
+  justify-content: center;
+  margin-left: 4px;
+  width: 320px;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect */
+.customFileLabel:hover {
+  background-color: #0056b3;
+}
+
+/* Optional layout styling */
+.butonConteier {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.butonConteier svg {
+  align-items: center;
+  text-align: center;
+  gap: 2rem;
+  margin: 5px;
+  color: #fff;
+}
+
+.buttonRow {
+  display: flex;
+  gap: 10px;
+  margin-left: 3.5rem;
+}
+
+.updateButton {
+  background-color: #28a745;
+  color: #fff;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.updateButton svg {
+  color: #fff;
+}
+
+.cancelButton {
+  background-color: #dc3545;
+  color: #fff;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancelButton svg {
+  color: #fff;
+}
+
+.bankSection {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 20px 25px;
+  border-radius: 16px;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+
+.bankSection:hover {
+  background-color: #f1faff;
+}
+
+/* ==== Image Card Container ==== */
+.bankCard {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 25px;
+  padding: 15px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.bankCard:hover {
+  transform: translateY(-2px);
+}
+
+/* ==== Image Styles ==== */
 .bankImage {
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  height: 200px; /* Bigger height for full view */
+  object-fit: contain; /* Ensures image is fully visible */
+  background-color: #f0f0f0;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.bankImage:hover {
+  transform: scale(1.03);
+}
+
+/* ==== Text Layout ==== */
+.bankSection p {
+  font-size: 15px;
+  color: #444;
+  margin: 8px 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.bankSection strong {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+.buttonRow{
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+}
+
+.customFileLabela {
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  text-align: center;
+  justify-content: center;
+  margin-left: 4px;
+  width: 300px;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect */
+.customFileLabela:hover {
+  background-color: #0056b3;
+}
+
+
+/* ==== Responsive Design ==== */
+@media (max-width: 768px) {
+  .bankSection {
+    padding: 20px;
+  }
+
+  .bankImage {
+    max-width: 180px;
+  }
+
+  .bankSection p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bankSection {
+    padding: 15px;
+  }
+
+  .bankImage {
+    max-width: 160px;
+  }
+
+  .bankSection p {
+    font-size: 13.5px;
+  }
 }

@@ -7,11 +7,15 @@ import {
   userProfileUpdateAction,
 } from "../config/redux/action/userAction";
 import CustomSpinner from "../comman/Spinner";
-import { FaCheckCircle, FaClock, FaTimesCircle, FaUserEdit } from "react-icons/fa";
-import { MdOutlineAddAPhoto, MdOutlineEdit } from "react-icons/md";
+import { FaCamera, FaCheckCircle, FaClock, FaCreditCard, FaStarHalfAlt, FaTimesCircle, FaUserEdit } from "react-icons/fa";
+import { MdOutlineAddAPhoto, MdOutlineEdit, MdRateReview } from "react-icons/md";
 import Card from "react-bootstrap/Card";
 import { Row, Col } from "react-bootstrap";
 import { showWarning } from "../utils/toastUtils";
+import { GiTakeMyMoney } from "react-icons/gi";
+import { RiBuilding2Line, RiSecurePaymentFill } from "react-icons/ri";
+import { ImCancelCircle } from "react-icons/im";
+
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -39,6 +43,7 @@ const UserProfile = () => {
     accountNumber: "",
     bankName: "",
     ifscCode: "",
+    branchName: "",
   });
 
   // ✅ Fetch user profile on mount
@@ -68,6 +73,8 @@ const UserProfile = () => {
         accountNumber: Host?.payout?.bankDetails?.accountNumber || "",
         bankName: Host?.payout?.bankDetails?.bankName || "",
         ifscCode: Host?.payout?.bankDetails?.ifscCode || "",
+        branchName: Host?.payout?.bankDetails?.branchName || "",
+
       });
     }
   }, [user, Host]);
@@ -78,31 +85,37 @@ const UserProfile = () => {
       setFormData({ ...formData, [field]: file });
     }
   };
-  
-  // ✅ Add this function before return(...)
-const handleFieldChange = (field, value) => {
-  setFormData((prev) => ({
-    ...prev,
-    [field]: value,
-  }));
-};
 
- // ✅ UPDATED: Submit profile update with nested Host fields
-const handleSubmit = async (updatedField = null) => {
+  // ✅ Add this function before return(...)
+  const handleFieldChange = (field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  // ✅ UPDATED: Submit profile update with nested Host fields
+  const handleSubmit = async () => {
     const updatedFormData = new FormData();
-    if (updatedField) {
-        const key = Object.keys(updatedField)[0];
-        updatedFormData.append(key, updatedField[key]);
-    } else {
-        Object.keys(formData).forEach((key) => {
-            if (formData[key] !== null && formData[key] !== "") {
-                updatedFormData.append(key, formData[key]);
-            }
-        });
-    }
+    // UPI ID
+    if (formData.upiId) updatedFormData.append("payout[upiId]", formData.upiId);
+
+    // Bank Details
+    updatedFormData.append("bankDetails[accountHolderName]", formData.accountHolderName);
+    updatedFormData.append("bankDetails[accountNumber]", formData.accountNumber);
+    updatedFormData.append("bankDetails[bankName]", formData.bankName);
+    updatedFormData.append("bankDetails[ifscCode]", formData.ifscCode);
+    updatedFormData.append("bankDetails[branchName]", formData.branchName);
+
+    // Files
+    if (formData.cancelledChequeImage) updatedFormData.append("cancelledChequeImage", formData.cancelledChequeImage);
+    if (formData.qrCode) updatedFormData.append("qrCode", formData.qrCode);
+
+    // Dispatch update action
     await dispatch(userProfileUpdateAction({ tokenObj, formData: updatedFormData }));
     setEditField(null);
-};
+  };
+
 
   const handleHostSubmit = async () => {
     const { governmentID, governmentIDNumber, governmentIDImage } = formData;
@@ -244,7 +257,9 @@ const handleSubmit = async (updatedField = null) => {
 
           {user && (
             <div className={styles.profileDetails}>
-              <EditableField
+              <Row>
+                <Col md="6" xs="12">
+                 <EditableField
                 label="Name"
                 field="name"
                 value={formData.name}
@@ -254,8 +269,9 @@ const handleSubmit = async (updatedField = null) => {
                 onChange={handleFieldChange}
                 onSubmit={handleSubmit}
               />
-
-              <EditableField
+                </Col>
+                <Col md="6" xs="12">
+                 <EditableField
                 label="Phone"
                 field="phone"
                 value={formData.phone}
@@ -265,7 +281,11 @@ const handleSubmit = async (updatedField = null) => {
                 onChange={handleFieldChange}
                 onSubmit={handleSubmit}
               />
-
+                </Col>
+              </Row>
+              <Row>
+                <Col md="6" xs="12">
+                
               <EditableField
                 label="DOB"
                 field="dob"
@@ -277,8 +297,9 @@ const handleSubmit = async (updatedField = null) => {
                 onChange={handleFieldChange}
                 onSubmit={handleSubmit}
               />
-
-              <EditableSelect
+                </Col>
+                <Col md="6" xs="12">
+                 <EditableSelect
                 label="Gender"
                 field="gender"
                 value={formData.gender}
@@ -289,8 +310,11 @@ const handleSubmit = async (updatedField = null) => {
                 onChange={handleFieldChange}
                 onSubmit={handleSubmit}
               />
-
-              <EditableField
+                </Col>
+              </Row>
+              <Row>
+                <Col md="6" xs="12">
+                <EditableField
                 label="Location"
                 field="location"
                 value={formData.location}
@@ -300,8 +324,9 @@ const handleSubmit = async (updatedField = null) => {
                 onChange={handleFieldChange}
                 onSubmit={handleSubmit}
               />
-
-              <EditableTextarea
+                </Col>
+                <Col md="6" xs="12">
+                 <EditableTextarea
                 label="Bio"
                 field="bio"
                 value={formData.bio}
@@ -311,11 +336,12 @@ const handleSubmit = async (updatedField = null) => {
                 onChange={handleFieldChange}
                 onSubmit={handleSubmit}
               />
-
+                </Col>
+              </Row>
               {/* ===== Host Specific Section ===== */}
               {user?.role === "host" && (
                 <>
-                    {/* Government ID Section */}
+                  {/* Government ID Section */}
                   <HostGovernmentID
                     Host={Host}
                     formData={formData}
@@ -323,6 +349,7 @@ const handleSubmit = async (updatedField = null) => {
                     editField={editField}
                     setEditField={setEditField}
                     handleHostSubmit={handleHostSubmit}
+
                   />
 
                   {/* Cancelled Cheque, QR, and Bank Section */}
@@ -334,6 +361,7 @@ const handleSubmit = async (updatedField = null) => {
                     setEditField={setEditField}
                     handleSubmit={handleSubmit}
                     handleFileChange={handleFileChange}
+
                   />
 
                   {/* ====== Full Host Info Section ====== */}
@@ -341,40 +369,36 @@ const handleSubmit = async (updatedField = null) => {
 
                     <div className={styles.infoGrid}>
                       <p>
-                        <strong>📅 Applied On:</strong>{" "}
-                        {Host?.appliedAt
-                          ? new Date(Host.appliedAt).toLocaleString()
-                          : "N/A"}
-                      </p>
-
-                      <p>
-                        <strong>💰 Completed Payouts:</strong> ₹
+                        <strong><GiTakeMyMoney /> Completed Payouts:</strong> ₹
                         {Host?.earnings?.completedPayouts || 0}
                       </p>
 
                       <p>
-                        <strong>🕓 Last Payout Date:</strong>{" "}
+                        <strong><RiSecurePaymentFill /> Last Payout Date:</strong>{" "}
                         {Host?.earnings?.lastPayoutAt
                           ? new Date(Host.earnings.lastPayoutAt).toLocaleString()
                           : "N/A"}
                       </p>
 
                       <p>
-                        <strong>💳 Default Payout Method:</strong>{" "}
+                        <strong><FaCreditCard /> Default Payout Method:</strong>{" "}
                         {Host?.payout?.defaultPayoutMethod || "N/A"}
                       </p>
-
+                    </div>
+                    <div className={styles.infoGrid}>
                       <p>
-                        <strong>⭐ Rating:</strong>{" "}
-                        {Host?.rating?.avgRating || 0} / 5 (
-                        {Host?.rating?.totalReviews || 0} reviews)
-                      </p>
-
-                      <p>
-                        <strong>🏠 Properties Listed:</strong>{" "}
+                        <strong><RiBuilding2Line /> Properties Listed:</strong>{" "}
                         {Host?.hostProperties?.length || 0}
                       </p>
+                      <p>
+                        <strong><FaStarHalfAlt />Avrege Rating:</strong>{" "}
+                        {Host?.rating?.avgRating || 0} / 5
 
+                      </p>
+                      <p>
+                        <strong><MdRateReview />Total Reviews : </strong>
+                        {Host?.rating?.totalReviews || 0}
+                      </p>
                       {Host?.adminNote && (
                         <p>
                           <strong>📝 Admin Note:</strong> {Host.adminNote}
@@ -515,11 +539,32 @@ const HostGovernmentID = ({ Host, formData, setFormData, editField, setEditField
             />
           </Col>
         </Row>
-        <input type="file" accept="image/*" onChange={(e) => setFormData({ ...formData, governmentIDImage: e.target.files[0] })} />
-        <div className={styles.buttonRow}>
-          <button onClick={handleHostSubmit} className={styles.saveButton}><FaUserEdit /> Update</button>
-          <button onClick={() => setEditField(null)} className={styles.cancelButton}>Cancel</button>
+
+        <div className={styles.butonConteier}>
+          <label htmlFor="fileUpload" className={styles.customFileLabel}>
+            <FaCamera /> Upload New ID Image
+          </label>
+          <input
+            id="fileUpload"
+            type="file"
+            accept="image/*"
+            className={styles.fileUpload}
+            onChange={(e) =>
+              setFormData({ ...formData, governmentIDImage: e.target.files[0] })
+            }
+          />
+
+          <div className={styles.buttonRow}>
+            <button onClick={handleHostSubmit} className={styles.updateButton}>
+              <FaUserEdit /> Update
+            </button>
+            <button onClick={() => setEditField(null)} className={styles.cancelButton}>
+              <ImCancelCircle /> Cancel
+            </button>
+          </div>
         </div>
+
+
       </div>
     )}
   </div>
@@ -539,36 +584,39 @@ const HostBankDetails = ({
   handleFileChange,
 }) => (
   <div className={styles.bankSection}>
-    <h4>Payout & Bank Details</h4>
 
     {/* ✅ VIEW MODE */}
     {editField !== "bankDetails" ? (
       <div>
         <Row>
           <Col md="6">
-            <p><strong>Cancelled Cheque:</strong></p>
-            {Host?.cancelledChequeImage?.url ? (
-              <img
-                src={Host.cancelledChequeImage.url}
-                alt="Cancelled Cheque"
-                className={styles.bankImage}
-              />
-            ) : (
-              <p>N/A</p>
-            )}
+            <div className={styles.bankCard}>
+              <p><strong>Cancelled Cheque:</strong></p>
+              {Host?.cancelledChequeImage?.url ? (
+                <img
+                  src={Host.cancelledChequeImage.url}
+                  alt="Cancelled Cheque"
+                  className={styles.bankImage}
+                />
+              ) : (
+                <p>N/A</p>
+              )}
+            </div>
           </Col>
 
           <Col md="6">
-            <p><strong>QR Code:</strong></p>
-            {Host?.qrCode?.url ? (
-              <img
-                src={Host?.qrCode?.url}
-                alt="UPI QR Code"
-                className={styles.bankImage}
-              />
-            ) : (
-              <p>N/A</p>
-            )}
+            <div className={styles.bankCard}>
+              <p><strong>QR Code:</strong></p>
+              {Host?.qrCode?.url ? (
+                <img
+                  src={Host?.qrCode?.url}
+                  alt="UPI QR Code"
+                  className={styles.bankImage}
+                />
+              ) : (
+                <p>N/A</p>
+              )}
+            </div>
           </Col>
         </Row>
 
@@ -624,27 +672,36 @@ const HostBankDetails = ({
     ) : (
       /* ✅ EDIT MODE */
       <div className={styles.editSection}>
-        <Row>
-          <Col md="6">
-            <label>Cancelled Cheque Image</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) =>
-                handleFileChange("cancelledChequeImage", e.target.files[0])
-              }
-            />
-          </Col>
-          <Col md="6">
-            <label>UPI QR Code Image</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => handleFileChange("qrCode", e.target.files[0])}
-            />
-          </Col>
-        </Row>
-
+        <div className={styles.butonConteier}>
+          <Row >
+            <Col md="6" >
+              <label htmlFor="fileUpload"  className={styles.customFileLabela}>
+                <FaCamera /> Cancelled Cheque Image
+              </label>
+              <input
+                id="fileUpload"
+                type="file"
+                accept="image/*"
+                className={styles.fileUpload}
+                onChange={(e) =>
+                  handleFileChange("cancelledChequeImage", e.target.files[0])
+                }
+              />
+            </Col>
+            <Col md="6" >
+              <label htmlFor="fileUpload" className={styles.customFileLabela}>
+                <FaCamera /> UPI QR Code Image
+              </label>
+              <input
+                id="fileUpload"
+                type="file"
+                accept="image/*"
+                className={styles.fileUpload}
+                onChange={(e) => handleFileChange("qrCode", e.target.files[0])}
+              />
+            </Col>
+          </Row>
+        </div>
         <Row>
           <Col md="6">
             <label>UPI ID</label>
@@ -702,12 +759,22 @@ const HostBankDetails = ({
               }
             />
           </Col>
+          <Col md="6">
+            <label>Branch Name</label>
+            <input
+              type="text"
+              value={formData.branchName}
+              onChange={(e) =>
+                setFormData({ ...formData, branchName: e.target.value })
+              }
+            />
+          </Col>
         </Row>
 
         <div className={styles.buttonRow}>
           <button
             onClick={() => handleSubmit()}
-            className={styles.saveButton}
+            className={styles.updateButton}
           >
             <FaUserEdit /> Update
           </button>
@@ -715,7 +782,7 @@ const HostBankDetails = ({
             onClick={() => setEditField(null)}
             className={styles.cancelButton}
           >
-            Cancel
+           <ImCancelCircle />  Cancel
           </button>
         </div>
       </div>
