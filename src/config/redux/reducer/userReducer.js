@@ -49,8 +49,6 @@ const userSlice = createSlice({
                 state.isSuccess = true;
                 state.updateuserProfile = action.payload.user;
                 state.Host = action.payload.host || state.Host;
-                console.log("USER", action.payload.user);
-                console.log("HOST", action.payload.host || state.Host);
                 state.message = "User profile updated successfully";
             })
             .addCase(userProfileUpdateAction.rejected, (state, action) => {

@@ -8,15 +8,16 @@ const AdminButtonTop = ({ onSelectView }) => {
         <Button variant="primary" onClick={() => onSelectView("all")}>
           All Host
         </Button>
+        <Button variant="warning" onClick={() => onSelectView("newRegister")}>
+          New Register Host
+        </Button>
         <Button variant="success" onClick={() => onSelectView("active")}>
           Active Host
         </Button>
         <Button variant="danger" onClick={() => onSelectView("online")}>
           Online Host
         </Button>
-        <Button variant="warning" onClick={() => onSelectView("newRegister")}>
-          New Register Host
-        </Button>
+        
         <Button variant="info" onClick={() => onSelectView("logout")}>
           Logout Host
         </Button>

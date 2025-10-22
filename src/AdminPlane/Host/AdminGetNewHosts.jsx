@@ -1,149 +1,212 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../../adminStylesModule/adminGetAllHost.module.css";
-import { Card, Spinner } from "react-bootstrap";
-import { resetAdminHostState } from "../../config/redux/reducer/adminHostReducer";
-import { getAllNewHostRegister } from "../../config/redux/action/adminHostAction";
-
-
+import { Card, Spinner, Modal, Button } from "react-bootstrap";
+import { GetAllHostPendingAction } from "../../config/redux/action/adminVerifedHostAction";
+import { resetPending } from "../../config/redux/reducer/adminVerifedHostReducer";
 
 const AdminGetNewAllHost = () => {
-    const dispatch = useDispatch();
-    const [selectedHost, setSelectedHost] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  const [selectedHost, setSelectedHost] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const {
-        newHosts,
-        totalNewHostsCount,
-        isLoading,
-        isError,
-        isSuccess,
-        message,
-    } = useSelector((state) => state.adminHost);
+  const {
+    allPendingHost,
+    TotalPending,
+    isLoading,
+    isError,
+    isSuccess,
+    message,
+  } = useSelector((state) => state.hostverirejpen);
 
-    useEffect(() => {
-        dispatch(getAllNewHostRegister());
+  useEffect(() => {
+    dispatch(GetAllHostPendingAction());
 
-        return () => {
-            dispatch(resetAdminHostState());
-        };
-    }, [dispatch]);
-
-    const handleViewProperties = (host) => {
-        setSelectedHost(host);
-        setIsModalOpen(true);
+    return () => {
+      dispatch(resetPending());
     };
+  }, [dispatch]);
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-        setSelectedHost(null);
-    };
+  const handleViewHost = (host) => {
+    setSelectedHost(host);
+    setIsModalOpen(true);
+  };
 
-    return (
-        <div className="p-4">
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedHost(null);
+  };
 
-            <Card className="mb-4">
-                <Card.Body>
-                    <Card.Title>Total Today Registered Hosts</Card.Title>
-                    <Card.Text>{totalNewHostsCount}</Card.Text>
-                </Card.Body>
-            </Card>
+  // ========== Handle Verify / Reject ==========
+  const handleVerifyHost = () => {
+    alert(`✅ Host "${selectedHost.user.name}" verified successfully!`);
+    // TODO: dispatch(verifyHostAction(selectedHost._id));
+    handleCloseModal();
+  };
 
-            {isLoading && (
-                <div className="text-center my-4">
-                    <Spinner animation="border" variant="primary" />
-                    <p>Loading...</p>
-                </div>
-            )}
+  const handleRejectHost = () => {
+    const reason = prompt("Enter reason for rejection:");
+    if (reason) {
+      alert(`❌ Host "${selectedHost.user.name}" rejected.\nReason: ${reason}`);
+      // TODO: dispatch(rejectHostAction(selectedHost._id, reason));
+      handleCloseModal();
+    }
+  };
 
-            {isError && <p className="text-red-500">Error: {message}</p>}
-            {isSuccess && newHosts.length === 0 && (
-                <p className="text-gray-600">No Online hosts found.</p>
-            )}
+  return (
+    <div className="p-4">
+      <Card className="mb-4 shadow-sm">
+        <Card.Body>
+          <Card.Title>Total Pending Registered Hosts</Card.Title>
+          <Card.Text className="fw-bold text-primary">{TotalPending}</Card.Text>
+        </Card.Body>
+      </Card>
 
-            {!isLoading && newHosts.length > 0 && (
-                <div className={styles.tableWrapper}>
-                    <table className={styles.table}>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Created At</th>
-                                <th>Total Properties</th>
-                                <th>View</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {newHosts.map((host, index) => (
-                                <tr key={host._id}>
-                                    <td>{index + 1}</td>
-                                    <td>{host.name}</td>
-                                    <td>{host.email}</td>
-                                    <td>{host.phone}</td>
-                                    <td>{new Date(host.createdAt).toLocaleDateString()}</td>
-                                    <td className="text-center">{host.propertyCount}</td>
-                                    <td className="text-center">
-                                        <button
-                                            onClick={() => handleViewProperties(host)}
-                                            className={styles.viewButton}
-                                        >
-                                            View
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-
-            )}
-
-            {/* Modal */}
-            {isModalOpen && selectedHost && (
-                <div className={`${styles.modalBackdrop}`}>
-                    <div className={`${styles.modalCard} animate-slide-up`}>
-                        <button
-                            onClick={handleCloseModal}
-                            className={styles.closeButton}
-                        >
-                            &times;
-                        </button>
-                        <h3 className={styles.modalTitle}>
-                            Properties of {selectedHost.name}
-                        </h3>
-
-                        {selectedHost?.properties?.length > 0 ? (
-                            <div className={styles.cardGrid}>
-                                {selectedHost.properties.map((property, idx) => (
-                                    <div key={property._id || idx} className={styles.card}>
-                                        <img
-                                            src={property.image?.url}
-                                            alt="property"
-                                            className={styles.cardImage}
-                                        />
-                                        <div className={styles.cardContent}>
-                                            <h4>{property.title}</h4>
-                                            <p>{property.location}</p>
-                                            <p>₹{property.price}</p>
-                                            <p className={styles.postedDate}>
-                                                Posted on: {new Date(property.propertyPostedOn).toLocaleDateString()}
-                                            </p>
-                                            <p>{property.expired}</p>
-                                        </div>
-                                        <button> Active  & Unactive</button>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <p className={styles.noPropertyText}>No properties found for this host.</p>
-                        )}
-                    </div>
-                </div>
-            )}
+      {isLoading && (
+        <div className="text-center my-4">
+          <Spinner animation="border" variant="primary" />
+          <p>Loading...</p>
         </div>
-    );
+      )}
+
+      {isError && <p className="text-danger">Error: {message}</p>}
+
+      {isSuccess && allPendingHost.length === 0 && (
+        <p className="text-muted">No pending hosts found.</p>
+      )}
+
+      {!isLoading && allPendingHost.length > 0 && (
+        <div className={styles.tableWrapper}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>View</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allPendingHost.map((host, index) => (
+                <tr key={host._id}>
+                  <td>{index + 1}</td>
+                  <td>{host.user.name}</td>
+                  <td>{host.user.email}</td>
+                  <td>{host.user.phone}</td>
+                  <td>{host.verificationStatus}</td>
+                  <td className="text-center">
+                    <button
+                      onClick={() => handleViewHost(host)}
+                      className={styles.viewButton}
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* ======= Modal for Host Details ======= */}
+      {isModalOpen && selectedHost && (
+        <div className={styles.modalBackdrop}>
+          <div className={`${styles.modalCard} animate-slide-up`}>
+            <button
+              onClick={handleCloseModal}
+              className={styles.closeButton}
+            >
+              &times;
+            </button>
+
+            <h3 className={styles.modalTitle}>
+              Host Details — {selectedHost.user.name}
+            </h3>
+
+            <div className={styles.modalContent}>
+              <section className={styles.section}>
+  <h4>👤 Basic Info</h4>
+  <img
+    src={
+      selectedHost.user.avatar?.url ||
+      "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+    }
+    alt="User Profile"
+    className={styles.imagePreview}
+  />
+  <p><strong>Name:</strong> {selectedHost.user.name}</p>
+  <p><strong>Email:</strong> {selectedHost.user.email}</p>
+  <p><strong>Phone:</strong> {selectedHost.user.phone}</p>
+  <p><strong>Gender:</strong> {selectedHost.user.gender || "Not provided"}</p>
+  <p><strong>Bio:</strong> {selectedHost.user.bio || "No bio available"}</p>
+  <p>
+    <strong>DOB:</strong>{" "}
+    {selectedHost.user.dob
+      ? new Date(selectedHost.user.dob).toLocaleDateString()
+      : "Not provided"}
+  </p>
+  <p><strong>Location:</strong> {selectedHost.user.location || "Not specified"}</p>
+  <p>
+    <strong>Applied At:</strong>{" "}
+    {new Date(selectedHost.appliedAt).toLocaleString()}
+  </p>
+  <p><strong>Status:</strong> {selectedHost.verificationStatus}</p>
+</section>
+
+
+              <section className={styles.section}>
+                <h4>🪪 Government ID</h4>
+                <p><strong>ID Type:</strong> {selectedHost.governmentID}</p>
+                <p><strong>ID Number:</strong> {selectedHost.governmentIDNumber}</p>
+                <img
+                  src={selectedHost.governmentIDImage?.url}
+                  alt="Government ID"
+                  className={styles.imagePreview}
+                />
+              </section>
+
+              <section className={styles.section}>
+                <h4>🏦 Bank Details</h4>
+                <p><strong>Account Holder:</strong> {selectedHost.payout.bankDetails.accountHolderName}</p>
+                <p><strong>Account Number:</strong> {selectedHost.payout.bankDetails.accountNumber}</p>
+                <p><strong>IFSC:</strong> {selectedHost.payout.bankDetails.ifscCode}</p>
+                <p><strong>Bank Name:</strong> {selectedHost.payout.bankDetails.bankName}</p>
+                <p><strong>Branch:</strong> {selectedHost.payout.bankDetails.branchName}</p>
+
+                <img
+                  src={selectedHost.cancelledChequeImage?.url}
+                  alt="Cancelled Cheque"
+                  className={styles.imagePreview}
+                />
+              </section>
+
+              <section className={styles.section}>
+                <h4>💸 UPI / QR Code</h4>
+                <p><strong>UPI ID:</strong> {selectedHost.payout.upiId}</p>
+                <img
+                  src={selectedHost.qrCode?.url}
+                  alt="QR Code"
+                  className={styles.imagePreview}
+                />
+              </section>
+
+              <div className={styles.actionButtons}>
+                <Button variant="success" onClick={handleVerifyHost}>
+                  ✅ Verify
+                </Button>
+                <Button variant="danger" onClick={handleRejectHost}>
+                  ❌ Reject
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default AdminGetNewAllHost;

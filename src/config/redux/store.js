@@ -20,6 +20,7 @@ import filterReducer from "./reducer/filterReducer";
 import PagesReducer from './reducer/paginationReducer';
 import guestDashReducer from './reducer/guestDashReducer';
 import userProfileReducer from './reducer/userReducer';
+import adminRejVefPenReducer from './reducer/adminVerifedHostReducer';
 
 
 
@@ -46,6 +47,7 @@ const store = configureStore({
     Pages: PagesReducer,
     guestDash: guestDashReducer,
     userProfile: userProfileReducer,
+    hostverirejpen: adminRejVefPenReducer,
   },
 });
 
