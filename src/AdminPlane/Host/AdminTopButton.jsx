@@ -9,7 +9,13 @@ const AdminButtonTop = ({ onSelectView }) => {
           All Host
         </Button>
         <Button variant="warning" onClick={() => onSelectView("newRegister")}>
-          New Register Host
+          All Pending Host
+        </Button>
+         <Button variant="warning" onClick={() => onSelectView("Verify")}>
+          Verify
+        </Button>
+         <Button variant="warning" onClick={() => onSelectView("Reject")}>
+          Reject
         </Button>
         <Button variant="success" onClick={() => onSelectView("active")}>
           Active Host
@@ -17,7 +23,7 @@ const AdminButtonTop = ({ onSelectView }) => {
         <Button variant="danger" onClick={() => onSelectView("online")}>
           Online Host
         </Button>
-        
+
         <Button variant="info" onClick={() => onSelectView("logout")}>
           Logout Host
         </Button>
