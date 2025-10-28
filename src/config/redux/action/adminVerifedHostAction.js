@@ -27,21 +27,6 @@ export const GetAllHostPendingAction = createAsyncThunk(
   }
 );
 
-export const VerifyOrRejectHostAction = createAsyncThunk(
-  "verify/VerifyOrRejectHostAction",
-  async ({ hostId, action, note }, thunkAPI) => {
-    try {
-      const response = await VerifyOrRejectHostApi(hostId, action, note);
-      return thunkAPI.fulfillWithValue(response);
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to verify or reject host.";
-      return thunkAPI.rejectWithValue(errorMessage);
-    }
-  }
-);
 
 export const GetAllVerifedHostAction = createAsyncThunk(
   "verify/GetAllVerifedHostAction",
@@ -74,3 +59,20 @@ export const GetAllRejectHostAction = createAsyncThunk(
     }
   }
 )
+
+
+export const VerifyOrRejectHostAction = createAsyncThunk(
+  "verify/VerifyOrRejectHostAction",
+  async ({ hostId, action, note }, thunkAPI) => {
+    try {
+      const response = await VerifyOrRejectHostApi(hostId, action, note);
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to verify or reject host.";
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);

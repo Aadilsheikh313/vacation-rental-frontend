@@ -19,25 +19,6 @@ export const GetAllHostPendingApi = async () => {
     }
 };
 
-export const VerifyOrRejectHostApi = async (hostId, action, note) => {
-    try {
-        const response = await clientServer.put(
-            `/api/host-verify/verify-reject-host/${hostId}`,
-            { action, note } 
-        );
-
-        return response.data;
-    } catch (error) {
-        console.error("❌ Verify/Reject Host API Error:", error.response?.data || error.message);
-
-        // Handle unauthorized or forbidden access
-        if (error.response?.status === 401 || error.response?.status === 403) {
-            throw new Error("Unauthorized access! Please login as admin.");
-        }
-
-        throw new Error(error.response?.data?.message || "Something went wrong while verifying or rejecting host.");
-    }
-};
 
 export const GetAllVerifiedHostApi = async () => {
     try {
@@ -66,5 +47,26 @@ export const GetAllRejectedHostApi = async () => {
         }
 
         throw new Error(error.response?.data?.message || "Something went wrong while fetching rejected hosts.");
+    }
+};
+
+
+export const VerifyOrRejectHostApi = async (hostId, action, note) => {
+    try {
+        const response = await clientServer.put(
+            `/api/host-verify/verify-reject-host/${hostId}`,
+            { action, note } 
+        );
+
+        return response.data;
+    } catch (error) {
+        console.error("❌ Verify/Reject Host API Error:", error.response?.data || error.message);
+
+        // Handle unauthorized or forbidden access
+        if (error.response?.status === 401 || error.response?.status === 403) {
+            throw new Error("Unauthorized access! Please login as admin.");
+        }
+
+        throw new Error(error.response?.data?.message || "Something went wrong while verifying or rejecting host.");
     }
 };

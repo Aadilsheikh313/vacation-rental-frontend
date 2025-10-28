@@ -11,10 +11,10 @@ const AdminButtonTop = ({ onSelectView }) => {
         <Button variant="warning" onClick={() => onSelectView("newRegister")}>
           All Pending Host
         </Button>
-         <Button variant="warning" onClick={() => onSelectView("Verify")}>
+        <Button variant="warning" onClick={() => onSelectView("Verify")}>
           Verify
         </Button>
-         <Button variant="warning" onClick={() => onSelectView("Reject")}>
+        <Button variant="warning" onClick={() => onSelectView("Reject")}>
           Reject
         </Button>
         <Button variant="success" onClick={() => onSelectView("active")}>

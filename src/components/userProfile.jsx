@@ -522,9 +522,9 @@ const HostGovernmentID = ({ Host, formData, setFormData, editField, setEditField
             <label>ID Type</label>
             <select value={formData.governmentID} onChange={(e) => setFormData({ ...formData, governmentID: e.target.value })}>
               <option value="">Select</option>
-              <option value="Aadhaar">Aadhaar</option>
+              <option value="Aadhaar-card">Aadhaar</option>
               <option value="PAN">PAN</option>
-              <option value="Passport">Passport</option>
+              <option value="passport">Passport</option>
               <option value="voter-id">Voter-id</option>
               <option value="driving-license">Driving-license</option>
               <option value="other">Other</option>

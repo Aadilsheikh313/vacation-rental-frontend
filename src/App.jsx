@@ -58,12 +58,6 @@ function AppContent() {
   const isAdminRoute = location.pathname.startsWith("/admin");
 
 
-  // useEffect(() => {
-  //   if (token && !user) {
-  //     // dispatch(getUser({ token }));
-  //   }
-  // }, [dispatch, token, user]);
-
   return (
     <>
       {isAdminRoute ? <AdminNavbar /> : <CustomNavbar />}

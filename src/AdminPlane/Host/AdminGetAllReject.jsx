@@ -1,18 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetAllVerifedHostAction } from "../../config/redux/action/adminVerifedHostAction";
 import { resetPending } from "../../config/redux/reducer/adminVerifedHostReducer";
 import { Spinner } from "react-bootstrap";
 import styles from "../../adminStylesModule/adminGetAllHost.module.css";
+import ProfileModel from "./HostProfileDetials";
 
 const GetAllRejectedHost = () => {
     const dispatch = useDispatch();
+
+    const [selectedHost, setSelectedHost] = useState(null);
+    const [hostProfileModel, setHostProfileModel] = useState(false);
     const {
         allReject,
         isLoading,
         isError,
         isSuccess,
         message } = useSelector((state) => state.hostverirejpen);
+
 
 
     useEffect(() => {
@@ -25,8 +30,8 @@ const GetAllRejectedHost = () => {
 
     return (
         <div>
-            <h3>All Verify Host</h3>
-            <p>Total Verifed Host : <strong>{allReject.length}</strong></p>
+            <h3>All Rejected Host</h3>
+            <p>Total Rejected Host : <strong>{allReject.length}</strong></p>
 
             {isLoading && (
                 <div className="text-center my-4">
@@ -38,7 +43,7 @@ const GetAllRejectedHost = () => {
             {isError && <p className="text-danger">Error: {message}</p>}
 
             {isSuccess && allReject.length === 0 && (
-                <p className="text-muted">No verifed hosts found.</p>
+                <p className="text-muted">No rejected hosts found.</p>
             )}
 
             {!isLoading && allReject.length > 0 && (
@@ -50,7 +55,6 @@ const GetAllRejectedHost = () => {
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>Status</th>
                                 <th>Reject</th>
                                 <th>View</th>
                             </tr>
@@ -63,19 +67,13 @@ const GetAllRejectedHost = () => {
                                         <td>{host.user.name}</td>
                                         <td>{host.user.email}</td>
                                         <td>{host.user.phone}</td>
-                                        <td><td className="text-center">
-                                            <button
-                                                // onClick={() => handleViewProperties(host)}
-                                                className={styles.viewButton}
-                                            >
-                                                View
-                                            </button>
-                                        </td></td>
-                                        {host.isBanned ? "Banned" : "Active"}
                                         <td>{host.verificationStatus}</td>
                                         <td className="text-center">
                                             <button
-                                                onClick={() => handleViewHost(host)}
+                                                onClick={() => {
+                                                    setSelectedHost(host);
+                                                    setHostProfileModel(true);
+                                                }}
                                                 className={styles.viewButton}
                                             >
                                                 View
@@ -86,6 +84,20 @@ const GetAllRejectedHost = () => {
                             }
                         </tbody>
                     </table>
+                </div>
+            )}
+
+             {hostProfileModel && selectedHost && (
+                <div className={styles.modalBackdrop}>
+                    <div className={`${styles.modalCard} animate-slide-up`}>
+                        <button
+                            onClick={() => setHostProfileModel(false)}
+                            className={styles.closeButton}
+                        >
+                            &times;
+                        </button>
+                        <ProfileModel user={selectedHost.user} host={selectedHost} />
+                    </div>
                 </div>
             )}
         </div>

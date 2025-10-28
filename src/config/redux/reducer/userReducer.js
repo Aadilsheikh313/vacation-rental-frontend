@@ -6,7 +6,6 @@ const initialState = {
     userProfile: null,
     updateuserProfile: null,
     Host: null,
-
     isLoading: false,
     isError: false,
     isSuccess: false,

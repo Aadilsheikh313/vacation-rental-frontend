@@ -55,31 +55,6 @@ const AdminVerfRejPenSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.payload || "Failed to fetch pending hosts.";
             })
-            // =================== Verify or Reject Host ===================
-            .addCase(VerifyOrRejectHostAction.pending, (state) => {
-                state.isLoading = true;
-                state.message = "Processing host verification...";
-                state.isError = null;
-            })
-            .addCase(VerifyOrRejectHostAction.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.isError = false;
-                state.isSuccess = true;
-                state.verifyOrReject = action.payload.host || null;
-                state.message = `Host ${action.payload.host.status === "verified" ? "verified" : "rejected"} successfully.`;
-                //this line autmatice remove ke pending user 
-                state.allPendingHost = state.allPendingHost.filter(
-                    (h) => h._id !== action.payload.host?._id
-                );
-                // 🔢 Decrease total pending count dynamically (never go below 0)
-                state.TotalPending = Math.max(0, state.TotalPending - 1);
-            })
-            .addCase(VerifyOrRejectHostAction.rejected, (state, action) => {
-                state.isLoading = false;
-                state.isError = true;
-                state.isSuccess = false;
-                state.message = action.payload || "Failed to fetch pending hosts.";
-            })
 
             // =================== Get All Verify  Host ===================
             .addCase(GetAllVerifedHostAction.pending, (state) => {
@@ -99,7 +74,7 @@ const AdminVerfRejPenSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.payload || "Failed to fetch verifed hosts.";
             })
-              // =================== Get All Reject  Host ===================
+            // =================== Get All Reject  Host ===================
             .addCase(GetAllRejectHostAction.pending, (state) => {
                 state.isLoading = true;
                 state.message = "Fetching all rejcted host registrations...";
@@ -117,6 +92,32 @@ const AdminVerfRejPenSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.payload || "Failed to fetch Rejected hosts.";
             })
+            // =================== Verify or Reject Host ===================
+            .addCase(VerifyOrRejectHostAction.pending, (state) => {
+                state.isLoading = true;
+                state.message = "Processing host verification...";
+                state.isError = null;
+            })
+            .addCase(VerifyOrRejectHostAction.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.verifyOrReject = action.payload.host || null;
+                state.message = `Host ${action.payload.host.verificationStatus === "verified" ? "verified" : "rejected"} successfully.`;
+                //this line autmatice remove ke pending user 
+                state.allPendingHost = state.allPendingHost.filter(
+                    (h) => h._id !== action.payload.host?._id
+                );
+                // 🔢 Decrease total pending count dynamically (never go below 0)
+                state.TotalPending = Math.max(0, state.TotalPending - 1);
+            })
+            .addCase(VerifyOrRejectHostAction.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.payload || "Failed to fetch pending hosts.";
+            })
+
     },
 });
 

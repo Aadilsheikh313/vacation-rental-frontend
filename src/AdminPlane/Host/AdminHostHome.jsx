@@ -35,11 +35,6 @@ const AdminHostHome = () => {
 
   return (
     <Container className="py-4">
-      <Row className="justify-content-center mt-4">
-        <Col xs={12} sm={10} md={8} lg={6}>
-          <Button>Verifed/Reject User</Button>
-        </Col>
-      </Row>
 
       <AdminButtonTop onSelectView={setSelectedView} />
 
