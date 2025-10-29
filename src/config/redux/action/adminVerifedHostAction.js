@@ -80,9 +80,11 @@ export const VerifyOrRejectHostAction = createAsyncThunk(
 
 export const ReverifiedAction = createAsyncThunk(
    "verify/ReverifiedAction",
-   async(hostId, thunkAPI) =>{
+   async({ hostId, action, note }, thunkAPI) =>{
+     console.log("Action ID", hostId);
     try {
-      const response = await ReverificationApi(hostId);
+      const response = await ReverificationApi(hostId, action, note);
+      console.log("Action ID", hostId);
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
       const errorMessage =

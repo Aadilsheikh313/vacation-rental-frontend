@@ -131,6 +131,7 @@ const AdminVerfRejPenSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.Reverifeiy = action.payload.host || null;
+                
                 state.message = "Host reverified successfully.";
 
                 const reverifiedHost = action.payload.host;
