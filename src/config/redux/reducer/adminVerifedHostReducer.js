@@ -3,6 +3,7 @@ import {
     GetAllHostPendingAction,
     GetAllRejectHostAction,
     GetAllVerifedHostAction,
+    ReverifiedAction,
     VerifyOrRejectHostAction
 } from "../action/adminVerifedHostAction";
 
@@ -12,6 +13,7 @@ const initialState = {
     allVerifed: [],
     allReject: [],
     verifyOrReject: null,
+    Reverifeiy: null,
     TotalPending: 0,
     isLoading: false,
     isError: false,
@@ -28,6 +30,7 @@ const AdminVerfRejPenSlice = createSlice({
             state.allVerifed = [];
             state.allReject = [];
             state.TotalPending = 0;
+            state.Reverifeiy = null;
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = false;
@@ -117,8 +120,35 @@ const AdminVerfRejPenSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.payload || "Failed to fetch pending hosts.";
             })
+            //====================== Reverification =============================
+            .addCase(ReverifiedAction.pending, (state) => {
+                state.isLoading = true;
+                state.message = "Processing host Reverification...";
+                state.isError = null;
+            })
+            .addCase(ReverifiedAction.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.Reverifeiy = action.payload.host || null;
+                state.message = "Host reverified successfully.";
 
-    },
+                const reverifiedHost = action.payload.host;
+
+                // 1️⃣ Remove it from rejected list
+                state.allReject = state.allReject.filter((h) => h._id !== reverifiedHost._id);
+
+                // 2️⃣ Add it to verified list
+                state.allVerifed = [reverifiedHost, ...state.allVerifed];
+            })
+             .addCase(ReverifiedAction.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.payload || "Failed to fetch Reverifiey hosts.";
+            })
+
+},
 });
 
 export const { resetPending } = AdminVerfRejPenSlice.actions;

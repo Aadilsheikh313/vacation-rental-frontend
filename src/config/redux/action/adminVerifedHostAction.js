@@ -3,6 +3,7 @@ import {
   GetAllHostPendingApi,
   GetAllRejectedHostApi,
   GetAllVerifiedHostApi,
+  ReverificationApi,
   VerifyOrRejectHostApi
 } from "../../../api/AdimApi/adminVerifedHostApi";
 
@@ -76,3 +77,19 @@ export const VerifyOrRejectHostAction = createAsyncThunk(
     }
   }
 );
+
+export const ReverifiedAction = createAsyncThunk(
+   "verify/ReverifiedAction",
+   async(hostId, thunkAPI) =>{
+    try {
+      const response = await ReverificationApi(hostId);
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to Reverify  host.";
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+   }
+)

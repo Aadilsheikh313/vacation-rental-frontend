@@ -22,7 +22,7 @@ export const GetAllHostPendingApi = async () => {
 
 export const GetAllVerifiedHostApi = async () => {
     try {
-        const response = await clientServer('/api/host-verify/verified-hosts');
+        const response = await clientServer.get('/api/host-verify/verified-hosts');
         return response.data;
     } catch (error) {
         console.error("❌ Verified Host API Error:", error.response?.data || error.message);
@@ -37,7 +37,7 @@ export const GetAllVerifiedHostApi = async () => {
 
 export const GetAllRejectedHostApi = async () => {
     try {
-        const response = await clientServer('/api/host-verify/rejected-hosts');
+        const response = await clientServer.get('/api/host-verify/rejected-hosts');
         return response.data;
     } catch (error) {
         console.error("❌ Rejected Host API Error:", error.response?.data || error.message);
@@ -68,5 +68,20 @@ export const VerifyOrRejectHostApi = async (hostId, action, note) => {
         }
 
         throw new Error(error.response?.data?.message || "Something went wrong while verifying or rejecting host.");
+    }
+};
+
+export const ReverificationApi = async (hostId) => {
+    try {
+        await clientServer.put(`/api/host-verify/reverify-host/${hostId}`, { note });
+        return response.data;
+    } catch (error) {
+        console.error("❌ ReVerify Host API Error:", error.response?.data || error.message);
+
+        if (error.response?.status === 401 || error.response?.status === 403) {
+            throw new Error("Unauthorized access! Please login as admin.");
+        }
+
+        throw new Error(error.response?.data?.message || "Something went wrong while reverifying host.");
     }
 };

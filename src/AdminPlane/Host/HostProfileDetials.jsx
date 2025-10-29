@@ -45,7 +45,7 @@ const ProfileModel = ({ user, host }) => {
             <h3 className={styles.modalTitle}>
                 Host Details — {user.name}
             </h3>
-
+            {}
             <div className={styles.modalContent}>
                 <section className={styles.section}>
                     <h4><FaUserCircle /> Basic Info</h4>

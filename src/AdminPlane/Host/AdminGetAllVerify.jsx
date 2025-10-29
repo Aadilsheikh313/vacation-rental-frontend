@@ -20,6 +20,10 @@ const GetAllVerifyHost = () => {
     const [hostProfileModel, setHostProfileModel] = useState(false);
     const [selectedHost, setSelectedHost] = useState(null);
 
+    // 🔹 New state for admin details modal
+    const [adminModal, setAdminModal] = useState(false);
+    const [adminDetails, setAdminDetails] = useState(null);
+
 
     useEffect(() => {
         dispatch(GetAllVerifedHostAction());
@@ -37,6 +41,29 @@ const GetAllVerifyHost = () => {
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setPropertyModel(null);
+    };
+
+    // 🔹 Handle verificationStatus click — show admin verification details
+    const handleViewAdminDetails = (host) => {
+        const verifiedAudit = host.audit?.find((a) => a.action === "verified");
+        const appliedAudit = host.audit?.find((a) => a.action === "applied");
+
+        if (verifiedAudit) {
+            const details = {
+                adminName: verifiedAudit.adminDetails?.name || "N/A",
+                adminEmail: verifiedAudit.adminDetails?.email || "N/A",
+                adminPhone: verifiedAudit.adminDetails?.phone || "N/A",
+                note: verifiedAudit.note || host.adminNote || "N/A",
+                verifiedDate: new Date(verifiedAudit.date).toLocaleString(),
+                appliedDate: appliedAudit
+                    ? new Date(appliedAudit.date).toLocaleString()
+                    : "N/A",
+            };
+            setAdminDetails(details);
+            setAdminModal(true);
+        } else {
+            alert("No verification details found for this host.");
+        }
     };
 
     return (
@@ -81,8 +108,8 @@ const GetAllVerifyHost = () => {
                                         <td>{host?.user?.email || "N/A"}</td>
                                         <td>{host?.user?.phone || "N/A"}</td>
 
-                                        <td className="text-center">
-                                            {host.propertyCount}
+                                        <td className="text-center ">
+                                            {host.hostProperties.length }
                                             <button
                                                 onClick={() => handleViewProperties(host)}
                                                 className={styles.viewButton}
@@ -91,7 +118,14 @@ const GetAllVerifyHost = () => {
                                             </button>
                                         </td>
                                         <td>{host.isBanned ? "Banned" : "Active"}</td>
-                                        <td>{host.verificationStatus}</td>
+                                        <td>
+                                            <button
+                                                onClick={() => handleViewAdminDetails(host)}
+                                                className={styles.viewButton}
+                                            >
+                                                {host.verificationStatus}
+                                            </button>
+                                        </td>
                                         <td className="text-center">
                                             <button
                                                 onClick={() => {
@@ -149,6 +183,41 @@ const GetAllVerifyHost = () => {
                 </div>
             )
             }
+
+
+            {/* 🔹 Admin Details Modal */}
+            {adminModal && adminDetails && (
+                <div className={styles.modalBackdrop}>
+                    <div className={`${styles.modalCard} animate-slide-up`}>
+                        <button
+                            onClick={() => setAdminModal(false)}
+                            className={styles.closeButton}
+                        >
+                            &times;
+                        </button>
+                        <h3 className="text-center mb-3">Admin Verified Details</h3>
+                        <p>
+                            <strong>Admin Name:</strong> {adminDetails.adminName}
+                        </p>
+                        <p>
+                            <strong>Admin Email:</strong> {adminDetails.adminEmail}
+                        </p>
+                        <p>
+                            <strong>Admin Phone:</strong> {adminDetails.adminPhone}
+                        </p>
+                        <p>
+                            <strong>Verification Note:</strong> {adminDetails.note || adminDetails.adminNote}
+                        </p>
+                        <p>
+                            <strong>Host Applied On:</strong> {adminDetails.appliedDate}
+                        </p>
+                        <p>
+                            <strong>Verified On:</strong> {adminDetails.verifiedDate}
+                        </p>
+                    </div>
+                </div>
+            )}
+
 
             {hostProfileModel && selectedHost && (
                 <div className={styles.modalBackdrop}>
