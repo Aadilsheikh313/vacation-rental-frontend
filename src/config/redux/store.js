@@ -47,7 +47,7 @@ const store = configureStore({
     Pages: PagesReducer,
     guestDash: guestDashReducer,
     userProfile: userProfileReducer,
-    hostverirejpen: adminRejVefPenReducer,
+    verifyRejectPending: adminRejVefPenReducer,
   },
 });
 

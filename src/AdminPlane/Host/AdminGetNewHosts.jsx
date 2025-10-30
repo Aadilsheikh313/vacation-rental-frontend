@@ -6,9 +6,6 @@ import {
     GetAllHostPendingAction,
 } from "../../config/redux/action/adminVerifedHostAction";
 import { resetPending } from "../../config/redux/reducer/adminVerifedHostReducer";
-import { MdVerifiedUser } from "react-icons/md";
-import { IoCloseCircleOutline } from "react-icons/io5";
-import { showInfo, showSuccess } from "../../utils/toastUtils";
 import ProfileModel from "./HostProfileDetials";
 
 const AdminGetNewAllHost = () => {
@@ -23,7 +20,7 @@ const AdminGetNewAllHost = () => {
         isError,
         isSuccess,
         message,
-    } = useSelector((state) => state.hostverirejpen);
+    } = useSelector((state) => state.verifyRejectPending);
 
     useEffect(() => {
         dispatch(GetAllHostPendingAction());

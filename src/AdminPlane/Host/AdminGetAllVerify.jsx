@@ -13,7 +13,7 @@ const GetAllVerifyHost = () => {
         isLoading,
         isError,
         isSuccess,
-        message } = useSelector((state) => state.hostverirejpen);
+        message } = useSelector((state) => state.verifyRejectPending);
 
     const [propertyModel, setPropertyModel] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,26 +45,29 @@ const GetAllVerifyHost = () => {
 
     // 🔹 Handle verificationStatus click — show admin verification details
     const handleViewAdminDetails = (host) => {
-        const verifiedAudit = host.audit?.find((a) => a.action === "verified");
         const appliedAudit = host.audit?.find((a) => a.action === "applied");
+        const verifiedAudit = host.audit?.find((a) => a.action === "verified");
+        const rejectedAudit = host.audit?.find((a) => a.action === "rejected");
+        const reverifiedAudit = host.audit?.find((a) => a.action === "reverified");
 
-        if (verifiedAudit) {
-            const details = {
-                adminName: verifiedAudit.adminDetails?.name || "N/A",
-                adminEmail: verifiedAudit.adminDetails?.email || "N/A",
-                adminPhone: verifiedAudit.adminDetails?.phone || "N/A",
-                note: verifiedAudit.note || host.adminNote || "N/A",
-                verifiedDate: new Date(verifiedAudit.date).toLocaleString(),
-                appliedDate: appliedAudit
-                    ? new Date(appliedAudit.date).toLocaleString()
-                    : "N/A",
-            };
-            setAdminDetails(details);
-            setAdminModal(true);
-        } else {
-            alert("No verification details found for this host.");
-        }
+        let details = {
+            appliedDate: appliedAudit ? new Date(appliedAudit.date).toLocaleString() : "N/A",
+            verifiedDate: verifiedAudit ? new Date(verifiedAudit.date).toLocaleString() : "N/A",
+            rejectedDate: rejectedAudit ? new Date(rejectedAudit.date).toLocaleString() : "N/A",
+            reverifiedDate: reverifiedAudit ? new Date(reverifiedAudit.date).toLocaleString() : "N/A",
+            adminVerify: verifiedAudit?.adminDetails || null,
+            adminReject: rejectedAudit?.adminDetails || null,
+            adminReverify: reverifiedAudit?.adminDetails || null,
+            verifyNote: verifiedAudit?.note || "N/A",
+            rejectNote: rejectedAudit?.note || "N/A",
+            reverifyNote: reverifiedAudit?.note || "N/A",
+            status: host.verificationStatus
+        };
+
+        setAdminDetails(details);
+        setAdminModal(true);
     };
+
 
     return (
         <div>
@@ -109,7 +112,7 @@ const GetAllVerifyHost = () => {
                                         <td>{host?.user?.phone || "N/A"}</td>
 
                                         <td className="text-center ">
-                                            {host.hostProperties.length }
+                                            {host.hostProperties.length}
                                             <button
                                                 onClick={() => handleViewProperties(host)}
                                                 className={styles.viewButton}
@@ -184,7 +187,6 @@ const GetAllVerifyHost = () => {
             )
             }
 
-
             {/* 🔹 Admin Details Modal */}
             {adminModal && adminDetails && (
                 <div className={styles.modalBackdrop}>
@@ -195,29 +197,53 @@ const GetAllVerifyHost = () => {
                         >
                             &times;
                         </button>
-                        <h3 className="text-center mb-3">Admin Verified Details</h3>
-                        <p>
-                            <strong>Admin Name:</strong> {adminDetails.adminName}
-                        </p>
-                        <p>
-                            <strong>Admin Email:</strong> {adminDetails.adminEmail}
-                        </p>
-                        <p>
-                            <strong>Admin Phone:</strong> {adminDetails.adminPhone}
-                        </p>
-                        <p>
-                            <strong>Verification Note:</strong> {adminDetails.note || adminDetails.adminNote}
-                        </p>
-                        <p>
-                            <strong>Host Applied On:</strong> {adminDetails.appliedDate}
-                        </p>
-                        <p>
-                            <strong>Verified On:</strong> {adminDetails.verifiedDate}
-                        </p>
+
+                        <h3 className="text-center mb-3">Admin Verification History</h3>
+
+                        {/* Applied Section */}
+                        <p><strong>Host Applied On:</strong> {adminDetails.appliedDate}</p>
+
+                        {/* Verified Section */}
+                        {adminDetails.adminVerify && (
+                            <>
+                                <hr />
+                                <h5>✅ Verified By</h5>
+                                <p><strong>Name:</strong> {adminDetails.adminVerify.name}</p>
+                                <p><strong>Email:</strong> {adminDetails.adminVerify.email}</p>
+                                <p><strong>Phone:</strong> {adminDetails.adminVerify.phone}</p>
+                                <p><strong>Note:</strong> {adminDetails.verifyNote}</p>
+                                <p><strong>Date:</strong> {adminDetails.verifiedDate}</p>
+                            </>
+                        )}
+
+                        {/* Rejected Section */}
+                        {adminDetails.adminReject && (
+                            <>
+                                <hr />
+                                <h5>❌ Rejected By</h5>
+                                <p><strong>Name:</strong> {adminDetails.adminReject.name}</p>
+                                <p><strong>Email:</strong> {adminDetails.adminReject.email}</p>
+                                <p><strong>Phone:</strong> {adminDetails.adminReject.phone}</p>
+                                <p><strong>Reason:</strong> {adminDetails.rejectNote}</p>
+                                <p><strong>Date:</strong> {adminDetails.rejectedDate}</p>
+                            </>
+                        )}
+
+                        {/* Reverified Section */}
+                        {adminDetails.adminReverify && (
+                            <>
+                                <hr />
+                                <h5>🔁 Reverified By</h5>
+                                <p><strong>Name:</strong> {adminDetails.adminReverify.name}</p>
+                                <p><strong>Email:</strong> {adminDetails.adminReverify.email}</p>
+                                <p><strong>Phone:</strong> {adminDetails.adminReverify.phone}</p>
+                                <p><strong>Note:</strong> {adminDetails.reverifyNote}</p>
+                                <p><strong>Date:</strong> {adminDetails.reverifiedDate}</p>
+                            </>
+                        )}
                     </div>
                 </div>
             )}
-
 
             {hostProfileModel && selectedHost && (
                 <div className={styles.modalBackdrop}>

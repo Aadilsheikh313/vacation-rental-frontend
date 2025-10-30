@@ -13,10 +13,12 @@ import { VerifyOrRejectHostAction } from "../../config/redux/action/adminVerifed
 import VerifiedModal from "./VerifiedModal";
 import RejectedModal from "./RejectedModal";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const ProfileModel = ({ user, host }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [showVerifyModal, setShowVerifyModal] = useState(false);
     const [showRejectModal, setShowRejectModal] = useState(false);
 
@@ -24,6 +26,7 @@ const ProfileModel = ({ user, host }) => {
         try {
             await dispatch(VerifyOrRejectHostAction({ hostId: host._id, action: "verify", note }));
             showSuccess("Host verified successfully!");
+            navigate('/host-users')
         } catch (error) {
             showError("Failed to verify host!");
         }
@@ -33,6 +36,7 @@ const ProfileModel = ({ user, host }) => {
         try {
             await dispatch(VerifyOrRejectHostAction({ hostId: host._id, action: "reject", note }));
             showSuccess("Host rejected successfully!");
+            navigate('/host-users')
         } catch (error) {
             showError("Failed to reject host!");
         }

@@ -26,7 +26,7 @@ const GetAllRejectedHost = () => {
         isLoading,
         isError,
         isSuccess,
-        message } = useSelector((state) => state.hostverirejpen);
+        message } = useSelector((state) => state.verifyRejectPending);
 
 
 
@@ -62,6 +62,7 @@ const GetAllRejectedHost = () => {
     };
 
     const handleReverification = (hostId) => {
+        console.log("🧩 Selected Host ID:", hostId);
         setReverifyHostId(hostId);
         setReverification(true);
     };

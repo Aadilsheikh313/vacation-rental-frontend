@@ -72,10 +72,7 @@ export const VerifyOrRejectHostApi = async (hostId, action, note) => {
 };
 
 export const ReverificationApi = async (hostId, action, note) => {
-    console.log("APIU ID", hostId);
-
     try {
-        console.log("APIU ID", hostId);
         const response = await clientServer.put(`/api/host-verify/reverify-host/${hostId}`, { action, note });
         return response.data;
 

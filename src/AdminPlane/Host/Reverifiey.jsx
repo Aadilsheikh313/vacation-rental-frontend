@@ -15,7 +15,7 @@ const ReVerifationModel = ({ show, onClose, hostId }) => {
     }
 
     try {
-      await dispatch(ReverifiedAction(hostId)).unwrap();
+      await dispatch(ReverifiedAction({ hostId, action: "reverify", note })).unwrap();
       showSuccess("✅ Host reverified successfully!");
       onClose(); // Close modal
     } catch (error) {

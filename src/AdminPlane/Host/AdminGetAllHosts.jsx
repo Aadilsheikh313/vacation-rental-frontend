@@ -6,6 +6,7 @@ import styles from "../../adminStylesModule/adminGetAllHost.module.css";
 import { Spinner } from "react-bootstrap";
 import AdminBannedUserModal from "../BannedUser/AdminBannedUserModal";
 import AdminTogglePropertyModal from "../BannedProprty/AdminBanPropertyModel";
+import ProfileModel from "./HostProfileDetials";
 
 const AdminGetAllHost = () => {
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const AdminGetAllHost = () => {
     const [isBanned, setIsBanned] = useState(false);
     const [selectedProperty, setSelectedProperty] = useState(null);
     const [propertyActionModalOpen, setPropertyActionModalOpen] = useState(false);
+    const [hostProfile, setHostProfile] = useState(false);
 
     const {
         allHosts,
@@ -64,7 +66,7 @@ const AdminGetAllHost = () => {
                     <table className={styles.table}>
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>Id</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
@@ -72,18 +74,19 @@ const AdminGetAllHost = () => {
                                 <th>Total Properties</th>
                                 <th>View</th>
                                 <th>Active/Banned</th>
+                                <th>Verifiy/Reject</th>
                             </tr>
                         </thead>
                         <tbody>
                             {allHosts.map((host, index) => (
                                 <tr key={host._id}>
-                                    <td>{index + 1}</td>
+                                    <td title={host._id}>{host._id.slice(0, 4)}...</td>
                                     <td>{host.name}</td>
                                     <td>{host.email}</td>
                                     <td>{host.phone}</td>
-                                    <td>{new Date(host.createdAt).toLocaleDateString()}</td>
-                                    <td className="text-center">{host.propertyCount}</td>
-                                    <td className="text-center">
+                                    <td>{new Date(host.createdAt).toLocaleDateString()} </td>
+                                    <td
+                                        className="text-center">{host.propertyCount}
                                         <button
                                             onClick={() => handleViewProperties(host)}
                                             className={styles.viewButton}
@@ -91,6 +94,18 @@ const AdminGetAllHost = () => {
                                             View
                                         </button>
                                     </td>
+                                    <td className="text-center">
+                                        <button
+                                            className={styles.viewButton}
+                                            onClick={() => {
+                                                setSelectedHost(host); // ✅ Store selected host
+                                                setHostProfile(true); // ✅ Open profile modal
+                                            }}
+                                        >
+                                            Profile
+                                        </button>
+                                    </td>
+
                                     <td className="text-center">
                                         <button
                                             onClick={() => {
@@ -103,7 +118,9 @@ const AdminGetAllHost = () => {
                                             {host.isBanned ? "Banned" : "Active"}
                                         </button>
                                     </td>
-
+                                    <td>
+                                        verifed/rejected
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -124,6 +141,7 @@ const AdminGetAllHost = () => {
             )}
 
             {propertyActionModalOpen && selectedProperty && (
+                <div className={`${styles.modalCard} animate-slide-up`}>
                 <AdminTogglePropertyModal
                     property={selectedProperty}
                     onClose={() => {
@@ -131,6 +149,7 @@ const AdminGetAllHost = () => {
                         setSelectedProperty(null);
                     }}
                 />
+                </div>
             )}
 
             {/* Modal */}
@@ -184,6 +203,21 @@ const AdminGetAllHost = () => {
                     </div>
                 </div>
             )}
+
+            {hostProfile && selectedHost && (
+                <div className={styles.modalBackdrop}>
+                    <div className={`${styles.modalCard} animate-slide-up`}>
+                        <button
+                            onClick={() => setHostProfile(false)}
+                            className={styles.closeButton}
+                        >
+                            &times;
+                        </button>
+                        <ProfileModel user={selectedHost.user} host={selectedHost} />
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };
