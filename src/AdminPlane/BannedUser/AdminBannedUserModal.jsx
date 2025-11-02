@@ -12,7 +12,7 @@ const AdminBannedUserModal = ({ userId, isBanned, onClose }) => {
     const [reason, setReason] = useState("");
     const [note, setNote] = useState("");
     const [selectedAction, setSelectedAction] = useState(isBanned ? "unban" : "ban");
-    const [showLogs, setShowLogs] = useState(false); // 👈 For toggling logs
+    const [showLogs, setShowLogs] = useState(false); 
 
     const { isLoading, isSuccess, isError, message } = useSelector(
         (state) => state.adminBannedUser

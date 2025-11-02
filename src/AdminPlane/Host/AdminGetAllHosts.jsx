@@ -79,12 +79,14 @@ const AdminGetAllHost = () => {
                         </thead>
                         <tbody>
                             {allHosts.map((host, index) => (
-                                <tr key={host._id}>
-                                    <td title={host._id}>{host._id.slice(0, 4)}...</td>
-                                    <td>{host.name}</td>
-                                    <td>{host.email}</td>
-                                    <td>{host.phone}</td>
-                                    <td>{new Date(host.createdAt).toLocaleDateString()} </td>
+                                <tr key={host.hostId || index}>
+                                    <td title={host?.hostId}>
+                                        {host?.hostId ? host.hostId.slice(0, 4) + "..." : "N/A"}
+                                    </td>
+                                    <td>{host?.user?.name || "N/A"}</td>
+                                    <td>{host?.user?.email || "N/A"}</td>
+                                    <td>{host?.user?.phone || "N/A"}</td>
+                                    <td>{host?.user?.createdAt ? new Date(host.user.createdAt).toLocaleDateString() : "N/A"}</td>
                                     <td
                                         className="text-center">{host.propertyCount}
                                         <button
@@ -95,31 +97,36 @@ const AdminGetAllHost = () => {
                                         </button>
                                     </td>
                                     <td className="text-center">
-                                        <button
-                                            className={styles.viewButton}
-                                            onClick={() => {
-                                                setSelectedHost(host); // ✅ Store selected host
-                                                setHostProfile(true); // ✅ Open profile modal
-                                            }}
-                                        >
-                                            Profile
-                                        </button>
+                                       <button
+  className={styles.viewButton}
+  onClick={() => {
+    setSelectedHost(host);
+    setHostProfile(true);
+  }}
+>
+  Profile
+</button>
                                     </td>
 
                                     <td className="text-center">
-                                        <button
-                                            onClick={() => {
-                                                setSelectedUserId(host._id);
-                                                setBanModalOpen(true);
-                                                setIsBanned(host.isBanned); // <-- you'll need this from backend
-                                            }}
-                                            className="btn btn-sm btn-warning"
-                                        >
-                                            {host.isBanned ? "Banned" : "Active"}
-                                        </button>
+                                        {host.user ? (
+                                            <button
+                                                onClick={() => {
+                                                    setSelectedUserId(host.user._id);
+                                                    setBanModalOpen(true);
+                                                    setIsBanned(host.isBanned || false);
+                                                }}
+                                                className="btn btn-sm btn-warning"
+                                            >
+                                                {host.isBanned ? "Banned" : "Active"}
+                                            </button>
+                                        ) : (
+                                            <span className="text-gray-400">No user</span>
+                                        )}
+
                                     </td>
                                     <td>
-                                        verifed/rejected
+                                        {host?.verificationStatus}
                                     </td>
                                 </tr>
                             ))}
@@ -142,13 +149,13 @@ const AdminGetAllHost = () => {
 
             {propertyActionModalOpen && selectedProperty && (
                 <div className={`${styles.modalCard} animate-slide-up`}>
-                <AdminTogglePropertyModal
-                    property={selectedProperty}
-                    onClose={() => {
-                        setPropertyActionModalOpen(false);
-                        setSelectedProperty(null);
-                    }}
-                />
+                    <AdminTogglePropertyModal
+                        property={selectedProperty}
+                        onClose={() => {
+                            setPropertyActionModalOpen(false);
+                            setSelectedProperty(null);
+                        }}
+                    />
                 </div>
             )}
 
@@ -213,7 +220,7 @@ const AdminGetAllHost = () => {
                         >
                             &times;
                         </button>
-                        <ProfileModel user={selectedHost.user} host={selectedHost} />
+                        <ProfileModel user={selectedHost.user} host={selectedHost} userId={selectedHost.user._id} />
                     </div>
                 </div>
             )}

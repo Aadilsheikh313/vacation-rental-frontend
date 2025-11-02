@@ -11,8 +11,8 @@ const AdminGetBannedAllHost = () => {
     const dispatch = useDispatch();
     const [selectedHost, setSelectedHost] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedBannedHost, setSelectedBannedHost] = useState(null); // 👈 new
-    const [isBanModalOpen, setIsBanModalOpen] = useState(false); // 👈 new
+    const [selectedBannedHost, setSelectedBannedHost] = useState(null); 
+    const [isBanModalOpen, setIsBanModalOpen] = useState(false); 
 
 
     const {

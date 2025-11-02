@@ -3,10 +3,12 @@ import { Button, Modal, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { ReverifiedAction } from "../../config/redux/action/adminVerifedHostAction";
 import { showError, showInfo, showSuccess } from "../../utils/toastUtils";
+import { useNavigate } from "react-router-dom";
 
 const ReVerifationModel = ({ show, onClose, hostId }) => {
   const [note, setNote] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleReverify = async () => {
     if (!note.trim()) {
@@ -18,6 +20,7 @@ const ReVerifationModel = ({ show, onClose, hostId }) => {
       await dispatch(ReverifiedAction({ hostId, action: "reverify", note })).unwrap();
       showSuccess("✅ Host reverified successfully!");
       onClose(); // Close modal
+      navigate('/host-users')
     } catch (error) {
       showError(`❌ ${error}`);
     }

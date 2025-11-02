@@ -4,7 +4,6 @@ import {
   getAllLogoutHostRegister,
   getAllNewHostRegister,
   getAllOnlineHostRegister,
-  getTotalHostRegister
 } from "../action/adminHostAction";
 
 const initialState = {
@@ -51,21 +50,7 @@ const adminHostSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getTotalHostRegister.pending, (state) => {
-        state.isLoading = true;
-        state.message = "Fetching total host registrations...";
-      })
-      .addCase(getTotalHostRegister.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.totalHostRegister = action.payload.totalHosts || 0;
-        state.message = "Host registrations fetched.";
-      })
-      .addCase(getTotalHostRegister.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload || "Failed to fetch host registrations.";
-      })
+    
       .addCase(getAllHostRegister.pending, (state) => {
         state.isLoading = true;
         state.message = "Loading host list...";

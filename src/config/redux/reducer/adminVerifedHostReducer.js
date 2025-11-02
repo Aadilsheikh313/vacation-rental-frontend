@@ -3,6 +3,7 @@ import {
     GetAllHostPendingAction,
     GetAllRejectHostAction,
     GetAllVerifedHostAction,
+    GetUserProfileAction,
     ReverifiedAction,
     VerifyOrRejectHostAction
 } from "../action/adminVerifedHostAction";
@@ -14,6 +15,7 @@ const initialState = {
     allReject: [],
     verifyOrReject: null,
     Reverifeiy: null,
+    userProfile: null,
     TotalPending: 0,
     isLoading: false,
     isError: false,
@@ -31,6 +33,7 @@ const AdminVerfRejPenSlice = createSlice({
             state.allReject = [];
             state.TotalPending = 0;
             state.Reverifeiy = null;
+            state.userProfile = null;
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = false;
@@ -147,6 +150,24 @@ const AdminVerfRejPenSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.payload || "Failed to fetch Reverifiey hosts.";
+            })
+              // =================== Get User Profile ===================
+            .addCase(GetUserProfileAction.pending, (state) => {
+                state.isLoading = true;
+                state.message = "Fetching user Profile...";
+            })
+            .addCase(GetUserProfileAction.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.userProfile = action.payload.user || action.payload || null;
+                state.message = "UserProfile fetched successfully.";
+            })
+            .addCase(GetUserProfileAction.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.payload || "Failed to fetch User Profile.";
             })
 
 },

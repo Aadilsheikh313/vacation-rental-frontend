@@ -86,3 +86,18 @@ export const ReverificationApi = async (hostId, action, note) => {
         throw new Error(error.response?.data?.message || "Something went wrong while reverifying host.");
     }
 };
+
+export const GetUserProfileApi = async(userId) => {
+    try {
+       const response = await clientServer.get(`/api/host-verify/Profile/${userId}`);
+        return response.data; 
+    } catch (error) {
+      console.error("❌ User Profile API Error:", error.response?.data || error.message);
+
+        if (error.response?.status === 401 || error.response?.status === 403) {
+            throw new Error("Unauthorized access! Please login as admin.");
+        }
+
+        throw new Error(error.response?.data?.message || "Something went wrong while getting user profile.");
+    }
+}

@@ -3,6 +3,7 @@ import {
   GetAllHostPendingApi,
   GetAllRejectedHostApi,
   GetAllVerifiedHostApi,
+  GetUserProfileApi,
   ReverificationApi,
   VerifyOrRejectHostApi
 } from "../../../api/AdimApi/adminVerifedHostApi";
@@ -83,7 +84,6 @@ export const ReverifiedAction = createAsyncThunk(
    async({ hostId, action, note }, thunkAPI) =>{
     try {
       const response = await ReverificationApi(hostId, action, note);
-      console.log("Action ID", hostId);
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
       const errorMessage =
@@ -94,3 +94,18 @@ export const ReverifiedAction = createAsyncThunk(
     }
    }
 )
+
+export const GetUserProfileAction = createAsyncThunk(
+  "verify/GetUserProfileAction",
+  async (userId, thunkAPI) => {  
+    try {
+      return await GetUserProfileApi(userId);
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to get user profile.";
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);
