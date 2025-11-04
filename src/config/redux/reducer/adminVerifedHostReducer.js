@@ -134,7 +134,7 @@ const AdminVerfRejPenSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.Reverifeiy = action.payload.host || null;
-                
+
                 state.message = "Host reverified successfully.";
 
                 const reverifiedHost = action.payload.host;
@@ -145,13 +145,13 @@ const AdminVerfRejPenSlice = createSlice({
                 // 2️⃣ Add it to verified list
                 state.allVerifed = [reverifiedHost, ...state.allVerifed];
             })
-             .addCase(ReverifiedAction.rejected, (state, action) => {
+            .addCase(ReverifiedAction.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.payload || "Failed to fetch Reverifiey hosts.";
             })
-              // =================== Get User Profile ===================
+            // =================== Get User Profile ===================
             .addCase(GetUserProfileAction.pending, (state) => {
                 state.isLoading = true;
                 state.message = "Fetching user Profile...";
@@ -160,9 +160,13 @@ const AdminVerfRejPenSlice = createSlice({
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
-                state.userProfile = action.payload.user || action.payload || null;
+                state.userProfile = {
+                    user: action.payload.user || null,
+                    hostDetails: action.payload.hostDetails || null,
+                };
                 state.message = "UserProfile fetched successfully.";
             })
+
             .addCase(GetUserProfileAction.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
@@ -170,7 +174,7 @@ const AdminVerfRejPenSlice = createSlice({
                 state.message = action.payload || "Failed to fetch User Profile.";
             })
 
-},
+    },
 });
 
 export const { resetPending } = AdminVerfRejPenSlice.actions;

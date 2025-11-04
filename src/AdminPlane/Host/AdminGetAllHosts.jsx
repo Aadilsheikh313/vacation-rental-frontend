@@ -19,6 +19,10 @@ const AdminGetAllHost = () => {
     const [propertyActionModalOpen, setPropertyActionModalOpen] = useState(false);
     const [hostProfile, setHostProfile] = useState(false);
 
+    // 🔹 New state for admin details modal
+    const [adminModal, setAdminModal] = useState(false);
+    const [adminDetails, setAdminDetails] = useState(null);
+
     const {
         allHosts,
         isLoading,
@@ -44,6 +48,32 @@ const AdminGetAllHost = () => {
         setIsModalOpen(false);
         setSelectedHost(null);
     };
+
+    // 🔹 Handle verificationStatus click — show admin verification details
+    const handleViewAdminDetails = (host) => {
+        const appliedAudit = host.audit?.find((a) => a.action === "applied");
+        const verifiedAudit = host.audit?.find((a) => a.action === "verified");
+        const rejectedAudit = host.audit?.find((a) => a.action === "rejected");
+        const reverifiedAudit = host.audit?.find((a) => a.action === "reverified");
+
+        let details = {
+            appliedDate: appliedAudit ? new Date(appliedAudit.date).toLocaleString() : "N/A",
+            verifiedDate: verifiedAudit ? new Date(verifiedAudit.date).toLocaleString() : "N/A",
+            rejectedDate: rejectedAudit ? new Date(rejectedAudit.date).toLocaleString() : "N/A",
+            reverifiedDate: reverifiedAudit ? new Date(reverifiedAudit.date).toLocaleString() : "N/A",
+            adminVerify: verifiedAudit?.adminDetails || null,
+            adminReject: rejectedAudit?.adminDetails || null,
+            adminReverify: reverifiedAudit?.adminDetails || null,
+            verifyNote: verifiedAudit?.note || "N/A",
+            rejectNote: rejectedAudit?.note || "N/A",
+            reverifyNote: reverifiedAudit?.note || "N/A",
+            status: host.verificationStatus
+        };
+
+        setAdminDetails(details);
+        setAdminModal(true);
+    };
+
 
     return (
         <div className="p-4">
@@ -97,15 +127,15 @@ const AdminGetAllHost = () => {
                                         </button>
                                     </td>
                                     <td className="text-center">
-                                       <button
-  className={styles.viewButton}
-  onClick={() => {
-    setSelectedHost(host);
-    setHostProfile(true);
-  }}
->
-  Profile
-</button>
+                                        <button
+                                            className={styles.viewButton}
+                                            onClick={() => {
+                                                setSelectedHost(host);
+                                                setHostProfile(true);
+                                            }}
+                                        >
+                                            Profile
+                                        </button>
                                     </td>
 
                                     <td className="text-center">
@@ -126,7 +156,12 @@ const AdminGetAllHost = () => {
 
                                     </td>
                                     <td>
-                                        {host?.verificationStatus}
+                                        <button
+                                            onClick={() => handleViewAdminDetails(host)}
+                                            className={styles.viewButton}
+                                        >
+                                            {host.verificationStatus}
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
@@ -211,6 +246,8 @@ const AdminGetAllHost = () => {
                 </div>
             )}
 
+
+
             {hostProfile && selectedHost && (
                 <div className={styles.modalBackdrop}>
                     <div className={`${styles.modalCard} animate-slide-up`}>
@@ -224,6 +261,65 @@ const AdminGetAllHost = () => {
                     </div>
                 </div>
             )}
+
+            {/* 🔹 Admin Details Modal */}
+            {adminModal && adminDetails && (
+                <div className={styles.modalBackdrop}>
+                    <div className={`${styles.modalCard} animate-slide-up`}>
+                        <button
+                            onClick={() => setAdminModal(false)}
+                            className={styles.closeButton}
+                        >
+                            &times;
+                        </button>
+
+                        <h3 className="text-center mb-3">Admin Verification History</h3>
+
+                        {/* Applied Section */}
+                        <p><strong>Host Applied On:</strong> {adminDetails.appliedDate}</p>
+
+                        {/* Verified Section */}
+                        {adminDetails.adminVerify && (
+                            <>
+                                <hr />
+                                <h5>✅ Verified By</h5>
+                                <p><strong>Name:</strong> {adminDetails.adminVerify.name}</p>
+                                <p><strong>Email:</strong> {adminDetails.adminVerify.email}</p>
+                                <p><strong>Phone:</strong> {adminDetails.adminVerify.phone}</p>
+                                <p><strong>Note:</strong> {adminDetails.verifyNote}</p>
+                                <p><strong>Date:</strong> {adminDetails.verifiedDate}</p>
+                            </>
+                        )}
+
+                        {/* Rejected Section */}
+                        {adminDetails.adminReject && (
+                            <>
+                                <hr />
+                                <h5>❌ Rejected By</h5>
+                                <p><strong>Name:</strong> {adminDetails.adminReject.name}</p>
+                                <p><strong>Email:</strong> {adminDetails.adminReject.email}</p>
+                                <p><strong>Phone:</strong> {adminDetails.adminReject.phone}</p>
+                                <p><strong>Reason:</strong> {adminDetails.rejectNote}</p>
+                                <p><strong>Date:</strong> {adminDetails.rejectedDate}</p>
+                            </>
+                        )}
+
+                        {/* Reverified Section */}
+                        {adminDetails.adminReverify && (
+                            <>
+                                <hr />
+                                <h5>🔁 Reverified By</h5>
+                                <p><strong>Name:</strong> {adminDetails.adminReverify.name}</p>
+                                <p><strong>Email:</strong> {adminDetails.adminReverify.email}</p>
+                                <p><strong>Phone:</strong> {adminDetails.adminReverify.phone}</p>
+                                <p><strong>Note:</strong> {adminDetails.reverifyNote}</p>
+                                <p><strong>Date:</strong> {adminDetails.reverifiedDate}</p>
+                            </>
+                        )}
+                    </div>
+                </div>
+            )}
+
 
         </div>
     );

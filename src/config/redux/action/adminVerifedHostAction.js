@@ -99,7 +99,8 @@ export const GetUserProfileAction = createAsyncThunk(
   "verify/GetUserProfileAction",
   async (userId, thunkAPI) => {  
     try {
-      return await GetUserProfileApi(userId);
+     const response =   await GetUserProfileApi(userId);
+     return thunkAPI.fulfillWithValue(response);
     } catch (error) {
       const errorMessage =
         error.response?.data?.message ||
