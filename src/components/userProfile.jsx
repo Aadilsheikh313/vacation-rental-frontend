@@ -8,7 +8,7 @@ import {
 } from "../config/redux/action/userAction";
 import CustomSpinner from "../comman/Spinner";
 import { FaCamera, FaCheckCircle, FaClock, FaCreditCard, FaStarHalfAlt, FaTimesCircle, FaUserEdit } from "react-icons/fa";
-import { MdOutlineAddAPhoto, MdOutlineEdit, MdRateReview } from "react-icons/md";
+import { MdOutlineAddAPhoto, MdOutlineEdit, MdOutlineNoteAlt, MdRateReview } from "react-icons/md";
 import Card from "react-bootstrap/Card";
 import { Row, Col } from "react-bootstrap";
 import { showWarning } from "../utils/toastUtils";
@@ -217,6 +217,21 @@ const UserProfile = () => {
                           </p>
                         </div>
                       </>
+                    ) : Host?.verificationStatus === "reverified" ? (
+                      <>
+                        <FaCheckCircle color="#4CAF50" size={22} />
+                        <div>
+                          <h4 className={styles.colorChangeHeading}>Verification Successful</h4>
+                          <p><strong>Status:</strong> Reverified</p>
+                          <p>
+                            <strong>Date:</strong>{" "}
+                            {Host?.verifiedAt
+                              ? new Date(Host.verifiedAt).toLocaleString()
+                              : new Date(Host.updatedAt || Host.createdAt).toLocaleString()}
+                          </p>
+                        </div>
+                      </>
+
                     ) : Host?.verificationStatus === "rejected" ? (
                       <>
                         <FaTimesCircle color="#E53935" size={22} />
@@ -259,83 +274,83 @@ const UserProfile = () => {
             <div className={styles.profileDetails}>
               <Row>
                 <Col md="6" xs="12">
-                 <EditableField
-                label="Name"
-                field="name"
-                value={formData.name}
-                userValue={user.name}
-                editField={editField}
-                setEditField={setEditField}
-                onChange={handleFieldChange}
-                onSubmit={handleSubmit}
-              />
+                  <EditableField
+                    label="Name"
+                    field="name"
+                    value={formData.name}
+                    userValue={user.name}
+                    editField={editField}
+                    setEditField={setEditField}
+                    onChange={handleFieldChange}
+                    onSubmit={handleSubmit}
+                  />
                 </Col>
                 <Col md="6" xs="12">
-                 <EditableField
-                label="Phone"
-                field="phone"
-                value={formData.phone}
-                userValue={user.phone}
-                editField={editField}
-                setEditField={setEditField}
-                onChange={handleFieldChange}
-                onSubmit={handleSubmit}
-              />
-                </Col>
-              </Row>
-              <Row>
-                <Col md="6" xs="12">
-                
-              <EditableField
-                label="DOB"
-                field="dob"
-                type="date"
-                value={formData.dob}
-                userValue={user.dob ? new Date(user.dob).toLocaleDateString() : "N/A"}
-                editField={editField}
-                setEditField={setEditField}
-                onChange={handleFieldChange}
-                onSubmit={handleSubmit}
-              />
-                </Col>
-                <Col md="6" xs="12">
-                 <EditableSelect
-                label="Gender"
-                field="gender"
-                value={formData.gender}
-                userValue={user.gender}
-                options={["Male", "Female", "Other"]}
-                editField={editField}
-                setEditField={setEditField}
-                onChange={handleFieldChange}
-                onSubmit={handleSubmit}
-              />
+                  <EditableField
+                    label="Phone"
+                    field="phone"
+                    value={formData.phone}
+                    userValue={user.phone}
+                    editField={editField}
+                    setEditField={setEditField}
+                    onChange={handleFieldChange}
+                    onSubmit={handleSubmit}
+                  />
                 </Col>
               </Row>
               <Row>
                 <Col md="6" xs="12">
-                <EditableField
-                label="Location"
-                field="location"
-                value={formData.location}
-                userValue={user.location}
-                editField={editField}
-                setEditField={setEditField}
-                onChange={handleFieldChange}
-                onSubmit={handleSubmit}
-              />
+
+                  <EditableField
+                    label="DOB"
+                    field="dob"
+                    type="date"
+                    value={formData.dob}
+                    userValue={user.dob ? new Date(user.dob).toLocaleDateString() : "N/A"}
+                    editField={editField}
+                    setEditField={setEditField}
+                    onChange={handleFieldChange}
+                    onSubmit={handleSubmit}
+                  />
                 </Col>
                 <Col md="6" xs="12">
-                 <EditableTextarea
-                label="Bio"
-                field="bio"
-                value={formData.bio}
-                userValue={user.bio}
-                editField={editField}
-                setEditField={setEditField}
-                onChange={handleFieldChange}
-                onSubmit={handleSubmit}
-              />
+                  <EditableSelect
+                    label="Gender"
+                    field="gender"
+                    value={formData.gender}
+                    userValue={user.gender}
+                    options={["Male", "Female", "Other"]}
+                    editField={editField}
+                    setEditField={setEditField}
+                    onChange={handleFieldChange}
+                    onSubmit={handleSubmit}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col md="6" xs="12">
+                  <EditableField
+                    label="Location"
+                    field="location"
+                    value={formData.location}
+                    userValue={user.location}
+                    editField={editField}
+                    setEditField={setEditField}
+                    onChange={handleFieldChange}
+                    onSubmit={handleSubmit}
+                  />
+                </Col>
+                <Col md="6" xs="12">
+                  <EditableTextarea
+                    label="Bio"
+                    field="bio"
+                    value={formData.bio}
+                    userValue={user.bio}
+                    editField={editField}
+                    setEditField={setEditField}
+                    onChange={handleFieldChange}
+                    onSubmit={handleSubmit}
+                  />
                 </Col>
               </Row>
               {/* ===== Host Specific Section ===== */}
@@ -399,11 +414,27 @@ const UserProfile = () => {
                         <strong><MdRateReview />Total Reviews : </strong>
                         {Host?.rating?.totalReviews || 0}
                       </p>
-                      {Host?.adminNote && (
-                        <p>
-                          <strong>📝 Admin Note:</strong> {Host.adminNote}
-                        </p>
-                      )}
+                      {/* ✅ Display the correct latest Admin Note */}
+                      {Host?.audit && Host.audit.length > 0 && (() => {
+                        // Get the last admin action from audit
+                        const lastAdminAction = [...Host.audit]
+                          .reverse()
+                          .find((a) => a.performedByModel === "Admin");
+
+                        if (!lastAdminAction) return null;
+
+                        let label = "";
+                        if (lastAdminAction.action === "reverified") label = "Reverified Note";
+                        else if (lastAdminAction.action === "rejected") label = "Rejected Note";
+                        else if (lastAdminAction.action === "verified") label = "Verified Note";
+
+                        return (
+                          <p>
+                            <strong><MdOutlineNoteAlt /> {label}:</strong> {lastAdminAction.note}
+                          </p>
+                        );
+                      })()}
+
                     </div>
                   </div>
 
@@ -675,7 +706,7 @@ const HostBankDetails = ({
         <div className={styles.butonConteier}>
           <Row >
             <Col md="6" >
-              <label htmlFor="fileUpload"  className={styles.customFileLabela}>
+              <label htmlFor="fileUpload" className={styles.customFileLabela}>
                 <FaCamera /> Cancelled Cheque Image
               </label>
               <input
@@ -782,7 +813,7 @@ const HostBankDetails = ({
             onClick={() => setEditField(null)}
             className={styles.cancelButton}
           >
-           <ImCancelCircle />  Cancel
+            <ImCancelCircle />  Cancel
           </button>
         </div>
       </div>

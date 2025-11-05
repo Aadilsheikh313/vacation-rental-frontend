@@ -51,23 +51,47 @@ const AdminGetAllHost = () => {
 
     // 🔹 Handle verificationStatus click — show admin verification details
     const handleViewAdminDetails = (host) => {
-        const appliedAudit = host.audit?.find((a) => a.action === "applied");
-        const verifiedAudit = host.audit?.find((a) => a.action === "verified");
-        const rejectedAudit = host.audit?.find((a) => a.action === "rejected");
-        const reverifiedAudit = host.audit?.find((a) => a.action === "reverified");
+        if (!host.audit || host.audit.length === 0) {
+            alert("No audit data available for this host.");
+            return;
+        }
 
-        let details = {
-            appliedDate: appliedAudit ? new Date(appliedAudit.date).toLocaleString() : "N/A",
-            verifiedDate: verifiedAudit ? new Date(verifiedAudit.date).toLocaleString() : "N/A",
-            rejectedDate: rejectedAudit ? new Date(rejectedAudit.date).toLocaleString() : "N/A",
-            reverifiedDate: reverifiedAudit ? new Date(reverifiedAudit.date).toLocaleString() : "N/A",
-            adminVerify: verifiedAudit?.adminDetails || null,
-            adminReject: rejectedAudit?.adminDetails || null,
-            adminReverify: reverifiedAudit?.adminDetails || null,
-            verifyNote: verifiedAudit?.note || "N/A",
-            rejectNote: rejectedAudit?.note || "N/A",
-            reverifyNote: reverifiedAudit?.note || "N/A",
-            status: host.verificationStatus
+        // Find different actions from audit logs
+        const appliedAudit = host.audit.find((a) => a.action === "applied");
+        const verifiedAudit = host.audit.find((a) => a.action === "verified");
+        const rejectedAudit = host.audit.find((a) => a.action === "rejected");
+        const reverifiedAudit = host.audit.find((a) => a.action === "reverified");
+
+        // Format clean details object
+        const details = {
+            applied: appliedAudit
+                ? {
+                    date: new Date(appliedAudit.date).toLocaleString(),
+                    note: appliedAudit.note,
+                }
+                : null,
+            verified: verifiedAudit
+                ? {
+                    admin: verifiedAudit.adminDetails,
+                    date: new Date(verifiedAudit.date).toLocaleString(),
+                    note: verifiedAudit.note,
+                }
+                : null,
+            rejected: rejectedAudit
+                ? {
+                    admin: rejectedAudit.adminDetails,
+                    date: new Date(rejectedAudit.date).toLocaleString(),
+                    note: rejectedAudit.note,
+                }
+                : null,
+            reverified: reverifiedAudit
+                ? {
+                    admin: reverifiedAudit.adminDetails,
+                    date: new Date(reverifiedAudit.date).toLocaleString(),
+                    note: reverifiedAudit.note,
+                }
+                : null,
+            status: host.verificationStatus,
         };
 
         setAdminDetails(details);
@@ -273,53 +297,54 @@ const AdminGetAllHost = () => {
                             &times;
                         </button>
 
-                        <h3 className="text-center mb-3">Admin Verification History</h3>
+                        <h3 className="text-center mb-3">🛠 Host Verification History</h3>
 
-                        {/* Applied Section */}
-                        <p><strong>Host Applied On:</strong> {adminDetails.appliedDate}</p>
-
-                        {/* Verified Section */}
-                        {adminDetails.adminVerify && (
+                        {adminDetails.applied && (
                             <>
+                                <h5>📤 Applied</h5>
+                                <p><strong>Date:</strong> {adminDetails.applied.date}</p>
+                                <p><strong>Note:</strong> {adminDetails.applied.note}</p>
                                 <hr />
+                            </>
+                        )}
+
+                        {adminDetails.verified && (
+                            <>
                                 <h5>✅ Verified By</h5>
-                                <p><strong>Name:</strong> {adminDetails.adminVerify.name}</p>
-                                <p><strong>Email:</strong> {adminDetails.adminVerify.email}</p>
-                                <p><strong>Phone:</strong> {adminDetails.adminVerify.phone}</p>
-                                <p><strong>Note:</strong> {adminDetails.verifyNote}</p>
-                                <p><strong>Date:</strong> {adminDetails.verifiedDate}</p>
+                                <p><strong>Name:</strong> {adminDetails.verified.admin?.name}</p>
+                                <p><strong>Email:</strong> {adminDetails.verified.admin?.email}</p>
+                                <p><strong>Phone:</strong> {adminDetails.verified.admin?.phone}</p>
+                                <p><strong>Date:</strong> {adminDetails.verified.date}</p>
+                                <p><strong>Note:</strong> {adminDetails.verified.note}</p>
+                                <hr />
                             </>
                         )}
 
-                        {/* Rejected Section */}
-                        {adminDetails.adminReject && (
+                        {adminDetails.rejected && (
                             <>
-                                <hr />
                                 <h5>❌ Rejected By</h5>
-                                <p><strong>Name:</strong> {adminDetails.adminReject.name}</p>
-                                <p><strong>Email:</strong> {adminDetails.adminReject.email}</p>
-                                <p><strong>Phone:</strong> {adminDetails.adminReject.phone}</p>
-                                <p><strong>Reason:</strong> {adminDetails.rejectNote}</p>
-                                <p><strong>Date:</strong> {adminDetails.rejectedDate}</p>
+                                <p><strong>Name:</strong> {adminDetails.rejected.admin?.name}</p>
+                                <p><strong>Email:</strong> {adminDetails.rejected.admin?.email}</p>
+                                <p><strong>Phone:</strong> {adminDetails.rejected.admin?.phone}</p>
+                                <p><strong>Date:</strong> {adminDetails.rejected.date}</p>
+                                <p><strong>Reason:</strong> {adminDetails.rejected.note}</p>
+                                <hr />
                             </>
                         )}
 
-                        {/* Reverified Section */}
-                        {adminDetails.adminReverify && (
+                        {adminDetails.reverified && (
                             <>
-                                <hr />
                                 <h5>🔁 Reverified By</h5>
-                                <p><strong>Name:</strong> {adminDetails.adminReverify.name}</p>
-                                <p><strong>Email:</strong> {adminDetails.adminReverify.email}</p>
-                                <p><strong>Phone:</strong> {adminDetails.adminReverify.phone}</p>
-                                <p><strong>Note:</strong> {adminDetails.reverifyNote}</p>
-                                <p><strong>Date:</strong> {adminDetails.reverifiedDate}</p>
+                                <p><strong>Name:</strong> {adminDetails.reverified.admin?.name}</p>
+                                <p><strong>Email:</strong> {adminDetails.reverified.admin?.email}</p>
+                                <p><strong>Phone:</strong> {adminDetails.reverified.admin?.phone}</p>
+                                <p><strong>Date:</strong> {adminDetails.reverified.date}</p>
+                                <p><strong>Note:</strong> {adminDetails.reverified.note}</p>
                             </>
                         )}
                     </div>
                 </div>
             )}
-
 
         </div>
     );
