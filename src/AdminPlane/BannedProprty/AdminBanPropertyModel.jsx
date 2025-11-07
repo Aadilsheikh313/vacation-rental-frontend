@@ -1,7 +1,7 @@
 // components/AdminTogglePropertyModal.jsx
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "../../adminStylesModule/adminBannedUserModal.module.css";
+import styles from "../../adminStylesModule/adminBannedProperty.module.css";
 import { showError, showSuccess } from "../../utils/toastUtils";
 import {
     banPropertyByAdmin,
@@ -9,11 +9,12 @@ import {
 } from "../../config/redux/action/adminActivePropertyAction";
 import { resetBanPropertyState } from "../../config/redux/reducer/adminActivePropertyReducer";
 import AdminBanPropertyLogList from "./AdminBanPropertyLogList";
+import { FaBan, FaCheckSquare } from "react-icons/fa";
 
 const AdminTogglePropertyModal = ({ property, onClose }) => {
     const dispatch = useDispatch();
     const [reasonOrNote, setReasonOrNote] = useState("");
-    const [isInactivating, setIsInactivating] = useState(property.expired ? false : true); // if not expired => show inactivate first
+    const [isInactivating, setIsInactivating] = useState(property.expired ? false : true);
     const [showLogs, setShowLogs] = useState(false);
 
     const { isLoading, isSuccess, isError, message } = useSelector((state) => state.adminBannedProperty);
@@ -46,14 +47,26 @@ const AdminTogglePropertyModal = ({ property, onClose }) => {
     return (
         <div className={styles.modalOverlay}>
             <div className={styles.modalContainer}>
-                <button onClick={onClose} className={styles.closeButton}>
+                <div className={styles.modalBackdrop} >
+                                    <button onClick={onClose} className={styles.closeButton}>
                     &times;
                 </button>
-                <h3 className={styles.title}>
-                    {isInactivating ? "🚫 Inactivate Property" : "✅ Activate Property"}
+                <h3
+                    className={`${styles.title} ${isInactivating ? styles.inactive : styles.active}`}
+                >
+                    {isInactivating ? (
+                        <>
+                            <FaBan /> Inactivate Property
+                        </>
+                    ) : (
+                        <>
+                            <FaCheckSquare /> Activate Property
+                        </>
+                    )}
                 </h3>
+                </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4 mb-4">
+                <form onSubmit={handleSubmit} className={styles.form}>
                     <p><strong>Title:</strong> {property.title}</p>
                     <p><strong>Status:</strong> {property.expired ? "Inactive" : "Active"}</p>
 
@@ -64,7 +77,7 @@ const AdminTogglePropertyModal = ({ property, onClose }) => {
                         placeholder={isInactivating ? "Reason for inactivation..." : "Note for activation..."}
                     />
 
-                    <div className="flex items-center gap-4">
+                    <div className={styles.formActions}>
                         <select
                             className={styles.selectField}
                             value={isInactivating ? "inactive" : "active"}

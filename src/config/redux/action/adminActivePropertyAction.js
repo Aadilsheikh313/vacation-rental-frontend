@@ -8,6 +8,7 @@ export const banPropertyByAdmin = createAsyncThunk(
   async ({ propertyId, reason }, thunkAPI) => {
     try {
       const response = await adminInActivePropertyApi(propertyId, reason);
+      console.log("Response",response);
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
       return thunkAPI.rejectWithValue(

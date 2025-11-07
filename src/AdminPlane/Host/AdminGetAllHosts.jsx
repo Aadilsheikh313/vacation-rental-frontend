@@ -206,17 +206,6 @@ const AdminGetAllHost = () => {
                 />
             )}
 
-            {propertyActionModalOpen && selectedProperty && (
-                <div className={`${styles.modalCard} animate-slide-up`}>
-                    <AdminTogglePropertyModal
-                        property={selectedProperty}
-                        onClose={() => {
-                            setPropertyActionModalOpen(false);
-                            setSelectedProperty(null);
-                        }}
-                    />
-                </div>
-            )}
 
             {/* Modal */}
             {isModalOpen && selectedHost && (
@@ -270,6 +259,25 @@ const AdminGetAllHost = () => {
                 </div>
             )}
 
+
+            {propertyActionModalOpen && selectedProperty && (
+                <div style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    zIndex: 9999
+                }}>
+                    <AdminTogglePropertyModal
+                        property={selectedProperty}
+                        onClose={() => {
+                            setPropertyActionModalOpen(false);
+                            setSelectedProperty(null);
+                        }}
+                    />
+                </div>
+            )}
 
 
             {hostProfile && selectedHost && (
