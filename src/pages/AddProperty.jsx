@@ -70,7 +70,7 @@ const AddPropertyForm = () => {
     }
     if (isLoading) return;
     const postData = new FormData();
-
+    
     for (let key in formData) {
       if (key === "facilities" || key === "views") {
         formData[key].forEach((item) => postData.append(key, item));

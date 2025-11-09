@@ -7,6 +7,8 @@ import { Spinner } from "react-bootstrap";
 import AdminBannedUserModal from "../BannedUser/AdminBannedUserModal";
 import AdminTogglePropertyModal from "../BannedProprty/AdminBanPropertyModel";
 import ProfileModel from "./HostProfileDetials";
+import { FaEye, FaEyeDropper } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const AdminGetAllHost = () => {
     const dispatch = useDispatch();
@@ -218,7 +220,7 @@ const AdminGetAllHost = () => {
                             &times;
                         </button>
                         <h3 className={styles.modalTitle}>
-                            Properties of {selectedHost.name}
+                            Properties of {selectedHost?.user?.name}
                         </h3>
 
                         {selectedHost?.properties?.length > 0 ? (
@@ -239,15 +241,25 @@ const AdminGetAllHost = () => {
                                             </p>
                                             <p>{property.expired}</p>
                                         </div>
-                                        <button
-                                            onClick={() => {
-                                                setSelectedProperty(property);
-                                                setPropertyActionModalOpen(true);
-                                            }}
-                                            className="btn btn-sm btn-primary"
-                                        >
-                                            {property.expired ? "Inactive" : "Active"}
-                                        </button>
+                                        <div className={styles.cardActions}>
+                                            <button
+                                                onClick={() => {
+                                                    setSelectedProperty(property);
+                                                    setPropertyActionModalOpen(true);
+                                                }}
+                                                className={styles.actionButton}
+                                            >
+                                                {property.expired ? "Inactive" : "Active"}
+                                            </button>
+                                            <button
+                                                className={styles.viewDetailsButton}
+                                            >
+                                                <Link to={`/admin/property/${property._id}`} >
+                                                    <FaEye />  View Details
+                                                </Link>
+                                                
+                                            </button>
+                                        </div>
 
                                     </div>
                                 ))}

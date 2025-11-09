@@ -1,122 +1,195 @@
-/* Container styling */
+/* 🌟 Wrapper */
 .wrapper {
-  background-color: #f9fafb;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.05);
-  max-width: 100%;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
   overflow-x: auto;
+  margin-top: 2rem;
 }
 
-/* Heading */
+/* 🌟 Heading */
 .heading {
-  font-size: 1.75rem;
+  font-size: 1.6rem;
   font-weight: 700;
-  margin-bottom: 1.25rem;
   color: #111827;
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.75rem;
+  background: linear-gradient(90deg, #ff6a00, #ee0979);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Playfair Display', serif;
+  text-transform: uppercase;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Table styles */
+.heading svg {
+  background: linear-gradient(90deg, #ff6a00, #ee0979);
+  color: #ffffff;
+  padding: 0.2rem;
+  border-radius: 4px;
+  font-size: 1.8rem;
+}
+
+/* 🧾 Table Styling */
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #1f2937;
 }
 
 .table thead {
-  background-color: #e5e7eb;
-}
-
-.table th,
-.table td {
-  text-align: left;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #e5e7eb;
+  background: #f3f4f6;
 }
 
 .table th {
-  font-weight: 600;
+  text-align: left;
+  padding: 0.9rem 1rem;
+  font-weight: 700;
   color: #374151;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  border-bottom: 2px solid #e5e7eb;
 }
 
 .table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
   vertical-align: top;
 }
 
-.table-row:nth-child(even) {
-  background-color: #f3f4f6;
-}
-
-.actionBan {
-  color: #dc2626;
-  font-weight: 600;
-}
-
-.actionUnban {
-  color: #16a34a;
-  font-weight: 600;
-}
-
-/* Admin & User cell styles */
+/* 🧍 User & Admin Cell */
 .cellUser,
 .cellAdmin {
   display: flex;
   flex-direction: column;
+  line-height: 1.3;
 }
 
 .cellEmail {
-  font-size: 0.85rem;
+  font-size: 0.83rem;
   color: #6b7280;
 }
 
-/* Empty/Loading/Error Text */
+.cellPhone {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* 🎯 Action Column */
+.tableRow .actionBan {
+  color: #dc2626;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.actionUnban {
+  color: #16a34a;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* 🕓 Log Info */
+.table td strong {
+  color: #111827;
+  font-weight: 600;
+}
+
+/* 🪶 Row Hover Effect */
+.table tbody tr:hover {
+  background: #f9fafb;
+  transition: background 0.25s ease;
+}
+
+/* 🧍 Property Title */
+.propertyTitle {
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+/* ⚙️ Empty / Loading */
+.loading,
 .infoText {
-  font-size: 1rem;
+  text-align: center;
   color: #6b7280;
-  padding: 1rem 0;
+  padding: 1.5rem 0;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
-/* Unban Form */
+/* ✅ Unban Form Section */
 .unbanForm {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   display: flex;
-  gap: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.8rem;
   align-items: center;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem;
 }
 
 .unbanInput {
   flex: 1;
-  padding: 0.65rem 1rem;
+  min-width: 220px;
+  padding: 0.7rem 1rem;
   border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.unbanInput:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
 }
 
 .unbanButton {
-  background-color: #10b981;
+  background-color: #2563eb;
   color: white;
   border: none;
-  padding: 0.65rem 1.25rem;
+  padding: 0.75rem 1.5rem;
   border-radius: 8px;
-  cursor: pointer;
   font-weight: 600;
-  transition: background-color 0.2s ease-in-out;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s ease-in-out;
 }
 
 .unbanButton:hover {
-  background-color: #059669;
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
 }
 
-/* Responsive tweaks */
+.unbanButton:active {
+  transform: translateY(1px);
+}
+
+/* 📱 Responsive */
 @media (max-width: 768px) {
-  .table th,
-  .table td {
-    padding: 0.5rem 0.75rem;
+  .heading {
+    font-size: 1.4rem;
   }
 
-  .heading {
-    font-size: 1.5rem;
+  .table th,
+  .table td {
+    padding: 0.6rem 0.7rem;
+    font-size: 0.85rem;
   }
 
   .unbanInput {
@@ -125,6 +198,26 @@
 
   .unbanButton {
     font-size: 0.85rem;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heading {
+    font-size: 1.25rem;
+  }
+
+  .wrapper {
+    padding: 1rem;
+  }
+
+  .unbanForm {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .unbanInput,
+  .unbanButton {
+    width: 100%;
   }
 }

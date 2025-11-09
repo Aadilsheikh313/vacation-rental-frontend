@@ -7,6 +7,7 @@ const initialState = {
   isError: false,
   message: "",
   banPropertyLogs: [],
+  PRoperty: {},
 };
 
 const adminBannedPropertySlice = createSlice({
@@ -14,7 +15,6 @@ const adminBannedPropertySlice = createSlice({
   initialState,
   reducers: {
     resetBanPropertyState: (state) => {
-      state.banPropertyLogs = [];
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
@@ -63,9 +63,13 @@ const adminBannedPropertySlice = createSlice({
       .addCase(fetchBanPropertyLogs.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.banPropertyLogs = action.payload || [];
+        state.banPropertyLogs = Array.isArray(action.payload.logs)
+          ? [...action.payload.logs].reverse() // ✅ Safe reverse
+          : [];
+        state.PRoperty = action.payload.property || {};
         state.message = "Ban logs fetched successfully.";
       })
+
       .addCase(fetchBanPropertyLogs.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;

@@ -42,28 +42,26 @@ const AdminTogglePropertyModal = ({ property, onClose }) => {
         }, 1500);
     };
 
-
-
     return (
         <div className={styles.modalOverlay}>
             <div className={styles.modalContainer}>
                 <div className={styles.modalBackdrop} >
-                                    <button onClick={onClose} className={styles.closeButton}>
-                    &times;
-                </button>
-                <h3
-                    className={`${styles.title} ${isInactivating ? styles.inactive : styles.active}`}
-                >
-                    {isInactivating ? (
-                        <>
-                            <FaBan /> Inactivate Property
-                        </>
-                    ) : (
-                        <>
-                            <FaCheckSquare /> Activate Property
-                        </>
-                    )}
-                </h3>
+                    <button onClick={onClose} className={styles.closeButton}>
+                        &times;
+                    </button>
+                    <h3
+                        className={`${styles.title} ${isInactivating ? styles.inactive : styles.active}`}
+                    >
+                        {isInactivating ? (
+                            <>
+                                <FaBan /> Inactivate Property
+                            </>
+                        ) : (
+                            <>
+                                <FaCheckSquare /> Activate Property
+                            </>
+                        )}
+                    </h3>
                 </div>
 
                 <form onSubmit={handleSubmit} className={styles.form}>
@@ -96,17 +94,25 @@ const AdminTogglePropertyModal = ({ property, onClose }) => {
                         </button>
                     </div>
                 </form>
-                <button
-                    className={styles.btnSecondary}
-                    onClick={() => setShowLogs(prev => !prev)}
-                >
-                    {showLogs ? "Hide Logs" : "Show Ban Details "}
+
+                <button className={styles.btnSecondary} onClick={() => setShowLogs(true)}>
+                    Show Ban Details
                 </button>
+
                 {showLogs && (
-                    <div className="mt-4">
-                        <AdminBanPropertyLogList propertyId={property._id} />
+                    <div className={styles.separateOverlay}>
+                        <div className={styles.separateContainer}>
+                            <button
+                                onClick={() => setShowLogs(false)}
+                                className={styles.closeButton}
+                            >
+                                &times;
+                            </button>
+                            <AdminBanPropertyLogList propertyId={property._id} />
+                        </div>
                     </div>
                 )}
+
             </div>
         </div>
     );

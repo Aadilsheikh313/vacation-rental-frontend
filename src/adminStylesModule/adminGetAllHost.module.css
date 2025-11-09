@@ -55,13 +55,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-   margin-top: 5rem;
+  margin-top: 5rem;
+  overflow: auto;
 }
 
 .modalCard {
   background: white;
   border-radius: 16px;
-   margin-top: 2rem;
+  margin-top: 2rem;
   padding: 24px;
   width: 95%;
   max-width: 1100px;
@@ -70,6 +71,7 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   position: relative;
   animation: slideUp 0.4s ease-out forwards;
+  overflow: auto;
 }
 
 @keyframes slideUp {
@@ -77,6 +79,7 @@
     transform: translateY(40px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -94,6 +97,7 @@
   cursor: pointer;
   transition: color 0.2s ease-in-out;
 }
+
 .closeButton:hover {
   color: #e63946;
 }
@@ -118,6 +122,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s;
 }
+
 .card:hover {
   transform: translateY(-4px);
 }
@@ -128,18 +133,24 @@
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 12px;
+  object-fit: cover;
 }
 
 .cardContent h4 {
-  font-size: 18px;
+  font-size: 1.5rem;
+  font-family: 'Playfair Display', serif;
   font-weight: 600;
   margin-bottom: 6px;
+  background: linear-gradient(90deg, #ff6a00, #ee0979);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .cardContent p {
-  font-size: 14px;
+  font-size: 1.2rem;
   margin-bottom: 4px;
   color: #555;
+  font-family: 'Lora', serif;
 }
 
 .postedDate {
@@ -152,8 +163,10 @@
   color: #666;
   font-size: 14px;
 }
+
 .banButton {
-  background-color: #dc2626; /* red */
+  background-color: #dc2626;
+  /* red */
   color: white;
   border: none;
   padding: 4px 10px;
@@ -161,9 +174,50 @@
 }
 
 .activeButton {
-  background-color: #22c55e; /* green */
+  background-color: #22c55e;
+  /* green */
   color: white;
   border: none;
   padding: 4px 10px;
   border-radius: 6px;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.actionButton {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, #ff6a00, #ee0979);
+  color: #fff;
+}
+
+.actionButton:hover {
+  background: linear-gradient(90deg, #ee0979, #ff6a00);
+  transform: scale(1.1);
+}
+
+.viewDetailsButton {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, #ff6a00, #ee0979);
+  color: #fff;
+}
+
+.viewDetailsButton:hover {
+  background: linear-gradient(90deg, #ee0979, #ff6a00);
+  transform: scale(1.1);
+}
+
+.viewDetailsButton a {
+  text-decoration: none;
+  color: #fff;
 }
