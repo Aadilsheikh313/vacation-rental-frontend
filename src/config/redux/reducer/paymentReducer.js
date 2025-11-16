@@ -1,9 +1,9 @@
-
 import { createSlice } from "@reduxjs/toolkit";
-import { initiateRazorpayOrder, verifyPayment } from "../action/paymentAction";
+import { getRazorpayKey, initiateRazorpayOrder, verifyPayment } from "../action/paymentAction";
 
 const initialState = {
   order: null,
+  key: null,
   paymentResult: null,
   isLoading: false,
   isSuccess: false,
@@ -35,6 +35,21 @@ const paymentSlice = createSlice({
         state.message = "Order created successfully";
       })
       .addCase(initiateRazorpayOrder.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getRazorpayKey.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Creating Razorpay order...";
+      })
+      .addCase(getRazorpayKey.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.key = action.payload;
+        state.message = "Key get successfully";
+      })
+      .addCase(getRazorpayKey.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

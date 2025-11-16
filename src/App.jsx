@@ -24,7 +24,7 @@ import MyBooking from './Booking/MyBookings';
 import GuestDashborad from './GuestDashbord/Index';
 import CurrentBooking from './HostDashboard/Booking-Property/Current-booking';
 import BookingHistory from './HostDashboard/Booking-Property/Booking-History';
-import Payment from './Payment/Index';
+import Payment from './Payment/Payment';
 import { useDispatch, useSelector } from 'react-redux';
 import ExploreAndStay from './HeroSection/Explore_Stays';
 import TouristAndPlace from './HeroSection/Tourist_Places';
@@ -49,6 +49,7 @@ import TripHomePage from './PlanOurTrip/Home';
 import AboutPage from './About/AboutPage';
 import GetAllRooms from './pages/AllGetRooms';
 import HomeTroust from './TrouistPlace/Home';
+import CompanyAddress from './Contact/CompnayAddress';
 
 function AppContent() {
   const location = useLocation();
@@ -89,6 +90,7 @@ function AppContent() {
         <Route path='/about' element={<AboutPage/>}/>
         <Route path='/getAllproperty' element={<GetAllRooms/>}/>
         <Route path='/explore' element={<HomeTroust/>}/>
+        <Route path="/contact" element={<CompanyAddress />} />
 
         {/* Admin Routes */}
         <Route path="/admin/register" element={<AdminRegister />} />

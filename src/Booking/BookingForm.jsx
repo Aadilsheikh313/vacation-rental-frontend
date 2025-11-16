@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,7 +6,7 @@ import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import { getSinglePosts } from "../config/redux/action/propertyAction";
 import { showError } from "../utils/toastUtils";
 
-import PaymentModal from "../Payment/Index";
+import PaymentModal from "../Payment/Payment";
 import CheckBookingConflict from "./CheckBookingConflict";
 
 import styles from "../stylesModule/Booking/bookingFrom.module.css";
@@ -20,6 +19,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import CustomSpinner from "../comman/Spinner";
 import { setExistingBooking } from "../config/redux/reducer/bookingReducer";
 import { checkBookingConflictPosts } from "../config/redux/action/bookingAction ";
+import Payment from "../Payment/Payment";
 
 const BookingForm = () => {
   const dispatch = useDispatch();
@@ -251,8 +251,15 @@ const BookingForm = () => {
 
       {/* Payment Modal */}
       {showPaymentModal && paymentData && (
-        <PaymentModal show={showPaymentModal} onHide={() => setShowPaymentModal(false)} {...paymentData} />
+        <Payment
+          show={showPaymentModal}
+          onHide={() => setShowPaymentModal(false)}
+          propertyId={paymentData.propertyId}
+          userId={paymentData.userId}
+          priceDetails={paymentData.priceDetails}
+        />
       )}
+
 
       {/* Booking Conflict Modal */}
       {showConflictModal && (

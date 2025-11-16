@@ -1,4 +1,3 @@
-
 import { clientServer } from "../config/axios";
 
 // 🔹 Create Razorpay Order
@@ -19,6 +18,26 @@ export const createRazorpayOrder = async (token, amount) => {
     throw error;
   }
 };
+
+//🔹 Get Razorpay Key
+
+export const getRazorpayKeyApi = async (token) => {
+    try {
+      const response = await clientServer.get(
+        `/api/payment/getkey`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("❌ Payment Key API error", error.response?.data || error.message);
+      throw error;
+    }
+} 
+
 
 // 🔹 Verify Razorpay Payment
 export const verifyRazorpayPayment = async (token, payload) => {

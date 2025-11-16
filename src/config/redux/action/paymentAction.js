@@ -1,6 +1,5 @@
-
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createRazorpayOrder, verifyRazorpayPayment } from "../../../api/paymentApi";
+import { createRazorpayOrder, getRazorpayKeyApi, verifyRazorpayPayment } from "../../../api/paymentApi";
 import { showError, showSuccess } from "../../../utils/toastUtils";
 
 // 🔹 Create Razorpay Order
@@ -9,7 +8,7 @@ export const initiateRazorpayOrder = createAsyncThunk(
   async ({ token, amount }, thunkAPI) => {
     try {
       const response = await createRazorpayOrder(token, amount);
-      return response; // API returns { order: { ... } }
+      return response; 
     } catch (error) {
       showError("Failed to create order");
       return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
@@ -17,6 +16,20 @@ export const initiateRazorpayOrder = createAsyncThunk(
   }
 );
 
+//🔹 Get Razorpay Key
+export const getRazorpayKey = createAsyncThunk(
+  "payment/getKey",
+  async (token, thunkAPI) => {  
+    try {
+      const response = await getRazorpayKeyApi(token);
+      return response; 
+    }
+    catch (error) {
+      showError("Failed to get Razorpay Key");
+      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
 // 🔹 Verify Razorpay Payment
 export const verifyPayment = createAsyncThunk(
   "payment/verify",
