@@ -27,7 +27,7 @@ const BookingForm = () => {
   const { id: propertyId } = useParams();
 
   const { singlePost } = useSelector((state) => state.post);
-  const { conflictData, existingBooking, isLoading, isError, message } = useSelector(
+  const { conflictData, existingBooking, createdBooking, isLoading, isError, message } = useSelector(
     (state) => state.booking
   );
   const { user } = useSelector((state) => state.auth);
@@ -94,24 +94,21 @@ const BookingForm = () => {
 
     const { checkIn, checkOut, guests } = formData;
 
-    // Validation
-    if (!checkIn || !checkOut) return showError("Please select check-in and check-out dates.");
-    if (new Date(checkOut) <= new Date(checkIn)) return showError("Check-out must be after check-in.");
-    if (guests.adults < 1) return showError("At least one adult is required.");
+    if (!checkIn || !checkOut)
+      return showError("Please select check-in and check-out dates.");
 
-    // Normalize dates
-    const normalizeDate = (dateStr) => {
-      const d = new Date(dateStr);
-      d.setHours(0, 0, 0, 0);
-      return d.toISOString();
-    };
+    if (new Date(checkOut) <= new Date(checkIn))
+      return showError("Check-out must be after check-in.");
 
+    if (guests.adults < 1)
+      return showError("At least one adult is required.");
+
+    // 🔥 FIXED: send local date without timezone issue
     const bookingDates = {
-      checkIn: normalizeDate(formData.checkIn),
-      checkOut: normalizeDate(formData.checkOut),
+      checkIn: checkIn + "T00:00:00",
+      checkOut: checkOut + "T00:00:00",
     };
 
-    // 🔹 Dispatch conflict check
     const resultAction = await dispatch(
       checkBookingConflictPosts({
         propertyId,
@@ -121,34 +118,36 @@ const BookingForm = () => {
       })
     );
 
-    if (checkBookingConflictPosts.fulfilled.match(resultAction)) {
-      const data = resultAction.payload;
-
-      // 1️⃣ Same user existing booking
-      if (data.alreadyBookedByUser && data.existingBooking) {
-        dispatch(setExistingBooking(data.existingBooking));
-        setShowConflictModal(true);
-        return;
-      }
-
-      // 2️⃣ Other user(s) overlapping bookings
-      if (data.alreadyBooked && Array.isArray(data.bookedDates) && data.bookedDates.length > 0) {
-        setShowConflictModal(true);
-        return;
-      }
-
-      // 3️⃣ No conflicts → proceed to payment
-      setPaymentData({
-        propertyId,
-        userId: user._id,
-        priceDetails,
-        formData,
-      });
-      setShowPaymentModal(true);
-    } else {
-      showError(resultAction.payload || "Failed to check booking availability. Please try again.");
+    if (!checkBookingConflictPosts.fulfilled.match(resultAction)) {
+      return showError("Failed to check booking availability.");
     }
+
+    const data = resultAction.payload;
+
+    // 1️⃣ Existing Booking by Same User
+    if (data.alreadyBookedByUser && data.existingBooking) {
+      dispatch(setExistingBooking(data.existingBooking));
+      setShowConflictModal(true);
+      return;
+    }
+
+    // 2️⃣ Other Users Conflict
+    if (data.alreadyBooked && data.bookedDates?.length > 0) {
+      setShowConflictModal(true);
+      return;
+    }
+
+    // 3️⃣ No Conflicts → Open Payment Modal
+    setPaymentData({
+      propertyId,
+      userId: user._id,
+      formData,
+      priceDetails,
+    });
+
+    setShowPaymentModal(true);
   };
+
 
   return (
     <Container className={styles.bookingFormWrapper}>
@@ -208,8 +207,14 @@ const BookingForm = () => {
                 {["adults", "children", "infants", "pets"].map((g, idx) => (
                   <Col md={3} key={idx}>
                     <Form.Group>
-                      <Form.Label>{g.charAt(0).toUpperCase() + g.slice(1)}</Form.Label>
-                      <Form.Control type="number" name={g} value={formData.guests[g]} onChange={handleChange} min={g === "adults" ? 1 : 0} />
+                      <Form.Label className="text-capitalize">{g}</Form.Label>
+                      <Form.Control
+                        type="number"
+                        name={g}
+                        min="0"
+                        value={formData.guests[g]}
+                        onChange={handleChange}
+                      />
                     </Form.Group>
                   </Col>
                 ))}
@@ -256,9 +261,11 @@ const BookingForm = () => {
           onHide={() => setShowPaymentModal(false)}
           propertyId={paymentData.propertyId}
           userId={paymentData.userId}
+          formData={paymentData.formData}     
           priceDetails={paymentData.priceDetails}
         />
       )}
+
 
 
       {/* Booking Conflict Modal */}

@@ -8,6 +8,8 @@ export const initiateRazorpayOrder = createAsyncThunk(
   async ({ token, amount }, thunkAPI) => {
     try {
       const response = await createRazorpayOrder(token, amount);
+      console.log("ACTIONORD", response);
+      
       return response; 
     } catch (error) {
       showError("Failed to create order");
@@ -22,6 +24,7 @@ export const getRazorpayKey = createAsyncThunk(
   async (token, thunkAPI) => {  
     try {
       const response = await getRazorpayKeyApi(token);
+      console.log("ACTIONKEY", response);
       return response; 
     }
     catch (error) {
@@ -33,9 +36,9 @@ export const getRazorpayKey = createAsyncThunk(
 // 🔹 Verify Razorpay Payment
 export const verifyPayment = createAsyncThunk(
   "payment/verify",
-  async ({ token, payload }, thunkAPI) => {
+  async ({ verifyData, token }, thunkAPI) => {
     try {
-      const response = await verifyRazorpayPayment(token, payload);
+      const response = await verifyRazorpayPayment(token, verifyData);
       showSuccess("Payment Verified");
       return response;
     } catch (error) {
@@ -44,3 +47,4 @@ export const verifyPayment = createAsyncThunk(
     }
   }
 );
+

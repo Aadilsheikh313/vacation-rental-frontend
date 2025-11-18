@@ -6,25 +6,48 @@ export const getBookingPropertyApi = async () => {
   return response.data;
 }
 
-// Post new booking — now sends data properly
-export const postBookingPropertyApi = async (propertyId, bookingData) => {
+// Create temporary booking (before payment)
+export const createTempBookingApi = async (token, payload) => {
   try {
     const response = await clientServer.post(
-      `/api/booking/property/${propertyId}`,
-      bookingData, // ✅ send full booking data
+      `/api/booking/create-temp`,
+      payload,
       {
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }
     );
-    console.log("✅ Booking posted", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("❌ createTempBookingApi error:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+
+// Post new booking — now sends data properly
+export const postBookingPropertyApi = async (propertyId, bookingData, token) => {
+  try {
+    const response = await clientServer.post(
+      `/api/booking/property/${propertyId}`,
+      bookingData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // 🔥 Token Added
+        },
+      }
+    );
+    console.log("📦 Booking posted:", response.data);
     return response.data;
   } catch (error) {
     console.error("❌ Booking API error", error.response?.data || error.message);
     throw error;
   }
 };
+
 
 //Expiend booking date 
 export const editBookingApi = async (checkIn, checkOut, token, guests, bookingId) => {

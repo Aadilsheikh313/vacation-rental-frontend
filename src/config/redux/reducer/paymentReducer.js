@@ -31,7 +31,9 @@ const paymentSlice = createSlice({
       .addCase(initiateRazorpayOrder.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.order = action.payload;
+        state.order = action.payload?.order;
+        console.log("REORDER", action.payload?.order ||   state.order );
+        
         state.message = "Order created successfully";
       })
       .addCase(initiateRazorpayOrder.rejected, (state, action) => {
@@ -46,7 +48,8 @@ const paymentSlice = createSlice({
       .addCase(getRazorpayKey.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.key = action.payload;
+        state.key = action.payload?.key;
+        console.log("REKEY",action.payload?.key ||   state.key );
         state.message = "Key get successfully";
       })
       .addCase(getRazorpayKey.rejected, (state, action) => {

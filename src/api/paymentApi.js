@@ -12,6 +12,7 @@ export const createRazorpayOrder = async (token, amount) => {
         },
       }
     );
+    console.log("APIORDE", response);
     return response.data;
   } catch (error) {
     console.error("❌ Payment API error", error.response?.data || error.message);
@@ -31,6 +32,7 @@ export const getRazorpayKeyApi = async (token) => {
           },
         }
       );
+      console.log("APIKEY", response);
       return response.data;
     } catch (error) {
       console.error("❌ Payment Key API error", error.response?.data || error.message);

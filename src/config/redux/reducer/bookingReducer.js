@@ -15,6 +15,7 @@ const initialState = {
   activeBookings: [],
   historyBookings: [],
   bookedDates: [],
+  createdBooking: null,
   existingBooking: null,
   isLoading: false,
   isError: false,
@@ -40,6 +41,7 @@ const bookingSlice = createSlice({
       state.isSuccess = false;
       state.message = "";
       state.conflictData = null;
+      state.createdBooking = null;
       state.existingBooking = null; // Reset existing booking
     },
     setExistingBooking: (state, action) => {
@@ -76,6 +78,10 @@ const bookingSlice = createSlice({
         state.isSuccess = true;
         state.message = action.payload.message;
         state.bookings.unshift(action.payload.booking); // Add to start
+        console.log(state.bookings.unshift(action.payload.booking) );
+        state.createdBooking = action.payload.booking;
+        console.log("CREATED BOOKING", action.payload.booking );
+        
       })
       .addCase(postBookingPropertyPosts.rejected, (state, action) => {
         state.isLoading = false;

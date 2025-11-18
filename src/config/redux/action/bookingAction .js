@@ -30,9 +30,10 @@ export const getBookingPropertyPosts = createAsyncThunk(
 // 🔹 POST Booking
 export const postBookingPropertyPosts = createAsyncThunk(
   "booking/postBookingPropertyPosts",
-  async ({ propertyId, bookingDate }, thunkAPI) => {
+  async ({ propertyId, bookingDate, token }, thunkAPI) => {
     try {
-      const response = await postBookingPropertyApi(propertyId, bookingDate);
+      const response = await postBookingPropertyApi(propertyId, bookingDate, token);
+     console.log("📦 Booking created successfully:", response);
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
       console.error("❌ Post booking error:", error);
