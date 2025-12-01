@@ -1,10 +1,16 @@
+// redux/reducers/paymentReducer.js
 import { createSlice } from "@reduxjs/toolkit";
-import { getRazorpayKey, initiateRazorpayOrder, verifyPayment } from "../action/paymentAction";
+import {
+  getRazorpayKey,
+  initiateRazorpayOrder,
+  verifyPayment,
+} from "../action/paymentAction";
 
 const initialState = {
-  order: null,
   key: null,
+  order: null,
   paymentResult: null,
+
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -20,10 +26,16 @@ const paymentSlice = createSlice({
       state.isSuccess = false;
       state.isError = false;
       state.message = "";
+      state.order = null;
+      state.paymentResult = null;
     },
   },
+
   extraReducers: (builder) => {
     builder
+      /**
+       * 🔹 Create Razorpay Order
+       */
       .addCase(initiateRazorpayOrder.pending, (state) => {
         state.isLoading = true;
         state.message = "Creating Razorpay order...";
@@ -31,9 +43,7 @@ const paymentSlice = createSlice({
       .addCase(initiateRazorpayOrder.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.order = action.payload?.order;
-        console.log("REORDER", action.payload?.order ||   state.order );
-        
+        state.order = action.payload.order; // backend returns {success, order}
         state.message = "Order created successfully";
       })
       .addCase(initiateRazorpayOrder.rejected, (state, action) => {
@@ -41,22 +51,29 @@ const paymentSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
+
+      /**
+       * 🔹 Get Razorpay Public Key
+       */
       .addCase(getRazorpayKey.pending, (state) => {
         state.isLoading = true;
-        state.message = "Creating Razorpay order...";
+        state.message = "Fetching Razorpay key...";
       })
       .addCase(getRazorpayKey.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.key = action.payload?.key;
-        console.log("REKEY",action.payload?.key ||   state.key );
-        state.message = "Key get successfully";
+        state.key = action.payload.key; // backend returns {key}
+        state.message = "Razorpay key fetched";
       })
       .addCase(getRazorpayKey.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
+
+      /**
+       * 🔹 Verify Payment
+       */
       .addCase(verifyPayment.pending, (state) => {
         state.isLoading = true;
         state.message = "Verifying payment...";
@@ -64,7 +81,7 @@ const paymentSlice = createSlice({
       .addCase(verifyPayment.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.paymentResult = action.payload;
+        state.paymentResult = action.payload; // backend returns booking + payment
         state.message = "Payment verified successfully";
       })
       .addCase(verifyPayment.rejected, (state, action) => {
@@ -75,5 +92,5 @@ const paymentSlice = createSlice({
   },
 });
 
-export default paymentSlice.reducer;
 export const { resetPaymentStatus } = paymentSlice.actions;
+export default paymentSlice.reducer;

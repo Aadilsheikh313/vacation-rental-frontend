@@ -1,123 +1,98 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
-import { createTempBookingApi } from "../api/bookingApi";
-import { showError, showSuccess } from "../utils/toastUtils";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  initiateRazorpayOrder,
+  getRazorpayKey,
+  verifyPayment,
+} from "../config/redux/action/paymentAction";
+import { showError } from "../utils/toastUtils";
 
-const Payment = ({ show, onHide, propertyId, userId, formData, priceDetails }) => {
-  const { user, token } = useSelector((state) => state.auth);
+// Prevent double verification request
+let isVerifying = false;
 
-  const [paymentLaunched, setPaymentLaunched] = useState(false);
+const Payment = ({ show, onHide, singlePost }) => {
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
+  const { tempBooking } = useSelector((state) => state.booking);
+  const { key } = useSelector((state) => state.payment);
 
-  // Razorpay amount in paise
-  const amountRupees = Number(priceDetails?.totalPrice || 0);
-  const amountPaise = Math.round(amountRupees * 100);
-
-  // 🟡 Load Razorpay SDK Only Once
   useEffect(() => {
-    if (!window.Razorpay) {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  }, []);
+    if (show && tempBooking) startPayment();
+    // eslint-disable-next-line
+  }, [show, tempBooking]);
 
-  // 🟢 Listen when modal opens
-  useEffect(() => {
-    if (show && !paymentLaunched) {
-      startPaymentProcess();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [show]);
-
-  const startPaymentProcess = async () => {
-    setPaymentLaunched(true);
-
+  const startPayment = async () => {
     try {
-      // 1️⃣ Create pending booking (temporary) on backend
-      const tempRes = await createTempBookingApi(token, {
-        propertyId,
-        checkIn: formData.checkIn,
-        checkOut: formData.checkOut,
-        guests: formData.guests,
-        serviceFee: formData.serviceFee,
-        totalAmount: amountRupees, // rupees
-      });
+      const bookingId = tempBooking._id;
 
-      const booking = tempRes.booking;
+      // 1️⃣ Get Razorpay Public Key
+      let razorpayKey = key;
+      if (!razorpayKey) {
+        const k = await dispatch(getRazorpayKey(token)).unwrap();
+        razorpayKey = k.key;
+      }
 
       // 2️⃣ Create Razorpay Order
-      const orderRes = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/api/payment/create-order`,
-        { bookingId: booking._id },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const orderRes = await dispatch(
+        initiateRazorpayOrder({ token, bookingId })
+      ).unwrap();
+      const order = orderRes.order;
 
-      const orderData = orderRes.data.order;
-
-      // 3️⃣ Get Razorpay Key
-      const keyRes = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/api/payment/getkey`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      const razorKey = keyRes.data.key;
-
-      // 4️⃣ Open Razorpay Payment Popup
-      if (!window.Razorpay) return showError("❌ Razorpay SDK not available!");
-
+      // 3️⃣ Razorpay Checkout Options
       const options = {
-        key: razorKey,
-        amount: orderData.amount,
+        key: razorpayKey,
+        amount: order.amount,
         currency: "INR",
-        name: "StayHub Booking",
-        description: `Booking ${booking.bookingCode || booking._id}`,
-        order_id: orderData.id,
+        name: singlePost,
+        description: `Booking Payment - ${tempBooking.bookingCode}`,
+        order_id: order.id,
 
         handler: async function (response) {
-          try {
-            // 5️⃣ Verify Payment
-            await axios.post(
-              `${import.meta.env.VITE_SERVER_URL}/api/payment/verify`,
-              {
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                bookingId: booking._id,
-              },
-              { headers: { Authorization: `Bearer ${token}` } }
-            );
+          if (isVerifying) return; // stop duplicate verification
+          isVerifying = true;
 
-            showSuccess("🎉 Payment Successful & Booking Confirmed!");
-            onHide();
-            window.location.href = `/booking-success/${booking._id}`;
-          } catch (error) {
-            showError("❌ Payment verification failed. Please contact support.");
-          }
+          const verifyData = {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            bookingId,
+          };
+
+          await dispatch(verifyPayment({ token, verifyData })).unwrap();
+          onHide?.();
+          window.location.href = `/payment-verification?bookingId=${bookingId}`;
         },
 
         prefill: {
-          name: user?.name,
-          email: user?.email,
-          contact: user?.phone,
+          name: tempBooking?.user?.name,
+          email: tempBooking?.user?.email,
         },
-
-        theme: {
-          color: "#4c8cf5",
-        },
+        theme: { color: "#2b5fff" },
       };
 
       const rzp = new window.Razorpay(options);
+
+      // 🔥 FIX SVG Warning (width="auto" height="auto")
+      rzp.on("modal.open", () => {
+        setTimeout(() => {
+          document.querySelectorAll("svg").forEach((el) => {
+            if (el.getAttribute("width") === "auto") el.setAttribute("width", "24");
+            if (el.getAttribute("height") === "auto") el.setAttribute("height", "24");
+          });
+        }, 300);
+      });
+
+      rzp.on("payment.failed", () => onHide?.());
       rzp.open();
+
     } catch (error) {
       console.error(error);
-      showError(error?.response?.data?.message || "⚠️ Failed to initialize payment");
-      setPaymentLaunched(false);
+      showError("Payment process failed");
+      onHide?.();
     }
   };
 
-  return null; // Ye modal controll parent ka hai
+  return null;
 };
 
 export default Payment;

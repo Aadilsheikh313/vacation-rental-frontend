@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   cancelBookingApi,
   checkBookingConflictApi,
+  createTempBookingApi,
   deleteGuestHistroyBookingApi,
   editBookingApi,
   getActiveBookingApi,
@@ -11,34 +12,56 @@ import {
 } from "../../../api/bookingApi";
 
 
-// 🔹 GET Booking
+/**
+ * Get bookings of logged-in user
+ */
 export const getBookingPropertyPosts = createAsyncThunk(
   "booking/getBookingPropertyPosts",
-  async (_, thunkAPI) => {
+  async (token, thunkAPI) => {
     try {
-      const response = await getBookingPropertyApi();
+      const response = await getBookingPropertyApi(token);
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
-      console.error("❌ Get booking error:", error);
       return thunkAPI.rejectWithValue(
-        error?.response?.data?.message || "Failed to fetch bookings"
+        error?.message || "Failed to fetch bookings"
       );
     }
   }
-)
+);
 
-// 🔹 POST Booking
-export const postBookingPropertyPosts = createAsyncThunk(
-  "booking/postBookingPropertyPosts",
-  async ({ propertyId, bookingDate, token }, thunkAPI) => {
+/**
+ * Create TEMP booking (for Razorpay online payment)
+ */
+export const createTempBookingPosts = createAsyncThunk(
+  "booking/createTempBookingPosts",
+  async ({ token, payload }, thunkAPI) => {
     try {
-      const response = await postBookingPropertyApi(propertyId, bookingDate, token);
-     console.log("📦 Booking created successfully:", response);
+      const response = await createTempBookingApi(token, payload);
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
-      console.error("❌ Post booking error:", error);
       return thunkAPI.rejectWithValue(
-        error?.response?.data?.message || "Failed to book this property"
+        error?.message || "Failed to create temporary booking"
+      );
+    }
+  }
+);
+
+/**
+ * Create final CASH booking
+ */
+export const postBookingPropertyPosts = createAsyncThunk(
+  "booking/postBookingPropertyPosts",
+  async ({ propertyId, bookingData, token }, thunkAPI) => {
+    try {
+      const response = await postBookingPropertyApi(
+        propertyId,
+        bookingData,
+        token
+      );
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.message || "Failed to complete booking"
       );
     }
   }
@@ -82,13 +105,13 @@ export const checkBookingConflictPosts = createAsyncThunk(
   "booking/checkBookingConflictPosts",
   async ({ propertyId, userId, checkIn, checkOut }, thunkAPI) => {
     try {
-      const response = await checkBookingConflictApi(propertyId, userId, checkIn, checkOut); 
+      const response = await checkBookingConflictApi(propertyId, userId, checkIn, checkOut);
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error?.response?.data?.message || "Failed to check booking conflict"
       );
-    } 
+    }
   }
 );
 

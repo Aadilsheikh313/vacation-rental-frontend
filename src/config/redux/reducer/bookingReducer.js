@@ -7,6 +7,7 @@ import {
   getHostBookingHistoryPosts,
   deleteGuestHistroyBookingPosts,
   checkBookingConflictPosts,
+  createTempBookingPosts,
 } from "../action/bookingAction ";
 
 
@@ -17,6 +18,8 @@ const initialState = {
   bookedDates: [],
   createdBooking: null,
   existingBooking: null,
+  tempBooking: null,
+  conflictData: null,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -41,8 +44,9 @@ const bookingSlice = createSlice({
       state.isSuccess = false;
       state.message = "";
       state.conflictData = null;
+      state.tempBooking = null;
       state.createdBooking = null;
-      state.existingBooking = null; // Reset existing booking
+      state.existingBooking = null;
     },
     setExistingBooking: (state, action) => {
       state.existingBooking = action.payload;
@@ -51,7 +55,7 @@ const bookingSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      // 🔹 GET Booking
+      // 📌 GET Booking
       .addCase(getBookingPropertyPosts.pending, (state) => {
         state.isLoading = true;
         state.message = "Loading your bookings...";
@@ -68,7 +72,24 @@ const bookingSlice = createSlice({
         state.message = action.payload;
       })
 
-      // 🔹 POST Booking
+      // 🟡 TEMPORARY BOOKING (Before Payment)
+      .addCase(createTempBookingPosts.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Creating temporary booking...";
+      })
+      .addCase(createTempBookingPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.tempBooking = action.payload.booking;
+        state.message = "Temporary booking created.";
+      })
+      .addCase(createTempBookingPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+      // 🟢 FINAL BOOKING (CASH BOOKING)
       .addCase(postBookingPropertyPosts.pending, (state) => {
         state.isLoading = true;
         state.message = "Booking in progress...";
@@ -76,19 +97,20 @@ const bookingSlice = createSlice({
       .addCase(postBookingPropertyPosts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.message = action.payload.message;
-        state.bookings.unshift(action.payload.booking); // Add to start
-        console.log(state.bookings.unshift(action.payload.booking) );
-        state.createdBooking = action.payload.booking;
-        console.log("CREATED BOOKING", action.payload.booking );
-        
+
+        const booking = action.payload.booking;
+        state.createdBooking = booking;
+
+        // Add only if booking does not exist already (safe)
+        if (!state.bookings.find((b) => b._id === booking._id)) {
+          state.bookings.unshift(booking);
+        }
       })
       .addCase(postBookingPropertyPosts.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-
       // 🔹 EDIT Booking
       .addCase(editBookingPosts.pending, (state) => {
         state.isLoading = true;

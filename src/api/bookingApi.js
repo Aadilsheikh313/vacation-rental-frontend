@@ -1,33 +1,50 @@
-import { clientServer } from "../config/axios"
+// api/bookingApi.js
+import { clientServer } from "../config/axios";
 
+/**
+ * Get all bookings of logged-in user
+ */
+export const getBookingPropertyApi = async (token) => {
+  try {
+    const response = await clientServer.get("/api/booking/my-bookings", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("❌ getBookingPropertyApi error:", error.response?.data || error.message);
+    throw error.response?.data || error;
+  }
+};
 
-export const getBookingPropertyApi = async () => {
-  const response = await clientServer.get("/api/booking/my-bookings");
-  return response.data;
-}
-
-// Create temporary booking (before payment)
+/**
+ * Create temporary booking (online payment flow)
+ */
 export const createTempBookingApi = async (token, payload) => {
   try {
     const response = await clientServer.post(
-      `/api/booking/create-temp`,
+      "/api/booking/create-temp",
       payload,
       {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       }
     );
     return response.data;
   } catch (error) {
     console.error("❌ createTempBookingApi error:", error.response?.data || error.message);
-    throw error;
+    throw error.response?.data || error;
   }
 };
 
-
-// Post new booking — now sends data properly
+/**
+ * Create booking for CASH method
+ */
 export const postBookingPropertyApi = async (propertyId, bookingData, token) => {
   try {
     const response = await clientServer.post(
@@ -35,16 +52,16 @@ export const postBookingPropertyApi = async (propertyId, bookingData, token) => 
       bookingData,
       {
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // 🔥 Token Added
         },
+        withCredentials: true,
       }
     );
-    console.log("📦 Booking posted:", response.data);
     return response.data;
   } catch (error) {
-    console.error("❌ Booking API error", error.response?.data || error.message);
-    throw error;
+    console.error("❌ postBookingPropertyApi error:", error.response?.data || error.message);
+    throw error.response?.data || error;
   }
 };
 

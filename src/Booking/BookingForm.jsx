@@ -1,13 +1,15 @@
+
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 
 import { getSinglePosts } from "../config/redux/action/propertyAction";
+import { setExistingBooking } from "../config/redux/reducer/bookingReducer";
 import { showError } from "../utils/toastUtils";
 
-import PaymentModal from "../Payment/Payment";
 import CheckBookingConflict from "./CheckBookingConflict";
+import Payment from "../Payment/Payment";
 
 import styles from "../stylesModule/Booking/bookingFrom.module.css";
 import RoomsBooking from "../assets/RoomsDetails.jpg";
@@ -17,9 +19,11 @@ import { MdOutlineWatchLater } from "react-icons/md";
 import { IoLocationOutline } from "react-icons/io5";
 
 import CustomSpinner from "../comman/Spinner";
-import { setExistingBooking } from "../config/redux/reducer/bookingReducer";
-import { checkBookingConflictPosts } from "../config/redux/action/bookingAction ";
-import Payment from "../Payment/Payment";
+import {
+  checkBookingConflictPosts,
+  createTempBookingPosts,
+  postBookingPropertyPosts
+} from "../config/redux/action/bookingAction ";
 
 const BookingForm = () => {
   const dispatch = useDispatch();
@@ -27,17 +31,17 @@ const BookingForm = () => {
   const { id: propertyId } = useParams();
 
   const { singlePost } = useSelector((state) => state.post);
-  const { conflictData, existingBooking, createdBooking, isLoading, isError, message } = useSelector(
+  const { conflictData, existingBooking, isLoading, isError, tempBooking, message } = useSelector(
     (state) => state.booking
   );
-  const { user } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
     checkIn: "",
     checkOut: "",
     guests: { adults: 1, children: 0, infants: 0, pets: 0 },
     serviceFee: 100,
-    paymentMethod: "card",
+    paymentMethod: "online",
   });
 
   const [priceDetails, setPriceDetails] = useState({
@@ -49,31 +53,32 @@ const BookingForm = () => {
   });
 
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [paymentData, setPaymentData] = useState(null);
+  const [paymentPayload, setPaymentPayload] = useState(null);
   const [showConflictModal, setShowConflictModal] = useState(false);
 
-  // Fetch property details
   useEffect(() => {
     if (propertyId) dispatch(getSinglePosts(propertyId));
   }, [dispatch, propertyId]);
 
-  // Auto calculate price
   useEffect(() => {
     if (singlePost?.price && formData.checkIn && formData.checkOut) {
       const nights = Math.ceil(
-        (new Date(formData.checkOut) - new Date(formData.checkIn)) / (1000 * 60 * 60 * 24)
+        (new Date(formData.checkOut) - new Date(formData.checkIn)) /
+        (1000 * 60 * 60 * 24)
       );
       const validNights = nights > 0 ? nights : 0;
-      const roomAmount = singlePost.price * validNights;
+      const roomAmount = Number(singlePost.price) * validNights;
 
       let gstRate = 0;
-      if (singlePost.price >= 1001 && singlePost.price <= 7499) gstRate = 12;
-      else if (singlePost.price >= 7500) gstRate = 18;
+      if (Number(singlePost.price) >= 1001 && Number(singlePost.price) <= 7499) gstRate = 12;
+      else if (Number(singlePost.price) >= 7500) gstRate = 18;
 
-      const gstAmount = (roomAmount * gstRate) / 100;
-      const totalPrice = roomAmount + parseInt(formData.serviceFee) + gstAmount;
+      const gstAmount = Number(((roomAmount * gstRate) / 100).toFixed(2));
+      const totalPrice = Number((roomAmount + Number(formData.serviceFee) + gstAmount).toFixed(2));
 
       setPriceDetails({ nights: validNights, roomAmount, gstRate, gstAmount, totalPrice });
+    } else {
+      setPriceDetails({ nights: 0, roomAmount: 0, gstRate: 0, gstAmount: 0, totalPrice: 0 });
     }
   }, [formData.checkIn, formData.checkOut, formData.serviceFee, singlePost]);
 
@@ -82,28 +87,22 @@ const BookingForm = () => {
     if (["adults", "children", "infants", "pets"].includes(name)) {
       setFormData((prev) => ({
         ...prev,
-        guests: { ...prev.guests, [name]: parseInt(value) || 0 },
+        guests: { ...prev.guests, [name]: parseInt(value, 10) || 0 },
       }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleStartBooking = async (method) => {
+    if (!token) return navigate("/login");
 
     const { checkIn, checkOut, guests } = formData;
 
-    if (!checkIn || !checkOut)
-      return showError("Please select check-in and check-out dates.");
+    if (!checkIn || !checkOut) return showError("Please select check-in and check-out dates.");
+    if (new Date(checkOut) <= new Date(checkIn)) return showError("Check-out must be after check-in.");
+    if (guests.adults < 1) return showError("At least one adult is required.");
 
-    if (new Date(checkOut) <= new Date(checkIn))
-      return showError("Check-out must be after check-in.");
-
-    if (guests.adults < 1)
-      return showError("At least one adult is required.");
-
-    // 🔥 FIXED: send local date without timezone issue
     const bookingDates = {
       checkIn: checkIn + "T00:00:00",
       checkOut: checkOut + "T00:00:00",
@@ -124,34 +123,63 @@ const BookingForm = () => {
 
     const data = resultAction.payload;
 
-    // 1️⃣ Existing Booking by Same User
     if (data.alreadyBookedByUser && data.existingBooking) {
       dispatch(setExistingBooking(data.existingBooking));
       setShowConflictModal(true);
       return;
     }
 
-    // 2️⃣ Other Users Conflict
     if (data.alreadyBooked && data.bookedDates?.length > 0) {
       setShowConflictModal(true);
       return;
     }
 
-    // 3️⃣ No Conflicts → Open Payment Modal
-    setPaymentData({
+    const bookingPayload = {
       propertyId,
-      userId: user._id,
-      formData,
-      priceDetails,
-    });
+      checkIn,
+      checkOut,
+      guests,
+      serviceFee: formData.serviceFee,
+      totalAmount: priceDetails.totalPrice,
+    };
 
-    setShowPaymentModal(true);
+    // 💵 CASH BOOKING
+    if (method === "cash") {
+      const res = await dispatch(
+        postBookingPropertyPosts({
+          propertyId,
+          bookingData: bookingPayload,
+          token,
+        })
+      );
+      if (postBookingPropertyPosts.fulfilled.match(res)) {
+        navigate("/my-bookings");
+      }
+      return;
+    }
+    // 💳 ONLINE PAYMENT
+    const tempRes = await dispatch(
+      createTempBookingPosts({
+        token,
+        payload: bookingPayload,
+      })
+    );
+
+    if (createTempBookingPosts.fulfilled.match(tempRes)) {
+      setPaymentPayload({
+        propertyId,
+        formData,
+        priceDetails,
+      });
+      setShowPaymentModal(true);
+    }
+
   };
+
 
 
   return (
     <Container className={styles.bookingFormWrapper}>
-      {/* Banner */}
       <div className={styles.bookingTopImage}>
         <img src={RoomsBooking} alt="RoomBookingImage" />
         <div className={styles.overlay}></div>
@@ -164,7 +192,6 @@ const BookingForm = () => {
         </div>
       </div>
 
-      {/* Form */}
       <Card className={styles.bookingCard}>
         {isLoading ? (
           <CustomSpinner />
@@ -185,8 +212,7 @@ const BookingForm = () => {
               </>
             )}
 
-            <Form onSubmit={handleSubmit} className={styles.bookingFrom}>
-              {/* Dates */}
+            <Form className={styles.bookingFrom}>
               <Row className="mb-3">
                 <Col md={6}>
                   <Form.Group>
@@ -202,25 +228,17 @@ const BookingForm = () => {
                 </Col>
               </Row>
 
-              {/* Guests */}
               <Row className="mb-3">
-                {["adults", "children", "infants", "pets"].map((g, idx) => (
-                  <Col md={3} key={idx}>
+                {["adults", "children", "infants", "pets"].map((g, i) => (
+                  <Col md={3} key={i}>
                     <Form.Group>
                       <Form.Label className="text-capitalize">{g}</Form.Label>
-                      <Form.Control
-                        type="number"
-                        name={g}
-                        min="0"
-                        value={formData.guests[g]}
-                        onChange={handleChange}
-                      />
+                      <Form.Control type="number" name={g} min="0" value={formData.guests[g]} onChange={handleChange} />
                     </Form.Group>
                   </Col>
                 ))}
               </Row>
 
-              {/* Price */}
               <Row className="mb-3">
                 <Col md={6}>
                   <Form.Group>
@@ -245,8 +263,11 @@ const BookingForm = () => {
               </div>
 
               <div className={styles.BookingBTN}>
-                <Button type="submit" disabled={isLoading} className={styles.bookBtn}>
-                  {isLoading ? "Booking..." : "Book Now"}
+                <Button onClick={() => handleStartBooking("cash")} className={styles.bookBtn}>
+                  Cash Payment
+                </Button>
+                <Button onClick={() => handleStartBooking("online")} className={styles.bookBtn}>
+                  Online Payment
                 </Button>
               </div>
             </Form>
@@ -254,21 +275,15 @@ const BookingForm = () => {
         )}
       </Card>
 
-      {/* Payment Modal */}
-      {showPaymentModal && paymentData && (
+      {showPaymentModal && tempBooking && paymentPayload && (
         <Payment
           show={showPaymentModal}
           onHide={() => setShowPaymentModal(false)}
-          propertyId={paymentData.propertyId}
-          userId={paymentData.userId}
-          formData={paymentData.formData}     
-          priceDetails={paymentData.priceDetails}
+          singlePost={singlePost.title}
         />
       )}
 
 
-
-      {/* Booking Conflict Modal */}
       {showConflictModal && (
         <CheckBookingConflict
           conflictData={conflictData}
@@ -279,13 +294,12 @@ const BookingForm = () => {
         />
       )}
 
-      {/* Info Cards */}
       <div className={styles.serviecCard}>
         <Card className={styles.CardService}>
           <FaPhone />
           <h3>Need Help?</h3>
           <p>Call our reservation team</p>
-          <p>{singlePost?.directContact?.phone} <br /> {singlePost?.directContact?.email}</p>
+          <p>{singlePost?.directContact?.phone}<br />{singlePost?.directContact?.email}</p>
         </Card>
         <Card className={styles.CardService}>
           <MdOutlineWatchLater />

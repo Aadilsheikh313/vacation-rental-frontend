@@ -50,6 +50,8 @@ import AboutPage from './About/AboutPage';
 import GetAllRooms from './pages/AllGetRooms';
 import HomeTroust from './TrouistPlace/Home';
 import CompanyAddress from './Contact/CompnayAddress';
+import CashPayment from './Payment/CashPayment';
+import VerificationPayment from './Payment/VerificationPayment';
 
 function AppContent() {
   const location = useLocation();
@@ -87,10 +89,12 @@ function AppContent() {
         <Route path='/top-spots' element={<TopSpots />} />
         <Route path='/plan-my-trip' element={<TripHomePage />} />
         <Route path='/testy-food' element={<FoodAndFun />} />
-        <Route path='/about' element={<AboutPage/>}/>
-        <Route path='/getAllproperty' element={<GetAllRooms/>}/>
-        <Route path='/explore' element={<HomeTroust/>}/>
+        <Route path='/about' element={<AboutPage />} />
+        <Route path='/getAllproperty' element={<GetAllRooms />} />
+        <Route path='/explore' element={<HomeTroust />} />
         <Route path="/contact" element={<CompanyAddress />} />
+        <Route path="/cash-payment" element={<CashPayment />} />
+        <Route path="/payment-verification" element={<VerificationPayment />} />
 
         {/* Admin Routes */}
         <Route path="/admin/register" element={<AdminRegister />} />

@@ -1,61 +1,58 @@
+// api/paymentApi.js
 import { clientServer } from "../config/axios";
 
-// 🔹 Create Razorpay Order
-export const createRazorpayOrder = async (token, amount) => {
+/**
+ * Get Razorpay Public Key
+ */
+export const getRazorpayKeyApi = async (token) => {
   try {
-    const response = await clientServer.post(
-      `/api/payment/create-order`,
-      { amount },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    console.log("APIORDE", response);
+    const response = await clientServer.get("/api/payment/key", {
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
-    console.error("❌ Payment API error", error.response?.data || error.message);
-    throw error;
+    console.error("❌ getRazorpayKeyApi error:", error.response?.data || error.message);
+    throw error.response?.data || error;
   }
 };
 
-//🔹 Get Razorpay Key
-
-export const getRazorpayKeyApi = async (token) => {
-    try {
-      const response = await clientServer.get(
-        `/api/payment/getkey`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("APIKEY", response);
-      return response.data;
-    } catch (error) {
-      console.error("❌ Payment Key API error", error.response?.data || error.message);
-      throw error;
-    }
-} 
-
-
-// 🔹 Verify Razorpay Payment
-export const verifyRazorpayPayment = async (token, payload) => {
+/**
+ * Create Razorpay Order for a pending booking
+ */
+export const createRazorpayOrder = async (token, bookingId) => {
   try {
     const response = await clientServer.post(
-      `/api/payment/verify`,
-      payload,
+      "/api/payment/order",
+      { bookingId },
       {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
       }
     );
     return response.data;
   } catch (error) {
-    console.error("❌ Payment Verify API error", error.response?.data || error.message);
-    throw error;
+    console.error("❌ createRazorpayOrder error:", error.response?.data || error.message);
+    throw error.response?.data || error;
+  }
+};
+
+/**
+ * Verify Razorpay Payment and confirm booking
+ */
+export const verifyRazorpayPayment = async (token, payload) => {
+  try {
+    const response = await clientServer.post(
+      "/api/payment/verify",
+      payload,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("❌ verifyRazorpayPayment error:", error.response?.data || error.message);
+    throw error.response?.data || error;
   }
 };
