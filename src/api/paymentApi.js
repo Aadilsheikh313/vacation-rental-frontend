@@ -56,3 +56,12 @@ export const verifyRazorpayPayment = async (token, payload) => {
     throw error.response?.data || error;
   }
 };
+
+
+export const getPaymentStatusApi = async (token, bookingId) => {
+  const response = await clientServer.get(`/api/payment/status/${bookingId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true,
+  });
+  return response.data;
+};

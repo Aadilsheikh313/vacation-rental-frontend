@@ -1,6 +1,7 @@
 // redux/reducers/paymentReducer.js
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  fetchPaymentStatus,
   getRazorpayKey,
   initiateRazorpayOrder,
   verifyPayment,
@@ -88,7 +89,23 @@ const paymentSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-      });
+      })
+      .addCase(fetchPaymentStatus.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
+      })
+      .addCase(fetchPaymentStatus.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.paymentResult = action.payload;
+      })
+      .addCase(fetchPaymentStatus.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
   },
 });
 

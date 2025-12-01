@@ -6,12 +6,14 @@ import {
   verifyPayment,
 } from "../config/redux/action/paymentAction";
 import { showError } from "../utils/toastUtils";
+import { useNavigate } from "react-router-dom";
 
 // Prevent double verification request
 let isVerifying = false;
 
 const Payment = ({ show, onHide, singlePost }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
   const { tempBooking } = useSelector((state) => state.booking);
   const { key } = useSelector((state) => state.payment);
@@ -48,7 +50,7 @@ const Payment = ({ show, onHide, singlePost }) => {
         order_id: order.id,
 
         handler: async function (response) {
-          if (isVerifying) return; // stop duplicate verification
+          if (isVerifying) return;
           isVerifying = true;
 
           const verifyData = {
@@ -58,9 +60,14 @@ const Payment = ({ show, onHide, singlePost }) => {
             bookingId,
           };
 
-          await dispatch(verifyPayment({ token, verifyData })).unwrap();
-          onHide?.();
-          window.location.href = `/payment-verification?bookingId=${bookingId}`;
+          const res = await dispatch(verifyPayment({ token, verifyData }));
+
+          if (verifyPayment.fulfilled.match(res)) {
+            onHide?.();
+            navigate(`/payment-verification?bookingId=${bookingId}`);
+          } else {
+            showError("Payment verification failed");
+          }
         },
 
         prefill: {
@@ -72,7 +79,10 @@ const Payment = ({ show, onHide, singlePost }) => {
 
       const rzp = new window.Razorpay(options);
 
-      // 🔥 FIX SVG Warning (width="auto" height="auto")
+      rzp.on("payment.failed", () => onHide?.());
+      rzp.on("modal.closed", () => {
+        isVerifying = false;
+      });
       rzp.on("modal.open", () => {
         setTimeout(() => {
           document.querySelectorAll("svg").forEach((el) => {
@@ -81,8 +91,6 @@ const Payment = ({ show, onHide, singlePost }) => {
           });
         }, 300);
       });
-
-      rzp.on("payment.failed", () => onHide?.());
       rzp.open();
 
     } catch (error) {

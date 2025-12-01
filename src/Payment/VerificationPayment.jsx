@@ -3,22 +3,35 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { resetPaymentStatus } from "../config/redux/reducer/paymentReducer";
 import { Card } from "react-bootstrap";
+import { fetchPaymentStatus } from "../config/redux/action/paymentAction";
+import { IoArrowBackOutline, IoArrowRedoOutline } from "react-icons/io5";
+
 
 const PaymentVerification = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [params] = useSearchParams(); // fetch bookingId from URL if refreshed
+  const bookingId = params.get("bookingId");
 
   const { paymentResult, isSuccess, isError, message } = useSelector(
     (state) => state.payment
   );
+
+  const { token } = useSelector((state) => state.auth);
+
+  // 🔥 Fetch data even on refresh
+  useEffect(() => {
+    if (bookingId) {
+      dispatch(fetchPaymentStatus({ token, bookingId }));
+    }
+  }, [bookingId, token, dispatch]);
 
   // Auto redirect after success
   useEffect(() => {
     if (isSuccess && paymentResult) {
       const t = setTimeout(() => {
         dispatch(resetPaymentStatus());
-        navigate("/my-bookings");
+
       }, 3000);
       return () => clearTimeout(t);
     }
@@ -26,6 +39,13 @@ const PaymentVerification = () => {
 
   let payment = paymentResult?.payment;
   let booking = paymentResult?.booking;
+
+  const handleHome = () => {
+    navigate("/")
+  }
+  const handleMyTrips = () => {
+    navigate("/my-bookings");
+  }
 
   return (
     <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "70vh" }}>
@@ -69,6 +89,16 @@ const PaymentVerification = () => {
             <p className="mt-3">
               Redirecting to <b>My Bookings</b> page...
             </p>
+            <div className="d-flex justify-content-around mt-3">
+              <button className="btn btn-secondary px-4" onClick={handleHome}>
+                  <IoArrowBackOutline size={20} style={{ marginRight: "6px" }} /> Home
+              </button>
+              <button className="btn btn-success px-4" onClick={handleMyTrips}>
+                 My Trips <IoArrowRedoOutline  size={20} style={{ marginRight: "6px" }} />
+              </button>
+            </div>
+
+
           </>
         )}
       </Card>

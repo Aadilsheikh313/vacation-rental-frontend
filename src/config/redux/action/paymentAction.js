@@ -2,6 +2,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   createRazorpayOrder,
+  getPaymentStatusApi,
   getRazorpayKeyApi,
   verifyRazorpayPayment,
 } from "../../../api/paymentApi";
@@ -51,6 +52,18 @@ export const verifyPayment = createAsyncThunk(
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
       showError(error?.message || "Payment verification failed");
+      return thunkAPI.rejectWithValue(error?.message);
+    }
+  }
+);
+
+export const fetchPaymentStatus = createAsyncThunk(
+  "payment/status",
+  async ({ token, bookingId }, thunkAPI) => {
+    try {
+      const response = await getPaymentStatusApi(token, bookingId);
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
       return thunkAPI.rejectWithValue(error?.message);
     }
   }
