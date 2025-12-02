@@ -1,0 +1,352 @@
+/*************************************
+ 🌟 MAIN WRAPPER
+*************************************/
+.PayemtContainer {
+    min-height: 92vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(140deg, #e8fff2, #dfffee, #faffff);
+    padding: 15px;
+}
+
+/*************************************
+ 🌟 MAIN PAYMENT CARD
+*************************************/
+.PaymetCard {
+    width: 530px;
+    border-radius: 18px;
+    padding: 32px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
+    transition: transform 0.25s ease;
+}
+
+.PaymetCard:hover {
+    transform: translateY(-4px);
+}
+
+/*************************************
+ ❌ FAILED
+*************************************/
+.failedBox {
+    text-align: center;
+}
+
+.failedIcon {
+    font-size: 4rem;
+    animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(-4px);
+    }
+
+    50% {
+        transform: translateX(4px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.failedTitle {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #d90429;
+    margin-bottom: 6px;
+}
+
+.failedMessage {
+    font-size: 15px;
+    color: #505050;
+    margin-bottom: 12px;
+}
+
+/*************************************
+ 🔄 VERIFYING
+*************************************/
+.verifyBox {
+    text-align: center;
+}
+
+.loadingIcon {
+    font-size: 60px;
+    animation: spin 1.3s linear infinite;
+    color: #007bff;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.verifyingText {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #007bff;
+}
+
+.waitMsg {
+    font-size: 15px;
+    color: #707070;
+    margin-top: 6px;
+}
+
+.secureTag {
+    background: #e9f3ff;
+    border-left: 3px solid #0d6efd;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 15px;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    color: #0d6efd;
+}
+
+/*************************************
+ ✔ SUCCESS
+*************************************/
+.PaymentVerfiIcon {
+    font-size: 4.3rem;
+    padding: 18px;
+    border-radius: 50%;
+    background: #22c55e;
+    color: #fff;
+    border: 5px solid #b1efcb;
+    filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.2));
+    animation: pulse 1.7s infinite;
+    margin-left: 12rem;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.07);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.PayemtContainer h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    background: linear-gradient(90deg, #22c55e, #118a46);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.PaymetSubTitel {
+    font-family: 'Lora', serif;
+    font-size: 1.25rem;
+    color: #3a3a3a;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.PaymetSubTitel svg {
+    font-size: 24px;
+    color: #ffb300;
+}
+
+/*************************************
+ 📌 PAYMENT SUMMARY
+*************************************/
+.summaryHeading {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 1.8rem;
+    padding-bottom: 4px;
+    border-bottom: 2px solid #d1ffea;
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(90deg, #22c55e, #16a34a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.summaryIcon {
+    font-size: 2rem;
+    color: #22c55e;
+    filter: drop-shadow(0px 2px 4px rgba(34, 197, 94, 0.35));
+}
+
+.summaryList {
+    padding: 0;
+    list-style: none;
+}
+
+.summaryList li {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 1.15rem;
+    color: #2d2d2d;
+    font-family: "Poppins", sans-serif;
+    padding: 6px 4px;
+    border-left: 4px solid transparent;
+    transition: 0.25s ease;
+}
+
+.summaryList li strong {
+    color: #d4a017;
+    font-weight: 600;
+}
+
+.summaryList li:hover {
+    background: #f1fdf6;
+    border-radius: 6px;
+    padding-left: 10px;
+    border-left: 4px solid #22c55e;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* INDIVIDUAL ICON COLOR PALETTE */
+.iconHotel {
+    color: #0077ff;
+}
+
+.iconCheckIn {
+    color: #06c16b;
+}
+
+.iconCheckOut {
+    color: #d90429;
+}
+
+.iconNights {
+    color: #e7b100;
+}
+
+.iconCode {
+    color: #0ea5e9;
+}
+
+.iconAmount {
+    color: #1f9d4a;
+}
+
+.iconReceipt {
+    color: #6b7280;
+}
+
+.iconOrder {
+    color: #374151;
+}
+
+.iconTxn {
+    color: #2563eb;
+}
+
+.iconMethod {
+    color: #0284c7;
+}
+
+.iconTime {
+    color: #b45309;
+}
+
+.summaryList li svg {
+    filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.15));
+}
+
+/*************************************
+ ⏳ REDIRECT MESSAGE
+*************************************/
+.redirectText {
+    margin-top: 14px;
+    font-size: 1.2rem;
+    color: #566566;
+    background: linear-gradient(90deg, #ff6a00, #ee0979);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/*************************************
+ 🔘 ACTION BUTTONS
+*************************************/
+.actionBtnBox {
+    margin-top: 22px;
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+/* COMMON STYLES */
+.homeBtn,
+.tripBtn {
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.25s ease;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.10);
+}
+
+/* SECONDARY BUTTON (HOME) */
+.homeBtn {
+    background: linear-gradient(90deg, #64748b, #4b5563);
+    color: white;
+}
+.homeBtn:hover {
+    background: linear-gradient(90deg, #4b5563, #374151);
+    transform: translateY(-2px);
+}
+
+/* PRIMARY BUTTON (MY TRIPS) */
+.tripBtn {
+    background: linear-gradient(90deg, #22c55e, #15803d);
+    color: white;
+}
+.tripBtn:hover {
+    background: linear-gradient(90deg, #15803d, #11672f);
+    transform: translateY(-2px);
+}
+.homeBtn svg,
+.tripBtn svg {
+    color: #ffffff;
+    font-size: 18px;
+}
+
+/*************************************
+ 📱 RESPONSIVE
+*************************************/
+@media (max-width: 520px) {
+    .PaymetCard {
+        width: 100%;
+        padding: 22px;
+    }
+
+    .summaryHeading {
+        font-size: 18px;
+    }
+
+    .summaryList li {
+        font-size: 14px;
+    }
+}
