@@ -8,6 +8,7 @@ import {
   deleteGuestHistroyBookingPosts,
   checkBookingConflictPosts,
   createTempBookingPosts,
+  handleCashBookingRequestPosts,
 } from "../action/bookingAction ";
 
 
@@ -20,6 +21,7 @@ const initialState = {
   existingBooking: null,
   tempBooking: null,
   conflictData: null,
+  acceptAndCancelBooking:null,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -235,6 +237,23 @@ const bookingSlice = createSlice({
         state.message = "Active bookings loaded.";
       })
       .addCase(getActiveBookingPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      
+      // Handle Host Accept and Cancel Cash Booking Request
+      .addCase(handleCashBookingRequestPosts.pending, (state) => {
+        state.isLoading = true;
+        state.message = "Processing booking request...";
+      })
+      .addCase(handleCashBookingRequestPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.acceptAndCancelBooking = action.payload;
+        state.message = action.payload.message;
+      })
+      .addCase(handleCashBookingRequestPosts.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

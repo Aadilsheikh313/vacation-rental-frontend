@@ -11,7 +11,7 @@ import {
   Button,
 } from "react-bootstrap";
 import { showError, showInfo } from "../../utils/toastUtils";
-import { getActiveBookingPosts } from "../../config/redux/action/bookingAction ";
+import { getActiveBookingPosts, handleCashBookingRequestPosts } from "../../config/redux/action/bookingAction ";
 import { resetBookingStatus } from "../../config/redux/reducer/bookingReducer";
 import styles from "../../stylesModule/bookingH.module.css";
 
@@ -44,6 +44,23 @@ const CurrentBooking = () => {
       dispatch(resetBookingStatus());
     };
   }, [dispatch, token]);
+
+  const updateCashBooking = (bookingId, action) => {
+  if (!token) return;
+
+  dispatch(handleCashBookingRequestPosts({ bookingId, action, token }))
+    .unwrap()
+    .then(() => {
+      showInfo(`Booking ${action}ed successfully`);
+
+      // 🔥 Reload active bookings live
+      dispatch(getActiveBookingPosts({ token }));
+    })
+    .catch((err) => {
+      showError(err || "Something went wrong");
+    });
+};
+
 
   // Toasts for success/error/info
   useEffect(() => {
@@ -110,7 +127,7 @@ const CurrentBooking = () => {
                     >
                       {booking.bookingStatus.toUpperCase()}
                     </Badge>
-                    
+
                     <Card.Body>
                       <Card.Title className="text-truncate text-white">
                         {booking.property.title}
@@ -145,10 +162,26 @@ const CurrentBooking = () => {
                       </ListGroup>
 
                       {/* Optional Host Actions */}
-                      <div  className={styles.cardActions}>
-                        <Button variant="outline-danger" size="sm">Cancel</Button>
-                        <Button variant="outline-primary" size="sm">Message</Button>
+                      <div className={styles.cardActions}>
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          onClick={() => updateCashBooking(booking._id, "cancel")}
+                        >
+                          Cancel
+                        </Button>
+
+                        {booking.bookingStatus === "pending" && (
+                          <Button
+                            variant="outline-primary"
+                            size="sm"
+                            onClick={() => updateCashBooking(booking._id, "accept")}
+                          >
+                            Accept
+                          </Button>
+                        )}
                       </div>
+
                     </Card.Body>
                   </Card>
                 </div>

@@ -8,6 +8,7 @@ import {
   getActiveBookingApi,
   getBookingPropertyApi,
   getHostBookingHistoryApi,
+  handleCashBookingRequestApi,
   postBookingPropertyApi
 } from "../../../api/bookingApi";
 
@@ -150,6 +151,22 @@ export const getActiveBookingPosts = createAsyncThunk(
   }
 )
 
+//Handle Host Accept and Cancel Cash Booking Request
+
+export const handleCashBookingRequestPosts = createAsyncThunk(
+  "booking/handleCashBookingRequestPosts",
+  async ({ bookingId, action, token }, thunkAPI) => {
+    try {
+      const response = await handleCashBookingRequestApi(token, bookingId, action);
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      console.error("❌ Host Accept and Cancel Cash Booking Request error:", error);
+      return thunkAPI.rejectWithValue(
+        error?.response?.data?.message || "Failed to Accept and Cancel Cash Booking Request"
+      );
+    }
+  }
+)
 //Get Histroy booking Host
 export const getHostBookingHistoryPosts = createAsyncThunk(
   "booking/getHostBookingHistoryPosts",

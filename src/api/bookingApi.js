@@ -166,6 +166,25 @@ export const getActiveBookingApi = async (token, page = 1, limit = 10) => {
   }
 }
 
+//Handle Host Accept and Cancel Cash Booking Request
+export const handleCashBookingRequestApi = async (token, bookingId, action) => {
+  try {
+    const response = await clientServer.post('/api/booking/host/booking/aceptandcancel',
+      { bookingId, action },
+      {
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json' 
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("❌ Host Accept/Cancel Cash Booking API error:", error.response?.data || error.message);
+    throw error;
+  }
+}
+
 //Get Host Histroy booking property 
 export const getHostBookingHistoryApi = async (token) => {
   try {

@@ -75,45 +75,45 @@ const PaymentVerification = () => {
         {/* ✔ SUCCESS */}
         {isSuccess && payment && booking && (
           <>
-          <MdVerified className={styles.PaymentVerfiIcon}/>
+            <MdVerified className={styles.PaymentVerfiIcon} />
             <h2>Payment Verified Successfully!</h2>
             <p className={styles.PaymetSubTitel}>
-              <GiPartyPopper  />
+              <GiPartyPopper />
               Your booking is confirmed — enjoy your stay! 🌟
             </p>
 
 
-             <h4 className={styles.summaryHeading}>
-      <RiShieldCheckFill className={styles.summaryIcon} />
-      Payment Summary
-    </h4>
+            <h4 className={styles.summaryHeading}>
+              <RiShieldCheckFill className={styles.summaryIcon} />
+              Payment Summary
+            </h4>
 
-    <ul className={styles.summaryList}>
-      <li><FaHotel className={styles.iconHotel} /> <strong>Property:</strong> {booking.property?.title}</li>
-      <li><FaCalendarCheck className={styles.iconCheckIn} /> <strong>Check In:</strong> {new Date(booking.checkIn).toLocaleDateString()}</li>
-      <li><FaCalendarTimes className={styles.iconCheckOut} /> <strong>Check Out:</strong> {new Date(booking.checkOut).toLocaleDateString()}</li>
-      <li><FaRegMoon className={styles.iconNights} /> <strong>Total Nights:</strong> {booking.numberOfNights}</li>
-      <li><FaKey className={styles.iconCode} /> <strong>Booking Code:</strong> {booking.bookingCode}</li>
-      <li><FaRupeeSign className={styles.iconAmount} /> <strong>Amount Paid:</strong> ₹{payment.amount}</li>
-      <li><FaReceipt className={styles.iconReceipt} /> <strong>Payment ID:</strong> {payment.razorpay_payment_id}</li>
-      <li><FaBarcode className={styles.iconOrder} /> <strong>Order ID:</strong> {payment.razorpay_order_id}</li>
-      <li><FaExchangeAlt className={styles.iconTxn} /> <strong>Transaction ID:</strong> {payment.razorpay_payment_id}</li>
-      <li><FaCreditCard className={styles.iconMethod} /> <strong>Payment Method:</strong> {payment.method || payment.paymentMethod}</li>
-      <li><FaClock className={styles.iconTime} /> <strong>Paid At:</strong> {new Date(payment.createdAt).toLocaleString()}</li>
-    </ul>
+            <ul className={styles.summaryList}>
+              <li><FaHotel className={styles.iconHotel} /> <strong>Property:</strong> {booking.property?.title}</li>
+              <li><FaCalendarCheck className={styles.iconCheckIn} /> <strong>Check In:</strong> {new Date(booking.checkIn).toLocaleDateString()}</li>
+              <li><FaCalendarTimes className={styles.iconCheckOut} /> <strong>Check Out:</strong> {new Date(booking.checkOut).toLocaleDateString()}</li>
+              <li><FaRegMoon className={styles.iconNights} /> <strong>Total Nights:</strong> {booking.numberOfNights}</li>
+              <li><FaKey className={styles.iconCode} /> <strong>Booking Code:</strong> {booking.bookingCode}</li>
+              <li><FaRupeeSign className={styles.iconAmount} /> <strong>Amount Paid:</strong> ₹{payment.amount}</li>
+              <li><FaReceipt className={styles.iconReceipt} /> <strong>Payment ID:</strong> {payment.razorpay_payment_id}</li>
+              <li><FaBarcode className={styles.iconOrder} /> <strong>Order ID:</strong> {payment.razorpay_order_id}</li>
+              <li><FaExchangeAlt className={styles.iconTxn} /> <strong>Transaction ID:</strong> {payment.razorpay_payment_id}</li>
+              <li><FaCreditCard className={styles.iconMethod} /> <strong>Payment Method:</strong> {payment.method || payment.paymentMethod}</li>
+              <li><FaClock className={styles.iconTime} /> <strong>Paid At:</strong> {new Date(payment.createdAt).toLocaleString()}</li>
+            </ul>
 
-    <p className={styles.redirectText}>
-      Redirecting to <b>My Bookings / Home</b> page...
-    </p>
+            <p className={styles.redirectText}>
+              Redirecting to <b>My Bookings / Home</b> page...
+            </p>
 
-    <div className={styles.actionBtnBox}>
-      <button className={styles.homeBtn} onClick={handleHome}>
-        <IoArrowBackOutline /> Home
-      </button>
-      <button className={styles.tripBtn} onClick={handleMyTrips}>
-        My Trips <IoArrowRedoOutline />
-      </button>
-    </div>
+            <div className={styles.actionBtnBox}>
+              <button className={styles.homeBtn} onClick={handleHome}>
+                <IoArrowBackOutline /> Home
+              </button>
+              <button className={styles.tripBtn} onClick={handleMyTrips}>
+                My Trips <IoArrowRedoOutline />
+              </button>
+            </div>
 
 
           </>
