@@ -65,3 +65,39 @@ export const getPaymentStatusApi = async (token, bookingId) => {
   });
   return response.data;
 };
+
+// EDIT Extra Payment - Create Order
+export const createEditExtraPaymentOrderApi = async (token, bookingId) => {
+  try {
+    const response = await clientServer.post(
+      "/api/payment/payment/extra/order",
+      { bookingId},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("❌ createEditExtraPaymentOrder error:", error.response?.data || error.message);
+    throw error.response?.data || error;
+  }
+}
+
+
+// EDIT Extra Payment - Verify Payment
+export const verifyEditExtraPaymentApi = async (token, payload) => {
+  try {
+    const response = await clientServer.post(
+      "/api/payment/payment/extra/verify",
+      payload,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("❌ verifyEditExtraPayment error:", error.response?.data || error.message);
+    throw error.response?.data || error;
+  }
+};

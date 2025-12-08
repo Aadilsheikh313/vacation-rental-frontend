@@ -1,9 +1,11 @@
 // redux/actions/paymentAction.js
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  createEditExtraPaymentOrderApi,
   createRazorpayOrder,
   getPaymentStatusApi,
   getRazorpayKeyApi,
+  verifyEditExtraPaymentApi,
   verifyRazorpayPayment,
 } from "../../../api/paymentApi";
 import { showError, showSuccess } from "../../../utils/toastUtils";
@@ -65,6 +67,35 @@ export const fetchPaymentStatus = createAsyncThunk(
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
       return thunkAPI.rejectWithValue(error?.message);
+    }
+  }
+);
+
+// edit payment extra amount action
+export const initiateEditExtraRazorpayOrder = createAsyncThunk(
+  "payment/initiateEditExtraOrder",
+  async ({ token, bookingId }, thunkAPI) => {
+    try {
+      const response = await createEditExtraPaymentOrderApi(token, bookingId);
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      showError(error?.message || "Failed to create extra payment order");
+      return thunkAPI.rejectWithValue(error?.message);
+    }
+  }
+);
+
+// edit extra payment verification action
+export const verifyEditExtraPayment = createAsyncThunk(
+  "payment/verifyEditExtraPayment",
+  async ({ token, verifyData }, thunkAPI) => {
+    try {
+      const response = await verifyEditExtraPaymentApi(token, verifyData);
+       showSuccess("Extra Payment Verified Successfully 🎉");
+      return thunkAPI.fulfillWithValue(response)
+    } catch (error) {
+      showError(error?.message || "Extra Payment verification failed")
+      return thunkAPI.rejectWithValue(error?.message)
     }
   }
 );

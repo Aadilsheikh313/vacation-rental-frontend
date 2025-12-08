@@ -21,7 +21,7 @@ const initialState = {
   existingBooking: null,
   tempBooking: null,
   conflictData: null,
-  acceptAndCancelBooking:null,
+  acceptAndCancelBooking: null,
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -123,7 +123,6 @@ const bookingSlice = createSlice({
         state.isSuccess = true;
         state.message = action.payload.message;
 
-        // Replace the old booking with the updated one
         state.bookings = state.bookings.map((booking) =>
           booking._id === action.payload.updatedBooking._id
             ? action.payload.updatedBooking
@@ -241,7 +240,7 @@ const bookingSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
-      
+
       // Handle Host Accept and Cancel Cash Booking Request
       .addCase(handleCashBookingRequestPosts.pending, (state) => {
         state.isLoading = true;

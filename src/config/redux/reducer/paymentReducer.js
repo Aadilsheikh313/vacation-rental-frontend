@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchPaymentStatus,
   getRazorpayKey,
+  initiateEditExtraRazorpayOrder,
   initiateRazorpayOrder,
+  verifyEditExtraPayment,
   verifyPayment,
 } from "../action/paymentAction";
 
@@ -11,7 +13,8 @@ const initialState = {
   key: null,
   order: null,
   paymentResult: null,
-
+  extrapaymentResult: null,
+  extrapaymentorder: null,
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -29,6 +32,8 @@ const paymentSlice = createSlice({
       state.message = "";
       state.order = null;
       state.paymentResult = null;
+      state.extrapaymentResult = null;
+      state.extrapaymentorder = null;
     },
   },
 
@@ -106,6 +111,41 @@ const paymentSlice = createSlice({
         state.message = action.payload;
       })
 
+      // edit payment extra amount action
+      .addCase(initiateEditExtraRazorpayOrder.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
+      })
+      .addCase(initiateEditExtraRazorpayOrder.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.extrapaymentorder = action.payload.order;
+      })
+      .addCase(initiateEditExtraRazorpayOrder.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+      // edit payment extra amount verification
+      .addCase(verifyEditExtraPayment.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
+      })
+      .addCase(verifyEditExtraPayment.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.extrapaymentResult = action.payload;   // ← FIXED
+        state.extrapaymentorder = null;
+      })
+
+      .addCase(verifyEditExtraPayment.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
   },
 });
 

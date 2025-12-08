@@ -68,12 +68,13 @@ export const postBookingPropertyPosts = createAsyncThunk(
   }
 );
 
-//Booking Edit  
+// Edit booking 
 export const editBookingPosts = createAsyncThunk(
   "booking/editBookingPosts",
-  async ({ checkIn, checkOut, guests, token, bookingId }, thunkAPI) => {
+  async ({ bookingId, checkIn, checkOut, guests, token }, thunkAPI) => {
     try {
-      const response = await editBookingApi(checkIn, checkOut, token, guests, bookingId);
+      const payload = { checkIn, checkOut, guests };
+      const response = await editBookingApi(bookingId, payload, token);
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
       console.error("❌ Edit booking error:", error);
@@ -83,6 +84,7 @@ export const editBookingPosts = createAsyncThunk(
     }
   }
 );
+
 
 
 //Cancel booking

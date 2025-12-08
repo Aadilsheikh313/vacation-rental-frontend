@@ -52,6 +52,7 @@ import HomeTroust from './TrouistPlace/Home';
 import CompanyAddress from './Contact/CompnayAddress';
 import CashPayment from './Payment/CashPayment';
 import VerificationPayment from './Payment/VerificationPayment';
+import ExtraPaymentVerification from './Payment/ExtraPaymetVerification';
 
 function AppContent() {
   const location = useLocation();
@@ -95,7 +96,7 @@ function AppContent() {
         <Route path="/contact" element={<CompanyAddress />} />
         <Route path="/cash-payment" element={<CashPayment />} />
         <Route path="/payment-verification" element={<VerificationPayment />} />
-
+        <Route path="/extra/payment-verification" element={<ExtraPaymentVerification/>} />
         {/* Admin Routes */}
         <Route path="/admin/register" element={<AdminRegister />} />
         <Route path="/admin/login" element={<AdminLogin />} />

@@ -7,7 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
+node_modules/
 dist
 dist-ssr
 *.local
@@ -22,3 +22,36 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+/build
+.cache
+.next
+out/
+.nuxt
+.nuxt-storybook
+storybook-static
+/public/storybook
+coverage
+reports
+.cache/         
+
+# System Files
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+ehthumbs.db     
+Icon?db
+*.iml
+*.hprof         
+*.orig
+*.rej
+*.class
+*.war
+*.jar
+*.ear
+*.swp               

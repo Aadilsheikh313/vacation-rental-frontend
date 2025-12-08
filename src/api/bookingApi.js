@@ -66,26 +66,25 @@ export const postBookingPropertyApi = async (propertyId, bookingData, token) => 
 };
 
 
-//Expiend booking date 
-export const editBookingApi = async (checkIn, checkOut, token, guests, bookingId) => {
+
+/** Edit / extend / change booking */
+export const editBookingApi = async (bookingId, payload, token) => {
   try {
     const response = await clientServer.put(
       `/api/booking/bookings/${bookingId}/edit`,
-      { checkIn, checkOut, guests },
+      payload, // {checkIn, checkOut, guests}
       {
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
       }
     );
-    console.log("✅New  Booking Status", response.data);
     return response.data;
   } catch (error) {
-    console.error("❌ Booking API error", error.response?.data || error.message);
-    throw error;
+    throw error.response?.data || error.message;
   }
-}
+};
 
 //Cancel booking 
 export const cancelBookingApi = async (bookingId, token) => {
