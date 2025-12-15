@@ -74,7 +74,7 @@ export const createEditExtraPaymentOrderApi = async (token, bookingId) => {
       { bookingId},
       {
         headers: { Authorization: `Bearer ${token}` },
-
+        withCredentials: true,
       }
     );
     return response.data;
@@ -93,6 +93,7 @@ export const verifyEditExtraPaymentApi = async (token, payload) => {
       payload,
       {
         headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
       }
     );
     return response.data;
