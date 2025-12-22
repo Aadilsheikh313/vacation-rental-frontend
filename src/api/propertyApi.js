@@ -35,46 +35,24 @@ export const getSinglePropertyApi = async (id) => {
 }
 
 
-export const editPropertyApi = async (id, updatedData, token) => {
+export const editPropertyApi = async (id, formData, token) => {
   try {
-    const formData = new FormData();
-
-    formData.append("title", updatedData.title || "");
-    formData.append("description", updatedData.description || "");
-    formData.append("price", updatedData.price || "");
-    formData.append("category", updatedData.category || "");
-    formData.append("country", updatedData.country || "");
-    formData.append("city", updatedData.city || "");
-    formData.append("location", updatedData.location || "");
-    formData.append("expired", updatedData.expired ? "true" : "false");
-    formData.append("maxGuests", updatedData.maxGuests || "");
-    formData.append("roomSize", updatedData.roomSize || "");
-    formData.append("privacy", updatedData.privacy || "");
-    formData.append("workspace", updatedData.workspace ? "true" : "false");
-    formData.append("bedType", updatedData.bedType || "");
-    formData.append("facilities", JSON.stringify(updatedData.facilities || []));
-    formData.append("views", JSON.stringify(updatedData.views || []));
-    formData.append("directContact", JSON.stringify(updatedData.directContact || {}));
-
-
-    if (updatedData.image) {
-      formData.append("image", updatedData.image);
-    }
-
-    const response = await clientServer.put(`/api/property/edit/${id}`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await clientServer.put(
+      `/api/property/edit/${id}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
     console.error("❌ Edit Property API Error:", error.response?.data || error.message);
-    throw error; // 🔁 Let thunk handle it
+    throw error;
   }
 };
-
 
 export const softdeletedPropertyApi = async (id, token) => {
   const response = await clientServer.delete(`/api/property/soft-delete/${id}`, {

@@ -80,16 +80,30 @@ const EditProperty = () => {
 
   useEffect(() => {
     if (singlePost) {
-      setFormData({
-        ...formData,
-        ...singlePost,
+      setFormData(prev => ({
+        ...prev,
+        title: singlePost.title || "",
+        description: singlePost.description || "",
+        price: singlePost.price || "",
+        category: singlePost.category || "",
+        country: singlePost.country || "",
+        city: singlePost.city || "",
+        location: singlePost.location || "",
+        maxGuests: singlePost.maxGuests || "",
         roomSize: singlePost.roomSize || { value: "", unit: "m²" },
+        privacy: singlePost.privacy || "Private",
+        workspace: singlePost.workspace || false,
+        bedType: singlePost.bedType || "",
+        facilities: singlePost.facilities || [],
         views: singlePost.views || [],
-        directContact: singlePost.directContact || { phone: "", email: "" }
-      });
+        directContact: singlePost.directContact || { phone: "", email: "" },
+        expired: singlePost.expired || false
+      }));
+
       setPreview(singlePost.image?.url || "");
     }
   }, [singlePost]);
+
 
   // Handlers
   const handleChange = (e) => {
@@ -256,7 +270,7 @@ const EditProperty = () => {
 
             <Row>
               <Col md={6}>
-                <Form.Group  className={styles.propertyViewandFaci}>
+                <Form.Group className={styles.propertyViewandFaci}>
                   <Form.Label className={styles.fromlable}><FaCheckCircle /> Facilities</Form.Label>
                   {facilitiesOptions.map((fac, idx) => (
                     <Form.Check
@@ -351,12 +365,12 @@ const EditProperty = () => {
 
             <Row className={styles.backAndEditBTN}>
               <Col md={6}>
-                <Button  type="button" onClick={() => navigate(-1)} className={styles.backButton}>
+                <Button type="button" onClick={() => navigate(-1)} className={styles.backButton}>
                   <FaArrowLeft /> Go Back
                 </Button>
               </Col>
               <Col md={6} >
-                <Button  type="submit" className={styles.editButton}>
+                <Button type="submit" className={styles.editButton}>
                   <FaEdit /> Update Property
                 </Button>
               </Col>
@@ -368,7 +382,7 @@ const EditProperty = () => {
             <h3><FaRegFileAlt /> Manage Amenities</h3>
             <div className={styles.animateBTN}>
               <Button variant="success" onClick={() => setShowAmenityForm("add")}>+ Add Amenities</Button>
-              <Button variant="warning" onClick={() => setShowAmenityForm("edit")}><FaEdit/> Edit Amenities</Button>
+              <Button variant="warning" onClick={() => setShowAmenityForm("edit")}><FaEdit /> Edit Amenities</Button>
             </div>
             <AnimatePresence>
               {showAmenityForm === "add" && (
@@ -389,7 +403,7 @@ const EditProperty = () => {
             <h3><FaHotel /> Manage Policy</h3>
             <div className={styles.policyBTN}>
               <Button variant="success" onClick={() => setShowPolicyForm("add")}>+ Add Policy</Button>
-              <Button variant="warning" onClick={() => setShowPolicyForm("edit")}><FaEdit/> Edit Policy</Button>
+              <Button variant="warning" onClick={() => setShowPolicyForm("edit")}><FaEdit /> Edit Policy</Button>
             </div>
             <AnimatePresence>
               {showPolicyForm === "add" && (

@@ -152,3 +152,47 @@
         font-size: 0.95rem;
     }
 }
+
+
+
+/* ⭐ Stars */
+.starFull { color: #ff385c; }
+.starHalf { color: #ff9aa2; }
+.starEmpty { color: #ddd; }
+
+.categoryStars {
+  display: flex;
+  gap: 2px;
+}
+
+/* 🔵 Circular Rating */
+.circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 10px;
+}
+
+.circleText {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* 🧾 Breakdown */
+.breakdownItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.breakdownLabel {
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.breakdownValue {
+  font-weight: 600;
+}

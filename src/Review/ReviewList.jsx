@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { deleteReviewPosts, editReviewPosts } from "../config/redux/action/reviewAction";
+import {  editReviewPosts } from "../config/redux/action/reviewAction";
 import StarRating from "./StarRating";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
@@ -28,11 +28,6 @@ const ReviewList = ({ reviews, isLoading, currentUserId, token, propertyId }) =>
     }
   };
 
-  const handleDelete = (reviewId) => {
-    if (window.confirm("Are you sure you want to delete this review?")) {
-      dispatch(deleteReviewPosts({ reviewId, token, propertyId }));
-    }
-  };
 
   return (
     <ul className={styles.reviewList}>
@@ -76,12 +71,6 @@ const ReviewList = ({ reviews, isLoading, currentUserId, token, propertyId }) =>
                       onClick={() => handleEdit(review)}
                     >
                       <CiEdit /> Edit
-                    </button>
-                    <button
-                      className={styles.deleteBtn}
-                      onClick={() => handleDelete(review._id)}
-                    >
-                      <MdDeleteForever /> Delete
                     </button>
                   </div>
                 )}

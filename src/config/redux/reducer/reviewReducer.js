@@ -1,14 +1,24 @@
 // 📁 redux/reducers/reviewReducer.js
 import { createSlice } from "@reduxjs/toolkit";
-import { createReviewPosts, deleteReviewPosts, editReviewPosts, getAllReviewPosts } from "../action/reviewAction";
+import {
+  createReviewPosts,
+  editReviewPosts,
+  getAdminReviewAnalytics,
+  getAllReviewPosts,
+  getReviewAnalytics,
+  hostReplyToReview,
+  toggleReviewVisibility
+} from "../action/reviewAction";
 
 const initialState = {
   reviewPosts: [],            // All review data from backend
   reviewPostsId: "",          // Optional: for UI tracking (if needed)
+  analytics: null,
   reviewPostsFetching: false, // Used to check if fetched
   isLoading: false,           // Loader for posting
   isError: false,             // If error occurs
-  message: "",                // Message from response
+  message: "",
+  alreadyReviewed: false,
 };
 
 const reviewSlice = createSlice({
@@ -25,6 +35,11 @@ const reviewSlice = createSlice({
       state.message = "";
       state.isError = false;
       state.isLoading = false;
+    },
+    resetReviewStatus: (state) => {
+      state.alreadyReviewed = false;
+      state.message = "";
+      state.isError = false;
     },
   },
   extraReducers: (builder) => {
@@ -55,6 +70,10 @@ const reviewSlice = createSlice({
         state.reviewPostsFetching = true;
         state.reviewPosts.push(action.payload.review); // Push single review
         state.message = action.payload.message || "Review posted successfully";
+        if (action.payload === "You have already reviewed this property") {
+          state.alreadyReviewed = true; // ✅ trigger modal
+        }
+
       })
       .addCase(createReviewPosts.rejected, (state, action) => {
         state.isLoading = false;
@@ -84,28 +103,82 @@ const reviewSlice = createSlice({
         state.isError = true;
         state.message = action.payload || "Failed to edit Review";
       })
-      .addCase(deleteReviewPosts.pending, (state) => {
+      .addCase(hostReplyToReview.pending, (state) => {
         state.isLoading = true;
         state.message = "....";
       })
-      .addCase(deleteReviewPosts.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = false;
+      .addCase(hostReplyToReview.fulfilled, (state, action) => {
+        const updated = action.payload.review;
+        const index = state.reviewPosts.findIndex(
+          (r) => r._id === updated._id
+        );
 
-        const deletedReviewId = action.meta.arg.reviewId;
-        state.reviewPosts = state.reviewPosts.filter(r => r._id !== deletedReviewId);
-
-        state.message = action.payload.message || "Review deleted successfully";
+        if (index !== -1) {
+          state.reviewPosts[index] = updated;
+        }
       })
-
-      .addCase(deleteReviewPosts.rejected, (state, action) => {
+      .addCase(hostReplyToReview.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload || "Failed to delete the review";
+        state.message = action.payload || "Failed to host reply Review";
       })
+      /* ================================
+     REVIEW ANALYTICS (HOST)
+  ================================ */
+      .addCase(getReviewAnalytics.pending, (state) => {
+        state.isLoading = true;
+        state.message = "....";
+      })
+      .addCase(getReviewAnalytics.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.analytics = action.payload;
+      })
+      .addCase(getReviewAnalytics.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Failed to Analytics Review";
+      })
+      /* ================================
+   REVIEW ANALYTICS (ADMIN)
+================================ */
+      .addCase(getAdminReviewAnalytics.pending, (state) => {
+        state.isLoading = true;
+        state.message = "....";
+      })
+      .addCase(getAdminReviewAnalytics.fulfilled, (state, action) => {
+        state.analytics = action.payload.analytics;
+      })
+      .addCase(getAdminReviewAnalytics.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload || "Failed to Admin Analytics Review";
+      })
+      /* ================================
+    ADMIN: HIDE / UNHIDE REVIEW
+ ================================ */
+      .addCase(toggleReviewVisibility.pending, (state) => {
+        state.isLoading = true;
+        state.message = "....";
+      })
+      .addCase(toggleReviewVisibility.fulfilled, (state, action) => {
+        const updated = action.payload.review;
+        const index = state.reviewPosts.findIndex(
+          (r) => r._id === updated._id
+        );
+
+        if (index !== -1) {
+          state.reviewPosts[index] = updated;
+        }
+      })
+      .addCase(toggleReviewVisibility.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = "Failed to Admin Hide/Unhide Review";
+      })
+
   },
 });
 
 // ✅ Exports
 export default reviewSlice.reducer;
-export const { reset, resetReviewPostsId, resetStatus } = reviewSlice.actions;
+export const { reset, resetReviewPostsId, resetStatus, resetReviewStatus } = reviewSlice.actions;

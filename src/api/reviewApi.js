@@ -1,64 +1,121 @@
 import { clientServer } from "../config/axios";
 
-
+// Get all reviews
 export const getAllReviewApi = async (propertyId) => {
   const response = await clientServer.get(`/api/review/property/${propertyId}`);
   return response.data;
-}
-
-
-export const postReviewApi = async ({ propertyId, token, rating, comment }) => {
-  try {
-    const response = await clientServer.post(
-      `/api/review/property/${propertyId}`,
-      { rating, comment },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.error("❌ Review API error", error.response?.data || error.message);
-    throw error;
-  }
 };
 
-export const editReviewApi = async ({ propertyId, reviewId, token, rating, comment }) => {
-  try {
-    const response = await clientServer.put(
-      `/api/review/property/${propertyId}/review/${reviewId}`,
-      { rating, comment },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.error("❌ Edit Review API error", error.response?.data || error.message);
-    throw error;
-  }
+// Post review
+export const postReviewApi = async ({
+  propertyId,
+  token,
+  rating,
+  comment,
+  cleanliness,
+  comfort,
+  service,
+  location,
+}) => {
+  const response = await clientServer.post(
+    `/api/review/property/${propertyId}`,
+    { rating, comment, cleanliness, comfort, service, location },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
 };
 
-export const deleteReviewApi = async ({ propertyId, reviewId, token }) => {
-  try {
-    const response = await clientServer.delete(
-      `/api/review/property/${propertyId}/review/${reviewId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ); 
-    return response.data;
-  } catch (error) {
-    console.error("❌ Delete Review API error", error.response?.data || error.message);
-    throw error;
-  }
+// Edit review
+export const editReviewApi = async ({
+  reviewId,
+  token,
+  rating,
+  comment,
+  cleanliness,
+  comfort,
+  service,
+  location,
+}) => {
+  const response = await clientServer.put(
+    `/api/review/review/${reviewId}`,
+    { rating, comment, cleanliness, comfort, service, location },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  return response.data;
 };
+
+
+
+// Host Replay review
+export const hostReplyToReviewApi = async ({
+  reviewId,
+  token,
+  message,
+}) => {
+  const response = await clientServer.post(
+    `/api/review/review/${reviewId}/reply`,
+    { message },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
+
+export const getReviewAnalyticsApi = async ({
+  propertyId,
+  token,
+}) => {
+  const response = await clientServer.get(
+    `/api/review/property/${propertyId}/analytics`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
+
+
+export const getAdminReviewAnalyticsApi = async ({
+  propertyId,
+  token,
+}) => {
+  const response = await clientServer.get(
+    `/api/review/admin/property/${propertyId}/analytics`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
+
+export const toggleReviewVisibilityApi = async ({
+  reviewId,
+  token,
+  isHidden,
+  reason,
+}) => {
+  const response = await clientServer.patch(
+    `/api/review/review/${reviewId}/visibility`,
+    { isHidden, reason },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
+

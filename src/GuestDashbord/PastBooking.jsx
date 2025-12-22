@@ -1,12 +1,16 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert, Button, Card } from "react-bootstrap";
+import { Alert, Button, Card, Modal } from "react-bootstrap";
 import { GetGuestPastBookingPost } from "../config/redux/action/guestDashAction";
 import styles from "../stylesModule/Booking/PastBooking.module.css";
 import CustomSpinner from "../comman/Spinner";
 import { IoBookOutline } from "react-icons/io5";
 import { PiHandWaving } from "react-icons/pi";
 import { FaEnvelope, FaPhone, FaStreetView, FaUser } from "react-icons/fa";
+import { IoMdStarOutline } from "react-icons/io";
+import { useState } from "react";
+import ReviewForm from "../Review/ReviewForm";
+import { resetReviewStatus } from "../config/redux/reducer/reviewReducer";
 
 const PastBooking = () => {
   const dispatch = useDispatch();
@@ -16,11 +20,52 @@ const PastBooking = () => {
     (state) => state.guestDash
   );
   const { user } = useSelector((state) => state.auth);
+  const { alreadyReviewed , reviewPosts} = useSelector((state) => state.review);
+
+
+  const [showReview, setShowReview] = useState(false);
+  const [selectedPropertyId, setSelectedPropertyId] = useState(null);
+  const [show, setShow] = useState(false);
+
+
+  const handleReviewClick = (propertyId) => {
+  const alreadyReviewedByUser = reviewPosts?.some(
+    (review) =>
+      review.property === propertyId &&
+      review.user === user?._id
+  );
+
+  if (alreadyReviewedByUser) {
+    setShow(true); // ✅ Already Reviewed Modal
+  } else {
+    setSelectedPropertyId(propertyId);
+    setShowReview(true); // ✅ Write Review Modal
+  }
+};
+
+
+  const handleCloseReview = () => {
+    setShowReview(false);
+    setSelectedPropertyId(null);
+  };
 
   // On component mount -> fetch bookings
   useEffect(() => {
     dispatch(GetGuestPastBookingPost());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (alreadyReviewed) {
+      setShow(true); // ✅ OPEN MODAL
+    }
+  }, [alreadyReviewed]);
+
+  const handleClose = () => {
+    setShow(false);
+    dispatch(resetReviewStatus());
+  };
+
+
 
   return (
     <div className={styles.PastBookingContainer}>
@@ -93,15 +138,64 @@ const PastBooking = () => {
                       <strong>Email:</strong> <FaEnvelope /> <a href={`mailto:${booking.property?.userId?.email}`} className={styles.HostLink}>{booking.property?.userId?.email}</a> <br />
                       <strong>Phone:</strong> <FaPhone /> <a href={`tel:${booking.property?.userId?.phone}`} className={styles.HostLink}>{booking.property?.userId?.phone}</a>
                     </p>
+                    <div className={styles.BTN}>
+                      <Button variant="outline-primary">
+                        <FaStreetView />More Details
+                      </Button>
+                      <Button
+                        variant="outline-primary"
+                        onClick={() => handleReviewClick(booking.property?._id)}
+                      >
+                        <IoMdStarOutline /> Review
+                      </Button>
 
-                    <Button variant="outline-primary">
-                      <FaStreetView />More Details
-                    </Button>
+                    </div>
+
                   </Card.Body>
                 </Card>
               </div>
             ))}
           </div>
+          <Modal
+            show={showReview}
+            onHide={handleCloseReview}
+            size="lg"
+            centered
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Write a Review</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+              {selectedPropertyId && (
+                <ReviewForm propertyId={selectedPropertyId}
+                  onClose={handleCloseReview} />
+              )}
+            </Modal.Body>
+          </Modal>
+
+          <Modal show={show} onHide={handleClose} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Review Already Submitted</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+              You have already posted a review for this property.
+              <br />
+              You can edit your review from the review section.
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={handleClose}>
+                Go to My Review
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+
         </>
       )}
     </div>

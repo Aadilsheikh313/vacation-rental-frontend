@@ -1,59 +1,166 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { deleteReviewApi, editReviewApi, getAllReviewApi, postReviewApi } from "../../../api/reviewApi";
+import {
+  getAllReviewApi,
+  postReviewApi,
+  editReviewApi,
+  hostReplyToReviewApi,
+  getReviewAnalyticsApi,
+  toggleReviewVisibilityApi,
+  getAdminReviewAnalyticsApi,
+} from "../../../api/reviewApi";
 
-// ✅ GET All Reviews for a Property 
+/* =====================================
+   GET ALL REVIEWS (PUBLIC)
+===================================== */
 export const getAllReviewPosts = createAsyncThunk(
   "review/getAllReviewPosts",
   async (propertyId, thunkAPI) => {
     try {
-      const response = await getAllReviewApi(propertyId);  // 🛠️ FIXED: pass propertyId
-      return thunkAPI.fulfillWithValue(response);
+      const response = await getAllReviewApi(propertyId);
+      return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Failed to fetch all reviews"
+        error.response?.data?.message || "Failed to fetch reviews"
       );
     }
   }
 );
 
-// ✅ POST Review for a Property 
+/* =====================================
+   CREATE REVIEW (GUEST)
+===================================== */
 export const createReviewPosts = createAsyncThunk(
   "review/createReviewPosts",
-  async ({ propertyId, token, rating, comment }, thunkAPI) => {
+  async (
+    { propertyId, token, rating, comment, cleanliness, comfort, service, location },
+    thunkAPI
+  ) => {
     try {
-      const response = await postReviewApi({ propertyId, token, rating, comment });
-      return thunkAPI.fulfillWithValue(response);
+      const response = await postReviewApi({
+        propertyId,
+        token,
+        rating,
+        comment,
+        cleanliness,
+        comfort,
+        service,
+        location,
+      });
+      return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Failed to post the review!"
+        error.response?.data?.message || "Failed to post review"
       );
     }
   }
 );
 
+/* =====================================
+   EDIT REVIEW
+===================================== */
 export const editReviewPosts = createAsyncThunk(
   "review/editReviewPosts",
-  async({ propertyId, reviewId, token, rating, comment }, thunkAPI) => {
+  async (
+    { reviewId, token, rating, comment, cleanliness, comfort, service, location },
+    thunkAPI
+  ) => {
     try {
-      const response = await editReviewApi({ propertyId, reviewId, token, rating, comment });
-      return thunkAPI.fulfillWithValue(response);
+      const response = await editReviewApi({
+        reviewId,
+        token,
+        rating,
+        comment,
+        cleanliness,
+        comfort,
+        service,
+        location,
+      });
+      return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Failed to edit Review!"
+        error.response?.data?.message || "Failed to edit review"
       );
     }
   }
 );
 
-export const deleteReviewPosts = createAsyncThunk(
-  "review/deleteReviewPosts",
-  async({ propertyId, reviewId, token }, thunkAPI) => {
+/* =====================================
+   HOST REPLY
+===================================== */
+export const hostReplyToReview = createAsyncThunk(
+  "review/hostReplyToReview",
+  async ({ reviewId, token, message }, thunkAPI) => {
     try {
-      const response = await deleteReviewApi({ propertyId, reviewId, token });
-      return thunkAPI.fulfillWithValue(response);
+      const response = await hostReplyToReviewApi({
+        reviewId,
+        token,
+        message,
+      });
+      return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Failed to delete Review!"
+        error.response?.data?.message || "Failed to reply to review"
+      );
+    }
+  }
+);
+
+/* =====================================
+   REVIEW ANALYTICS
+===================================== */
+export const getReviewAnalytics = createAsyncThunk(
+  "review/getReviewAnalytics",
+  async ({ propertyId, token }, thunkAPI) => {
+    try {
+      const response = await getReviewAnalyticsApi({ propertyId, token });
+      return response.analytics;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to load analytics"
+      );
+    }
+  }
+);
+
+
+/* =====================================
+   ADMIN: getAdminReviewAnalytics
+===================================== */
+
+export const getAdminReviewAnalytics = createAsyncThunk(
+  "review/getAdminReviewAnalytics",
+  async({ propertyId,
+  token,}, thunkAPI) =>{
+    try {
+      const response = await getAdminReviewAnalyticsApi({
+        propertyId, token
+      });
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to getAdminReviewAnalytics"
+      );
+    }
+  }
+)
+
+/* =====================================
+   ADMIN: HIDE / UNHIDE REVIEW
+===================================== */
+export const toggleReviewVisibility = createAsyncThunk(
+  "review/toggleReviewVisibility",
+  async ({ reviewId, token, isHidden, reason }, thunkAPI) => {
+    try {
+      const response = await toggleReviewVisibilityApi({
+        reviewId,
+        token,
+        isHidden,
+        reason,
+      });
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to update review visibility"
       );
     }
   }
