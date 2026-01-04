@@ -34,8 +34,7 @@ const AboutPage = () => {
                 <div className={styles.overlay}>
                     <h3>About</h3>
                     <p>
-                        Esse dolorum voluptatum ullam est sint nemo et est ipsa porro placeat
-                        quibusdam quia assumenda numquam molestias.
+                        Experience a place where elegance, comfort, and thoughtful hospitality come together to create unforgettable moments for every guest.
                     </p>
                     <div className={styles.breadcrumb}>
                         <input type="button" value="Home" onClick={handleclickHome} /> / About
@@ -45,26 +44,31 @@ const AboutPage = () => {
 
             <div className={styles.aboutInformation}>
                 <div className={styles.leftContaiertext}>
-                    <h3>Luxury Redefined in the Heart of Paradise</h3>
-                    <p>Nestled along the pristine coastline, our boutique hotel has been welcoming
-                        discerning travelers since 1892. What began as a charming seaside retreat has
-                        evolved into one of the region's
-                        most beloved luxury destinations, seamlessly blending
-                        timeless elegance with modern sophistication.
-                    </p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                    <h3>Luxury Redefined, Experiences Remembered</h3>
+                    <p>Nestled in a serene and picturesque location,
+                        our hotel has been a symbol of refined hospitality for
+                        decades. What started as a peaceful retreat has evolved
+                        into a destination where luxury, comfort, and timeless
+                        charm come together to create memorable
+                        stays for travelers from around the world.</p>
+                    <p>We believe that a perfect stay is more
+                        than just a room—it is an experience.
+                        From thoughtfully designed interiors
+                        to world-class amenities and attentive
+                        service, every moment here is curated
+                        to ensure relaxation, comfort, and
+                        lasting memories.
                     </p>
                     <Row>
                         <Card className={styles.leftCard}>
                             <h3>132</h3>
                             <p>LUXURY ROOMS</p>
+                            <p>Designed for comfort, privacy, and elegance</p>
                         </Card>
                         <Card className={styles.leftCard}>
                             <h3>98%</h3>
                             <p>GUEST SATISFACTION</p>
+                            <p>Trusted and loved by our valued guests</p>
                         </Card>
                     </Row>
 
@@ -73,10 +77,12 @@ const AboutPage = () => {
                         <Card className={styles.leftCard}>
                             <h3>1892</h3>
                             <p>ESTABLISHED</p>
+                            <p>A legacy of excellence and hospitality</p>
                         </Card>
                         <Card className={styles.leftCard}>
                             <h3>17</h3>
                             <p>AWARDS WON</p>
+                            <p>Recognized for quality and service</p>
                         </Card>
                     </Row>
 
@@ -108,7 +114,8 @@ const AboutPage = () => {
             </div>
             <div className={styles.awardsandrecgnition}>
                 <h3>Awards & Recognition</h3>
-                <p>Celebrating excellence in hospitality and service</p>
+                <p>Our commitment to excellence has earned us prestigious awards and recognition across the hospitality industry. These honors reflect our dedication to delivering outstanding service, exceptional comfort, and unforgettable guest experiences.
+                </p>
                 <div className={styles.awardCard}>
                     <Card className={styles.awardCardstyle}>
                         <div className={styles.iconWrapper}>
@@ -146,7 +153,8 @@ const AboutPage = () => {
             <div className={styles.aboutRooms}>
                 <h3>Rooms</h3>
                 <p>-------<b>---------</b>-------------</p>
-                <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+                <p>Explore our thoughtfully curated rooms and suites, designed to offer the perfect blend of luxury, comfort, and modern amenities. Each space is crafted to provide a relaxing atmosphere, ensuring a peaceful and memorable stay.
+                </p>
                 {isLoading && (
                     <div className="text-center">
                         <Spinner animation="border" variant="primary" />
@@ -178,7 +186,7 @@ const AboutPage = () => {
 
                                     <div className={styles.cardBody}>
                                         <h5 className={styles.cardTitle}>{property.title}</h5>
-                                        <p>{property.description}</p>
+                                        <p className={styles.cardDescription}>{property.description}</p>
                                         <div className={styles.facilities}>
                                             {property.facilities?.includes("Free WiFi") && (
                                                 <p><FaWifi /> Free WiFi</p>
@@ -215,16 +223,16 @@ const AboutPage = () => {
                             <p>Try changing filters or search again.</p>
                         </>
                     )}
-                    
+
                 </div>
                 <div className={styles.viewAllRooms}>
-                        <Button
-                            className={styles.viewAllBtnRooms}
-                            onClick={() => navigate("/getAllproperty")}
-                        >
-                            View All Rooms & Suites
-                        </Button>
-                    </div>
+                    <Button
+                        className={styles.viewAllBtnRooms}
+                        onClick={() => navigate("/getAllproperty")}
+                    >
+                        View All Rooms & Suites
+                    </Button>
+                </div>
             </div>
 
         </div>

@@ -92,8 +92,10 @@ const GetAllRooms = () => {
           <div className={styles.Roomstext}>
             <h3>Rooms</h3>
             <p>
-              Esse dolorum voluptatum ullam est sint nemo et est ipsa porro
-              placeat quibusdam quia assumenda numquam molestias.
+              <p>
+                Discover elegant rooms crafted for relaxation, comfort, and a memorable stay at every moment.
+              </p>
+
             </p>
           </div>
           <div className={styles.breadcrumb}>
@@ -278,13 +280,17 @@ const GetAllRooms = () => {
           <div className={styles.CountTotalRooms}>
             <p>Showing {filteredPosts.length} rooms</p>
             <FormGroup className={styles.Featured}>
-              <FormSelect onChange={(e) => dispatch(PricesBaseFilterPost(e.target.value))}>
+              <FormSelect
+                className={styles.customSelect}
+                onChange={(e) => dispatch(PricesBaseFilterPost(e.target.value))}
+              >
                 <option value="featured">Sort by: Featured</option>
                 <option value="lowToHigh">Price : Low to High</option>
                 <option value="highToLow">Price : High to Low</option>
                 <option value="ratingHighToLow">Guest Rating</option>
               </FormSelect>
             </FormGroup>
+
           </div>
           <hr />
           <div className={styles.getAllProperty}>
