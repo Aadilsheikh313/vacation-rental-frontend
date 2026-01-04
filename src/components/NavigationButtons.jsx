@@ -18,15 +18,10 @@ const NavigationButtons = () => {
       <Link to="/explore" className={styles.customButton}>
         <FaMapMarkedAlt /> TOURIST PLACEES
       </Link>
-      <Link to="/top-spots" className={styles.customButton}>
-        <FaStar /> TOP SPOTS
-      </Link>
       <Link to="/plan-my-trip" className={styles.customButton}>
         <FaSuitcaseRolling /> PLAN MY TRIP
       </Link>
-      <Link to="/testy-food" className={styles.customButton}>
-        <FaUtensils /> FOOD & FUN
-      </Link>
+    
     </div>
   );
 };

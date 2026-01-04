@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createReviewPosts } from "../config/redux/action/reviewAction";
 import { resetStatus } from "../config/redux/reducer/reviewReducer";
 import StarInput from "./StarInput";
+import styles from "../stylesModule/Review/reviewFrom.module.css"
 import {
   showSuccess,
   showError,
@@ -87,38 +88,39 @@ const ReviewForm = ({ propertyId, onClose }) => {
   }
 
   return (
+    <div className={styles.ReviewFormContainer}>
     <form onSubmit={handleSubmit} className="mb-4">
-      <h5 className="mb-3">Write a Review</h5>
+      <h5 className={styles.heading}>Write a  Review</h5>
 
       {/* Overall */}
-      <div className="mb-3">
+      <div className={styles.starline}>
         <label>Overall Rating</label>
         <StarInput rating={rating} setRating={setRating} />
       </div>
 
       {/* Sub ratings */}
-      <div className="mb-3">
+      <div className={styles.starline}>
         <label>Cleanliness</label>
         <StarInput rating={cleanliness} setRating={setCleanliness} />
       </div>
 
-      <div className="mb-3">
+      <div className={styles.starline}>
         <label>Comfort</label>
         <StarInput rating={comfort} setRating={setComfort} />
       </div>
 
-      <div className="mb-3">
+      <div className={styles.starline}>
         <label>Service</label>
         <StarInput rating={service} setRating={setService} />
       </div>
 
-      <div className="mb-3">
+      <div className={styles.starline}>
         <label>Location</label>
         <StarInput rating={location} setRating={setLocation} />
       </div>
 
       {/* Comment */}
-      <div className="mb-3">
+      <div className={styles.starline}>
         <label>Comment</label>
         <textarea
           className="form-control"
@@ -129,10 +131,12 @@ const ReviewForm = ({ propertyId, onClose }) => {
         />
       </div>
 
-      <button className="btn btn-primary" disabled={isLoading}>
+      <button  disabled={isLoading}
+      className={styles.reviewPostBtn}>
         {isLoading ? "Posting..." : "Submit Review"}
       </button>
     </form>
+    </div>
   );
 };
 

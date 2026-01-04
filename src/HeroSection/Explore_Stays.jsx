@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Row, Col, Container, Spinner } from "react-bootstrap";
-import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../config/redux/action/propertyAction";
 import styles from "../stylesModule/HeroModule/Explore.module.css";
@@ -40,7 +39,7 @@ const ExploreAndStay = () => {
   const navigate = useNavigate();
 
   // Redux State
-  const { posts, isLoading } = useSelector((state) => state.post);
+  const {  isLoading } = useSelector((state) => state.post);
   const { Page, totalPages, currentPage } = useSelector((state) => state.Pages);
 
   useEffect(() => {

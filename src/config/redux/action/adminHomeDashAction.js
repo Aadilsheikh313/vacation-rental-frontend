@@ -19,6 +19,7 @@ export const getSinglePropertyAdminPosts = createAsyncThunk(
     async(propertyId,thunkAPI ) =>{
         try {
             const response = await getSinglePropertyAdminApi(propertyId);
+            console.log("ACTION", response);
             return thunkAPI.fulfillWithValue(response);
         } catch (error) {
            return thunkAPI.rejectWithValue(error.response?.data || "Admin Failed to get a single fetch  posts"); 

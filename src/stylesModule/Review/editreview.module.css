@@ -1,0 +1,187 @@
+/* ===============================
+   OVERLAY (Background Blur)
+================================ */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow-y: auto; /* ✅ allow scroll if needed */
+  padding: 20px;
+  /* mobile safe spacing */
+}
+
+/* ===============================
+   MODAL CONTAINER
+================================ */
+.modal {
+  background: #ffffff;
+  width: 100%;
+  max-width: 520px;
+  max-height: 85vh;
+  /* ✅ IMPORTANT */
+  padding: 24px 26px;
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  animation: modalFadeIn 0.35s ease;
+  overflow-y: auto;
+  /* ✅ SCROLL INSIDE MODAL */
+}
+
+/* ===============================
+   MODAL TITLE
+================================ */
+.modal h3 {
+  margin-bottom: 18px;
+  font-size: 25px;
+  font-weight: 600;
+  color: #222;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  position: sticky;
+  /* ✅ stays visible */
+  top: 0;
+  background: #fff;
+  z-index: 1;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #ff6a00, #ee0979);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.strarline {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+}
+
+/* ===============================
+   LABELS
+================================ */
+.modal label {
+  display: block;
+  font-size: 18px;
+  font-weight: 500;
+  color: #555;
+  margin: 14px 0 6px;
+  font-family: 'Lora', serif;
+  background: linear-gradient(135deg, #e41e7e, #ff6a00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ===============================
+   TEXTAREA
+================================ */
+.modal textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  resize: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal textarea:focus {
+  outline: none;
+  border-color: #ffb347;
+  box-shadow: 0 0 0 2px rgba(255, 179, 71, 0.25);
+}
+
+/* ===============================
+   ERROR MESSAGE
+================================ */
+.error {
+  margin-top: 10px;
+  color: #d93025;
+  font-size: 13px;
+}
+
+/* ===============================
+   ACTION BUTTONS (Sticky Bottom)
+================================ */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+}
+
+/* Cancel */
+.cancelBtn {
+  background: #f1f1f1;
+  color: #444;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.cancelBtn:hover {
+  background: #e2e2e2;
+  transform: translateY(-3px);
+  font-size: 1rem;
+}
+
+/* Save */
+.saveBtn {
+   background: linear-gradient(90deg, #c09f70, #ffb347);
+  color: #fff;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.saveBtn:hover {
+  background: linear-gradient(90deg, #ffb347, #c09f70);
+  transform: translateY(-3px);
+  box-shadow: 0 0 12px rgba(192, 159, 112, 0.6);
+  font-size: 1rem;
+}
+
+.saveBtn:disabled,
+.cancelBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===============================
+   ANIMATION
+================================ */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===============================
+   RESPONSIVE (Mobile)
+================================ */
+@media (max-width: 600px) {
+  .modal {
+    max-height: 90vh;
+    padding: 20px;
+  }
+}

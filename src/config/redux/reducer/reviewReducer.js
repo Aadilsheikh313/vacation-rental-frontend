@@ -13,7 +13,10 @@ import {
 const initialState = {
   reviewPosts: [],            // All review data from backend
   reviewPostsId: "",          // Optional: for UI tracking (if needed)
-  analytics: null,
+  analytics: {
+    host: null,
+    admin: null,
+  },
   reviewPostsFetching: false, // Used to check if fetched
   isLoading: false,           // Loader for posting
   isError: false,             // If error occurs
@@ -131,7 +134,7 @@ const reviewSlice = createSlice({
       })
       .addCase(getReviewAnalytics.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.analytics = action.payload;
+        state.analytics.host = action.payload.analytics;
       })
       .addCase(getReviewAnalytics.rejected, (state, action) => {
         state.isLoading = false;
@@ -146,8 +149,12 @@ const reviewSlice = createSlice({
         state.message = "....";
       })
       .addCase(getAdminReviewAnalytics.fulfilled, (state, action) => {
-        state.analytics = action.payload.analytics;
+        state.isLoading = false;
+        state.isError = false;
+        state.message = "";
+        state.analytics.admin = action.payload.analytics;
       })
+
       .addCase(getAdminReviewAnalytics.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
@@ -161,6 +168,8 @@ const reviewSlice = createSlice({
         state.message = "....";
       })
       .addCase(toggleReviewVisibility.fulfilled, (state, action) => {
+        state.isLoading = false;
+
         const updated = action.payload.review;
         const index = state.reviewPosts.findIndex(
           (r) => r._id === updated._id
@@ -170,6 +179,7 @@ const reviewSlice = createSlice({
           state.reviewPosts[index] = updated;
         }
       })
+
       .addCase(toggleReviewVisibility.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;

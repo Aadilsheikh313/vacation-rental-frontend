@@ -29,12 +29,6 @@ const PropertyDetails = () => {
   const { token, user, loggedIn } = useSelector((state) => state.auth);
 
 
-  // Check if current user already posted a review
-  const hasUserReviewed = singlePost?.reviews?.some(
-    (review) => review.userId?._id === user?._id
-  ) || false;
-
-
   useEffect(() => {
     if (id) {
       dispatch(getSinglePosts(id));

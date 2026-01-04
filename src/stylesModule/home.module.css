@@ -14,10 +14,14 @@
 
 .heroSection {
   position: relative;
-  height: 100vh;
   width: 100%;
+
+  min-height: 100vh;      
+  min-height: 100svh;    /* for mobile viewport height */
+
   overflow: hidden;
 }
+
 
 .imagesection {
   position: absolute;
@@ -25,14 +29,28 @@
   left: 0;
   width: 100%;
   max-height: 100%;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
   object-fit: cover;
+  object-position: center center;
+
+  z-index: 0;
+  transition: transform 0.6s ease;
 }
+
+.heroSection:hover .imagesection {
+  transform: scale(1.03);
+}
+
 
 .overlay {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
-  /* dark overlay for luxury contrast */
+  z-index: 1;
 }
 
 .heroContent {
@@ -45,7 +63,8 @@
   text-align: center;
   height: 100%;
   color: #fff;
-  padding: 0 20px;
+  min-height: inherit;
+  padding: 1rem;
   margin-top: 2rem;
 }
 
@@ -345,7 +364,7 @@
 /* Responsive Grid Padding */
 @media (max-width: 768px) {
   .home {
-    padding: 20px 10px;
+    padding: 5px 5px;
   }
 
   .card {
@@ -400,6 +419,8 @@
   .heroSection {
     height: auto;
     min-height: 80vh;
+    margin-top: 0;
+  
   }
 
   .heroText {
@@ -471,6 +492,10 @@
 
 /* Small Mobile (max 480px) */
 @media (max-width: 480px) {
+  .heroContent{
+    padding: 0;
+    margin-top: 0;
+  }
   .heroText {
     font-size: 1.5rem;
   }
@@ -486,7 +511,10 @@
 
   .achivmentstats {
     flex-direction: column;
-    gap: 10px;
+  }
+  .achivmentstats p{
+    font-size: 1rem;
+    margin-top: 0;
   }
 
   .sectionContainer {

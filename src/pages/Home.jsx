@@ -30,12 +30,8 @@ const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { posts, isLoading } = useSelector((state) => state.post);
-  const { properties, isLoading: searchLoading } = useSelector(
-    (state) => state.globalSearch
-  );
-  const { approvedPosts, isError, isSuccess, message } = useSelector(
-    (state) => state.adminPost
-  );
+  const { properties } = useSelector((state) => state.globalSearch);
+  const { approvedPosts } = useSelector((state) => state.adminPost);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -92,8 +88,6 @@ const Home = () => {
   const hondleclickAbout = () => {
     navigate('/about');  // ✅ navigate to About page
   };
-
-  const loading = isLoading || searchLoading;
 
   return (
     <div className={styles.home}>
@@ -207,8 +201,11 @@ const Home = () => {
       <div className={styles.aboutRooms}>
         <h3>Rooms</h3>
         <p>-------<b>---------</b>-------------</p>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-
+        <p>
+          Discover thoughtfully designed rooms and suites that blend modern comfort
+          with timeless elegance. Each space is curated to offer a relaxing stay,
+          premium amenities, and an unforgettable hospitality experience.
+        </p>
         {
           isLoading ? (
             <CustomSpinner />

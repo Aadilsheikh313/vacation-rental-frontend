@@ -28,8 +28,6 @@ import Payment from './Payment/Payment';
 import { useDispatch, useSelector } from 'react-redux';
 import ExploreAndStay from './HeroSection/Explore_Stays';
 import TouristAndPlace from './HeroSection/Tourist_Places';
-import TopSpots from './HeroSection/Top_Spots';
-import FoodAndFun from './HeroSection/FoodAndFun';
 import PostTripMoments from './GuestDashbord/Post_Trip_Moments';
 import ExperienceHub from './GuestDashbord/Experience_Hub';
 import AdminRegister from './AdminPlane/AdminRegister';
@@ -87,9 +85,7 @@ function AppContent() {
         <Route path="/payment/:id" element={<Payment />} />
         <Route path='/explore/properties' element={<ExploreAndStay />} />
         <Route path="/touristplace/:id" element={<GetTouristSinglePlace />} />
-        <Route path='/top-spots' element={<TopSpots />} />
         <Route path='/plan-my-trip' element={<TripHomePage />} />
-        <Route path='/testy-food' element={<FoodAndFun />} />
         <Route path='/about' element={<AboutPage />} />
         <Route path='/getAllproperty' element={<GetAllRooms />} />
         <Route path='/explore' element={<HomeTroust />} />

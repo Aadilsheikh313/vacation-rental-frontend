@@ -3,14 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Container, Row, Col, Card, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../config/redux/action/authAction";
-import { useAuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import styles from "../stylesModule/Register.module.css";
 
 const Registerpage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { login } = useAuthContext();
   const { isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
 
   const [roleChoice, setRoleChoice] = useState("");
@@ -90,7 +88,6 @@ const Registerpage = () => {
       setPhone("");
       setName("");
       setRoleChoice("");
-      login({ name, email, role: roleChoice });
       navigate("/");
     }
     if (isError) {

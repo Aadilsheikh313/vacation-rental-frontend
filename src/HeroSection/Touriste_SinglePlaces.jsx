@@ -19,7 +19,6 @@ const GetTouristSinglePlace = () => {
     singleAdminPost,
     isLoading,
     isError,
-    isSuccess,
     message,
   } = useSelector((state) => state.adminPost);
 
@@ -83,8 +82,6 @@ const GetTouristSinglePlace = () => {
     country,
     location,
     postedOn,
-    isApproved,
-    postedBy,
     tips,
     history,
     bestTimeToVisit,

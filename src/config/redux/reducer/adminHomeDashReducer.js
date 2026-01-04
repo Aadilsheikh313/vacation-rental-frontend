@@ -46,34 +46,41 @@ const adminHomeDashSlice = createSlice({
         state.isLoading = true;
         state.message = "Fetching all admin properties...";
       })
+      // .addCase(getSinglePropertyAdminPosts.fulfilled, (state, action) => {
+      //   state.isLoading = false;
+      //   state.isError = false;
+      //   state.isSuccess = true;
+      //   state.message = "Admin single property fetched successfully!";
+
+      //   const {
+      //     property,
+      //     reviews,
+      //     bookings,
+      //     payments,
+      //     totalRevenue,
+      //     totalBookings,
+      //     avgRating,
+      //   } = action.payload;
+
+      //   state.adminSingleProperty = {
+      //     ...property,
+      //     reviews,
+      //     bookings,
+      //     payments,
+      //     totalRevenue,
+      //     totalBookings,
+      //     avgRating,
+      //   };
+      // })
       .addCase(getSinglePropertyAdminPosts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
         state.message = "Admin single property fetched successfully!";
 
-        const {
-          property,
-          reviews,
-          bookings,
-          payments,
-          totalRevenue,
-          totalBookings,
-          avgRating,
-        } = action.payload;
-
-        state.adminSingleProperty = {
-          ...property,
-          reviews,
-          bookings,
-          payments,
-          totalRevenue,
-          totalBookings,
-          avgRating,
-        };
+        // ✅ POORA RESPONSE STORE KARO
+        state.adminSingleProperty = action.payload;
       })
-
-
       .addCase(getSinglePropertyAdminPosts.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;

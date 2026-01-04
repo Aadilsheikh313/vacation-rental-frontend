@@ -14,6 +14,7 @@ export const getAllPropertyAdminApi = async () => {
 export const getSinglePropertyAdminApi = async (propertyId) => {
     try {
         const response = await clientServer.get(`/api/v1/admin/property/${propertyId}`);
+        console.log("API", response);
         return response.data;
     } catch (error) {
         console.error("❌ Get Single Admin Property API Error:", error.response?.data || error.message);

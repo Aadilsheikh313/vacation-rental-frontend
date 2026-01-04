@@ -1,0 +1,442 @@
+.ReviewAnalytics {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    gap: 1.2rem;
+}
+
+/* Icons */
+.ReviewAnalytics svg {
+    color: #ffcc33;
+}
+
+/* Heading */
+.heading {
+    text-align: center;
+    font-size: 1.6rem;
+    font-family: 'Playfair Display', serif;
+    text-transform: capitalize;
+    margin-bottom: 1rem;
+    background: linear-gradient(90deg, #ff6a00, #ee0979);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Star rating block */
+.starrating {
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 0.5rem;
+}
+
+.reviewCount {
+    margin-top: 6px;
+    font-size: 1.1rem;
+    font-family: "Georgia", "Times New Roman", serif;
+    color: darkgoldenrod;
+}
+
+/* Breakdown section */
+.breakdownWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 1rem;
+}
+
+/* EACH ROW (Label + Stars + Value) */
+.breakdownItem {
+    display: grid;
+    grid-template-columns: 140px 1fr 40px;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+/* Label */
+.breakdownLabel {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #333;
+    white-space: nowrap;
+}
+
+/* Stars */
+.breakdownItem svg {
+    font-size: 1.3rem;
+    color: #ffcc33;
+}
+
+/* Number */
+.breakdownValue {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: darkgoldenrod;
+    text-align: right;
+}
+/* Progress bar container */
+.progressBar {
+    height: 8px;
+    width: 100%;
+    background: #e6e6e6;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Animated fill */
+.progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, #ffb347, #ffcc33);
+    border-radius: 10px;
+    width: 0;
+    animation: fillBar 1.2s ease forwards;
+}
+
+@keyframes fillBar {
+    from {
+        width: 0;
+    }
+}
+.darkMode .ReviewAnalytics {
+    background: #1e1e1e;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.darkMode .breakdownItem {
+    background: #2a2a2a;
+}
+
+.darkMode .breakdownLabel {
+    color: #ddd;
+}
+
+.darkMode .reviewCount,
+.darkMode .breakdownValue {
+    color: #ffcc33;
+}
+
+.darkMode .progressBar {
+    background: #444;
+}
+
+/* Mobile polish */
+@media (max-width: 576px) {
+    .breakdownItem {
+        grid-template-columns: 120px 1fr 32px;
+    }
+
+    .heading {
+        font-size: 1.5rem;
+    }
+
+    .reviewCount {
+        font-size: 1rem;
+    }
+}
+
+/* ================= REVIEW SECTION ================= */
+
+.ReviewList {
+  margin-top: 2rem;
+}
+
+/* ---------- HEADING ---------- */
+
+.reviewHeading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  animation: fadeSlide 0.6s ease-in-out;
+}
+
+.reviewHeadingIcon {
+  font-size: 1.7rem;
+  background: linear-gradient(135deg, #ff9800, #ff5722);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: pulse 2s infinite;
+}
+
+.reviewTitleDesktop {
+  display: inline;
+}
+
+.reviewTitleMobile {
+  display: none;
+}
+
+.reviewCountBadge {
+  background: linear-gradient(135deg, #ffcc33, #ff9800);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ---------- REVIEW CARD ---------- */
+
+.reviewCard {
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  animation: fadeUp 0.5s ease;
+}
+
+.reviewHeader {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.userName {
+  font-size: 1rem;
+}
+
+.reviewDate {
+  font-size: 0.85rem;
+  color: gray;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---------- RATING ---------- */
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  color: #ff9800;
+}
+
+.ratingValue {
+  margin-left: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* ---------- COMMENT ---------- */
+
+.reviewComment {
+  margin-top: 10px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ---------- HOST REPLY ---------- */
+
+.hostReplyBox {
+  margin-top: 12px;
+  padding: 10px;
+  background: #f7f7f7;
+  border-left: 4px solid #4caf50;
+  border-radius: 8px;
+}
+
+.hostHeader {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hostMessage {
+  margin-top: 6px;
+  font-size: 0.95rem;
+}
+
+.hostReplyDate {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+/* ---------- NO REPLY ---------- */
+
+.noReply {
+  margin-top: 10px;
+  color: #ff5722;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---------- ANIMATIONS ---------- */
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 576px) {
+  .reviewHeading {
+    font-size: 1.15rem;
+  }
+
+  .reviewTitleDesktop {
+    display: none;
+  }
+
+  .reviewTitleMobile {
+    display: inline;
+  }
+
+  .reviewCard {
+    padding: 0.9rem;
+  }
+
+  .reviewComment {
+    font-size: 0.95rem;
+  }
+}
+
+/* ================= MAP SECTION ================= */
+/* ================= MAP WRAPPER ================= */
+
+.leafletWrapper {
+  margin-top: 2rem;
+}
+
+.leafletWrapper h4 {
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* ================= MAP CONTAINER ================= */
+
+.mapcontainer {
+  width: 100%;
+  height: 380px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #f9f9f9;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+  position: relative;
+}
+
+/* 🔥 IMPORTANT: Leaflet real container */
+.mapcontainer :global(.leaflet-container) {
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+}
+
+/* Loading / fallback text */
+.mapcontainer p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 1rem;
+  color: #777;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+  .mapcontainer {
+    height: 260px;
+    border-radius: 12px;
+  }
+}
+
+/* ================= BACK BUTTON ================= */
+
+.backButton {
+  margin-top: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+
+  font-size: 1rem;
+  font-weight: 600;
+  color: #5e35b1;
+
+  background: linear-gradient(
+    135deg,
+    rgba(94, 53, 177, 0.08),
+    rgba(94, 53, 177, 0.15)
+  );
+
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.backButton svg {
+  font-size: 1.3rem;
+}
+
+/* Hover effect */
+.backButton:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(94, 53, 177, 0.18),
+    rgba(94, 53, 177, 0.28)
+  );
+  transform: translateX(-4px);
+  box-shadow: 0 6px 16px rgba(94, 53, 177, 0.25);
+}
+
+/* Active click */
+.backButton:active {
+  transform: scale(0.96);
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 576px) {
+  .backButton {
+    width: 100%;
+    justify-content: center;
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+}

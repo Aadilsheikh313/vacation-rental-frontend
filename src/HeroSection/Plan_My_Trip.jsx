@@ -52,14 +52,6 @@ export default function PlanMyTrip({ initialTrip, onClose }) {
     }
   }, [initialTrip]);
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setTrip((prev) => ({
-      ...prev,
-      [name]: name === "adults" || name === "children" ? Number(value) : value,
-    }));
-  }
-
   // Convert UNIX timestamp + timezone offset to HH:MM format
   function unixToTime(unixTimestamp, timezoneOffsetSeconds) {
     if (!unixTimestamp) return "N/A";
@@ -88,20 +80,6 @@ export default function PlanMyTrip({ initialTrip, onClose }) {
     return forecast || null;
   }
 
-  async function handleSearch(e) {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-    try {
-      const resp = await fetchTripInfo({ q: trip.destination, radius: 5000, limit: 100 });
-      setData(resp);
-    } catch (err) {
-      setError(err?.message || "Something went wrong");
-      setData(null);
-    } finally {
-      setLoading(false);
-    }
-  }
 
   return (
     <Container className={styles.container + " py-4"}>
