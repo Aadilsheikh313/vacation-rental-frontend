@@ -11,6 +11,7 @@ import {
 import moment from "moment";
 import { getHostBookingHistoryPosts } from "../../config/redux/action/bookingAction ";
 import styles from "../../stylesModule/history.module.css";
+import { FaHome, FaCalendarCheck, FaShieldAlt, FaHistory } from "react-icons/fa";
 
 
 const BookingHistory = () => {
@@ -35,7 +36,25 @@ const BookingHistory = () => {
 
   return (
     <Container className={styles.bookingHistoryContainer}>
-      <h2 className={styles.title}>📜 Your Property Booking History</h2>
+
+      {/* <h2 className={styles.title}>
+        <FaHistory className={styles.titleIcon} />
+        Your Property Booking History
+      </h2> */}
+      {/* Breadcrumb */}
+      <div className={styles.breadcrumb}>
+        <span>Dashboard</span>
+        <span className={styles.breadcrumbArrow}>›</span>
+        <span className={styles.active}>Booking History</span>
+      </div>
+
+      {/* Page Title */}
+      <h2 className={styles.title}>
+        <FaHistory className={styles.titleIcon} />
+        <span className={styles.gradientText}>Your Property Booking History</span>
+      </h2>
+
+      <div className={styles.titleUnderline}></div>
 
       {isLoading ? (
         <div className="text-center my-5">
@@ -65,6 +84,16 @@ const BookingHistory = () => {
                   />
                   <Card.Body>
                     <Card.Title className={styles.cardTitle}>{property.title}</Card.Title>
+                    <h3 className={styles.bookingHeading}>
+                      <FaHome className={styles.headingIcon} />
+                      Booked Guests for this Listing
+                      <FaShieldAlt className={styles.trustedIcon} />
+                    </h3>
+
+                    <p className={styles.trustedText}>
+                      <FaCalendarCheck /> Verified bookings & trusted guests
+                    </p>
+
                     <p className={styles.propertyCity}><strong>City:</strong> {property.city}</p>
 
 

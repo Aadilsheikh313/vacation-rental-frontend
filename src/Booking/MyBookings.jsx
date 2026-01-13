@@ -114,14 +114,44 @@ const MyBooking = () => {
                     </Card.Text>
 
                     <div className={styles.ownerInfo}>
-                      <strong>Connect with Property Owner</strong>
-                      <div>
-                        <strong>Contact:</strong> {booking.property?.userId?.phone} / {booking.property?.userId?.email}
+                      <strong className={styles.ownerTitle}>
+                        Connect with Property Owner
+                      </strong>
+
+                      <div className={styles.contactRow}>
+                        <strong>Phone:</strong>
+                        <a
+                          href={`tel:${booking.property?.userId?.phone}`}
+                          className={styles.contactLink}
+                        >
+                          {booking.property?.userId?.phone}
+                        </a>
                       </div>
-                      <div>
-                        <strong>Refunded:</strong> {booking.isRefunded ? "✅ Yes" : "❌ No"}
+
+                      <div className={styles.contactRow}>
+                        <strong>Email:</strong>
+                        <a
+                          href={`mailto:${booking.property?.userId?.email}`}
+                          className={styles.contactLink}
+                        >
+                          {booking.property?.userId?.email}
+                        </a>
+                      </div>
+
+                      <div className={styles.refundRow}>
+                        <strong>Refunded:</strong>
+                        <span
+                          className={
+                            booking.isRefunded
+                              ? styles.refundedYes
+                              : styles.refundedNo
+                          }
+                        >
+                          {booking.isRefunded ? " Yes" : " No"}
+                        </span>
                       </div>
                     </div>
+
                   </Card.Body>
 
                   <div className={styles.buttonGroup}>

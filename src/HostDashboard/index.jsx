@@ -6,7 +6,7 @@ import { Spinner, Card, Button, Container, Row, Col, Alert, NavItem } from 'reac
 import { Link, useNavigate } from "react-router-dom";
 import { confirmDelete } from "../utils/confirmDelete";
 import styles from "../stylesModule/host.module.css";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { FaEye, FaEdit, FaTrash, FaHouseUser } from "react-icons/fa";
 
 
 
@@ -52,25 +52,28 @@ const HostDashboard = () => {
       successRedirectTo: "/host/dashboard",
     });
   };
-{!hostDashboardLoading && hostDashboardPosts.length === 0 && (
-  <Alert variant="info">
-    {message || "You haven't posted any properties yet."}
-  </Alert>
-)}
+  {
+    !hostDashboardLoading && hostDashboardPosts.length === 0 && (
+      <Alert variant="info">
+        {message || "You haven't posted any properties yet."}
+      </Alert>
+    )
+  }
 
   return (
     <Container className={styles.Container}>
       <NavItem>
-        <Row className="mb-4 text-center">
+        <Row className={styles.buttonRow}>
           <Col>
             <Button variant="primary" onClick={showAllProperties}>All Properties</Button>
           </Col>
           <Col>
-            <Button variant="warning" onClick={() => navigate("/host/all-expired-property")}>Expired Soft Deleted Properties</Button>
+            <Button variant="warning" className={styles.softDeletedBtn}
+              onClick={() => navigate("/host/all-expired-property")}>Soft Deleted Properties</Button>
           </Col>
 
           <Col>
-            <Button
+            <Button className={styles.expiredTrueBtn}
               variant="secondary"
               onClick={() => navigate("/host/expired-properties")}
             >
@@ -81,8 +84,10 @@ const HostDashboard = () => {
         </Row>
 
       </NavItem>
-      <h2 className="text-center mb-4">🏠 Host Dashboard</h2>
-
+      <h2 className={styles.dashboardTitle}>
+        <FaHouseUser className={styles.dashboardIcon} />
+        Host Dashboard
+      </h2>
       {hostDashboardLoading && (
         <div className="text-center">
           <Spinner animation="border" variant="primary" />
@@ -110,7 +115,7 @@ const HostDashboard = () => {
                   {property.description?.slice(0, 100)}...
                 </Card.Text>
                 <Card.Text className={styles.priceText}>
-                  ₹{property.price}
+                  <span>₹</span>{property.price}
                 </Card.Text>
 
                 <div className={styles.buttonGroup}>
@@ -119,21 +124,21 @@ const HostDashboard = () => {
                     to={`/property/${property._id}`}
                     className={`${styles.cardButton} ${styles.viewBtn}`}
                   >
-                  <FaEye/>  View
+                    <FaEye />  View
                   </Button>
 
                   <Button
                     onClick={() => navigate(`/edit/${property._id}`)}
                     className={`${styles.cardButton} ${styles.editBtn}`}
                   >
-                   <FaEdit/> Edit
+                    <FaEdit /> Edit
                   </Button>
 
                   <Button
                     onClick={() => hardhandleDelete(property._id)}
                     className={`${styles.cardButton} ${styles.deleteBtn}`}
                   >
-                    <FaTrash/>
+                    <FaTrash />
                     Delete
                   </Button>
                 </div>

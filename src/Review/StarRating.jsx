@@ -1,11 +1,11 @@
 import React from "react";
 
-const StarRating = ({ rating, maxStars = 5 }) => {
+const StarRating = ({ rating, maxStars = 5 ,className = ""}) => {
   const fullStars = Math.floor(rating);
   const hasHalfStar = rating - fullStars >= 0.5;
 
   return (
-    <span className="text-warning">
+    <span className={`text-warning ${className}`}>
       {Array.from({ length: fullStars }).map((_, i) => (
         <span key={`full-${i}`}>★</span>
       ))}

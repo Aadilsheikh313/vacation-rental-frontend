@@ -90,7 +90,6 @@ const ReviewForm = ({ propertyId, onClose }) => {
   return (
     <div className={styles.ReviewFormContainer}>
     <form onSubmit={handleSubmit} className="mb-4">
-      <h5 className={styles.heading}>Write a  Review</h5>
 
       {/* Overall */}
       <div className={styles.starline}>

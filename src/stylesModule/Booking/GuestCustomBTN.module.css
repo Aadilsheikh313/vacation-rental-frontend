@@ -1,5 +1,5 @@
 .BTNContainer {
-  display: flex;
+  display: flex !important;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap; /* allow wrapping on small screens */
@@ -57,8 +57,7 @@
 @media (max-width: 480px) {
   .BTNContainer {
     flex-direction: column;
-    padding-left: 2rem;
-    padding-right: 0.5rem;
+     padding: 0 1rem;
   }
 
   .BTNContainer button {

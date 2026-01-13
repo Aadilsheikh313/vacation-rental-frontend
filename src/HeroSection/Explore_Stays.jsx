@@ -6,9 +6,11 @@ import styles from "../stylesModule/HeroModule/Explore.module.css";
 import NavigationButtons from "../components/NavigationButtons";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
+import { motion } from "framer-motion";
 import RoomsBooking from '../assets/RoomsDetails.jpg';
 import CustomPagination from "../comman/Pagination";
 import { PaginationActionPost } from "../config/redux/action/paginationAction";
+import { GiEarthAsiaOceania } from "react-icons/gi";
 
 const categories = [
   "All",
@@ -39,7 +41,7 @@ const ExploreAndStay = () => {
   const navigate = useNavigate();
 
   // Redux State
-  const {  isLoading } = useSelector((state) => state.post);
+  const { isLoading } = useSelector((state) => state.post);
   const { Page, totalPages, currentPage } = useSelector((state) => state.Pages);
 
   useEffect(() => {
@@ -77,20 +79,28 @@ const ExploreAndStay = () => {
   return (
     <Container className={styles.exploreContainer}>
       <div className={styles.imageUppertext}>
-        <img src={RoomsBooking} alt="RoomBookingImage" />
+        <div
+          className={styles.imageUppertext}
+          style={{ backgroundImage: `url(${RoomsBooking})` }}
+        >
+       
         <div className={styles.overlay}></div>
         <div className={styles.ImageUpperContent}>
           <div className={styles.topbutton}>
+            <h2 className={styles.stayTitle}>Discover. Stay. Enjoy.</h2>
             <NavigationButtons />
           </div>
-          <h2 className={styles.stayTitle}>Discover. Stay. Enjoy.</h2>
+
           <p className={styles.staySubtext}>
-            Where unforgettable journeys begin — explore hidden gems and peaceful stays across India 🌍
+            Where unforgettable journeys begin — explore hidden gems and peaceful stays across India{" "}
+            <GiEarthAsiaOceania className={styles.earthIcon} />
           </p>
+
         </div>
         <div className={styles.breadcrumb}>
           <input type="button" value="Home" onClick={handleclickHome} /> / Explore
         </div>
+         </div>
       </div>
 
 

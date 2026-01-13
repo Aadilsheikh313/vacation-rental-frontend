@@ -205,16 +205,16 @@
   }
 
   .companyName {
-    font-size: 16px;
+    font-size: 20px;
   }
 
   .companyTagline {
-    font-size: 11px;
+    font-size: 18px;
   }
 
   .invoiceMeta {
     width: 100%;
-    font-size: 12px;
+    font-size: 16px;
   }
 }
 
@@ -235,14 +235,15 @@
     margin-bottom: 14px;
   }
 
+ 
   .heading {
-    font-size: 15px;
+    font-size: 24px;
   }
 }
 @media (max-width: 768px) {
   .section p {
-    font-size: 13px;
-    line-height: 1.5;
+    font-size: 20px;
+    line-height: 1.1;
   }
 }
 
@@ -269,9 +270,9 @@
 }
 @media (max-width: 768px) {
   .watermark {
-    font-size: 28px;
-    left: -20%;
-    bottom: 15%;
+    font-size: 33px;
+    left: -10%;
+    bottom: 150%;
     letter-spacing: 2px;
   }
 }

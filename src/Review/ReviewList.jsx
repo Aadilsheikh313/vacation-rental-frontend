@@ -63,7 +63,7 @@ const ReviewList = ({ reviews, isLoading, currentUserId }) => {
                   <div className={styles.reviewTop}>
                     <div className={styles.leftTop}>
                       <h6 className={styles.userName}>{userName}</h6>
-                      <StarRating rating={review.rating} />
+                      <StarRating rating={review.rating} className={styles.starRating} />
                     </div>
                     <span className={styles.reviewDate}>
                       {new Date(review.createdAt).toLocaleDateString()}

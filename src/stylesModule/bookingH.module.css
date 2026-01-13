@@ -1,19 +1,59 @@
 /* Container for the main booking page */
 .bookingContainer {
   background-color: #f8f9fc;
-  padding: 40px 20px;
+  padding: 20px 20px;
   min-height: 100vh;
   font-family: "Inter", "Segoe UI", Tahoma, sans-serif;
 }
 
 /* Section Title */
 .sectionTitle {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
   font-size: 2rem;
   font-weight: 700;
   color: #1e1e2f;
-  margin-bottom: 40px;
+  margin-bottom: 16px;
+  letter-spacing: 0.3px;
+  font-family: "Playfair Display", serif;
 }
+
+
+/* Title Icon */
+.sectionIcon {
+  font-size: 2.2rem;
+  color: #ff385c; 
+  animation: softPulse 2.2s ease-in-out infinite;
+}
+
+/* Underline */
+.sectionUnderline {
+  width: 110px;
+  height: 4px;
+  background: linear-gradient(90deg, #ff385c, #ff7a8a);
+  margin: -6px auto 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 56, 92, 0.4);
+}
+
+/* Soft animation */
+@keyframes softPulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 
 /* Summary badges */
 .summaryStats {
@@ -24,8 +64,21 @@
   text-align: center;
 }
 
+.summaryItem{
+  display: flex;
+  gap: 10px;
+}
+.statCard {
+  background: white;
+  padding: 18px 22px;
+  border-radius: 14px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+  min-width: 180px;
+  justify-content: space-between;
+}
+
 .summaryItem h6 {
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: #555;
   margin-bottom: 6px;
 }
@@ -58,14 +111,29 @@
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
 }
+.bookingCard:hover .bookingImage {
+  transform: scale(1.05);
+  transition: transform 0.4s ease;
+}
 
 /* Booking badge (confirmed/pending/cancelled) */
 .statusBadge {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 6px 10px;
-  font-size: 0.8rem;
+  top: 12px;
+  right: 12px;
+  padding: 6px 14px;
+  font-size: 0.75rem;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e1e2f;
+  margin-bottom: 12px;
 }
 
 /* Guest Info list */
@@ -78,9 +146,15 @@
 /* Action buttons */
 .cardActions {
   display: flex;
-  justify-content: space-between;
-  margin-top: 16px;
+  gap: 12px;
+  margin-top: 18px;
 }
+
+.cardActions button {
+  flex: 1;
+  font-weight: 600;
+}
+
 
 .cardActions button {
   padding: 6px 14px;
@@ -108,5 +182,22 @@
   .summaryStats {
     flex-direction: column;
     gap: 20px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+  }
+  .summaryItem{
+    justify-content: space-between;
+  }
+  .guestList{
+    font-size: 1.3rem;
+  }
+  .cardActions{
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cardActions Button{
+    font-size: 1.5rem;
   }
 }

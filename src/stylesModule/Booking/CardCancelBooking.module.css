@@ -186,12 +186,30 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 769px) {
+    .CancelBookingConatiner{
+        padding: 0.5rem;
+    }
     .headingTitle {
         font-size: 1.6rem;
     }
-
-    .subHeading {
-        font-size: 1rem;
-    }
+   .cancelBookingcount{
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 900;
+   }
+   .cardConatiner{
+    grid-template-columns: 1fr;
+    padding-left: 0;
+    padding-right: 0;
+   }
+   .CardBody{
+    padding: 0.5rem 0.6rem;
+   }
+   .CardTitle{
+    text-align: center;
+   }
+   .CardText{
+    font-size: 1.3rem;
+   }
 }

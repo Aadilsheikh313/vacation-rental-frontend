@@ -156,8 +156,41 @@
     height: 44px;
   }
 
+  .leftTop h6 {
+    font-size: 20px;
+  }
+
+  .reviewDate {
+    font-size: 18px;
+  }
+
+  .starRating {
+    font-size: 25px;
+  }
+
   .RatingFrom {
-    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 20px;
+    width: 100%;
+  }
+
+  .comment {
+    font-size: 20px;
+  }
+
+  .hostReplyBox {
+    font-size: 20px;
+  }
+
+  .hostReplyBox p {
+    font-size: 18px;
+  }
+
+  .editBtn {
+    font-size: 20px;
+    text-align: center;
+    width: 46%;
+    align-items: center;
   }
 }
 
@@ -223,3 +256,6 @@
   padding: 6px 12px;
   border-radius: 6px;
 }
+ .editBtn{
+  color: white;
+ }

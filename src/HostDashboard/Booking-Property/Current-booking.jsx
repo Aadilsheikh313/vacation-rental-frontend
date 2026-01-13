@@ -14,7 +14,7 @@ import { showError, showInfo } from "../../utils/toastUtils";
 import { getActiveBookingPosts, handleCashBookingRequestPosts } from "../../config/redux/action/bookingAction ";
 import { resetBookingStatus } from "../../config/redux/reducer/bookingReducer";
 import styles from "../../stylesModule/bookingH.module.css";
-
+import { FaUser, FaPhoneAlt, FaMapMarkerAlt, FaRupeeSign, FaCalendarCheck } from "react-icons/fa";
 
 
 const CurrentBooking = () => {
@@ -46,20 +46,20 @@ const CurrentBooking = () => {
   }, [dispatch, token]);
 
   const updateCashBooking = (bookingId, action) => {
-  if (!token) return;
+    if (!token) return;
 
-  dispatch(handleCashBookingRequestPosts({ bookingId, action, token }))
-    .unwrap()
-    .then(() => {
-      showInfo(`Booking ${action}ed successfully`);
+    dispatch(handleCashBookingRequestPosts({ bookingId, action, token }))
+      .unwrap()
+      .then(() => {
+        showInfo(`Booking ${action}ed successfully`);
 
-      // 🔥 Reload active bookings live
-      dispatch(getActiveBookingPosts({ token }));
-    })
-    .catch((err) => {
-      showError(err || "Something went wrong");
-    });
-};
+        // 🔥 Reload active bookings live
+        dispatch(getActiveBookingPosts({ token }));
+      })
+      .catch((err) => {
+        showError(err || "Something went wrong");
+      });
+  };
 
 
   // Toasts for success/error/info
@@ -75,7 +75,12 @@ const CurrentBooking = () => {
 
   return (
     <Container className={styles.bookingContainer}>
-      <h3 className={styles.sectionTitle}>📅 Active Bookings</h3>
+      <h3 className={styles.sectionTitle}>
+        <FaCalendarCheck className={styles.sectionIcon} />
+        Active Bookings
+      </h3>
+
+      <div className={styles.sectionUnderline}></div>
 
 
       {isLoading && (
@@ -89,15 +94,16 @@ const CurrentBooking = () => {
         <>
           {/* Summary Stats */}
           <Row className={styles.summaryStats}>
-            <Col className={styles.summaryItem}>
+            <Col className={`${styles.summaryItem} ${styles.statCard}`}>
               <h6>Total Bookings</h6>
               <span className="badge bg-primary">{totalBookings}</span>
             </Col>
-            <Col className={styles.summaryItem}>
+            <Col className={`${styles.summaryItem} ${styles.statCard}`}>
+
               <h6>Total Nights</h6>
               <span className="badge bg-primary">{totalNights}</span>
             </Col>
-            <Col className={styles.summaryItem}>
+            <Col className={`${styles.summaryItem} ${styles.statCard}`}>
               <h6>Total Revenue</h6>
               <span className="badge bg-warning" pill>₹{totalRevenue}</span>
             </Col>
@@ -129,7 +135,7 @@ const CurrentBooking = () => {
                     </Badge>
 
                     <Card.Body>
-                      <Card.Title className="text-truncate text-white">
+                      <Card.Title className={styles.cardTitle}>
                         {booking.property.title}
                       </Card.Title>
 
@@ -139,7 +145,11 @@ const CurrentBooking = () => {
                         </ListGroup.Item>
                         <ListGroup.Item>
                           <strong>Contact:</strong>{" "}
-                          {booking.user?.phone} / {booking.user?.email}
+                          {booking.user?.phone}
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          <strong>Email:</strong>{" "}
+                          {booking.user?.email}
                         </ListGroup.Item>
                         <ListGroup.Item>
                           <strong>City:</strong> {booking.property.city}

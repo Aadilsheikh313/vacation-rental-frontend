@@ -16,6 +16,8 @@ const Review = ({ user, token, id }) => {
     (state) => state.review
   );
 
+  const hostAnalytics = analytics?.host;
+
   useEffect(() => {
     if (id) {
       dispatch(getAllReviewPosts(id));
@@ -32,21 +34,21 @@ const Review = ({ user, token, id }) => {
           <div className={styles.summaryCard}>
 
             {/* 🔵 Circular Meter */}
-            <CircularRating value={analytics?.avgRating || 0} />
+            <CircularRating value={hostAnalytics?.avgRating || 0} />
 
-            <StarRating rating={analytics?.avgRating || 0} />
+            <StarRating rating={hostAnalytics?.avgRating || 0} className={styles.starRating}   />
 
             <p className={styles.reviewCount}>
-              Based on {analytics?.totalReviews || 0} reviews
+              Based on {hostAnalytics?.totalReviews || 0} reviews
             </p>
 
             {/* ⭐ Category Breakdown */}
             <div className={styles.breakdownWrapper}>
               {[
-                { label: "Cleanliness", value: analytics?.cleanlinessAvg },
-                { label: "Comfort", value: analytics?.comfortAvg },
-                { label: "Service", value: analytics?.serviceAvg },
-                { label: "Location", value: analytics?.locationAvg },
+                { label: "Cleanliness", value: hostAnalytics?.cleanlinessAvg },
+                { label: "Comfort", value: hostAnalytics?.comfortAvg },
+                { label: "Service", value: hostAnalytics?.serviceAvg },
+                { label: "Location", value: hostAnalytics?.locationAvg },
               ].map(({ label, value }) => (
                 <div key={label} className={styles.breakdownItem}>
                   <span className={styles.breakdownLabel}>{label}</span>

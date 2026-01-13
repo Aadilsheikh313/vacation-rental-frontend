@@ -6,7 +6,7 @@ import { resetSinglePost } from "../config/redux/reducer/propertyReducer";
 import styles from "../stylesModule/propertyView.module.css";
 import { Card, Spinner } from "react-bootstrap";
 import { showError } from "../utils/toastUtils";
-import { FaEdit, FaLocationArrow, FaTrashAlt } from "react-icons/fa";
+import { FaEdit, FaEnvelope, FaLocationArrow, FaPhone, FaTrashAlt, FaUser } from "react-icons/fa";
 import RoomsDescriptionBth from "../RoomsDescription/RoomsDetailsBtn";
 import Overview from "../RoomsDescription/Overview";
 import Amenities from "../RoomsDescription/Amenities";
@@ -88,13 +88,14 @@ const PropertyDetails = () => {
     <div className={styles.container}>
       <div className={styles.RoomsDetails}>
         <div className={styles.Roomsdetilsesimage}>
-          {/* <img src={RoomsDetails} alt="Rooms details" /> */}
         </div>
         <div className={styles.overlay}>
           <h3>Room Details</h3>
           <p>
-            Esse dolorum voluptatum ullam est sint nemo et est ipsa porro placeat
-            quibusdam quia assumenda numquam molestias.
+            Experience refined comfort in this elegant room designed to offer a perfect
+            balance of luxury and relaxation. From premium interiors to a serene
+            atmosphere, every element is curated to elevate your stay and provide an
+            unforgettable living experience.
           </p>
           <div className={styles.breadcrumb}>
             <input type="button" value="Home" onClick={handleclickHome} /> / Room
@@ -151,18 +152,37 @@ const PropertyDetails = () => {
               <strong>Posted on:</strong>{" "}
               {new Date(singlePost.propertyPostedOn).toLocaleDateString()}
             </p>
+
             <p>
               <strong>Hosted by:</strong> {singlePost.userId?.name}
             </p>
-            <p>
-              <strong>Contact:</strong> {singlePost.userId?.phone} /{" "}
-              {singlePost.userId?.email}
+
+            <p className={styles.contactRow}>
+              <strong>Email:</strong>
+              <a
+                href={`mailto:${singlePost.userId?.email}`}
+                className={styles.HostLink}
+              >
+                <FaEnvelope />
+                <span>{singlePost.userId?.email}</span>
+              </a>
+            </p>
+
+            <p className={styles.contactRow}>
+              <strong>Phone:</strong>
+              <a
+                href={`tel:${singlePost.userId?.phone}`}
+                className={styles.HostLink}
+              >
+                <FaPhone />
+                <span>{singlePost.userId?.phone}</span>
+              </a>
             </p>
           </Card>
 
           {/* Guest Booking Button */}
           {user?.role === "guest" && (
-            <div className="mt-4">
+            <div className={styles.bookingBTN}>
               <button
                 onClick={handeleBooking}
                 className={styles.bookingBtn}
@@ -173,7 +193,7 @@ const PropertyDetails = () => {
           )}
           {/* Owner Controls */}
           {user?.role !== "guest" && singlePost.userId?._id === user?._id && (
-            <div className="mt-4">
+            <div className={styles.ownerControls}>
               <button
                 onClick={handleEdit}
                 className={`btn btn-warning me-2 ${styles.button}`}

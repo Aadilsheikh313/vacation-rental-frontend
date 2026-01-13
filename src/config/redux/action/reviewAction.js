@@ -113,7 +113,7 @@ export const getReviewAnalytics = createAsyncThunk(
   async ({ propertyId, token }, thunkAPI) => {
     try {
       const response = await getReviewAnalyticsApi({ propertyId, token });
-      return response.analytics;
+      return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Failed to load analytics"

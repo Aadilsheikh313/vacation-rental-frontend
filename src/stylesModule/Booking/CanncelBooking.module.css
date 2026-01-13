@@ -5,6 +5,7 @@
     font-family: "Inter", sans-serif;
     animation: fadeIn 0.3s ease;
     margin-top: 50px;
+   
 }
 
 .cancelModal {
@@ -85,4 +86,10 @@
     border: 2px solid rgb(223, 35, 10);
     transform: translateY(-3px) scale(1.03);
     box-shadow: 0 4px 10px rgba(194, 75, 75, 0.25);
+}
+
+@media (max-width: 576px) {
+   .cancelModal p{
+    font-size: 1.4rem;
+   }
 }

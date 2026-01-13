@@ -117,7 +117,6 @@
 *************************************/
 .PaymentVerfiIcon {
     font-size: 4.3rem;
-    padding: 18px;
     border-radius: 50%;
     background: #22c55e;
     color: #fff;
@@ -125,6 +124,9 @@
     filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.2));
     animation: pulse 1.7s infinite;
     margin-left: 12rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 @keyframes pulse {
@@ -313,6 +315,7 @@
     background: linear-gradient(90deg, #64748b, #4b5563);
     color: white;
 }
+
 .homeBtn:hover {
     background: linear-gradient(90deg, #4b5563, #374151);
     transform: translateY(-2px);
@@ -323,10 +326,12 @@
     background: linear-gradient(90deg, #22c55e, #15803d);
     color: white;
 }
+
 .tripBtn:hover {
     background: linear-gradient(90deg, #15803d, #11672f);
     transform: translateY(-2px);
 }
+
 .homeBtn svg,
 .tripBtn svg {
     color: #ffffff;
@@ -337,16 +342,31 @@
  📱 RESPONSIVE
 *************************************/
 @media (max-width: 520px) {
-    .PaymetCard {
-        width: 100%;
-        padding: 22px;
+    .PayemtContainer {
+        padding: 8px;
     }
 
+    .PaymetCard {
+        width: 100%;
+        padding: 0.5rem;
+    }
+
+    .PaymentVerfiIcon {
+       margin-left: 7.5rem;
+
+    }
+
+     .PaymetSubTitel{
+        font-size: 1.5rem;
+     }
+     .PaymetSubTitel svg{
+        font-size: 30px;
+     }
     .summaryHeading {
-        font-size: 18px;
+        font-size: 28px;
     }
 
     .summaryList li {
-        font-size: 14px;
+        font-size: 16px;
     }
 }

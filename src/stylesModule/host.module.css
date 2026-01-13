@@ -1,19 +1,74 @@
-.Container{
-    background-color: rgb(250, 246, 246);
-    margin-top: 1rem;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+.Container {
+  background-color: rgb(250, 246, 246);
+  margin-top: 1rem;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
-.dashboardContainer {
-  padding: 2rem 1rem;
 
+.buttonRow {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 1.5rem;
 }
+
+.softDeletedBtn {
+  background-color: #fd7e14;
+  color: #ffffff;
+}
+
+.softDeletedBtn:hover {
+  background-color: #e96b0c;
+}
+
+.expiredTrueBtn {
+  background-color: #6f42c1;
+}
+
+/* Dashboard Title */
+.dashboardTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+
+  color: #0d6efd;
+  /* Brand Blue */
+  margin-bottom: 2rem;
+
+  position: relative;
+}
+
+/* Icon Styling */
+.dashboardIcon {
+  font-size: 2.4rem;
+  color: #fd7e14;
+  /* Accent Orange */
+}
+
+/* Underline Luxury Effect */
+.dashboardTitle::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  width: 80px;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg,
+      #0d6efd,
+      #fd7e14);
+}
+
+
 
 /* Card styling */
 .propertyCard {
   border: none;
-  border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -39,9 +94,12 @@
 
 .cardTitle {
   font-size: 1.25rem;
-  font-weight: 700;
-  color: #333;
+  font-weight: 800;
   margin-bottom: 0.5rem;
+  background: linear-gradient(90deg, #ff6a00, #ee0979);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Playfair Display', serif;
 }
 
 .cardText {
@@ -53,10 +111,22 @@
 
 /* Price text */
 .priceText {
-  font-weight: 600;
-  color: #007bff;
-  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+
+  background: linear-gradient(
+    90deg,
+    #198754,
+    #20c997
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  letter-spacing: 0.3px;
 }
+
+
 
 /* Button group */
 .buttonGroup {
@@ -79,39 +149,91 @@
 
 /* Individual button styles */
 .viewBtn {
-  background-color: #17a2b8;
-  color: white;
+  background-color: #0d6efd;
+  /* Primary Blue */
+  color: #ffffff;
 }
 
 .viewBtn:hover {
-  background-color: #138496;
+  background-color: #0b5ed7;
 }
 
 .editBtn {
   background-color: #ffc107;
-  color: #212529;
+  color: #ffffff;
 }
 
 .editBtn:hover {
   background-color: #e0a800;
 }
 
+
 .deleteBtn {
   background-color: #dc3545;
-  color: white;
+  /* Red */
+  color: #ffffff;
 }
 
 .deleteBtn:hover {
-  background-color: #c82333;
+  background-color: #bb2d3b;
 }
 
 /* Responsive tweaks */
 @media (max-width: 576px) {
+  .Container {
+    padding: 10px;
+  }
+
+  .buttonRow {
+    flex-direction: column;
+    font-size: 2rem;
+  }
+
+  .buttonRow Button {
+    font-size: 1.3rem;
+  }
+
   .buttonGroup {
     flex-direction: column;
   }
 
-  .cardTitle {
-    font-size: 1.1rem;
+  .cardBody {
+    padding: 0.5rem;
   }
+
+  .cardTitle {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  .cardText{
+    font-size: 1.4rem;
+  }
+  .priceText{
+    font-size: 1.5rem;
+    text-align: right;
+    
+  }
+  .cardButton{
+    font-size: 1.2rem;
+    padding: 0.5rem;
+  }
+  .cardButton svg{
+    font-size: 1.5rem;
+  }
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .dashboardTitle {
+    font-size: 1.6rem;
+  }
+
+  .dashboardIcon {
+    font-size: 1.8rem;
+  }
+}
+
+.dashboardContainer {
+  padding: 2rem 1rem;
+
 }

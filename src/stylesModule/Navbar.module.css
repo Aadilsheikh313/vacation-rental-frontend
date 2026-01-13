@@ -6,6 +6,7 @@ html,
 body {
   max-width: 100%;
   overflow-x: hidden;
+  padding-top: 36px; 
 }
 
 
@@ -15,7 +16,7 @@ body {
   align-items: center;
   background: linear-gradient(to right, #383547, #928dab);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: 9999;
   height: 72px;
@@ -323,7 +324,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 80vw;          
+  width: 80vw;
   max-width: 80vw;
   padding: 1.25rem;
   box-sizing: border-box;

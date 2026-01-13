@@ -62,11 +62,11 @@
   .PoliciesConatiner {
     grid-template-columns: 1fr; /* Tablet/mobile me 1 column */
     gap: 1.5rem;
-    font-size: 16px;
+    font-size: 25px;
   }
 
   .PoliciesConatiner h3 {
-    font-size: 18px;
+    font-size: 25px;
   }
 }
 
@@ -78,11 +78,11 @@
   }
 
   .PoliciesConatiner h3 {
-    font-size: 16px;
+    font-size: 25px;
   }
 
   .PoliciesConatiner p {
-    font-size: 14px;
+    font-size: 20px;
     padding-bottom: 8px;
   }
 }

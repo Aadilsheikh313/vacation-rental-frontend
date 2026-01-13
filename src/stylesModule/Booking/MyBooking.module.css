@@ -2,18 +2,18 @@
     position: relative;
     max-width: 100%;
     margin-top: 0.2rem;
+    overflow-x: hidden;
+    padding: 0 0.1rem;
+}
+.backgroundImage {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.backgroundImage {
-    position: relative;
-    max-width: 100%;
-    height: 330px;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    filter: brightness(0.8);
-}
 
 .backgroundImage img {
     object-fit: cover;
@@ -29,44 +29,54 @@
 }
 
 .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 330px;
-    background: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  inset: 0;
+  height: 340px;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0.65)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroText {
+  text-align: center;
+  padding: 0 1rem;
+  color: #fff;
 }
 
 .heroText h3 {
-    font-size: 38px;
-    font-weight: 700;
-    margin-top: 1rem;
-    text-align: center;
-    font-family: 'Playfair Display', serif;
-    margin-bottom: 1rem;
-    color: #fff;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+
+  background: linear-gradient(90deg, #ff6a00, #ee0979);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .heroText p {
-    font-size: 26px;
-    max-width: 800px;
-    margin: 0 auto 12px;
-    color: #fff;
+  font-size: 1.2rem;
+  max-width: 720px;
+  margin: 0 auto 1rem;
+  color: #f1f1f1;
 }
 
 .breadcrumb {
-    font-size: 20px;
-    margin-top: 10px;
-    color: #ddd;
-    text-align: center;
+  font-size: 0.95rem;
+  color: #ddd;
 }
 
 .breadcrumb input {
-    background: none;
-    border: none;
-    color: #fff;
-    font-weight: 600;
-    cursor: pointer;
+  background: none;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .breadcrumb input:hover {
@@ -74,9 +84,9 @@
 }
 
 .CardRow {
-    margin-top: 1rem;
     background-color: #e9e4e4;
-    padding-top: 2rem;
+    padding: 0.5rem;
+
 }
 
 .bookingCard {
@@ -100,18 +110,60 @@
     color: #a67c52;
     margin-bottom: 0.5rem;
 }
-
-.cardText {
-    font-size: 0.95rem;
-    line-height: 1.4;
-    margin-bottom: 1rem;
+.cardText{
+    text-align: justify;
 }
-
 .ownerInfo {
     margin-top: 1rem;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     color: #444;
+    font-family: "Lora", serif;
 }
+.ownerInfo {
+  margin-top: 1rem;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.ownerTitle {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.contactRow {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.contactLink {
+  color: #0d6efd;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.contactLink:hover {
+  text-decoration: underline;
+}
+
+.refundRow {
+  margin-top: 6px;
+}
+
+.refundedYes {
+  color: #198754; /* green */
+  font-weight: 600;
+}
+
+.refundedNo {
+  color: #dc3545; /* red */
+  font-weight: 600;
+}
+
 
 .buttonGroup {
     display: flex;
@@ -122,47 +174,65 @@
 
 /* Common Button Style */
 .actionButton {
-  flex: 1;
-  min-width: 120px;
-  height: 3rem;
-  border-radius: 8px;
-  font-weight: 600;
-  color: #fff;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+    flex: 1;
+    min-width: 120px;
+    height: 3rem;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #fff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
 }
 
 /* Edit Button (wood tone) */
 .btnedit {
-  background-color: #A67C52;  /* wooden brown */
-  border: none;
-  color: #fff;
+    background-color: #A67C52;
+    /* wooden brown */
+    border: none;
+    color: #fff;
 }
+
 .btnedit:hover {
-  background-color: #8B5E3C;  /* darker brown */
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    background-color: #8B5E3C;
+    /* darker brown */
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 /* Cancel Button (maroon) */
 .btncancel {
-  background-color: #7B2D26;
-  border: none;
-  color: #fff;
+    background-color: #7B2D26;
+    border: none;
+    color: #fff;
 }
+
 .btncancel:hover {
-  background-color: #5C1F1A;
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    background-color: #5C1F1A;
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 /* View Invoice (olive green) */
 .btninvoice {
-  background-color: #556B2F;
-  border: none;
-  color: #fff;
+    background-color: #556B2F;
+    border: none;
+    color: #fff;
 }
+
 .btninvoice:hover {
-  background-color: #3E4E20;
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    background-color: #3E4E20;
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 768px) {
+    .cardTitle{
+        text-align: center;
+        font-size: 1.5rem;
+    }
+    .cardText{
+        font-size: 1.3rem;
+    }
+    .ownerInfo{
+        font-size: 1.3rem;
+    }
 }

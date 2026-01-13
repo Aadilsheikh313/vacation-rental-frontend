@@ -1,18 +1,86 @@
 /* Page container */
 .bookingHistoryContainer {
-  padding: 40px 20px;
+  padding: 20px 10px;
   background-color: #f7f9fc;
   min-height: 100vh;
   font-family: "Inter", "Segoe UI", Tahoma, sans-serif;
 }
 
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.2rem;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.breadcrumbArrow {
+  font-weight: bold;
+}
+
+.breadcrumb .active {
+  color: #1e90ff;
+  font-weight: 600;
+}
+
+/* Gradient Heading */
+.gradientText {
+  background: linear-gradient(90deg, #1e90ff, #00c6ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Animated Icon */
+.titleIcon {
+  color: #1e90ff;
+  font-size: 2.2rem;
+  animation: pulse 2s infinite;
+}
+
+/* Underline Glow */
+.titleUnderline {
+  width: 140px;
+  height: 4px;
+  background: linear-gradient(90deg, #1e90ff, #00c6ff);
+  margin: 10px auto 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(30, 144, 255, 0.6);
+}
+
+/* Icon animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 /* Section title */
 .title {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   font-size: 2rem;
   font-weight: 700;
   color: #1e1e2f;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
+  font-family: 'Playfair Display', serif; 
+}
+
+.titleIcon {
+  color: #1e90ff;
+  font-size: 2rem;
 }
 
 /* Summary row */
@@ -24,7 +92,7 @@
   flex-wrap: wrap;
 }
 
-.summaryRow > div {
+.summaryRow>div {
   flex: 1 1 30%;
   background-color: #fff;
   padding: 15px;
@@ -38,10 +106,11 @@
   cursor: default;
 }
 
-.summaryRow > div:hover {
+.summaryRow>div:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  background-color: #f0f8ff; /* optional soft highlight */
+  background-color: #f0f8ff;
+  /* optional soft highlight */
 }
 
 
@@ -71,10 +140,45 @@
   font-weight: 600;
   color: #1e1e2f;
   margin-bottom: 8px;
+  text-align: center;
 }
 
+/* Booking section heading */
+.bookingHeading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e1e2f;
+  margin: 12px 0 6px;
+  font-family: 'Playfair Display', serif;
+}
+
+.headingIcon {
+  color: #1e90ff;
+  font-size: 2rem;
+}
+
+.trustedIcon {
+  color: #28a745;
+  font-size: 1.5rem;
+}
+
+/* Trusted subtitle */
+.trustedText {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.3rem;
+  color: #555;
+  margin-bottom: 14px;
+  font-family: "lora", serif;
+}
+
+
 .propertyCity {
-  font-size: 0.95rem;
+  font-size: 1.2rem;
   color: #666;
   margin-bottom: 16px;
 }
@@ -88,10 +192,12 @@
   border-radius: 8px;
   text-align: left;
   font-size: 0.95rem;
+  font-family: "Lora", serif;
 }
 
 .bookingDetail strong {
   color: #333;
+  font-family: "Lora", serif;
 }
 
 /* Review section */
@@ -114,7 +220,31 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .summaryRow > div {
+  .summaryRow>div {
     flex: 1 1 100%;
+    font-size: 1.3rem;
+  }
+  .breadcrumb{
+    font-size: 1.4rem;
+  }
+  .breadcrumbArrow{
+    font-size: 1.6rem;
+  }
+  .title{
+    font-size: 1.3rem;
+  }
+  .cardTitle{
+    font-size: 1.5rem;
+  }
+  .propertyCity{
+    font-size: 1.5rem;
+  }
+  .bookingDetail{
+    padding: 1px 3px;
+    font-size: 1.2rem;
+  }
+  .bookingDetail p{
+    font-size: 1.3rem;
+    margin: 0.3rem;
   }
 }

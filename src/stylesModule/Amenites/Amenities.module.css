@@ -59,7 +59,7 @@
   }
 
   .AmenitiesConatainer h3 {
-    font-size: 18px;
+    font-size: 25px;
   }
 
   .amenityItem {
@@ -100,14 +100,14 @@
   }
 
   .AmenitiesConatainer h3 {
-    font-size: 16px;
+    font-size: 23px;
   }
 
   .amenityItem {
-    font-size: 14px;
+    font-size: 20px;
     padding-left: 30px;
   }
-
+ 
   .amenityItem::before {
     width: 14px;
     height: 14px;

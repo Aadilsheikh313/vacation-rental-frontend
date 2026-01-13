@@ -10,6 +10,24 @@
     margin-bottom: 2rem;
 }
 
+.reviewModal {
+    margin-top: 2.2rem;
+}
+
+.reviewModalHeader{
+    justify-content: center;
+    padding: 0 1rem;
+}
+.reviewModalTitle {
+    text-align: center;
+    font-size: 1.9rem;
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #ff6a00, #ee0979);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .HeadingPast {
     font-size: 2rem;
     font-weight: 700;
@@ -99,35 +117,39 @@
     object-fit: cover;
     transition: transform 0.3s ease;
 }
+
 .image:hover .card-img-top {
     transform: scale(1.05);
 }
-.CardBody{
-padding: 1rem 1.2rem;
+
+.CardBody {
+    padding: 1rem 1.2rem;
 }
 
 
 .CardTitle {
-    font-size: 1.4rem;          
-    font-weight: 800;          
+    font-size: 1.4rem;
+    font-weight: 800;
     margin-bottom: 0.8rem;
     background: linear-gradient(90deg, #ff6a00, #ee0979);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-family: 'Playfair Display', serif; 
+    font-family: 'Playfair Display', serif;
 }
 
 .CardText {
     font-size: 1rem;
-    color: #6b4f3f;           
+    color: #6b4f3f;
     line-height: 1.6;
     margin-bottom: 1rem;
 }
 
 .CardText strong {
-    color: #c09f70;            /* Gold-ish accent for strong info */
+    color: #c09f70;
+    /* Gold-ish accent for strong info */
     font-weight: 700;
 }
+
 /* Posted By */
 .BookingsCard p {
     font-size: 0.9rem;
@@ -137,7 +159,8 @@ padding: 1rem 1.2rem;
 
 /* Button */
 .BookingsCard button {
-    background: linear-gradient(90deg, #c09f70, #ffb347); /* Gold gradient */
+    background: linear-gradient(90deg, #c09f70, #ffb347);
+    /* Gold gradient */
     color: #fff;
     font-weight: 700;
     font-size: 0.95rem;
@@ -155,50 +178,92 @@ padding: 1rem 1.2rem;
 
 .HostInfo {
     font-size: 1rem;
-    color: #4b2e1f;          /* Warm, luxury brown */
+    color: #4b2e1f;
+    /* Warm, luxury brown */
     font-weight: 700;
-    background: #fff3e6;      /* Soft card background highlight */
-    padding:  1rem 1.2rem;
+    background: #fff3e6;
+    /* Soft card background highlight */
+    padding: 1rem 1.2rem;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin-top: 1rem;
     line-height: 1.5;
 }
 
 .HostInfo strong {
-    color: #c09f70;           /* Gold accent for labels */
+    color: #c09f70;
+    /* Gold accent for labels */
 }
-.HostInfo svg{
-   background: linear-gradient(90deg, #ff6a00, #ee0979);
-   color: #fff; 
-   padding: 0.1rem;
-   border-radius: 4px;
-   font-size: 1rem;
+
+.HostInfo svg {
+    background: linear-gradient(90deg, #ff6a00, #ee0979);
+    color: #fff;
+    padding: 0.1rem;
+    border-radius: 4px;
+    font-size: 1rem;
 }
+
 .HostLink {
-    color: #ee0979;            /* Pink gradient color for links */
+    color: #ee0979;
+    /* Pink gradient color for links */
     font-weight: 700;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .HostLink:hover {
-    color: #ff6a00;            /* Hover gradient accent */
+    color: #ff6a00;
+    /* Hover gradient accent */
     text-decoration: underline;
 }
 
-.BTN{
+.BTN {
     display: flex;
     justify-content: space-between;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
+    .PastBookingContainer{
+        padding: 0.5rem;
+    }
+    .headingWrapper{
+        margin-bottom: 0%;
+    }
+    .subHeading{
+        font-size: 1.4rem;
+    }
     .HeadingPast {
         font-size: 1.6rem;
     }
 
-    .subHeading {
+     .pastBookingcount{
+        text-align: center;
+        font-size: 1.4rem;
+     }
+     .BookingCardContainer{
+        padding-left: 0%;
+        padding-right: 0%;
+     }
+     .CardBody{
+        padding: 0.8rem 0.5rem;
+     }
+     .CardTitle{
+        text-align: center;
+     }
+     .BookingsCard p{
+        font-size: 1.3rem;
+     }
+     .HostInfo{
+        padding: 0.8rem 0.5rem;
+     }
+     .BTN{
+        gap: 0.5rem;
+     }
+     .BookingsCard button{
         font-size: 1rem;
+     }
+    .reviewModal {
+        margin-top: 0.1rem;
     }
 }

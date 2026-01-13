@@ -159,11 +159,11 @@ const PastBooking = () => {
           <Modal
             show={showReview}
             onHide={handleCloseReview}
-            size="lg"
-            centered
+            centered 
+            className={styles.reviewModal}
           >
-            <Modal.Header closeButton>
-              <Modal.Title>Write a Review</Modal.Title>
+            <Modal.Header closeButton className={styles.reviewModalHeader}>
+              <Modal.Title className={styles.reviewModalTitle}>Write a Review</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
