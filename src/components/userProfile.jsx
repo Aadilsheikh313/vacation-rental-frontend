@@ -138,70 +138,71 @@ const UserProfile = () => {
       ) : (
         <>
           <Row>
-            {/* Avatar */}
-            <Col md="2">
-              <div className={styles.avatarContainer}>
-                {user?.avatar?.url ? (
-                  <img src={user.avatar.url} alt="Avatar" className={styles.navAvatar} />
-                ) : (
-                  <div className={styles.navAvatarPlaceholder}>
-                    {user?.name?.charAt(0).toUpperCase()}
+            <div className={styles.profileHeader}>
+              {/* Avatar */}
+              <div className={styles.avatarWrap}>
+                <div className={styles.avatarContainer}>
+                  {user?.avatar?.url ? (
+                    <img src={user.avatar.url} alt="Avatar" className={styles.navAvatar} />
+                  ) : (
+                    <div className={styles.navAvatarPlaceholder}>
+                      {user?.name?.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="avatarInput"
+                    style={{ display: "none" }}
+                    onChange={handleFileChange}
+                  />
+
+                  <MdOutlineAddAPhoto
+                    className={styles.addPhotoIcon}
+                    title="Update Avatar"
+                    onClick={() => document.getElementById("avatarInput").click()}
+                  />
+                </div>
+              </div>
+
+              {/* User Info */}
+              <div className={styles.userMeta}>
+                {user && (
+                  <div className={styles.infoCard}>
+                    <p className={styles.UserRole}><strong>Role:</strong> {user?.role}</p>
+                    <p><strong>Email:</strong> {user.email}</p>
+
+                    <div className={styles.statusBadge}>
+                      <p>
+                        <strong>Status:</strong>{" "}
+                        {user.isBanned ? (
+                          <>
+                            <FaTimesCircle color="#E53935" /> Banned
+                            <Card>
+                              <Card.Title>Account Temporarily Restricted by Admin</Card.Title>
+                              <Card.Body>
+                                Your account has been temporarily restricted due to policy review. {user.banReason}
+                                <br />
+                                {user.unbanNote}
+                              </Card.Body>
+                            </Card>
+                          </>
+                        ) : (
+                          <>
+                            <FaCheckCircle color="#4CAF50" /> Active
+                          </>
+                        )}
+                      </p>
+                    </div>
                   </div>
                 )}
-
-                <input
-                  type="file"
-                  accept="image/*"
-                  id="avatarInput"
-                  style={{ display: "none" }}
-                  onChange={handleFileChange}
-                />
-
-                <MdOutlineAddAPhoto
-                  className={styles.addPhotoIcon}
-                  title="Update Avatar"
-                  onClick={() => document.getElementById("avatarInput").click()}
-                />
               </div>
-            </Col>
-
-            {/* User Info */}
-            <Col md="4">
-              {user && (
-                <div className={styles.BaseContainer}>
-                  <p className={styles.UserRole}><strong>Role:</strong> {user?.role}</p>
-                  <p><strong>Email:</strong> {user.email}</p>
-
-                  <div className={styles.statusContainer}>
-                    <p>
-                      <strong>Status:</strong>{" "}
-                      {user.isBanned ? (
-                        <>
-                          <FaTimesCircle color="#E53935" /> Banned
-                          <Card>
-                            <Card.Title>Account Temporarily Restricted by Admin</Card.Title>
-                            <Card.Body>
-                              Your account has been temporarily restricted due to policy review. {user.banReason}
-                              <br />
-                              {user.unbanNote}
-                            </Card.Body>
-                          </Card>
-                        </>
-                      ) : (
-                        <>
-                          <FaCheckCircle color="#4CAF50" /> Active
-                        </>
-                      )}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </Col>
-
+            </div>
             {/* Host Verification */}
             <Col md="6">
               {user?.role === "host" && (
-                <div className={styles.verifiAndRejectdate}>
+                <div className={styles.verificationCard}>
                   <div className={styles.hostLeft}>
                     {Host?.verificationStatus === "verified" ? (
                       <>
@@ -272,8 +273,8 @@ const UserProfile = () => {
 
           {user && (
             <div className={styles.profileDetails}>
-              <Row>
-                <Col md="6" xs="12">
+              <Row className={styles.EditRow}>
+                <Col md="6" xs="12" className={styles.EditCol}>
                   <EditableField
                     label="Name"
                     field="name"
@@ -380,7 +381,7 @@ const UserProfile = () => {
                   />
 
                   {/* ====== Full Host Info Section ====== */}
-                  <div className={styles.extraHostInfo}>
+                  <div className={styles.statsGrid}>
 
                     <div className={styles.infoGrid}>
                       <p>
@@ -456,11 +457,11 @@ const UserProfile = () => {
 
 // ====== Reusable Editable Components ======
 const EditableField = ({ label, field, value, userValue, editField, setEditField, onChange, onSubmit, type = "text" }) => (
-  <div className={styles.fieldContainer}>
-    <div className={styles.Pargraph}>
+  <div className={styles.settingRow}>
+    <div className={styles.settingLabel}>
       <p><strong>{label}:</strong> {userValue || "N/A"}</p>
       {editField !== field && (
-        <button type="button" onClick={() => setEditField(field)} className={styles.editButton}>
+        <button type="button" onClick={() => setEditField(field)} className={styles.editIcon}>
           <MdOutlineEdit />
         </button>
       )}
@@ -482,11 +483,11 @@ const EditableField = ({ label, field, value, userValue, editField, setEditField
 );
 
 const EditableSelect = ({ label, field, value, userValue, options, editField, setEditField, onChange, onSubmit }) => (
-  <div className={styles.fieldContainer}>
-    <div className={styles.Pargraph}>
+  <div className={styles.settingRow}>
+    <div className={styles.settingLabel}>
       <p><strong>{label}:</strong> {userValue || "N/A"}</p>
       {editField !== field && (
-        <button type="button" onClick={() => setEditField(field)} className={styles.editButton}>
+        <button type="button" onClick={() => setEditField(field)} className={styles.editIcon}>
           <MdOutlineEdit />
         </button>
       )}
@@ -508,11 +509,11 @@ const EditableSelect = ({ label, field, value, userValue, options, editField, se
 );
 
 const EditableTextarea = ({ label, field, value, userValue, editField, setEditField, onChange, onSubmit }) => (
-  <div className={styles.fieldContainer}>
-    <div className={styles.Pargraph}>
+  <div className={styles.settingRow}>
+    <div className={styles.settingLabel}>
       <p><strong>{label}:</strong> {userValue || "N/A"}</p>
       {editField !== field && (
-        <button type="button" onClick={() => setEditField(field)} className={styles.editButton}>
+        <button type="button" onClick={() => setEditField(field)} className={styles.editIcon}>
           <MdOutlineEdit />
         </button>
       )}
@@ -544,7 +545,7 @@ const HostGovernmentID = ({ Host, formData, setFormData, editField, setEditField
           <Col md="6"><p><strong>ID Number:</strong> {Host?.governmentIDNumber || "N/A"}</p></Col>
         </Row>
         <img src={Host?.governmentIDImage?.url} alt="Gov ID" className={styles.govImage} />
-        <button onClick={() => setEditField("governmentID")} className={styles.editButton}><MdOutlineEdit /></button>
+        <button onClick={() => setEditField("governmentID")} className={styles.editIcon}><MdOutlineEdit /></button>
       </div>
     ) : (
       <div className={styles.editSection}>
@@ -614,14 +615,14 @@ const HostBankDetails = ({
   handleSubmit,
   handleFileChange,
 }) => (
-  <div className={styles.bankSection}>
+  <div className={styles.payoutSection}>
 
     {/* ✅ VIEW MODE */}
     {editField !== "bankDetails" ? (
       <div>
-        <Row>
+        <Row className={styles.imagegap}>
           <Col md="6">
-            <div className={styles.bankCard}>
+            <div className={styles .imageCard}>
               <p><strong>Cancelled Cheque:</strong></p>
               {Host?.cancelledChequeImage?.url ? (
                 <img
@@ -636,7 +637,7 @@ const HostBankDetails = ({
           </Col>
 
           <Col md="6">
-            <div className={styles.bankCard}>
+            <div className={styles .imageCard}>
               <p><strong>QR Code:</strong></p>
               {Host?.qrCode?.url ? (
                 <img
@@ -651,7 +652,7 @@ const HostBankDetails = ({
           </Col>
         </Row>
 
-        <Row>
+        <Row className={styles.banckdetilas}>
           <Col md="6">
             <p><strong>UPI ID:</strong> {Host?.payout?.upiId || "N/A"}</p>
           </Col>
@@ -663,7 +664,7 @@ const HostBankDetails = ({
           </Col>
         </Row>
 
-        <Row>
+         <Row className={styles.banckdetilas}>
           <Col md="6">
             <p>
               <strong>Account No:</strong>{" "}
@@ -678,7 +679,7 @@ const HostBankDetails = ({
           </Col>
         </Row>
 
-        <Row>
+        <Row className={styles.banckdetilas}>
           <Col md="6" xs="12">
             <p>
               <strong>IFSC Code:</strong>{" "}
@@ -695,7 +696,7 @@ const HostBankDetails = ({
 
         <button
           onClick={() => setEditField("bankDetails")}
-          className={styles.editButton}
+          className={styles.editIcon}
         >
           <MdOutlineEdit />
         </button>

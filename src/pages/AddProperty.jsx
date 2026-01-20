@@ -70,7 +70,7 @@ const AddPropertyForm = () => {
     }
     if (isLoading) return;
     const postData = new FormData();
-    
+
     for (let key in formData) {
       if (key === "facilities" || key === "views") {
         formData[key].forEach((item) => postData.append(key, item));
@@ -253,6 +253,7 @@ const AddPropertyForm = () => {
 
           <Form onSubmit={handleSubmit} encType="multipart/form-data" className={styles.propertyForm}>
             <Row>
+              <h5 className={styles.sectionTitle}>Basic Information</h5>
               <Col xs={12} md={6}>
                 {/* Title */}
                 <Form.Group className={styles.formGroup}>
@@ -265,6 +266,9 @@ const AddPropertyForm = () => {
                 {/* Price */}
                 <Form.Group className={styles.formGroup}>
                   <Form.Label>Price (INR per night)</Form.Label>
+                  <Form.Text className={styles.textmuted}>
+                    Enter price per night (excluding taxes)
+                  </Form.Text>
                   <Form.Control type="number" min="1" name="price" value={formData.price} onChange={handleChange} required />
                 </Form.Group>
               </Col>
@@ -283,6 +287,7 @@ const AddPropertyForm = () => {
                 </Form.Group>
 
               </Col >
+              <h5 className={styles.sectionTitle}>Location Details</h5>
               <Col xs={12} md={6}>
                 {/* Country */}
                 <Form.Group className={styles.formGroup}>
@@ -310,6 +315,7 @@ const AddPropertyForm = () => {
               </Col>
             </Row>
             <Row>
+              <h5 className={styles.sectionTitle}>Room & Comfort</h5>
               <Col xs={12} md={6}>
                 {/* Description */}
                 <Form.Group className={styles.formGroup}>
@@ -347,6 +353,7 @@ const AddPropertyForm = () => {
             <Row>
               {/* Facilities */}
               <Form.Group className={styles.formGroup}>
+                <h5 className={styles.sectionTitle}>Facilities & Views</h5>
                 <Form.Label>Facilities</Form.Label>
                 <div className={styles.checkboxGroup}>
                   {facilitiesOptions.map((fac, idx) => (
@@ -403,6 +410,7 @@ const AddPropertyForm = () => {
               </Col>
             </Row>
             <Row>
+              <h5 className={styles.sectionTitle}>Contact Details</h5>
               <Col xs={12} md={6}>
                 {/* Direct Contact */}
                 <Form.Group className={styles.formGroup}>
@@ -418,6 +426,7 @@ const AddPropertyForm = () => {
                 </Form.Group>
               </Col>
             </Row>
+            <h5 className={styles.sectionTitle}>Property Image</h5>
             {/* Image Upload */}
             <Form.Group className={styles.formGroup}>
               <Form.Label>Property Image</Form.Label>
@@ -436,6 +445,13 @@ const AddPropertyForm = () => {
                 }
               >
                 {isLoading ? <Spinner size="sm" animation="border" /> : "Submit Property"}
+                {isLoading && (
+                  <div className={styles.loadingOverlay}>
+                    <Spinner animation="border" />
+                    <p>Publishing your property...</p>
+                  </div>
+                )}
+
               </Button>
 
             </div>

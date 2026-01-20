@@ -5,6 +5,16 @@
   margin-bottom: 0px;
 }
 
+.sectionTitle {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #3a2a10;
+  border-left: 4px solid #c28b36;
+  padding-left: 10px;
+}
+
 .postImage {
   position: relative;
   width: 100%;
@@ -39,6 +49,10 @@
   z-index: 1;
 }
 
+.textmuted {
+  font-size: 0.8rem;
+}
+
 .formWrapper {
   position: relative;
   z-index: 2;
@@ -47,7 +61,7 @@
   margin: 0 auto;
   margin-top: 1rem;
   padding: 25px 30px;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(233, 137, 12, 0.185);
   border-radius: 12px;
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
 }
@@ -56,7 +70,9 @@
   text-align: center;
   font-size: 2.8rem;
   font-weight: 600;
-  color: #fff;
+  background: linear-gradient(90deg, #ff7a18, #ffb347);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-family: 'Playfair Display', serif;
   margin-bottom: 20px;
 }
@@ -65,12 +81,13 @@
 .formWrapper {
   margin: -40px auto 40px;
   max-width: 100vw;
-  padding: 25px 30px;
-  background: rgba(233, 137, 12, 0.185);
+  background: #ffffff;
   border-radius: 12px;
+  padding: 30px;
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.12);
   margin-top: 0.1rem;
 }
+
 
 .infoAlert {
   margin-bottom: 20px;
@@ -90,10 +107,15 @@
 
 .formGroup label {
   font-weight: 500;
-  color: #fff;
+  color: #333;
   margin-bottom: 6px;
   font-size: 1rem;
 }
+.formGroup label::after {
+  content: " *";
+  color: #d9534f;
+}
+
 
 .formGroup input,
 .formGroup textarea,
@@ -111,9 +133,30 @@
 
 }
 
+.checkboxGroup label {
+  background: #f7f7f7;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.checkboxGroup input:checked + label {
+  background: #ffedd5;
+  border: 1px solid #ff9800;
+}
+
+
 .submitWrapper {
-  text-align: center;
-  margin-top: 20px;
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  padding: 15px;
+  border-top: 1px solid #eee;
+}
+.submitButton {
+  width: 100%;
+  font-size: 3rem;
 }
 
 .submitButton {
@@ -124,10 +167,28 @@
   border-radius: 8px;
   font-weight: 500;
   transition: all 0.2s ease;
+  text-align: center;
+  align-items: center;
+  color: #f7f7f7;
 }
 
 .submitButton:hover {
   background: rgb(99, 62, 14);
+}
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loadingOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
 
 /* ------------------- */
@@ -209,7 +270,8 @@
 /* Modal Card Style */
 .HostModel {
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
-  background: rgba(7, 7, 7, 0.85); /* thoda dark transparent background */
+  background: rgba(7, 7, 7, 0.85);
+  /* thoda dark transparent background */
   border-radius: 12px;
   padding: 1rem;
 }
@@ -221,15 +283,13 @@
   text-align: center;
   font-weight: 700;
   letter-spacing: 1px;
-  background: linear-gradient(
-    90deg,
-    #ff9900,
-    #ffff00,
-    #33ff00,
-    #0066ff,
-    #cc00ff,
-    #ff0099
-  );
+  background: linear-gradient(90deg,
+      #ff9900,
+      #ffff00,
+      #33ff00,
+      #0066ff,
+      #cc00ff,
+      #ff0099);
   background-size: 600%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -243,13 +303,11 @@
   text-align: center;
   font-weight: 700;
   letter-spacing: 1px;
-  background: linear-gradient(
-    90deg,
-    #ff4d4d,
-    #ff944d,
-    #ffcc00,
-    #ff4d4d
-  );
+  background: linear-gradient(90deg,
+      #ff4d4d,
+      #ff944d,
+      #ffcc00,
+      #ff4d4d);
   background-size: 400%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -259,16 +317,32 @@
 
 /* Animation for Pending */
 @keyframes rainbowText {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Animation for Rejected */
 @keyframes rainbowTextReject {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Paragraph inside Modal */
@@ -287,11 +361,20 @@
 
 /* Gold shimmer animation */
 @keyframes goldShimmer {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
-.modelParagraph svg{
+
+.modelParagraph svg {
   background: linear-gradient(135deg, #ff6a00, #ee0979);
   font-size: 2rem;
   padding: 5px;
@@ -318,6 +401,5 @@
 .goUpdateProfileBTN:hover {
   transform: translateY(-3px);
   opacity: 0.9;
-   background: linear-gradient(90deg,#ee0979, #ff6a00);
+  background: linear-gradient(90deg, #ee0979, #ff6a00);
 }
-

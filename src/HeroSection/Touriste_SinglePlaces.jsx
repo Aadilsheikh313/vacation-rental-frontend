@@ -86,6 +86,7 @@ const GetTouristSinglePlace = () => {
     history,
     bestTimeToVisit,
     images = [],
+    postedBy,
   } = singleAdminPost;
 
   return (
@@ -113,11 +114,11 @@ const GetTouristSinglePlace = () => {
           <p><strong>BestTimeToVisit:</strong> {bestTimeToVisit}</p>
           <p><strong>History:</strong> {history}</p>
           <p><strong>Tips:</strong> {tips}</p>
-          {/* <hr /> */}
-          {/* <h5>Posted By</h5>
+          <hr />
+          <h5>Posted By</h5>
           <p><strong>Name:</strong> {postedBy?.name}</p>
           <p><strong>Email:</strong> {postedBy?.email}</p>
-          <p><strong>Phone:</strong> {postedBy?.phone}</p> */}
+          <p><strong>Phone:</strong> {postedBy?.phone}</p>
           <hr />
           <div className="mt-4">
             <h4>Where you'll be</h4>

@@ -1,845 +1,490 @@
+/* ======================================================
+   ROOT VARIABLES (MODERN SAAS STYLE)
+====================================================== */
+:root {
+  --primary: #2563eb;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --warning: #f59e0b;
+
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+
+  --border-light: #e2e8f0;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+}
+
+/* ======================================================
+   PAGE CONTAINER
+====================================================== */
 .profileContainer {
-  padding: 40px 20px;
-  text-align: center;
-  background: linear-gradient(135deg, #e3f2fd, #e8f5e9);
-  border-radius: 20px;
-  max-width: 600px;
-  margin: 2rem auto;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  max-width: 1100px;
+  margin: 32px auto;
+  padding: 0 24px;
+  background: var(--bg-main);
 }
 
-.topUserdate {
+/* ======================================================
+   PROFILE HEADER
+====================================================== */
+.profileHeader {
   display: flex;
-  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  background: var(--bg-card);
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
 }
 
-/* === AVATAR === */
-.avatarContainer {
+/* ======================================================
+   AVATAR
+====================================================== */
+.avatarWrap {
   position: relative;
-  display: inline-block;
+}
+
+.avatarContainer {
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
-  height: 60px;
-  width: 60px;
-  overflow: hidden;
-  border: 3px solid white;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-  z-index: 1;
-  top: 2rem;
+  /* overflow: hidden; */
+  position: relative;
+  background: #e5e7eb;
 }
 
-.navAvatar {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  transition: transform 0.3s ease-in-out;
-}
-
-.navAvatar:hover {
-  transform: scale(1.08);
-}
-
-.addPhotoIcon {
-  position: absolute;
-  bottom: 45px;
-  right: 3px;
-  background: linear-gradient(90deg, #ee0979, #ff6a00);
-  color: white;
-  border-radius: 50%;
-  padding: 3px;
-  font-size: 30px;
-  cursor: pointer;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  z-index: 10;
-}
-
-.addPhotoIcon:hover {
-  transform: scale(1.2);
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
-}
-
+.navAvatar,
 .navAvatarPlaceholder {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ff8a00, #e52e71);
+  object-fit: cover;
+}
+
+.navAvatarPlaceholder {
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 36px;
-  font-weight: bold;
+  font-weight: 600;
+  color: #374151;
+}
+
+.addPhotoIcon {
+  position: absolute;
+  bottom: -6px;
+  right: 35px;
+  background: var(--primary);
   color: white;
+  border-radius: 50%;
+  padding: 6px;
+  font-size: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-.BaseContainer {
-  justify-content: space-between;
-  align-items: flex-start;
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease-in-out;
+/* ======================================================
+   USER META
+====================================================== */
+.userMeta {
+  flex: 1;
 }
 
-/* Make sure strong labels look clear */
-.BaseContainer strong {
-  font-weight: 700;
-}
-
-.BaseContainer:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-}
-
-.BaseContainer p {
-  color: #b71c1c;
-  margin: 0;
-  padding: 0;
-  text-align: left;
-  font-size: 1.2rem;
+.infoCard p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: var(--text-main);
 }
 
 .UserRole {
+  font-size: 0.75rem;
   text-transform: uppercase;
-}
-
-/* Status container stays aligned properly */
-.statusContainer {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.bannedCard {
-  margin-top: 10px;
-  background: rgba(255, 243, 224, 0.9);
-  border-left: 5px solid #e53935;
-  border-radius: 10px;
-  padding: 10px 15px;
-  text-align: left;
-  box-shadow: 0 3px 10px rgba(255, 0, 0, 0.1);
-}
-
-.bannedTitle {
-  color: #b71c1c;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-.bannedBody {
-  color: #5d4037;
-  line-height: 1.5;
-  font-size: 0.95rem;
-}
-
-/* Host verification section */
-.verifiAndRejectdate {
-  justify-content: space-between;
-  align-items: flex-start;
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease-in-out;
-}
-
-.verifiAndRejectdate:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-}
-
-/* Left side (text + icons) */
-.hostLeft {
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
-  text-align: left;
-}
-
-@keyframes colorChange {
-  0% {
-    color: #FFD700;
-  }
-
-  /* Golden */
-  20% {
-    color: #E53935;
-  }
-
-  /* Red */
-  40% {
-    color: #4CAF50;
-  }
-
-  /* Green */
-  60% {
-    color: #1E90FF;
-  }
-
-  /* Blue */
-  80% {
-    color: #FF69B4;
-  }
-
-  /* Pink */
-  100% {
-    color: #FFA500;
-  }
-
-  /* Orange */
-}
-
-.colorChangeHeading {
-  animation: colorChange 6s infinite;
-  transition: color 0.5s ease-in-out;
-  font-weight: 300;
-  text-transform: capitalize;
-}
-
-.hostLeft p {
-  margin: 5px 0;
-  font-size: 1rem;
-  color: red;
-}
-
-/* Right side (image) */
-.hostRight {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hostRightImage {
-  width: 120px;
-  height: 120px;
-  border-radius: 12px;
-  object-fit: cover;
-  border: 3px solid #d4af37;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease-in-out;
-}
-
-.hostRightImage:hover {
-  transform: scale(1.05);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .hostVerificationSection {
-    flex-direction: column-reverse;
-    align-items: center;
-    text-align: center;
-  }
-
-  .hostLeft {
-    flex-direction: column;
-    align-items: center;
-    max-width: 100%;
-  }
-
-  .hostRightImage {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 15px;
-  }
-}
-
-
-
-/* === PROFILE DETAILS === */
-.profileDetails {
-  margin-top: 5px;
-  font-family: 'Lora', serif;
-  font-size: 1.2rem;
-  color: #333;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease-in-out;
-}
-
-.profileDetails:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-}
-
-.profileDetails strong {
-  background: linear-gradient(90deg, #ffb75e, #d4af37);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 10px rgba(255, 200, 150, 0.3);
+  color: var(--text-muted);
   font-weight: 600;
 }
 
-/* === FIELD CONTAINERS === */
-.fieldContainer {
-  margin-top: 15px;
+.statusBadge {
+  margin-top: 8px;
+  font-weight: 600;
+  color: var(--success);
+}
+
+/* ======================================================
+   HOST VERIFICATION CARD
+====================================================== */
+.verificationCard {
+  margin-top: 24px;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  border-left: 5px solid var(--warning);
+}
+
+.hostLeft {
   display: flex;
-  flex-direction: column;
-  text-align: left;
-  padding: 12px 15px;
-  border-radius: 10px;
-  background-color: #f8f9fa;
-  transition: all 0.3s ease-in-out;
+  gap: 14px;
 }
 
-.fieldContainer:hover {
-  background-color: #f1faff;
+.hostLeft h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
-.Pargraph {
+.hostLeft p {
+  margin: 4px 0;
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+/* ======================================================
+   PROFILE DETAILS CARD
+====================================================== */
+.profileDetails {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  padding: 10px;
+  margin-top: 10px;
+}
+
+
+/* ======================================================
+   SETTINGS ROW
+====================================================== */
+.settingRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 1.4rem;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-light);
 }
 
-.Pargraph p {
+.settingLabel {
+  display: flex;
   align-items: center;
-  padding-top: 5px;
+  gap: 12px;
+  width: 100%;
+  justify-content: space-between;
 }
 
-.Pargraph button {
-  background: transparent;
+.settingLabel p {
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  width: 90%;
+}
+
+.editIcon {
+  background: none;
   border: none;
+  color: var(--primary);
   cursor: pointer;
+  font-size: 20px;
+  width: 10%;
 }
 
-.Pargraph svg {
-  color: #d4af37;
-  font-size: 1.4rem;
-  transition: transform 0.3s ease-in-out;
+
+.settingRow:hover .editIcon {
+  opacity: 1;
 }
 
-.Pargraph svg:hover {
-  transform: scale(1.2);
-}
-
-/* === INPUTS & TEXTAREAS === */
+/* ======================================================
+   INPUTS
+====================================================== */
 .inputBox,
-.textAreaBox,
-select {
-  margin-top: 8px;
-  width: 85%;
+select,
+.textAreaBox {
+  width: 100%;
   padding: 8px 10px;
-  border-bottom-left-radius: 6px;
-  border-top-left-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  font-family: 'Lora', serif;
-  transition: border-color 0.3s;
-}
-
-.textAreaContainer {
-  padding: 0;
-  padding-right: 7px;
-  display: flex;
-  align-items: center;
-}
-
-.textAreaContainer .textAreaBox {
-  height: 4rem;
-  margin-top: 2rem;
-}
-
-.textAreaContainer .saveButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 4rem;
-  margin-top: 2rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
 }
 
 .inputBox:focus,
-.textAreaBox:focus,
-select:focus {
+select:focus,
+.textAreaBox:focus {
   outline: none;
-  border-color: #d4af37;
+  border-color: var(--primary);
 }
 
-/* === SAVE BUTTON === */
+.textAreaBox {
+  min-height: 80px;
+}
+
+/* ======================================================
+   BUTTONS
+====================================================== */
 .saveButton {
-  margin-top: 10px;
-  background: linear-gradient(135deg, #ffb75e, #d4af37);
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.updateButton {
+  background: var(--success);
   color: white;
   border: none;
   padding: 8px 14px;
-  border-bottom-right-radius: 6px;
-  border-top-right-radius: 6px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  font-size: 1.12rem;
-  transition: transform 0.2s ease-in-out;
 }
 
-.saveButton:hover {
-  transform: scale(1.05);
-}
-
-.saveButton svg {
-  vertical-align: middle;
-  font-size: 1.5rem;
-}
-
-/* === STATUS TEXT === */
-.statusContainer {
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 8px;
-  padding: 10px;
-  font-weight: 500;
-  background: linear-gradient(135deg, #ff8a00, #e52e71);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.registerDate {
-  background: linear-gradient(135deg, #ff8a00, #e52e71);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.errorText {
-  color: red;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-/* === RESPONSIVE ADJUSTMENTS === */
-
-/* Small devices (mobile phones) */
-@media (max-width: 480px) {
-  .profileContainer {
-    padding: 20px 15px;
-    max-width: 95%;
-    margin: 1rem auto;
-  }
-
-  .profileContainer h2 {
-    font-size: 1.8rem;
-    gap: 5px;
-  }
-
-  .avatarContainer {
-    height: 40px;
-    width: 40px;
-  }
-
-  .navAvatarPlaceholder {
-    font-size: 28px;
-  }
-
-  .profileDetails {
-    font-size: 1rem;
-    padding: 15px;
-
-  }
-
-  /* Responsive behavior */
-
-  .BaseContainer {
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-
-  }
-
-  .statusContainer {
-    background-color: #e52e71;
-  }
-
-  .fieldContainer {
-    padding: 10px 12px;
-  }
-
-  .inputBox,
-  .textAreaBox,
-  select {
-    width: 100%;
-    font-size: 0.95rem;
-  }
-
-  .textAreaContainer .textAreaBox,
-  .textAreaContainer .saveButton {
-    height: 3.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .saveButton {
-    font-size: 1rem;
-    padding: 6px 12px;
-  }
-
-  .Pargraph svg {
-    font-size: 1.2rem;
-  }
-}
-
-/* Medium devices (tablets) */
-@media (max-width: 768px) {
-  .profileContainer {
-    padding: 30px 20px;
-  }
-
-  .profileContainer h2 {
-    font-size: 2rem;
-  }
-
-  .avatarContainer {
-    height: 60px;
-    width: 60px;
-  }
-
-  .navAvatarPlaceholder {
-    font-size: 32px;
-  }
-
-  .profileDetails {
-    font-size: 1.1rem;
-    padding: 18px;
-  }
-
-  .inputBox,
-  .textAreaBox,
-  select {
-    width: 96%;
-  }
-
-  .textAreaContainer .textAreaBox,
-  .textAreaContainer .saveButton {
-    height: 3.8rem;
-    margin-top: 1.8rem;
-  }
-
-  .saveButton {
-    font-size: 1.1rem;
-    padding: 7px 13px;
-  }
-}
-
-/* Extra large screens (desktop wide) */
-@media (min-width: 1200px) {
-  .profileContainer {
-    max-width: 900px;
-    padding: 50px 30px;
-  }
-
-  .profileContainer h2 {
-    font-size: 2.8rem;
-  }
-
-  .avatarContainer {
-    height: 80px;
-    width: 80px;
-  }
-
-  .navAvatarPlaceholder {
-    font-size: 38px;
-  }
-
-  .profileDetails {
-    font-size: 1.25rem;
-    padding: 22px;
-  }
-
-  .inputBox,
-  .textAreaBox,
-  select {
-    font-size: 1.05rem;
-  }
-
-  .saveButton {
-    font-size: 1.25rem;
-    padding: 9px 16px;
-  }
-}
-
-.imageRow img {
-  width: 250px;
-}
-
-.extraHostInfo {
-  justify-content: space-between;
-  align-items: flex-start;
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease-in-out;
-  display: flex;
-  margin: 10px;
-}
-
-.infoGrid {
-  justify-content: space-between;
-  text-align: left;
-  align-items: flex-start;
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease-in-out;
-}
-
-.infoGrid:hover {
-  transform: translateY(-3px);
-  box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.08);
-
-}
-
-.infoGrid svg {
-  background: linear-gradient(135deg, #ee0979, #ff6a00);
-  font-size: 2rem;
-  padding: 5px;
-  border-radius: 5px;
-  color: #fff;
-}
-
-.GovermentId {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  padding: 12px 15px;
-  border-radius: 10px;
-  background-color: #f8f9fa;
-  justify-content: center;
-  transition: all 0.3s ease-in-out;
-  margin-top: 10px;
-}
-
-.GovermentId:hover {
-  background-color: #f1faff;
-}
-
-
-.govImage {
-  width: 60%;
-  height: 250px;
-  object-fit: contain;
-  border-radius: 10px;
-  background-color: #f0f0f0;
-  margin: 10px;
-  transition: all 0.3s ease-in-out;
-}
-
-.govImage:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 10px 15px rgba(0, 0, 0, 0.08);
-}
-
-.editButton {
+.cancelButton {
+  background: var(--danger);
+  color: white;
   border: none;
-  background-color: #f8f9fa;
-  font-size: 2rem;
-  margin: 20px;
-  color: #d4af37;
-}
-
-.editButton:hover {
-  background-color: #f1faff;
-}
-
-.editSection label {
-  display: flex;
-  color: #d4af37;
-}
-
-.editSection input,
-select {
-  border: 1px solid #81817f;
-  border-radius: 8px;
-  text-align: center;
-  margin: 5px;
-}
-
-/* Hide the ugly default input completely */
-.fileUpload {
-  display: none;
-}
-
-/* Custom label that looks like a button */
-.customFileLabel {
-  display: inline-block;
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 8px;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  font-weight: 500;
-  text-align: center;
-  justify-content: center;
-  margin-left: 4px;
-  width: 320px;
-  transition: background-color 0.3s ease;
-}
-
-/* Hover effect */
-.customFileLabel:hover {
-  background-color: #0056b3;
-}
-
-/* Optional layout styling */
-.butonConteier {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.butonConteier svg {
-  align-items: center;
-  text-align: center;
-  gap: 2rem;
-  margin: 5px;
-  color: #fff;
 }
 
 .buttonRow {
   display: flex;
-  gap: 10px;
-  margin-left: 3.5rem;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
 }
 
-.updateButton {
-  background-color: #28a745;
-  color: #fff;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+/* ======================================================
+   GOVERNMENT ID
+====================================================== */
+.GovermentId {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-top: 24px;
 }
 
-.updateButton svg {
-  color: #fff;
+.govImage {
+  width: 100%;
+  max-height: 240px;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  margin-top: 12px;
 }
 
-.cancelButton {
-  background-color: #dc3545;
-  color: #fff;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+/* ======================================================
+   PAYOUT / BANK
+====================================================== */
+.payoutSection {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  padding: 24px;
+  margin-top: 24px;
 }
 
-.cancelButton svg {
-  color: #fff;
-}
-
-.bankSection {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  padding: 20px 25px;
-  border-radius: 16px;
-  background-color: #f8f9fa;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-  margin-top: 20px;
-  position: relative;
-  transition: all 0.3s ease-in-out;
-}
-
-.bankSection:hover {
-  background-color: #f1faff;
-}
-
-/* ==== Image Card Container ==== */
-.bankCard {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  margin-bottom: 25px;
-  padding: 15px;
+.imageCard {
+  background: #f8fafc;
+  border-radius: var(--radius-md);
+  padding: 12px;
   text-align: center;
-  transition: all 0.3s ease;
 }
 
-.bankCard:hover {
-  transform: translateY(-2px);
-}
-
-/* ==== Image Styles ==== */
 .bankImage {
   width: 100%;
-  height: 200px; /* Bigger height for full view */
-  object-fit: contain; /* Ensures image is fully visible */
-  background-color: #f0f0f0;
-  border-radius: 12px;
-  transition: transform 0.3s ease;
+  height: 180px;
+  object-fit: contain;
+  background: #f1f5f9;
+  border-radius: var(--radius-md);
 }
 
-.bankImage:hover {
-  transform: scale(1.03);
+/* ======================================================
+   HOST STATS GRID
+====================================================== */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
 }
 
-/* ==== Text Layout ==== */
-.bankSection p {
-  font-size: 15px;
-  color: #444;
+.infoGrid {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.infoGrid p {
   margin: 8px 0;
-  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
 }
 
-.bankSection strong {
-  color: #1a1a1a;
-  font-weight: 600;
-}
-.buttonRow{
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-
+/* ======================================================
+   FILE INPUT
+====================================================== */
+.fileUpload {
+  display: none;
 }
 
+.customFileLabel,
 .customFileLabela {
   display: inline-block;
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 8px;
+  background: var(--primary);
+  color: white;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
   cursor: pointer;
+}
+
+/* ======================================================
+   FOOTER TEXT
+====================================================== */
+.registerDate {
+  margin-top: 24px;
+  color: var(--text-muted);
+}
+
+.errorText {
+  color: var(--danger);
+  margin-top: 12px;
   font-weight: 500;
-  text-align: center;
-  justify-content: center;
-  margin-left: 4px;
-  width: 300px;
-  align-items: center;
-  transition: background-color 0.3s ease;
 }
 
-/* Hover effect */
-.customFileLabela:hover {
-  background-color: #0056b3;
-}
-
-
-/* ==== Responsive Design ==== */
+/* ======================================================
+   RESPONSIVE
+====================================================== */
 @media (max-width: 768px) {
-  .bankSection {
-    padding: 20px;
+  .profileContainer {
+    margin: 5px;
+    padding: 10px;
   }
 
-  .bankImage {
-    max-width: 180px;
+  .profileHeader {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .bankSection p {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .bankSection {
-    padding: 15px;
+  .profileHeader p {
+    font-size: 19px;
   }
 
-  .bankImage {
-    max-width: 160px;
+  .settingRow p {
+    font-size: 20px;
   }
 
-  .bankSection p {
-    font-size: 13.5px;
+  .inputContainer {
+    font-size: 20px;
+  }
+
+  .inputBox {
+    font-size: 20px;
+  }
+
+  .selectContainer {
+    font-size: 20px;
+  }
+
+  .textAreaContainer {
+    font-size: 20px;
+  }
+
+  .textAreaBox {
+    font-size: 20px;
+  }
+
+  .settingRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .verificationCard h4 {
+    font-size: 22px;
+  }
+
+  .verificationCard p {
+    font-size: 22px;
+  }
+
+  .registerDate {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .GovermentId {
+    padding: 5px;
+  }
+
+  .GovermentId p {
+    font-size: 20px;
+  }
+
+  .GovermentId img {
+    width: 100%;
+  }
+
+  .govImage {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .GovermentId .editIcon {
+    justify-content: right;
+    font-size: 29px;
+  }
+
+  .editSection label {
+    font-size: 20px;
+  }
+
+  .editSection select {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+
+  .editSection input {
+    font-size: 20px;
+    width: 100%;
+    height: 45px;
+  }
+
+  .butonConteier {
+    margin-top: 10px;
+  }
+
+  .buttonRow {
+    font-size: 20px;
+  }
+
+  .payoutSection {
+    padding: 0;
+  }
+
+  .imagegap {
+    gap: 10px;
+  }
+
+  .imageCard {
+    padding: 0%;
+
+  }
+
+  .imageCard p {
+    font-size: 20px;
+  }
+
+  .banckdetilas {
+    margin-top: 10px;
+  }
+
+  .banckdetilas p {
+    font-size: 18px;
+    padding: 5px;
+  }
+  .infoGrid p {
+    font-size: 20px;
   }
 }

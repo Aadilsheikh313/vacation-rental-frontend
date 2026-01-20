@@ -75,7 +75,7 @@ const HomeTroust = () => {
             {/* Custom Caption */}
             <div className={styles.captionOverlay}>
               <NavigationButtons />
-              <h3>Explore Tourist Moments</h3>
+              <h3>Explore Tourist Moments </h3>
               <h3>Discover the World Beyond Booking</h3>
               <p>
                 Not every journey needs a reservation—some are meant to be felt.
@@ -103,7 +103,7 @@ const HomeTroust = () => {
 
       {/* 🔹 Places Grid */}
       <div className={styles.TrouConatiner}>
-        <Container className="py-4" ref={contentRef}>
+        <Container className="" ref={contentRef}>
           {isLoading && (
             <div className="text-center my-3">
               <Spinner animation="border" />
@@ -169,3 +169,5 @@ const HomeTroust = () => {
 };
 
 export default HomeTroust;
+
+// Know More ke bad HeroSection/Touriste_SinglePlace.jsx hai ok

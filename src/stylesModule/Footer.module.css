@@ -1,0 +1,97 @@
+/* ===============================
+   FOOTER CONTAINER
+================================ */
+.FooterContainer {
+  background: linear-gradient(to right, #383547, #928dab);
+  color: #f1f1f1;
+  padding: 25px 0 10px;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* ===============================
+   HEADINGS
+================================ */
+.Heading,
+h5 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+/* ===============================
+   LINKS
+================================ */
+.textlight {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 0.95rem;
+  display: inline-block;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.textlight:hover {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+/* ===============================
+   SOCIAL ICONS
+================================ */
+.textlightfs5 {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+}
+
+.textlightfs5:hover {
+  color: #ffffff;
+  transform: translateY(-3px) scale(1.1);
+}
+
+/* ===============================
+   LANGUAGE TEXT
+================================ */
+.FooterContainer p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ===============================
+   DIVIDER
+================================ */
+.FooterContainer hr {
+  border: none;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ===============================
+   BOTTOM LINKS
+================================ */
+.FooterContainer a.text-light {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.FooterContainer a.text-light:hover {
+  color: #ffffff;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 768px) {
+  .FooterContainer {
+    text-align: center;
+  }
+
+  .textlight:hover {
+    transform: none;
+  }
+}

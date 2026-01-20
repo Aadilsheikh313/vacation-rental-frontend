@@ -27,7 +27,6 @@ import BookingHistory from './HostDashboard/Booking-Property/Booking-History';
 import Payment from './Payment/Payment';
 import { useDispatch, useSelector } from 'react-redux';
 import ExploreAndStay from './HeroSection/Explore_Stays';
-import TouristAndPlace from './HeroSection/Tourist_Places';
 import PostTripMoments from './GuestDashbord/Post_Trip_Moments';
 import ExperienceHub from './GuestDashbord/Experience_Hub';
 import AdminRegister from './AdminPlane/AdminRegister';
@@ -43,7 +42,6 @@ import GetAllAdminPosts from './AdminPlane/AdminPostPlace/GetAllAdminPost';
 import AdminGetSinglePost from './AdminPlane/AdminPostPlace/AdminGetSinglePost';
 import AdminEditPost from './AdminPlane/AdminPostPlace/AdminEditPost';
 import GetTouristSinglePlace from './HeroSection/Touriste_SinglePlaces';
-import TripHomePage from './PlanOurTrip/Home';
 import AboutPage from './About/AboutPage';
 import GetAllRooms from './pages/AllGetRooms';
 import HomeTroust from './TrouistPlace/Home';
@@ -85,7 +83,6 @@ function AppContent() {
         <Route path="/payment/:id" element={<Payment />} />
         <Route path='/explore/properties' element={<ExploreAndStay />} />
         <Route path="/touristplace/:id" element={<GetTouristSinglePlace />} />
-        <Route path='/plan-my-trip' element={<TripHomePage />} />
         <Route path='/about' element={<AboutPage />} />
         <Route path='/getAllproperty' element={<GetAllRooms />} />
         <Route path='/explore' element={<HomeTroust />} />
