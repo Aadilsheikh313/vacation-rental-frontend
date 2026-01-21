@@ -87,10 +87,27 @@ h5 {
    RESPONSIVE
 ================================ */
 @media (max-width: 768px) {
-  .FooterContainer {
-    text-align: center;
+  .FooterContainer{
+    padding-left: 1rem;
   }
-
+  .FooterContainer h5{
+    font-size: 22px;
+  }
+  .textlightfs5{
+    font-size: 22px;
+  }
+  .textlight{
+    font-size: 17px;
+  }
+  .rupeessimple{
+    font-size: 25px;
+  }
+  .buttomrow{
+    font-size: 20px;
+  }
+  .buttomrow p{
+    font-size: 20px;
+  }
   .textlight:hover {
     transform: none;
   }

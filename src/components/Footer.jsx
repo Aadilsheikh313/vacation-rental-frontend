@@ -45,13 +45,13 @@ function Footer() {
               <a href="#" className={styles.textlightfs5}><FaTwitter /></a>
               <a href="#" className={styles.textlightfs5}><FaInstagram /></a>
             </div>
-            <p className="mt-3">🌐 English (IN) | ₹ INR</p>
+            <p className={styles.rupeessimple}>🌐 English (IN) | ₹ INR</p>
           </Col>
         </Row>
 
         <hr className="border-light mt-4" />
 
-        <Row className={"justify-content-between align-items-center"}>
+        <Row className={styles.buttomrow}>
           <Col md={6} className="text-center text-md-start">
             <p className="mb-0">© 2025 AadilVacationRental, Inc.</p>
           </Col>

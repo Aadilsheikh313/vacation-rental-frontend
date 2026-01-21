@@ -49,7 +49,7 @@ const PolicyEditForm = ({ propertyId }) => {
     <div className={styles.PolicyEditFormContainer}>
       <h2 className={styles.formTitle}> Edit Property Policy</h2>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <Row>
+        <Row className={styles.policyeditrow}> 
           <Col sm={12} md={6}>
            {/* ✅ Check In */}
         <div className={styles.formGroup}>
@@ -113,7 +113,7 @@ const PolicyEditForm = ({ propertyId }) => {
 
           </Col>
         </Row>
-        <Row>
+        <Row className={styles.policyeditrow}> 
           <Col sm={12} md={6}>
           {/* ✅ Cancellation */}
         <div className={styles.formGroup}>

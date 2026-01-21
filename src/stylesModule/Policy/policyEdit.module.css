@@ -62,11 +62,13 @@
   border-radius: 6px;
   border: none;
   cursor: pointer;
-  width: 400px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin-left: 350px;
+
+  width: 100%;
+  max-width: 400px;
+
+  display: block;
+  margin: 1.5rem auto;
+
   transition: background 0.3s ease;
 }
 
@@ -87,18 +89,48 @@
 
 .success {
   color: #28a745;
+  font-size: 20px;
 }
 
 .error {
   color: #dc3545;
+   font-size: 20px;
 }
 
 .info {
   color: #aaa;
+   font-size: 20px;
 }
 
 .loading {
   text-align: center;
   font-size: 1rem;
   color: #ccc;
+}
+
+@media (max-width:768px) {
+  .PolicyEditFormContainer{
+    padding: 0.5rem;
+  }
+  .policyeditrow{
+    
+  }
+}
+@media (max-width: 768px) {
+  .PolicyEditFormContainer {
+    padding: 1rem;
+  }
+
+  .policyeditrow {
+    margin: 0;
+    width: 100%;
+  }
+
+  .formGroup {
+    width: 100%;
+  }
+
+  .formGroup input {
+    width: 100%;
+  }
 }

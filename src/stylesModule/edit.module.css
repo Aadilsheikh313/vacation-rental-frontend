@@ -9,7 +9,6 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 40px 0;
 }
 
 .editImage .editImageDown {
@@ -38,8 +37,6 @@
   z-index: 2;
   max-width: 750px;
   width: 90%;
-  margin: 1rem auto;
-  padding: 25px 30px;
   background: rgba(255, 255, 255, 0.959);
   border-radius: 12px;
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
@@ -194,7 +191,6 @@
   transform: translateY(-1px);
 }
 
-.AnimateClass {}
 
 .AnimateClass h3 {
   display: flex;
@@ -202,6 +198,7 @@
   justify-content: center;
   color: #f9fafb;
   font-family: 'Playfair Display', serif;
+  gap: 3rem;
 }
 
 
@@ -217,16 +214,19 @@
   justify-content: center;
   gap: 4rem;
   margin-bottom: 1rem;
+
+}
+.animateBTN button{
+  color: #ffffff;
 }
 
 .PolicyClass h3 {
-  display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
   color: #f9fafb;
   font-family: 'Playfair Display', serif;
   flex-direction: column;
-  margin-top: 2rem;
 }
 
 .PolicyClass h3 svg {
@@ -241,12 +241,15 @@
   justify-content: center;
   gap: 4rem;
   margin-bottom: 1rem;
+  color: #ffffff;
 }
-
+.policyBTN button{
+  color: #ffffff;
+}
 /* Mobile Styles */
 @media (max-width: 768px) {
   .editContainer {
-    margin: 12px;
+    /* margin: 12px; */
   }
 
   .editContainer h2 {
@@ -254,11 +257,43 @@
   }
 
   .formWrapper {
-    padding: 18px 20px;
+    padding: 5px 5px;
   }
-
+   
+  .backAndEditBTN .backButton{
+   text-align: center;
+   font-size: 20px;
+   width: 98%;
+   height: 3rem;
+  }
+  .backAndEditBTN .editButton{
+   text-align: center;
+   font-size: 20px;
+   width: 98%;
+   height: 3rem;
+  }
   .editContainer button {
     font-size: 0.95rem;
     padding: 12px;
   }
+
+  .AnimateClass h3{
+    font-size: 30px;
+    gap: 20px;
+  }
+  .animateBTN{
+    flex-direction: column;
+    gap: 1rem;
+  }
+ .animateBTN button{
+  font-size: 20px;
+ }
+ .policyBTN{
+  margin-top: 1rem;
+  flex-direction: column;
+  gap: 0.95rem;
+ }
+ .policyBTN button{
+  font-size: 20px;
+ }
 }

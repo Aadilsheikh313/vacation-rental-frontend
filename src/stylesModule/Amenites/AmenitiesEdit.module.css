@@ -112,6 +112,7 @@
   text-align: center;
   grid-column: 1 / -1;
   margin-top: 1rem;
+  font-size: 18px;
 }
 
 .successMsg {
@@ -119,4 +120,39 @@
   text-align: center;
   grid-column: 1 / -1;
   margin-top: 1rem;
+  font-size: 18px;
+}
+@media (max-width: 768px)  {
+  .AmenitiesConatainer{
+    padding: 0%;
+    
+  }
+  .Bedroomandliving{
+    padding: 0.5rem;
+  }
+  .Entertainment{
+    padding: 0.5rem;
+  }
+  .Bathroom{
+    padding: 0.5rem;
+  }
+  .ServicecAndExtras{
+    padding: 0.5rem;
+  }
+  .Wellness{
+    padding: 0.5rem;
+  }
+  .SmartFeatures{
+    padding: 0.5rem;
+  }
+  .Business{
+    padding: 0.5rem;
+  }
+  .buttonGroup{
+    padding-right: 1rem;
+    font-size: 20px;
+  }
+  .buttonGroup button{
+    font-size: 20px;
+  }
 }

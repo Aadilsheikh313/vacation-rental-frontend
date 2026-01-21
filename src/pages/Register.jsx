@@ -100,8 +100,8 @@ const Registerpage = () => {
     return (
       <div className={styles.roleSelectionContainer}>
         <h2 className={styles.headingChoose}>Register As</h2>
-        <Row className="justify-content-center">
-          <Col md={4}>
+        <Row className={styles.registercardrow}>
+          <Col xs={12} md={5}>
             <Card className={styles.registerCard} onClick={() => setRoleChoice("guest")}>
               <Card.Body className="text-center">
                 <h3 className={styles.heading}>Guest Register</h3>
@@ -111,7 +111,7 @@ const Registerpage = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col md={4}>
+            <Col xs={12} md={5}>
             <Card className={styles.registerCard} onClick={() => setRoleChoice("host")}>
               <Card.Body className="text-center">
                 <h3 className={styles.heading}>Host Register</h3>

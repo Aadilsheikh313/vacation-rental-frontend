@@ -112,6 +112,7 @@
   text-align: center;
   grid-column: 1 / -1;
   margin-top: 1rem;
+  font-size: 20px;
 }
 
 .successMsg {
@@ -119,4 +120,17 @@
   text-align: center;
   grid-column: 1 / -1;
   margin-top: 1rem;
+  font-size: 20px;
+}
+
+@media(max-width: 768px){
+.AmenitiesConatainer{
+  padding: 0%;
+}
+.buttonGroup{
+  padding-right: 1rem;
+}
+.buttonGroup button{
+  font-size: 20px;
+}
 }

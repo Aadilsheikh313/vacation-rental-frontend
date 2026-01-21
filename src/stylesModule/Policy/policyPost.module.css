@@ -98,12 +98,27 @@
 
 .success {
   color: #4ade80; /* green */
+  font-size: 20px;
 }
 
 .error {
   color: #f87171; /* red */
+  font-size: 20px;
 }
 
 .neutral {
   color: #e5e7eb; /* gray */
+  font-size: 20px;
+}
+
+@media (max-width:768px) {
+  .formContainer{
+    padding: 0.4rem;
+  }
+  .submitButton{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2rem;
+  }
 }
