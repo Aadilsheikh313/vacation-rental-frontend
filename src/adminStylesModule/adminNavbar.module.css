@@ -1,162 +1,150 @@
+/* ================= NAVBAR ================= */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ffffff;
-  padding: 12px 30px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
+  height: 72px;
+  padding: 0 24px;
+  background: linear-gradient(135deg, #1f1c2c, #3a3a52);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   z-index: 1000;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
+/* ================= LOGO ================= */
 .logoContainer {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
-.logo {
-  width: 50px;
-  height: auto;
+.logoContainer img {
+  width: 46px;
+  border-radius: 10px;
+}
+
+/* ================= SEARCH ================= */
+.searchBox {
+  display: flex;
+  align-items: center;
+  background: #ffffff15;
   border-radius: 8px;
+  overflow: hidden;
 }
 
+.searchBox input {
+  border: none;
+  outline: none;
+  padding: 8px 12px;
+  background: transparent;
+  color: #fff;
+  width: 220px;
+}
+
+.searchBox button {
+  border: none;
+  background: #d4af37;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+/* ================= MENU ================= */
 .navLinks {
   display: flex;
-  gap: 25px;
+  align-items: center;
+  gap: 22px;
   list-style: none;
 }
 
 .navLinks li a {
   text-decoration: none;
-  color: #333;
-  font-weight: 500;
-  transition: color 0.3s ease;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
 }
 
 .navLinks li a:hover {
-  color: #007bff;
+  color: #d4af37;
+  transform: translateY(-2px);
 }
 
-.navRight {
+/* ================= AUTH ================= */
+.authBtns {
   display: flex;
-  align-items: center;
-  gap: 20px;
+  gap: 12px;
 }
 
-.searchInput {
-  padding: 6px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  outline: none;
-  font-size: 14px;
-}
-
-.searchButton {
-  padding: 6px 12px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.authButtons {
-  display: flex;
-  gap: 10px;
-}
-
-.signupBtn,
-.loginBtn {
-  text-decoration: none;
+.authBtns a {
   padding: 6px 14px;
-  border-radius: 4px;
-  font-weight: 500;
-  transition: background 0.3s;
+  border-radius: 6px;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  text-decoration: none;
 }
 
-.signupBtn {
-  background-color: #007bff;
-  color: white;
+.authBtns a:hover {
+  background: #d4af37;
+  color: #000;
 }
 
-.loginBtn {
-  background-color: transparent;
-  border: 1px solid #007bff;
-  color: #007bff;
+.logoutBtn {
+  background: #e63946 !important;
+  border: none !important;
 }
 
-.signupBtn:hover {
-  background-color: #0056b3;
-}
-
-.loginBtn:hover {
-  background-color: #007bff;
-  color: white;
-}
-
+/* ================= MOBILE ================= */
 .menuToggle {
   display: none;
+  font-size: 1.6rem;
+  color: #fff;
   cursor: pointer;
-  color: #333;
 }
 
-/* Mobile specific styles */
-@media screen and (max-width: 768px) {
-  .navLinks {
-    display: none;
-    flex-direction: column;
-    align-items: flex-start;
-    background-color: #fff;
-    padding: 10px 20px;
-    width: 100%;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    z-index: 999;
-    gap: 15px;
-  }
+.searchMobile {
+  display: none;
+}
 
-  .showMobileMenu {
-    display: flex !important;
-  }
-
-  .navRight {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    width: 100%;
-  }
-
-  .authButtons {
+@media (max-width: 768px) {
+  .searchBox {
     display: none;
   }
 
   .menuToggle {
     display: block;
   }
-}
-/* Hide original authButtons in mobile */
-/* @media screen and (max-width: 768px) {
-  .authButtons {
+
+  .navLinks {
+    position: absolute;
+    top: 72px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background: #1f1c2c;
+    padding: 20px;
     display: none;
   }
 
-  .authButtonsMobile {
+  .navLinks.show {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+  }
+
+  .searchMobile {
+    display: block;
     width: 100%;
   }
-}
-.authButtonsMobile {
-  display: none;
-} */
 
-/* @media screen and (max-width: 768px) {
-  .authButtonsMobile {
-    display: flex;
+  .searchMobile input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
   }
-} */
-
+}

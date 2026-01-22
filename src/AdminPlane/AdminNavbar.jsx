@@ -5,92 +5,88 @@ import NAS from "../assets/NAS.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "react-bootstrap";
 import { logoutAdmin, reset } from "../config/redux/reducer/adminAuthReducer";
-import { FaBars, FaTimes } from "react-icons/fa";
-import { adminLoginAction } from "../config/redux/action/adminAuthAction";
+import { FaBars, FaTimes, FaSearch } from "react-icons/fa";
 
 const AdminNavbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
-   const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState("");
 
-  const adminAuth = useSelector((state) => state.adminAuth);
-  const isLoggedIn = adminAuth.loggedIn && adminAuth.token;
+  const { loggedIn, token } = useSelector((state) => state.adminAuth);
+  const isLoggedIn = loggedIn && token;
 
-  const handleAdminlogout = () => {
+  const handleLogout = () => {
     dispatch(logoutAdmin());
     dispatch(reset());
     navigate("/admin/login");
   };
 
-  const toggleMenu = () => {
-    if (window.innerWidth <= 768) {
-      setMenuOpen(!menuOpen);
-    }
-  };
-
-  const closeMenuIfMobile = () => {
-    if (window.innerWidth <= 768) {
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchText.trim()) {
+      navigate(`/admin/home?query=${searchText}`);
       setMenuOpen(false);
     }
   };
- 
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-
-    const params = new URLSearchParams();
-    if (searchText) params.set("query", searchText); 
-
-    navigate(`/admin/home?${params.toString()}`);
-  };
-
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.logoContainer}>
-        <Link to="/admin/home">
-          <img src={NAS} alt="Logo" className={styles.logo} />
-        </Link>
+      {/* LOGO */}
+      <Link to="/admin/home" className={styles.logoContainer}>
+        <img src={NAS} alt="Admin Logo" />
+        <span>AdminPanel</span>
+      </Link>
+
+      {/* SEARCH (DESKTOP) */}
+      <form className={styles.searchBox} onSubmit={handleSearchSubmit}>
+        <input
+          type="text"
+          placeholder="Search posts, users..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+        <button type="submit">
+          <FaSearch />
+        </button>
+      </form>
+
+      {/* TOGGLE */}
+      <div className={styles.menuToggle} onClick={() => setMenuOpen(!menuOpen)}>
+        {menuOpen ? <FaTimes /> : <FaBars />}
       </div>
 
-      <div className={styles.menuToggle} onClick={toggleMenu}>
-        {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-      </div>
+      {/* NAV LINKS */}
+      <ul className={`${styles.navLinks} ${menuOpen ? styles.show : ""}`}>
+        <li><Link to="/admin/home">Home</Link></li>
+        <li><Link to="/admin/dashboard">Dashboard</Link></li>
+        <li><Link to="/admin/get-posts">Posts</Link></li>
+        <li><Link to="/admin/host-users">Hosts</Link></li>
+        <li><Link to="/admin/guest-users">Guests</Link></li>
+        <li><Link to="/admin/post">Create</Link></li>
 
-      <ul className={`${styles.navLinks} ${menuOpen ? styles.showMobileMenu : ""}`}>
-        <li><Link to="/admin/home" onClick={closeMenuIfMobile}>Home</Link></li>
-        <li><Link to="/admin/dashboard" onClick={closeMenuIfMobile}>Dashboard</Link></li>
-        <li><Link to="/admin/get-posts" onClick={closeMenuIfMobile}>Admin Posts</Link></li>
-        <li><Link to="/admin/host-users" onClick={closeMenuIfMobile}>Host Users</Link></li>
-        <li><Link to="/admin/guest-users" onClick={closeMenuIfMobile}>Guest Users</Link></li>
-        <li><Link to="/admin/Post" onClick={closeMenuIfMobile}>Post</Link></li>
-        <li className={styles.navRight}>
-          <div style={{ maxWidth: "400px", flex: 1, marginLeft: "20px" }}>
-            <input
-              type="text"
-              placeholder="Search..."
-              className={styles.searchInput}
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-            />
+        {/* SEARCH (MOBILE) */}
+        <form className={styles.searchMobile} onSubmit={handleSearchSubmit}>
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </form>
 
+        {/* AUTH */}
+        {isLoggedIn ? (
+          <Button className={styles.logoutBtn} onClick={handleLogout}>
+            Logout
+          </Button>
+        ) : (
+          <div className={styles.authBtns}>
+            <Link to="/admin/login">Login</Link>
+            <Link to="/admin/register">Sign Up</Link>
           </div>
-        </li>
-
-        {/* 👉 Add this inside the ul */}
-        <li className={styles.authButtonsMobile}>
-          {!isLoggedIn ? (
-            <>
-              <Link to="/admin/register" className={styles.signupBtn}>Sign Up</Link>
-              <Link to="/admin/login" className={styles.loginBtn}>Login</Link>
-            </>
-          ) : (
-            <Button onClick={handleAdminlogout} className={styles.logoutBtn}>Logout</Button>
-          )}
-        </li>
+        )}
       </ul>
-
     </nav>
   );
 };

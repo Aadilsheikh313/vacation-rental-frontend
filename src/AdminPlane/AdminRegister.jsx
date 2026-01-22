@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Alert, Spinner } from "react-bootstrap";
+import { Form, Button, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import {  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { adminRegisterAction } from "../config/redux/action/adminAuthAction";
 import styles from "../adminStylesModule/adminAuth.module.css";
-import { showError, showSuccess } from "../utils/toastUtils";
 import { reset } from "../config/redux/reducer/adminAuthReducer";
-
-
+import CustomSpinner from "../comman/Spinner";
+import { showError, showSuccess } from "../utils/toastUtils";
 
 const AdminRegister = () => {
     const dispatch = useDispatch();
@@ -31,96 +30,103 @@ const AdminRegister = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!formData.secretCode || !formData.email || !formData.password) {
+            showError("Please fill all required fields");
+            return;
+        }
+
         dispatch(adminRegisterAction(formData));
-        console.log("ADMINREFIST",formData );
-        
     };
 
     useEffect(() => {
-        if (isSuccess) {
-            dispatch(reset);
-            navigate("/admin/dashboard");
+        if (isError && message) {
+            showError(message);
+            dispatch(reset());
         }
-    }, [dispatch, isSuccess, navigate]);
+
+        if (isSuccess && message) {
+            showSuccess(message);
+            navigate("/admin/dashboard");
+            dispatch(reset());
+        }
+    }, [isError, isSuccess, message, dispatch, navigate]);
+
 
     return (
-        <div className={styles.registerContainer}>
-             <div className={styles.imageContainer}>
-                <img src="/adminregister.jpg" alt="Register" className={styles.sideImage} />
-            </div>
-            <div className={styles.formContainer}>
-                <h2>Admin Sign Up</h2>
+        <div className={styles.pageWrapper}>
+            <div className={styles.cardWrapper}>
+                {/* LEFT */}
+                <div className={styles.visualSide}>
+                    <img src="/adminregister.jpg" alt="Admin" />
+                    <h2>Admin Access</h2>
+                    <p>Only authorized admins can create accounts</p>
+                </div>
 
-                {message && (
-                    <p className={isError ? styles.error : styles.success}>
-                        {message}
-                    </p>
-                )}
+                {/* RIGHT */}
+                <div className={styles.formSide}>
+                    <h3>Create Admin Account</h3>
 
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="secretCode">
+                    <Form onSubmit={handleSubmit}>
                         <Form.Control
-                            type="text"
-                            placeholder="Secret Code"
+                            className={styles.input}
+                            placeholder="Secret Admin Code"
                             name="secretCode"
-                            value={formData.secretCode}
                             onChange={handleChange}
                             required
                         />
-                    </Form.Group>
 
-                    <Form.Group controlId="name">
                         <Form.Control
-                            type="text"
+                            className={styles.input}
                             placeholder="Full Name"
                             name="name"
-                            value={formData.name}
                             onChange={handleChange}
                             required
                         />
-                    </Form.Group>
 
-                    <Form.Group controlId="email">
                         <Form.Control
+                            className={styles.input}
                             type="email"
-                            placeholder="Email"
+                            placeholder="Email Address"
                             name="email"
-                            value={formData.email}
                             onChange={handleChange}
                             required
                         />
-                    </Form.Group>
 
-                    <Form.Group controlId="password">
                         <Form.Control
+                            className={styles.input}
                             type="password"
                             placeholder="Password"
                             name="password"
-                            value={formData.password}
                             onChange={handleChange}
                             required
                         />
-                    </Form.Group>
 
-                    <Form.Group controlId="phone">
                         <Form.Control
-                            type="text"
+                            className={styles.input}
                             placeholder="Phone Number"
                             name="phone"
-                            value={formData.phone}
                             onChange={handleChange}
                             required
                         />
-                    </Form.Group>
 
-                    <Button variant="primary" type="submit" className={styles.registerBtn} disabled={isLoading}>
-                        {isLoading ? <Spinner animation="border" size="sm" /> : "Register"}
-                    </Button>
-                    
-                </Form>
+                        <Button
+                            type="submit"
+                            className={styles.submitBtn}
+                            disabled={isLoading}
+                        >
+                            {isLoading ? (
+                                <CustomSpinner />
+                            ) : (
+                                "Create Admin Account"
+                            )}
+                        </Button>
+                        <div className={styles.loginBTN}>
+                            Already have an account? <Link to="/admin/login" className={styles.loginLink}>Login</Link>
+                        </div>
+                    </Form>
+                </div>
             </div>
-
-           
         </div>
     );
 };

@@ -1,92 +1,104 @@
 import React, { useEffect, useState } from "react";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import styles from "../adminStylesModule/adminLogin.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { showError, showSuccess } from "../utils/toastUtils";
 import { adminLoginAction } from "../config/redux/action/adminAuthAction";
+
 const AdminLogin = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const { isLoading, isError, isSuccess, message } = useSelector((state) => state.adminAuth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const { isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.adminAuth
+  );
 
-    const handleAdimLogin = (e) => {
-        e.preventDefault();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-        if (!email || !password) {
-            showError("Please fill all fields!");
-            return;
-        }
+  const handleAdminLogin = (e) => {
+    e.preventDefault();
 
-        const AdminData = { email, password };
-        dispatch(adminLoginAction(AdminData));
-         console.log("ADMIN DATA", AdminData);
-    };
-   
+    if (!email || !password) {
+      showError("Please fill all fields!");
+      return;
+    }
 
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (isSuccess && token) {
-            showSuccess("Logged in successfully!");
-            setEmail(""); setPassword("");
-            navigate("/admin/dashboard");
-        }
+    dispatch(adminLoginAction({ email, password }));
+  };
 
-        if (isError) {
-            showError(message || "Login failed!");
-        }
-    }, [isSuccess, isError, message, navigate]);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
-    return (
-        <Container className={styles.loginContainer}>
-            <Row className={styles.loginCard}>
-                {/* Left Side: Image and welcome */}
-                <Col md={6} className={styles.left}>
-                    <h3>Welcome Back!</h3>
-                    <p>Please login to access your dashboard.</p>
-                    <img src="/adminlogin.jpg" alt="Login Visual" className={styles.adminimage} />
-                </Col>
+    if (isSuccess && token) {
+      showSuccess("Logged in successfully!");
+      navigate("/admin/dashboard");
+    }
 
-                {/* Right Side: Form */}
-                <Col md={6} className={styles.right}>
-                    <h2 className={styles.heading}>Login to Your Account</h2>
+    if (isError) {
+      showError(message || "Login failed!");
+    }
+  }, [isSuccess, isError, message, navigate]);
 
-                    <Form onSubmit={handleAdimLogin} className={styles.form}>
+  return (
+    <div className={styles.loginContainer}>
+      <div className={styles.loginCard}>
+        {/* LEFT */}
+        <div className={styles.left}>
+          <h3>Welcome Back!</h3>
+          <p>Please login to access your dashboard.</p>
+          <img
+            src="/adminlogin.jpg"
+            alt="Login Visual"
+            className={styles.adminimage}
+          />
+        </div>
 
-                        <Form.Group className="mt-3">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                type="email"
-                                name="email"
-                                required
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </Form.Group>
+        {/* RIGHT */}
+        <div className={styles.right}>
+          <h2 className={styles.heading}>Login to Your Account</h2>
 
-                        <Form.Group className="mt-3">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                name="password"
-                                required
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </Form.Group>
+          <Form onSubmit={handleAdminLogin} className={styles.form}>
+            <Form.Group className="mt-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={styles.forminput}
+              />
+            </Form.Group>
 
-                        {/* 🔹 LOGIN Button */}
-                        <Button type="submit" variant="success" className="mt-4 w-100" disabled={isLoading}>
-                            {isLoading ? "Logging in..." : "Login"}
-                        </Button>
-                    </Form>
-                </Col>
-            </Row>
-        </Container>
-    );
+            <Form.Group className="mt-3">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={styles.forminput}
+              />
+            </Form.Group>
+
+            <Button
+              type="submit"
+              className={styles.loginBtn}
+              disabled={isLoading}
+            >
+              {isLoading ? "Logging in..." : "Login"}
+            </Button>
+
+            <div className={styles.signupText}>
+              Don’t have an account?{" "}
+              <Link to="/admin/register" className={styles.signupLink}>
+                Sign Up
+              </Link>
+            </div>
+          </Form>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default AdminLogin;

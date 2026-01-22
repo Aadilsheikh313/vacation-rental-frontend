@@ -1,53 +1,147 @@
-
-/* adminAuth.module.css */
-
-.registerContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f5f6fa;
-    padding: 20px;
+/* ===== PAGE ===== */
+.pageWrapper {
+  min-height: 100vh;
+  padding-top: 30px; /* navbar fix */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0f172a;
+  padding-bottom: 30px;
 }
 
-.formContainer {
-    width: 50%;
-    max-width: 450px;
-    background: #ffffff;
-    padding: 40px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+/* ===== CARD ===== */
+.cardWrapper {
+  width: 100%;
+  max-width: 1050px;
+  min-height: 620px;
+  background: #ffffff;
+  border-radius: 18px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
 }
 
-.imageContainer {
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* ===== LEFT VISUAL ===== */
+.visualSide {
+  flex: 1;
+  background: linear-gradient(135deg, #1e293b, #020617);
+  color: #ffffff;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.sideImage {
-    width: 90%;
-    max-width: 500px;
-    height: auto;
-    border-radius: 10px;
+.visualSide img {
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 30px;
 }
 
-.registerBtn {
-    width: 100%;
-    margin-top: 15px;
-    background-color: #007bff;
-    border: none;
+.visualSide h2 {
+  font-size: 2.1rem;
+  margin-bottom: 10px;
 }
 
-.success {
-    color: green;
-    margin-bottom: 10px;
-    font-weight: bold;
+.visualSide p {
+  font-size: 1rem;
+  color: #cbd5f5;
 }
 
-.error {
-    color: red;
-    margin-bottom: 10px;
-    font-weight: bold;
+/* ===== FORM ===== */
+.formSide {
+  flex: 1;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.formSide h3 {
+  font-size: 1.9rem;
+  margin-bottom: 25px;
+  color: #020617;
+}
+
+/* ===== INPUT ===== */
+.input {
+  margin-bottom: 14px;
+  padding: 13px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.95rem;
+}
+
+.input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* ===== BUTTON ===== */
+.submitBtn {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  border: none;
+}
+
+.submitBtn:hover {
+  background: linear-gradient(135deg, #4f46e5, #3730a3);
+}
+
+/* ===== ALERTS ===== */
+.successBox {
+  background: #ecfdf5;
+  color: #065f46;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.errorBox {
+  background: #fef2f2;
+  color: #991b1b;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+.loginBTN{
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}
+.loginLink{
+    text-decoration: none;
+}
+.loginLink:hover{
+    text-decoration: underline;
+    color: #065f46;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .cardWrapper {
+    flex-direction: column;
+    max-width: 520px;
+  }
+
+  .visualSide {
+    display: none;
+  }
+
+  .formSide {
+    padding: 0px 15px;
+    padding-top: 0%;
+  }
+  .input{
+    font-size: 22px;
+  }
+  .submitBtn{
+    font-size: 22px;
+  }
+  .loginBTN{
+    text-align: center;
+    font-size: 23px;
+  }
 }

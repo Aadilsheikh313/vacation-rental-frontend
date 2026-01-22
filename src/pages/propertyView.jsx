@@ -13,6 +13,7 @@ import Amenities from "../RoomsDescription/Amenities";
 import Policies from "../RoomsDescription/Policies";
 import LeafletMap from "../Map/MapComponent";
 import Review from "../RoomsDescription/Review";
+import { confirmDelete } from "../utils/confirmDelete";
 
 
 const PropertyDetails = () => {

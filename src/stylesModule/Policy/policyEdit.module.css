@@ -112,9 +112,6 @@
   .PolicyEditFormContainer{
     padding: 0.5rem;
   }
-  .policyeditrow{
-    
-  }
 }
 @media (max-width: 768px) {
   .PolicyEditFormContainer {

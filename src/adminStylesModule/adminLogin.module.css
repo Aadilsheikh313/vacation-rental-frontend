@@ -1,1 +1,146 @@
+/* ================= PAGE ================= */
+.loginContainer {
+  min-height: 100vh;
+  padding-top: 0px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0f172a;
+}
+
+/* ================= CARD ================= */
+.loginCard {
+  width: 100%;
+  max-width: 1050px;
+  background: #ffffff;
+  border-radius: 18px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+}
+
+/* ================= LEFT ================= */
+.left {
+  flex: 1;
+  background: linear-gradient(135deg, #1e293b, #020617);
+  color: #ffffff;
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.left h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.left p {
+  color: #cbd5f5;
+  margin-bottom: 25px;
+}
+
+.adminimage {
+  width: 100%;
+  max-width: 320px;
+}
+
+/* ================= RIGHT ================= */
+.right {
+  flex: 1;
+  padding: 60px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.heading {
+  font-size: 1.9rem;
+  margin-bottom: 25px;
+  color: #020617;
+}
+
+/* ================= FORM ================= */
+.form label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.form input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+}
+
+.form input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* ================= BUTTON ================= */
+.loginBtn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  border: none;
+}
+
+.loginBtn:hover {
+  background: linear-gradient(135deg, #4f46e5, #3730a3);
+}
+
+/* ================= SIGNUP ================= */
+.signupText {
+  text-align: center;
+  margin-top: 18px;
+}
+
+.signupLink {
+  color: #6366f1;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.signupLink:hover {
+  text-decoration: underline;
+  color: #065f46;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .loginContainer {
+    padding-top: 50px;      
+    align-items: flex-start;
+  }
+
+  .loginCard {
+    margin: 10px ;      /* ✅ top & bottom spacing */
+    max-width: 520px;
+  }
+
+  .left {
+    display: none;
+  }
+
+  .right {
+    padding: 10px 15px;
+  }
+  .form label{
+    font-size: 25px;
+  }
+  .forminput{
+  font-size: 25px;
+  }
+  .loginBtn{
+    font-size: 25px;
+  }
+  .signupText{
+    font-size: 20px;
+  }
+}
 
