@@ -126,48 +126,36 @@ const AdminSinglePropertyDetails = () => {
 
 
   return (
-    <Container className="py-4">
-      <h2 className="text-center mb-4">🏡 Property Details</h2>
+    <Container className={styles.page}>
+      <h2 className={styles.pageTitle}>🏡 Property Details</h2>
 
-      <Card className="mb-4 shadow">
-        {image?.url && (
-          <Card.Img variant="top" src={image.url} style={{ maxHeight: "300px", objectFit: "cover" }} />
-        )}
-        <Card.Body>
-          <Card.Title>{title}</Card.Title>
-          <Card.Text>
-            <strong>Location:</strong> {city}, {state} <br />
-            <strong>Price:</strong> ₹{price} / night <br />
-            <strong>Description:</strong> {description} <br />
-            <strong>Posted By:</strong> {userId?.name} | {userId?.email} <br />
-            <strong>Phone :</strong> {userId?.phone} <br />
-            <strong>Posted On:</strong> {propertyPostedOn ? new Date(propertyPostedOn).toLocaleDateString() : "N/A"}
-          </Card.Text>
-        </Card.Body>
+      <Card className={styles.propertyCard}>
+        {image?.url && <img src={image.url} className={styles.propertyImage} />}
+        <div className={styles.propertyInfo}>
+          <h3>{title}</h3>
+          <p><b>Location:</b> {city}, {state}</p>
+          <p><b>Price:</b> ₹{price} / night</p>
+          <p><b>Description:</b> {description}</p>
+          <p><b>Host:</b> {userId?.name} ({userId?.email})</p>
+          <p><b>Phone:</b> {userId?.phone}</p>
+          <p><b>Posted:</b> {new Date(propertyPostedOn).toLocaleDateString()}</p>
+        </div>
       </Card>
 
-      <Row>
+      <Row className={styles.statsRow}>
         <Col md={6}>
-          <Card className="mb-3 p-3">
-            <h5 className="d-flex align-items-center">
-              <MdOutlineDashboard className="me-2 text-primary" />
-              Booking & Revenue Overview
-            </h5>
-
-            <p><strong>Total Bookings:</strong> {totalBookings}</p>
-            <p><strong>Completed Bookings:</strong> {completedBookings}</p>
-            <p><strong>Cancelled Bookings:</strong> {cancelledBookings}</p>
-
+          <Card className={styles.statCard}>
+            <h5><MdOutlineDashboard /> Booking & Revenue</h5>
+            <p>Total Bookings: {totalBookings}</p>
+            <p>Completed: {completedBookings}</p>
+            <p>Cancelled: {cancelledBookings}</p>
             <hr />
-
-            <p><strong>Total Revenue:</strong> ₹{totalRevenue}</p>
-
-            <p><strong>Online Revenue:</strong> ₹{onlineRevenue}</p>
-            <p><strong>Cash Revenue:</strong> ₹{cashRevenue}</p>
-
+            <p>Total Revenue: ₹{totalRevenue}</p>
+            <p>Online: ₹{onlineRevenue}</p>
+            <p>Cash: ₹{cashRevenue}</p>
             <hr />
-            <p><strong>Total Tax Collected:</strong> ₹{totalTax}</p>
-            <p><strong>Service Charge (Admin):</strong> ₹{serviceCharge}</p>
+            <p>Tax: ₹{totalTax}</p>
+            <p>Admin Fee: ₹{serviceCharge}</p>
 
           </Card>
 
@@ -222,7 +210,7 @@ const AdminSinglePropertyDetails = () => {
 
       <Row className="mt-4">
         <Col>
-          <h4>🧾 Bookings</h4>
+          <h4 className={styles.bookingheading}>🧾 Bookings</h4>
           {bookings?.length > 0 ? (
             bookings.map((booking, idx) => {
               const userReview = reviews?.find(
@@ -233,9 +221,10 @@ const AdminSinglePropertyDetails = () => {
               );
 
               return (
-                <Card key={idx} className="mb-3 p-3">
-                  <div className="d-flex align-items-center gap-2 mb-2">
-                    <Avatar user={booking.user} />
+                <Card key={idx} className={styles.bookingdetailscard
+                }>
+                  <div className={styles.bookingusername}>
+                    <Avatar user={bookings.user?.name} />
                     <strong>{booking.user?.name}</strong>
                   </div>
                   <p><strong>Booking ID:</strong> {booking.bookingCode || booking._id}</p>
@@ -246,9 +235,9 @@ const AdminSinglePropertyDetails = () => {
                   <p><strong>Email:</strong> <a href={`mailto:${booking.user?.email}`}> {booking.user?.email}</a></p>
                   <hr />
 
-                  <h6 className="d-flex align-items-center gap-2">
+                  <h6 className={styles.paymentdetails}>
                     💸 Payment Details
-
+                    
                     {bookingPayment?.paymentMethod === "razorpay" && (
                       <Badge bg="success">Online Paid</Badge>
                     )}
@@ -288,33 +277,46 @@ const AdminSinglePropertyDetails = () => {
                     </>
                   ) : (
                     <Alert variant="secondary">
-                      Payment not completed / not available
+                      Payment not completed / not available because using a cash 
                     </Alert>
                   )}
-
                   {userReview ? (
-                    <Card className="mt-3 p-2 bg-light">
+                    <Card className={styles.reviewCard}>
                       <h6 className="mb-1">📝 Review by this user</h6>
                       <p><strong>Rating:</strong> ⭐ {userReview.rating}</p>
-                      <p> {new Date(userReview.updatedAt).toLocaleDateString()}</p>
+                      <p> <strong>Date: </strong>{new Date(userReview.updatedAt).toLocaleDateString()}</p>
                       <p><strong>Cleanliness:</strong>⭐ {userReview.cleanliness}</p>
                       <p><strong>Comfort:</strong> ⭐ {userReview.comfort}</p>
                       <p><strong>Service:</strong>⭐ {userReview.service}</p>
                       <p><strong>Location:</strong> ⭐ {userReview.location}</p>
                       <p><strong>Comment:</strong> {userReview.comment}</p>
-                      <p><strong>Host Reply: </strong>{new Date(userReview.hostReply.repliedAt).toLocaleDateString()}</p>
-                      <p><strong>Message:</strong>{userReview.hostReply.message}</p>
+                      {userReview.hostReply ? (
+                        <>
+                          <p>
+                            <strong>Host Reply Date:</strong>{" "}
+                            {new Date(userReview.hostReply.repliedAt).toLocaleDateString()}
+                          </p>
+                          <p>
+                            <strong>Message:</strong> {userReview.hostReply.message}
+                          </p>
+                        </>
+                      ) : (
+                        <p className="text-muted">
+                          Host has not replied yet.
+                        </p>
+                      )}
+
                       {/* ===== ADMIN REVIEW VISIBILITY STATUS ===== */}
                       <div className="mt-2">
 
                         {userReview.isHidden ? (
                           <>
-                            <Alert variant="warning" className="py-1">
+                            <Alert variant="warning" className={styles.visiblereview}>
                               🚫 This review is currently <strong>HIDDEN</strong> from guests.
                             </Alert>
 
                             <button
-                              className="btn btn-success btn-sm"
+                              className={styles.visiblereviewBTHS}
                               onClick={() =>
                                 dispatch(
                                   toggleReviewVisibility({
@@ -330,12 +332,13 @@ const AdminSinglePropertyDetails = () => {
                           </>
                         ) : (
                           <>
-                            <Alert variant="success" className="py-1">
+                            <Alert variant="success" className={styles.visiblereview}>
                               👁️ This review is <strong>VISIBLE</strong> to guests.
                             </Alert>
 
                             <button
-                              className="btn btn-danger btn-sm"
+                            // "btn btn-danger btn-sm"
+                              className={styles.visiblereviewBTH}
                               onClick={() =>
                                 dispatch(
                                   toggleReviewVisibility({

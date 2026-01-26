@@ -1,22 +1,14 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Spinner,
-  Alert,
-  Button,
-} from "react-bootstrap";
 import { getAllPropertyAdminPosts } from "../config/redux/action/adminHomeDashAction";
 import { resetAdminState } from "../config/redux/reducer/adminHomeDashReducer";
 import { Link } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
+import styles from "../adminStylesModule/adminHome.module.css";
 
 const AdminHome = () => {
   const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.post);
+
   const {
     adminProperties,
     isLoading,
@@ -25,96 +17,65 @@ const AdminHome = () => {
     message,
   } = useSelector((state) => state.adminHomeDash);
 
-
   useEffect(() => {
     dispatch(getAllPropertyAdminPosts());
-
-    return () => {
-      dispatch(resetAdminState());
-    };
+    return () => dispatch(resetAdminState());
   }, [dispatch]);
 
-  // ✅ Filtering logic only
-  const filteredPosts = useMemo(() => {
-    if (adminProperties.length > 0) {
-      return adminProperties;  
-    }
-
-    return posts.filter((p) => {
-      if (p.status === false) return false;
-
-      const matchesText =
-        p.title.toLowerCase().includes(search) ||
-        p.city?.toLowerCase().includes(search);
-
-      const matchesPrice = p.price >= minPrice && p.price <= maxPrice;
-
-      return matchesText && matchesPrice;
-    });
-  }, [adminProperties, posts]);
-
-
   return (
-    <Container className="py-4">
-      <h2 className="text-center mb-4">🛠 Admin Dashboard - All Properties</h2>
+    <div className={styles.adminHome}>
+      <h2 className={styles.heading}>Admin Dashboard – Properties</h2>
 
-      {/* Show loading spinner */}
-      {isLoading && (
-        <div className="d-flex justify-content-center">
-          <Spinner animation="border" variant="primary" />
-        </div>
-      )}
+      {/* Loading */}
+      {isLoading && <div className={styles.loader}>Loading...</div>}
 
-      {/* Show error alert */}
-      {isError && (
-        <Alert variant="danger" className="text-center">
-          {message}
-        </Alert>
-      )}
+      {/* Error */}
+      {isError && <div className={styles.error}>{message}</div>}
 
-      {/* Show message if no properties */}
+      {/* Empty */}
       {!isLoading && isSuccess && adminProperties.length === 0 && (
-        <Alert variant="info" className="text-center">
-          No properties found.
-        </Alert>
+        <div className={styles.info}>No properties found</div>
       )}
 
-      {/* Render properties */}
-      <Row>
+      {/* Cards */}
+      <div className={styles.grid}>
         {adminProperties.map((property) => (
-          <Col key={property._id} md={6} lg={4} className="mb-4">
-            <Card className="shadow-sm">
-              {property.image.url?.[0] && (
-                <Card.Img
-                  variant="top"
-                  src={property.image.url}
-                  style={{ height: "200px", objectFit: "cover" }}
-                />
+          <div className={styles.card} key={property._id}>
+            {property.image?.url && (
+              <img
+                src={property.image.url}
+                alt={property.title}
+                className={styles.image}
+              />
+            )}
+
+            <div className={styles.cardBody}>
+              <h3 className={styles.title}>{property.title}</h3>
+
+              <p className={styles.meta}>
+                <span>{property.city}, {property.state}</span>
+                <span>₹{property.price} / night</span>
+              </p>
+
+              {property.totalReviews > 0 ? (
+                <p className={styles.rating}>
+                  ⭐ {property.avgRating} ({property.totalReviews})
+                </p>
+              ) : (
+                <p className={styles.noRating}>No reviews yet</p>
               )}
 
-              <Card.Body>
-                <Card.Title>{property.title}</Card.Title>
-                <Card.Text>
-                  <strong>Location:</strong> {property.city}, {property.state}
-                  <br />
-                  <strong>Price:</strong> ₹{property.price} /night
-                  <br />
-                </Card.Text>
-                {property.totalReviews > 0 ? (
-                  <p className="text-warning"><b>Rating</b>⭐ {property.avgRating} ({property.totalReviews} reviews)</p>
-                ) : (
-                  <p className="text-white-muted">No rating and reviews yet.</p>
-                )}
-                <Link to={`/admin/property/${property._id}`} className="btn btn-primary">
-                  <FaEye /> View
-                </Link>
-
-              </Card.Body>
-            </Card>
-          </Col>
+              <Link
+                to={`/admin/property/${property._id}`}
+                className={styles.viewBtn}
+              >
+                <FaEye /> View Property
+              </Link>
+            </div>
+          </div>
         ))}
-      </Row>
-    </Container>
+      </div>
+    </div>
   );
 };
 
