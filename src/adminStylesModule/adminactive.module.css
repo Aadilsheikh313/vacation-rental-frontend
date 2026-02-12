@@ -1,0 +1,140 @@
+/* ================= TITLE ================= */
+.activeBookingTitle {
+  color: #ffffff;
+  font-weight: 700;
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* ================= COUNT CARD ================= */
+.activeBookingCard {
+  background: linear-gradient(135deg, #064e3b, #022c22);
+  border-radius: 16px;
+  border: none;
+  color: #ffffff;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.countactivebooking {
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ================= GRID ================= */
+.bookingrow {
+  row-gap: 24px;
+}
+
+/* ================= CARD ================= */
+.bookingCard {
+  background: #020617;
+  color: #e5e7eb;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #1e293b;
+  transition: all 0.3s ease;
+}
+
+.bookingCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* ================= IMAGE ================= */
+.bookingimage {
+  height: 220px;
+  object-fit: cover;
+}
+
+/* ================= BODY ================= */
+.cardBody {
+  padding: 16px;
+}
+
+/* ================= TITLE ================= */
+.propertyTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #ffffff;
+}
+
+/* ================= LOCATION ================= */
+.location {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* ================= PRICE ================= */
+.price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #22c55e;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* ================= DIVIDER ================= */
+.divider {
+  height: 1px;
+  background: #1e293b;
+  margin: 12px 0;
+}
+
+/* ================= SECTION TITLE ================= */
+.sectionTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #38bdf8;
+  margin-bottom: 4px;
+}
+
+/* ================= INFO ROW ================= */
+.infoRow {
+  font-size: 0.9rem;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #e5e7eb;
+}
+
+/* ================= PAYMENT ================= */
+.paymentRow {
+  font-size: 0.9rem;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #fbbf24;
+  margin-bottom: 8px;
+}
+
+/* ================= BADGE ================= */
+.statusBadge {
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .bookingimage {
+    height: 180px;
+  }
+
+  .propertyTitle {
+    font-size: 1rem;
+  }
+
+  .infoRow,
+  .paymentRow {
+    font-size: 0.85rem;
+  }
+}

@@ -4,6 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Card, Spinner, Alert, Badge } from "react-bootstrap";
 import { getAllAdminActiveBookingPosts } from "../config/redux/action/adminDashboardAction";
 import { resetDashboardState } from "../config/redux/reducer/adminDashboardReducer";
+import styles from "../adminStylesModule/adminactive.module.css";
+import CustomSpinner from "../comman/Spinner";
+import {
+    FaUser,
+    FaPhoneAlt,
+    FaEnvelope,
+    FaMoneyBillWave,
+    FaMapMarkerAlt,
+    FaHome,
+} from "react-icons/fa";
+import { MdPayments } from "react-icons/md";
+
 
 const AdminActiveBooking = () => {
     const dispatch = useDispatch();
@@ -14,7 +26,7 @@ const AdminActiveBooking = () => {
         isError,
         isSuccess,
         message,
-        
+
     } = useSelector((state) => state.adminDashboard);
 
 
@@ -23,45 +35,84 @@ const AdminActiveBooking = () => {
         return () => dispatch(resetDashboardState());
     }, [dispatch]);
 
-    if (isLoading) return <Spinner animation="border" className="mx-auto d-block my-4" />;
+    if (isLoading) return <CustomSpinner />;
     if (isError) return <Alert variant="danger">{message}</Alert>;
 
     return (
         <>
-            <h4 className="text-center mb-3">🟢 Active Booking Properties</h4>
-            <Card className="text-center shadow-sm bg-light">
+            <h4 className={styles.activeBookingTitle}>🟢 Active Booking Properties</h4>
+            <Card className={styles.activeBookingCard}>
                 <Card.Body>
-                    <h4 className="text-info">🏠 Total Active Bookings :  { activeBookingCount}</h4>
+                    <h4 className={styles.countactivebooking}>🏠 Total Active Bookings :  {activeBookingCount}</h4>
                 </Card.Body>
             </Card>
             {activeBookings && activeBookings.length > 0 ? (
-                <Row className="gy-4">
+                <Row className={styles.bookingrow}>
                     {activeBookings.map((booking) => (
                         <Col md={6} lg={4} key={booking.bookingId}>
-                            <Card className="shadow-sm h-100">
+                            <Card className={styles.bookingCard}>
                                 <Card.Img
                                     variant="top"
                                     src={booking.property?.image?.url}
-                                    style={{ maxHeight: "300px", objectFit: "cover" }}
+                                    className={styles.bookingimage}
                                 />
-                                <Card.Body>
-                                    <h5>{booking.property?.title}</h5>
-                                    <p>📍 {booking.property?.location}, {booking.property?.city}</p>
-                                    <p>💰 ₹{booking.property?.price}</p>
-                                    <hr />
-                                    <p>👤 Guest: {booking.guest?.name}</p>
-                                    <p>📞 {booking.guest?.phone}</p>
-                                    <p>✉️ {booking.guest?.email}</p>
-                                    <hr />
-                                    <p>👤 Host: {booking.host?.name}</p>
-                                    <p>📞 {booking.host?.phone}</p>
-                                    <p>✉️ {booking.host?.email}</p>
-                                    <hr />
-                                    <p>💳 Payment: {booking.paymentMethod}</p>
-                                    <Badge bg={booking.paymentStatus === "paid" ? "success" : "warning"}>
+                                <Card.Body className={styles.cardBody}>
+                                    <h5 className={styles.propertyTitle}>
+                                        <FaHome /> {booking.property?.title}
+                                    </h5>
+
+                                    <p className={styles.location}>
+                                        <FaMapMarkerAlt /> {booking.property?.location},{" "}
+                                        {booking.property?.city}
+                                    </p>
+
+                                    <p className={styles.price}>
+                                        <FaMoneyBillWave /> ₹{booking.property?.price}
+                                    </p>
+
+                                    <div className={styles.divider}></div>
+
+                                    {/* Guest */}
+                                    <p className={styles.sectionTitle}>👤 Guest</p>
+                                    <p className={styles.infoRow}>
+                                        <FaUser /> {booking.guest?.name}
+                                    </p>
+                                    <p className={styles.infoRow}>
+                                        <FaPhoneAlt /> {booking.guest?.phone}
+                                    </p>
+                                    <p className={styles.infoRow}>
+                                        <FaEnvelope /> {booking.guest?.email}
+                                    </p>
+
+                                    <div className={styles.divider}></div>
+
+                                    {/* Host */}
+                                    <p className={styles.sectionTitle}>🏠 Host</p>
+                                    <p className={styles.infoRow}>
+                                        <FaUser /> {booking.host?.name}
+                                    </p>
+                                    <p className={styles.infoRow}>
+                                        <FaPhoneAlt /> {booking.host?.phone}
+                                    </p>
+                                    <p className={styles.infoRow}>
+                                        <FaEnvelope /> {booking.host?.email}
+                                    </p>
+
+                                    <div className={styles.divider}></div>
+
+                                    {/* Payment */}
+                                    <p className={styles.paymentRow}>
+                                        <MdPayments /> {booking.paymentMethod}
+                                    </p>
+
+                                    <Badge
+                                        className={styles.statusBadge}
+                                        bg={booking.paymentStatus === "paid" ? "success" : "warning"}
+                                    >
                                         {booking.paymentStatus}
                                     </Badge>
                                 </Card.Body>
+
                             </Card>
                         </Col>
                     ))}

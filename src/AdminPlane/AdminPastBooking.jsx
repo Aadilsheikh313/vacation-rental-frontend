@@ -1,7 +1,22 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Spinner, Alert, Card, Container, Row, Col, Badge } from "react-bootstrap";
+import { Alert, Card, Container, Row, Col, Badge } from "react-bootstrap";
 import { getAdminAllPastgBookingPosts } from "../config/redux/action/adminDashboardAction";
+import styles from "../adminStylesModule/adminPast.module.css";
+import CustomSpinner from "../comman/Spinner";
+import {
+    FaHome,
+    FaMapMarkerAlt,
+    FaRupeeSign,
+    FaCalendarAlt,
+    FaBed,
+    FaUser,
+    FaPhoneAlt,
+    FaEnvelope,
+    FaMoneyBillWave,
+    FaHistory
+} from "react-icons/fa";
+
 
 const AdminPastBooking = () => {
     const dispatch = useDispatch();
@@ -20,88 +35,102 @@ const AdminPastBooking = () => {
     }, [dispatch]);
 
     return (
-        <Container className="mt-4">
-            <h3 className="mb-4 text-warning text-center">📅 Past Booking Properties</h3>
+        <div className={styles.pastbookingContainer}>
+            <Container className={styles.AdminPastBookingwarp}>
+                <h3 className={styles.headingpast}>
+                    <FaHistory /> Past Booking Properties
+                </h3>
+                {isLoading && (
+                    <div>
+                        <CustomSpinner />
+                    </div>
+                )}
 
-            {isLoading && (
-                <div className="text-center">
-                    <Spinner animation="border" variant="primary" />
-                </div>
-            )}
+                {isError && <Alert variant="danger">{message}</Alert>}
 
-            {isError && <Alert variant="danger">{message}</Alert>}
+                {!isLoading && !isError && (
+                    <>
+                        <Card className={styles.summarycard}>
+                            <Card.Body>
+                                <h5 className={styles.cardinfo}>Total Past Bookings: {totalPastCount}</h5>
+                                <h6 className={styles.revienw}>
+                                    Total Revenue (Past): ₹{totalPastAmount.toLocaleString()}
+                                </h6>
+                            </Card.Body>
+                        </Card>
 
-            {!isLoading && !isError && (
-                <>
-                    <Card className="text-center shadow-sm bg-light mb-4">
-                        <Card.Body>
-                            <h5 className="text-info">Total Past Bookings: {totalPastCount}</h5>
-                            <h6 className="text-success">
-                                Total Revenue (Past): ₹{totalPastAmount.toLocaleString()}
-                            </h6>
-                        </Card.Body>
-                    </Card>
+                        {pastBookings.length === 0 ? (
+                            <Alert variant="info" className="text-center mt-4">
+                                No Past bookings found.
+                            </Alert>
+                        ) : (
+                            <Row className={styles.pastbookingrow}>
+                                {pastBookings.map((booking, idx) => (
+                                    <Col md={6} lg={4} key={booking.bookingId || idx}>
+                                        <Card className={styles.bookingCard}>
+                                            <Card.Img
+                                                variant="top"
+                                                src={booking.property?.image?.url || "/default-property.jpg"}
+                                                className={styles.cardimage}
+                                            />
+                                            <Card.Body>
+                                                <h5 className={styles.propertytitele}>
+                                                    <FaHome /> {booking.property?.title || "No Title"}
+                                                </h5>
 
-                    {pastBookings.length === 0 ? (
-                        <Alert variant="info" className="text-center mt-4">
-                            No Past bookings found.
-                        </Alert>
-                    ) : (
-                        <Row className="gy-4">
-                            {pastBookings.map((booking, idx) => (
-                                <Col md={6} lg={4} key={booking.bookingId || idx}>
-                                    <Card className="shadow-sm h-100">
-                                        <Card.Img
-                                            variant="top"
-                                            src={booking.property?.image?.url || "/default-property.jpg"}
-                                            style={{ maxHeight: "250px", objectFit: "cover" }}
-                                        />
-                                        <Card.Body>
-                                            <h5 className="mb-2">{booking.property?.title || "No Title"}</h5>
-                                            <p className="text-muted mb-1">
-                                                📍 {booking.property?.location}, {booking.property?.city}
-                                            </p>
-                                            <p>💰 ₹{booking.property?.price}/night</p>
+                                                <p className={styles.propertylocation}>
+                                                    <FaMapMarkerAlt /> {booking.property?.location}, {booking.property?.city}
+                                                </p>
 
-                                            <hr />
-                                            <h6 className="mb-2">📅 Booking Dates</h6>
-                                            <p>
-                                                Check-in:{" "}
-                                                {new Date(booking.bookingDates.checkIn).toLocaleDateString()}
-                                            </p>
-                                            <p>
-                                                Check-out:{" "}
-                                                {new Date(booking.bookingDates.checkOut).toLocaleDateString()}
-                                            </p>
-                                            <p>🛌 Nights: {booking.bookingDates.nights}</p>
+                                                <p className={styles.price}>
+                                                    <FaRupeeSign /> {booking.property?.price}/night
+                                                </p>
 
-                                            <hr />
-                                            <h6 className="mb-2">👤 Guest Info</h6>
-                                            <p>Name: {booking.guest?.name}</p>
-                                            <p>📞 {booking.guest?.phone}</p>
-                                            <p>✉️ {booking.guest?.email}</p>
 
-                                            <hr />
-                                            <h6 className="mb-2">🏠 Host Info</h6>
-                                            <p>Name: {booking.host?.name}</p>
-                                            <p>📞 {booking.host?.phone}</p>
-                                            <p>✉️ {booking.host?.email}</p>
+                                                <hr />
+                                                <h6 className={styles.sectionTitle}>
+                                                    <FaCalendarAlt /> Booking Dates
+                                                </h6>
+                                                <p>Check-in: {new Date(booking.bookingDates.checkIn).toLocaleDateString()}</p>
+                                                <p>Check-out: {new Date(booking.bookingDates.checkOut).toLocaleDateString()}</p>
+                                                <p><FaBed /> Nights: {booking.bookingDates.nights}</p>
 
-                                            <hr />
-                                            <p>💳 Payment Method: {booking.paymentMethod || "N/A"}</p>
-                                            <p>💰 Amount: ₹{booking.property?.totalAmount}</p>
-                                            <Badge bg={booking.paymentDetails.status === "Paid" ? "success" : "warning"}>
-                                                {booking.paymentDetails.status || "Pending"}
-                                            </Badge>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                            ))}
-                        </Row>
-                    )}
-                </>
-            )}
-        </Container>
+
+                                                <hr />
+                                                <h6 className={styles.sectionTitle}><FaUser /> Guest Info</h6>
+                                                <p><FaUser /> {booking.guest?.name}</p>
+                                                <p><FaPhoneAlt /> {booking.guest?.phone}</p>
+                                                <p><FaEnvelope /> {booking.guest?.email}</p>
+
+                                                <hr />
+
+                                                <h6 className={styles.sectionTitle}><FaHome /> Host Info</h6>
+                                                <p><FaUser /> {booking.host?.name}</p>
+                                                <p><FaPhoneAlt /> {booking.host?.phone}</p>
+                                                <p><FaEnvelope /> {booking.host?.email}</p>
+
+
+                                                <hr />
+                                                <p className={styles.payment}>
+                                                    <FaMoneyBillWave /> {booking.paymentMethod || "N/A"}
+                                                </p>
+                                                <p>💰 Amount: ₹{booking.property?.totalAmount}</p>
+                                                <Badge
+                                                    bg={booking.paymentDetails?.status === "Paid" ? "success" : "warning"}
+                                                    className={styles.statusBadge}
+                                                >
+                                                    {booking.paymentDetails?.status || "Pending"}
+                                                </Badge>
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                ))}
+                            </Row>
+                        )}
+                    </>
+                )}
+            </Container>
+        </div>
     );
 };
 

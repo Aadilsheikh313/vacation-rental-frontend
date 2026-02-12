@@ -1,26 +1,60 @@
-import React from "react";
-import { Button, ButtonGroup } from "react-bootstrap";
+import React, { useState } from "react";
+import styles from "../adminStylesModule/adminDash.module.css";
 
 const CustomButtonTop = ({ onSelectView }) => {
+  const [active, setActive] = useState("all");
+
+  const handleClick = (view) => {
+    setActive(view);
+    onSelectView(view);
+  };
+
   return (
-    <div className="container">
-      <div className="d-flex flex-column flex-md-row justify-content-center align-items-center gap-2 my-3 flex-wrap">
-        <Button variant="primary" onClick={() => onSelectView("all")}>
-          All Property
-        </Button>
-        <Button variant="success" onClick={() => onSelectView("active")}>
-          Active Booking Property
-        </Button>
-        <Button variant="danger" onClick={() => onSelectView("cancelled")}>
-          Cancelled Property
-        </Button>
-        <Button variant="warning" onClick={() => onSelectView("upcoming")}>
-          Upcoming Booking Property
-        </Button>
-        <Button variant="info" onClick={() => onSelectView("pastbooking")}>
-          Past Booking Property
-        </Button>
-      </div>
+    <div className={styles.adminButtonBar}>
+      <button
+        className={`${styles.filterBtn} ${
+          active === "all" ? styles.activeBtn : ""
+        }`}
+        onClick={() => handleClick("all")}
+      >
+        All Properties
+      </button>
+
+      <button
+        className={`${styles.filterBtn} ${
+          active === "active" ? styles.activeBtn : ""
+        }`}
+        onClick={() => handleClick("active")}
+      >
+        Active
+      </button>
+
+      <button
+        className={`${styles.filterBtn} ${
+          active === "cancelled" ? styles.activeBtn : ""
+        }`}
+        onClick={() => handleClick("cancelled")}
+      >
+        Cancelled
+      </button>
+
+      <button
+        className={`${styles.filterBtn} ${
+          active === "upcoming" ? styles.activeBtn : ""
+        }`}
+        onClick={() => handleClick("upcoming")}
+      >
+        Upcoming
+      </button>
+
+      <button
+        className={`${styles.filterBtn} ${
+          active === "pastbooking" ? styles.activeBtn : ""
+        }`}
+        onClick={() => handleClick("pastbooking")}
+      >
+        Past
+      </button>
     </div>
   );
 };

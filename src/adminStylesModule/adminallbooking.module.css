@@ -1,0 +1,127 @@
+/* ================= WRAPPER ================= */
+.AdminAllBookingConatiner {
+  margin-top: 20px;
+}
+
+/* ================= GRID ================= */
+.rowbookingcard {
+  row-gap: 24px;
+}
+
+/* ================= CARD ================= */
+.bookingcard {
+  border-radius: 18px;
+  overflow: hidden;
+  background: #020617;
+  color: #e5e7eb;
+  border: 1px solid #1e293b;
+  transition: all 0.3s ease;
+}
+
+.bookingcard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
+}
+
+/* ================= IMAGE ================= */
+.imagecard {
+  height: 220px;
+  object-fit: cover;
+}
+
+/* ================= CARD BODY ================= */
+.cardBody {
+  padding: 16px;
+}
+
+/* ================= TITLE ================= */
+.propertyTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+}
+
+/* ================= LOCATION ================= */
+.location {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ================= PRICE ================= */
+.price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #22c55e;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ================= DIVIDER ================= */
+.divider {
+  height: 1px;
+  background: #1e293b;
+  margin: 12px 0;
+}
+
+/* ================= INFO ROW ================= */
+.infoRow {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #e5e7eb;
+}
+
+/* ================= PAYMENT ================= */
+.paymentRow {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #38bdf8;
+  margin-bottom: 8px;
+}
+
+/* ================= BADGE ================= */
+.statusBadge {
+  font-size: 0.75rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+/* ================= LOADING ================= */
+.loadingContainer {
+  min-height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingText {
+  margin-top: 10px;
+  color: #94a3b8;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .imagecard {
+    height: 180px;
+  }
+
+  .propertyTitle {
+    font-size: 1rem;
+  }
+
+  .infoRow,
+  .paymentRow {
+    font-size: 0.85rem;
+  }
+}

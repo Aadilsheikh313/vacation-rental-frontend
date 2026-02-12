@@ -75,7 +75,7 @@ const adminDashboardSlice = createSlice({
       .addCase(getAdminAllCancelBookingPosts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.cancelBooking = action.payload.cancelBooking || [];
+        state.cancelBooking = action.payload.cancelledBookings || [];
         state.cancelBookingCount = action.payload.cancelledBookings?.length || 0;
         state.message = "Cancelled bookings fetched.";
       })

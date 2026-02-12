@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllHostRegister } from "../../config/redux/action/adminHostAction";
 import { resetAdminHostState } from "../../config/redux/reducer/adminHostReducer";
-import styles from "../../adminStylesModule/adminGetAllHost.module.css";
-import { Spinner } from "react-bootstrap";
 import AdminBannedUserModal from "../BannedUser/AdminBannedUserModal";
 import AdminTogglePropertyModal from "../BannedProprty/AdminBanPropertyModel";
 import ProfileModel from "./HostProfileDetials";
 import { FaEye, FaEyeDropper } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import CustomSpinner from "../../comman/Spinner";
+import styles from "../../adminStylesModule/Host/getallHost.module.css";
 
 const AdminGetAllHost = () => {
     const dispatch = useDispatch();
@@ -102,23 +102,25 @@ const AdminGetAllHost = () => {
 
 
     return (
-        <div className="p-4">
-            <h2 className="text-xl font-bold mb-4">All Registered Hosts: {allHosts.length}</h2>
+        <div className={styles.GetallHostConatiner}>
+            <div className={styles.tableWrapper}>
 
-            {isLoading && (
-                <div className="text-center my-4">
-                    <Spinner animation="border" variant="primary" />
-                    <p>Loading...</p>
-                </div>
-            )}
+                <h2 className={styles.heading}>All Registered Hosts : {allHosts.length}</h2>
 
-            {isError && <p className="text-red-500">Error: {message}</p>}
-            {isSuccess && allHosts.length === 0 && (
-                <p className="text-gray-600">No hosts found.</p>
-            )}
+                {isLoading && (
+                    <div >
+                        <CustomSpinner />
+                        <p>Loading...</p>
+                    </div>
+                )}
 
-            {!isLoading && allHosts.length > 0 && (
-                <div className={styles.tableWrapper}>
+                {isError && <p className="text-red-500">Error: {message}</p>}
+                {isSuccess && allHosts.length === 0 && (
+                    <p className="text-gray-600">No hosts found.</p>
+                )}
+
+                {!isLoading && allHosts.length > 0 && (
+
                     <table className={styles.table}>
                         <thead>
                             <tr>
@@ -143,18 +145,22 @@ const AdminGetAllHost = () => {
                                     <td>{host?.user?.email || "N/A"}</td>
                                     <td>{host?.user?.phone || "N/A"}</td>
                                     <td>{host?.user?.createdAt ? new Date(host.user.createdAt).toLocaleDateString() : "N/A"}</td>
-                                    <td
-                                        className="text-center">{host.propertyCount}
+                                    <td className={styles.propertyCountCell}>
+                                        <span className={styles.propertyCount}>
+                                            {host.propertyCount}
+                                        </span>
+
                                         <button
                                             onClick={() => handleViewProperties(host)}
                                             className={styles.viewButton}
                                         >
-                                            View
+                                            Property
                                         </button>
                                     </td>
+
                                     <td className="text-center">
                                         <button
-                                            className={styles.viewButton}
+                                            className={styles.profileButton}
                                             onClick={() => {
                                                 setSelectedHost(host);
                                                 setHostProfile(true);
@@ -164,208 +170,219 @@ const AdminGetAllHost = () => {
                                         </button>
                                     </td>
 
+
                                     <td className="text-center">
                                         {host.user ? (
-                                            <button
+                                            <span
+                                                className={`${styles.statusBadge} ${host.isBanned
+                                                    ? styles.statusBanned
+                                                    : styles.statusActive
+                                                    }`}
                                                 onClick={() => {
                                                     setSelectedUserId(host.user._id);
                                                     setBanModalOpen(true);
                                                     setIsBanned(host.isBanned || false);
                                                 }}
-                                                className="btn btn-sm btn-warning"
                                             >
                                                 {host.isBanned ? "Banned" : "Active"}
-                                            </button>
+                                            </span>
                                         ) : (
-                                            <span className="text-gray-400">No user</span>
+                                            <span className={styles.statusMuted}>No user</span>
                                         )}
-
                                     </td>
+
                                     <td>
                                         <button
                                             onClick={() => handleViewAdminDetails(host)}
-                                            className={styles.viewButton}
+                                            className={`${styles.statusBadge} ${host.verificationStatus === "Verified"
+                                                ? styles.statusVerified
+                                                : host.verificationStatus === "Reverified"
+                                                    ? styles.statusReverified
+                                                    : host.verificationStatus === "Rejected"
+                                                        ? styles.statusRejected
+                                                        : styles.statusPending
+                                                }`}
                                         >
                                             {host.verificationStatus}
                                         </button>
                                     </td>
+
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                </div>
 
-            )}
+                )}
 
-            {banModalOpen && selectedUserId && (
-                <AdminBannedUserModal
-                    userId={selectedUserId}
-                    isBanned={isBanned} // <-- pass here
-                    onClose={() => {
-                        setBanModalOpen(false);
-                        setSelectedUserId(null);
-                    }}
-                />
-            )}
-
-
-            {/* Modal */}
-            {isModalOpen && selectedHost && (
-                <div className={`${styles.modalBackdrop}`}>
-                    <div className={`${styles.modalCard} animate-slide-up`}>
-                        <button
-                            onClick={handleCloseModal}
-                            className={styles.closeButton}
-                        >
-                            &times;
-                        </button>
-                        <h3 className={styles.modalTitle}>
-                            Properties of {selectedHost?.user?.name}
-                        </h3>
-
-                        {selectedHost?.properties?.length > 0 ? (
-                            <div className={styles.cardGrid}>
-                                {selectedHost.properties.map((property, idx) => (
-                                    <div key={property._id || idx} className={styles.card}>
-                                        <img
-                                            src={property.image?.url}
-                                            alt="property"
-                                            className={styles.cardImage}
-                                        />
-                                        <div className={styles.cardContent}>
-                                            <h4>{property.title}</h4>
-                                            <p>{property.location}</p>
-                                            <p>₹{property.price}</p>
-                                            <p className={styles.postedDate}>
-                                                Posted on: {new Date(property.propertyPostedOn).toLocaleDateString()}
-                                            </p>
-                                            <p>{property.expired}</p>
-                                        </div>
-                                        <div className={styles.cardActions}>
-                                            <button
-                                                onClick={() => {
-                                                    setSelectedProperty(property);
-                                                    setPropertyActionModalOpen(true);
-                                                }}
-                                                className={styles.actionButton}
-                                            >
-                                                {property.expired ? "Inactive" : "Active"}
-                                            </button>
-                                            <button
-                                                className={styles.viewDetailsButton}
-                                            >
-                                                <Link to={`/admin/property/${property._id}`} >
-                                                    <FaEye />  View Details
-                                                </Link>
-                                                
-                                            </button>
-                                        </div>
-
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <p className={styles.noPropertyText}>No properties found for this host.</p>
-                        )}
-                    </div>
-                </div>
-            )}
-
-
-            {propertyActionModalOpen && selectedProperty && (
-                <div style={{
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    zIndex: 9999
-                }}>
-                    <AdminTogglePropertyModal
-                        property={selectedProperty}
+                {banModalOpen && selectedUserId && (
+                    <AdminBannedUserModal
+                        userId={selectedUserId}
+                        isBanned={isBanned} // <-- pass here
                         onClose={() => {
-                            setPropertyActionModalOpen(false);
-                            setSelectedProperty(null);
+                            setBanModalOpen(false);
+                            setSelectedUserId(null);
                         }}
                     />
-                </div>
-            )}
+                )}
 
 
-            {hostProfile && selectedHost && (
-                <div className={styles.modalBackdrop}>
-                    <div className={`${styles.modalCard} animate-slide-up`}>
-                        <button
-                            onClick={() => setHostProfile(false)}
-                            className={styles.closeButton}
-                        >
-                            &times;
-                        </button>
-                        <ProfileModel user={selectedHost.user} host={selectedHost} userId={selectedHost.user._id} />
+                {/* Modal */}
+                {isModalOpen && selectedHost && (
+                    <div className={`${styles.modalBackdrop}`}>
+                        <div className={`${styles.modalCard} animate-slide-up`}>
+                            <button
+                                onClick={handleCloseModal}
+                                className={styles.closeButton}
+                            >
+                                &times;
+                            </button>
+                            <h3 className={styles.modalTitle}>
+                                Properties of {selectedHost?.user?.name}
+                            </h3>
+
+                            {selectedHost?.properties?.length > 0 ? (
+                                <div className={styles.cardGrid}>
+                                    {selectedHost.properties.map((property, idx) => (
+                                        <div key={property._id || idx} className={styles.card}>
+                                            <img
+                                                src={property.image?.url}
+                                                alt="property"
+                                                className={styles.cardImage}
+                                            />
+                                            <div className={styles.cardContent}>
+                                                <h4>{property.title}</h4>
+                                                <p>{property.location}</p>
+                                                <p>₹{property.price}</p>
+                                                <p className={styles.postedDate}>
+                                                    Posted on: {new Date(property.propertyPostedOn).toLocaleDateString()}
+                                                </p>
+                                                <p>{property.expired}</p>
+                                            </div>
+                                            <div className={styles.cardActions}>
+                                                <button
+                                                    onClick={() => {
+                                                        setSelectedProperty(property);
+                                                        setPropertyActionModalOpen(true);
+                                                    }}
+                                                    className={styles.actionButton}
+                                                >
+                                                    {property.expired ? "Inactive" : "Active"}
+                                                </button>
+                                                <button
+                                                    className={styles.viewDetailsButton}
+                                                >
+                                                    <Link to={`/admin/property/${property._id}`} >
+                                                        <FaEye />  View Details
+                                                    </Link>
+
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className={styles.noPropertyText}>No properties found for this host.</p>
+                            )}
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
 
-            {/* 🔹 Admin Details Modal */}
-            {adminModal && adminDetails && (
-                <div className={styles.modalBackdrop}>
-                    <div className={`${styles.modalCard} animate-slide-up`}>
-                        <button
-                            onClick={() => setAdminModal(false)}
-                            className={styles.closeButton}
-                        >
-                            &times;
-                        </button>
 
-                        <h3 className="text-center mb-3">🛠 Host Verification History</h3>
-
-                        {adminDetails.applied && (
-                            <>
-                                <h5>📤 Applied</h5>
-                                <p><strong>Date:</strong> {adminDetails.applied.date}</p>
-                                <p><strong>Note:</strong> {adminDetails.applied.note}</p>
-                                <hr />
-                            </>
-                        )}
-
-                        {adminDetails.verified && (
-                            <>
-                                <h5>✅ Verified By</h5>
-                                <p><strong>Name:</strong> {adminDetails.verified.admin?.name}</p>
-                                <p><strong>Email:</strong> {adminDetails.verified.admin?.email}</p>
-                                <p><strong>Phone:</strong> {adminDetails.verified.admin?.phone}</p>
-                                <p><strong>Date:</strong> {adminDetails.verified.date}</p>
-                                <p><strong>Note:</strong> {adminDetails.verified.note}</p>
-                                <hr />
-                            </>
-                        )}
-
-                        {adminDetails.rejected && (
-                            <>
-                                <h5>❌ Rejected By</h5>
-                                <p><strong>Name:</strong> {adminDetails.rejected.admin?.name}</p>
-                                <p><strong>Email:</strong> {adminDetails.rejected.admin?.email}</p>
-                                <p><strong>Phone:</strong> {adminDetails.rejected.admin?.phone}</p>
-                                <p><strong>Date:</strong> {adminDetails.rejected.date}</p>
-                                <p><strong>Reason:</strong> {adminDetails.rejected.note}</p>
-                                <hr />
-                            </>
-                        )}
-
-                        {adminDetails.reverified && (
-                            <>
-                                <h5>🔁 Reverified By</h5>
-                                <p><strong>Name:</strong> {adminDetails.reverified.admin?.name}</p>
-                                <p><strong>Email:</strong> {adminDetails.reverified.admin?.email}</p>
-                                <p><strong>Phone:</strong> {adminDetails.reverified.admin?.phone}</p>
-                                <p><strong>Date:</strong> {adminDetails.reverified.date}</p>
-                                <p><strong>Note:</strong> {adminDetails.reverified.note}</p>
-                            </>
-                        )}
+                {propertyActionModalOpen && selectedProperty && (
+                    <div style={{
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        zIndex: 9999
+                    }}>
+                        <AdminTogglePropertyModal
+                            property={selectedProperty}
+                            onClose={() => {
+                                setPropertyActionModalOpen(false);
+                                setSelectedProperty(null);
+                            }}
+                        />
                     </div>
-                </div>
-            )}
+                )}
 
+
+                {hostProfile && selectedHost && (
+                    <div className={styles.modalBackdrop}>
+                        <div className={`${styles.modalCard} animate-slide-up`}>
+                            <button
+                                onClick={() => setHostProfile(false)}
+                                className={styles.closeButton}
+                            >
+                                &times;
+                            </button>
+                            <ProfileModel user={selectedHost.user} host={selectedHost} userId={selectedHost.user._id} />
+                        </div>
+                    </div>
+                )}
+
+                {/* 🔹 Admin Details Modal */}
+                {adminModal && adminDetails && (
+                    <div className={styles.modalBackdrop}>
+                        <div className={`${styles.modalCard} animate-slide-up`}>
+                            <button
+                                onClick={() => setAdminModal(false)}
+                                className={styles.closeButton}
+                            >
+                                &times;
+                            </button>
+
+                            <h3 className="text-center mb-3">🛠 Host Verification History</h3>
+
+                            {adminDetails.applied && (
+                                <>
+                                    <h5>📤 Applied</h5>
+                                    <p><strong>Date:</strong> {adminDetails.applied.date}</p>
+                                    <p><strong>Note:</strong> {adminDetails.applied.note}</p>
+                                    <hr />
+                                </>
+                            )}
+
+                            {adminDetails.verified && (
+                                <>
+                                    <h5>✅ Verified By</h5>
+                                    <p><strong>Name:</strong> {adminDetails.verified.admin?.name}</p>
+                                    <p><strong>Email:</strong> {adminDetails.verified.admin?.email}</p>
+                                    <p><strong>Phone:</strong> {adminDetails.verified.admin?.phone}</p>
+                                    <p><strong>Date:</strong> {adminDetails.verified.date}</p>
+                                    <p><strong>Note:</strong> {adminDetails.verified.note}</p>
+                                    <hr />
+                                </>
+                            )}
+
+                            {adminDetails.rejected && (
+                                <>
+                                    <h5>❌ Rejected By</h5>
+                                    <p><strong>Name:</strong> {adminDetails.rejected.admin?.name}</p>
+                                    <p><strong>Email:</strong> {adminDetails.rejected.admin?.email}</p>
+                                    <p><strong>Phone:</strong> {adminDetails.rejected.admin?.phone}</p>
+                                    <p><strong>Date:</strong> {adminDetails.rejected.date}</p>
+                                    <p><strong>Reason:</strong> {adminDetails.rejected.note}</p>
+                                    <hr />
+                                </>
+                            )}
+
+                            {adminDetails.reverified && (
+                                <>
+                                    <h5>🔁 Reverified By</h5>
+                                    <p><strong>Name:</strong> {adminDetails.reverified.admin?.name}</p>
+                                    <p><strong>Email:</strong> {adminDetails.reverified.admin?.email}</p>
+                                    <p><strong>Phone:</strong> {adminDetails.reverified.admin?.phone}</p>
+                                    <p><strong>Date:</strong> {adminDetails.reverified.date}</p>
+                                    <p><strong>Note:</strong> {adminDetails.reverified.note}</p>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "../../adminStylesModule/adminGetAllGuest.module.css";
+import styles from "../../adminStylesModule/Host/adminGetAllHost.module.css";
 import { Card, Spinner } from "react-bootstrap";
 import AdminBannedUserModal from "../BannedUser/AdminBannedUserModal";
 import { resetAdminGuesttState } from "../../config/redux/reducer/adminGuestReducer";

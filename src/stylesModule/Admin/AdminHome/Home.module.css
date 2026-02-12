@@ -1,7 +1,13 @@
+.pageWrapper {
+  min-height: 100vh;         
+  width: 100%;
+  background: #0f172a;     
+}
+
+
 .page {
   padding-top: 30px;
-  background: #0f172a;
-  color: #020617;
+  color: #ffffff;
 }
 
 .pageTitle {
@@ -394,12 +400,14 @@
   .reviewHeading {
     font-size: 1.15rem;
   }
-   .reviewHeadingIcon{
+
+  .reviewHeadingIcon {
     font-size: 2rem;
-   }
+  }
+
   .reviewTitleDesktop {
     font-size: 1.3rem;
-    
+
   }
 
   .reviewComment {
@@ -471,10 +479,12 @@
   border-radius: 8px;
   border: 5px solid #4caf50;
 }
+
 .visiblereviewBTHS:hover {
   transform: translateY(-3px);
   background: #f10909;
 }
+
 .visiblereviewBTH {
   background: #f10909;
   font-size: 1.5rem;

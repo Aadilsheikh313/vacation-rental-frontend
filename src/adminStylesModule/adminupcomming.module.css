@@ -1,0 +1,165 @@
+/* ================= WRAPPER ================= */
+
+.upcomingBookingWrapper {
+  min-height: 100vh;
+  background: #0f172a;
+  padding: 20px;
+}
+
+.upcomingBookingContainer {
+  max-width: 1400px;
+}
+
+/* ================= HEADING ================= */
+
+.upcomingBookingHeading {
+  text-align: center;
+  font-weight: 700;
+  color: #38bdf8;
+  margin-bottom: 24px;
+}
+
+/* ================= SUMMARY CARD ================= */
+
+.summaryCard {
+  max-width: 420px;
+  margin: auto;
+  background: linear-gradient(135deg, #1e293b, #020617);
+  border-left: 6px solid #38bdf8;
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+
+.summaryCardHeading {
+  color: #ffffff;
+  font-weight: 600;
+  text-align: center;
+}
+
+.summaryCardSubheading {
+  color: #94a3b8;
+  text-align: center;
+}
+
+/* ================= BOOKING GRID ================= */
+
+.bookingRow {
+  margin-top: 30px;
+}
+
+/* ================= BOOKING CARD ================= */
+
+.bookingCard {
+  background: #020617;
+  color: #e5e7eb;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #1e293b;
+  transition: all 0.3s ease;
+}
+
+.bookingCard:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+}
+
+/* ================= IMAGE ================= */
+
+.bookingImage {
+  height: 220px;
+  object-fit: cover;
+}
+
+/* ================= TEXT ================= */
+
+.propertyTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #ffffff;
+}
+
+.propertyLocation {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.price {
+  font-weight: 600;
+  color: #22c55e;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.sectionTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #38bdf8;
+  margin-bottom: 4px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.payment {
+  font-weight: 500;
+  color: #ffffff;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* ================= BADGE ================= */
+
+.statusBadge {
+  margin-top: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 992px) {
+  .bookingImage {
+    height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .upcomingBookingHeading {
+    font-size: 1.3rem;
+  }
+
+  .summaryCard {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .bookingImage {
+    height: 180px;
+  }
+
+  .propertyTitle {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .bookingImage {
+    height: 160px;
+  }
+
+  .statusBadge {
+    width: 100%;
+    justify-content: center;
+  }
+}

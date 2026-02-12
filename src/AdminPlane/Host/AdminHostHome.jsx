@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Card, Button, Row, Col, Container } from "react-bootstrap";
+import React from "react";
+import {  Container } from "react-bootstrap";
 import AdminButtonTop from "./AdminTopButton";
 import { useState } from "react";
 import AdminGetAllHost from "./AdminGetAllHosts";
@@ -11,12 +10,13 @@ import AdminGetLogoutAllHost from "./AdminGetLogoutHosts";
 import AdminGetBannedAllHost from "./AdminGetBannedHosts";
 import GetAllVerifyHost from "./AdminGetAllVerify";
 import GetAllRejectedHost from "./AdminGetAllReject";
+import styles from "../../adminStylesModule/Host/topButton.module.css"
 
 const AdminHostHome = () => {
   const [selectedView, setSelectedView] = useState("all");
 
   return (
-    <Container className="py-4">
+    <Container className={styles.adminHostTopButtonContainer}>
 
       <AdminButtonTop onSelectView={setSelectedView} />
 
@@ -33,4 +33,6 @@ const AdminHostHome = () => {
   );
 };
 
-export default AdminHostHome;
+ export default AdminHostHome;
+
+ 

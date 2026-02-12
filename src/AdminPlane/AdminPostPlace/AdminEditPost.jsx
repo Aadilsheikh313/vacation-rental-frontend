@@ -5,6 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { resetadminEditPost } from "../../config/redux/reducer/adminPostReducer";
 import { admineditPosts, getSinglePostAdmin } from "../../config/redux/action/adminPostAction";
 import { showSuccess } from "../../utils/toastUtils";
+import styles from "../../adminStylesModule/adminEditPost.module.css";
+import CustomSpinner from "../../comman/Spinner";
 
 const AdminEditPost = () => {
     const { id } = useParams();
@@ -108,8 +110,8 @@ const AdminEditPost = () => {
 
     if (isLoading && !admineditPost) {
         return (
-            <Container className="text-center mt-5">
-                <Spinner animation="border" variant="primary" />
+            <Container >
+                <CustomSpinner />
                 <p>Loading post details...</p>
             </Container>
         );
@@ -124,166 +126,168 @@ const AdminEditPost = () => {
     }
 
     return (
-        <Container className="mt-4">
-            <Card className="shadow p-4">
-                <h3 className="mb-4 text-center">Edit Post</h3>
-                <Form onSubmit={handleSubmit}>
-                    {/* Title */}
-                    <Form.Group className="mb-3">
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="title"
-                            value={formData.title}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
+        <div className={styles.adminEditPostContainer}>
+            <Container className={styles.adminEditPostContent}>
+                <Card className={styles.adminEditPostCard}>
+                    <h3 className={styles.adminEditPostTitle}>Edit Post</h3>
+                    <Form onSubmit={handleSubmit}>
+                        {/* Title */}
+                        <Form.Group className={styles.formGroup}>
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="title"
+                                value={formData.title}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
 
-                    {/* Description */}
-                    <Form.Group className="mb-3">
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control
-                            as="textarea"
-                            name="description"
-                            rows={3}
-                            value={formData.description}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
+                        {/* Description */}
+                        <Form.Group className={styles.formGroup}>
+                            <Form.Label>Description</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                name="description"
+                                rows={3}
+                                value={formData.description}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
 
-                    {/* Subcategory */}
-                    <Form.Group className="mb-3">
-                        <Form.Label>Subcategory</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="subcategory"
-                            value={formData.subcategory}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
+                        {/* Subcategory */}
+                        <Form.Group className={styles.formGroup}>
+                            <Form.Label>Subcategory</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="subcategory"
+                                value={formData.subcategory}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
 
-                    {/* Category */}
-                    <Form.Group className="mb-3">
-                        <Form.Label>Category</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="category"
-                            value={formData.category}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
+                        {/* Category */}
+                        <Form.Group className={styles.formGroup}>
+                            <Form.Label>Category</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="category"
+                                value={formData.category}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
 
-                    {/* Country */}
-                    <Form.Group className="mb-3">
-                        <Form.Label>Country</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="country"
-                            value={formData.country}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
+                        {/* Country */}
+                        <Form.Group className={styles.formGroup}>
+                            <Form.Label>Country</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="country"
+                                value={formData.country}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
 
-                    {/* City */}
-                    <Form.Group className="mb-3">
-                        <Form.Label>City</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="city"
-                            value={formData.city}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
+                        {/* City */}
+                        <Form.Group className={styles.formGroup}>
+                            <Form.Label>City</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="city"
+                                value={formData.city}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
 
-                    {/* Location */}
-                    <Form.Group className="mb-3">
-                        <Form.Label>Location</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="location"
-                            value={formData.location}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
+                        {/* Location */}
+                        <Form.Group className={styles.formGroup}>
+                            <Form.Label>Location</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="location"
+                                value={formData.location}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
 
-                    {/* Best Time To Visit */}
-                    <Form.Group className="mb-3">
-                        <Form.Label>Best Time To Visit</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="bestTimeToVisit"
-                            value={formData.bestTimeToVisit}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
+                        {/* Best Time To Visit */}
+                        <Form.Group className={styles.formGroup}>
+                            <Form.Label>Best Time To Visit</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="bestTimeToVisit"
+                                value={formData.bestTimeToVisit}
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
 
-                    {/* History */}
-                    <Form.Group className="mb-3">
-                        <Form.Label>History</Form.Label>
-                        <Form.Control
-                            as="textarea"
-                            name="history"
-                            rows={2}
-                            value={formData.history}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
+                        {/* History */}
+                        <Form.Group className={styles.formGroup}>
+                            <Form.Label>History</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                name="history"
+                                rows={2}
+                                value={formData.history}
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
 
-                    {/* Tips */}
-                    <Form.Group className="mb-3">
-                        <Form.Label>Tips (comma separated)</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="tips"
-                            value={formData.tips}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
+                        {/* Tips */}
+                        <Form.Group className={styles.formGroup}>
+                            <Form.Label>Tips (comma separated)</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="tips"
+                                value={formData.tips}
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
 
-                    {/* Approval */}
-                    <Form.Group className="mb-3">
-                        <Form.Check
-                            type="checkbox"
-                            name="isApproved"
-                            checked={formData.isApproved}
-                            onChange={handleChange}
-                            label="Approved"
-                        />
-                    </Form.Group>
+                        {/* Approval */}
+                        <Form.Group className={styles.formGroup}>
+                            <Form.Check
+                                type="checkbox"
+                                name="isApproved"
+                                checked={formData.isApproved}
+                                onChange={handleChange}
+                                label="Approved"
+                            />
+                        </Form.Group>
 
-                    {/* Image */}
-                    <Form.Group className="mb-3">
-                        <Form.Label>Image</Form.Label>
-                        <Form.Control type="file" name="image" onChange={handleChange} />
-                        {singleAdminPost?.images?.[0]?.url && (
-                            <div className="mt-2">
-                                <img
-                                    src={singleAdminPost.images[0].url}
-                                    alt="Post"
-                                    style={{ width: "150px", borderRadius: "8px" }}
-                                />
-                            </div>
-                        )}
-                    </Form.Group>
+                        {/* Image */}
+                        <Form.Group className={styles.formGroup}>
+                            <Form.Label>Image</Form.Label>
+                            <Form.Control type="file" name="image" onChange={handleChange} />
+                            {singleAdminPost?.images?.[0]?.url && (
+                                <div className="mt-2">
+                                    <img
+                                        src={singleAdminPost.images[0].url}
+                                        alt="Post"
+                                        className={styles.previewImage}
+                                    />
+                                </div>
+                            )}
+                        </Form.Group>
 
-                    <div className="d-flex justify-content-between">
-                        <Button variant="secondary" onClick={() => navigate(-1)}>
-                            Cancel
-                        </Button>
-                        <Button variant="primary" type="submit" disabled={isLoading}>
-                            {isLoading ? <Spinner size="sm" animation="border" /> : "Update Post"}
-                        </Button>
-                    </div>
-                </Form>
-            </Card>
-        </Container>
+                        <div className={styles.buttonGroup}>
+                            <Button className={styles.cancelButton} onClick={() => navigate(-1)}>
+                                Cancel
+                            </Button>
+                            <Button className={styles.updateButton} type="submit" disabled={isLoading}>
+                                {isLoading ? <CustomSpinner /> : "Update Post"}
+                            </Button>
+                        </div>
+                    </Form>
+                </Card>
+            </Container>
+        </div>
     );
 };
 

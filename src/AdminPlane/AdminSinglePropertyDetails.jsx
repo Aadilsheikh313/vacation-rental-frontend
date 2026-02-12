@@ -126,7 +126,8 @@ const AdminSinglePropertyDetails = () => {
 
 
   return (
-    <Container className={styles.page}>
+    <div className={styles.pageWrapper}>
+    <Container fluid className={styles.page}>
       <h2 className={styles.pageTitle}>🏡 Property Details</h2>
 
       <Card className={styles.propertyCard}>
@@ -500,6 +501,7 @@ const AdminSinglePropertyDetails = () => {
 
       </div>
     </Container>
+    </div>
   );
 };
 

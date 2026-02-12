@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "../../adminStylesModule/adminGetAllHost.module.css";
-import { Card, Spinner, Modal, Button } from "react-bootstrap";
+import styles from "../../adminStylesModule/Host/adminGetAllHost.module.css";
+import { Card } from "react-bootstrap";
 import {
     GetAllHostPendingAction,
 } from "../../config/redux/action/adminVerifedHostAction";
 import { resetPending } from "../../config/redux/reducer/adminVerifedHostReducer";
 import ProfileModel from "./HostProfileDetials";
+import CustomSpinner from "../../comman/Spinner";
 
 const AdminGetNewAllHost = () => {
     const dispatch = useDispatch();
@@ -36,25 +37,24 @@ const AdminGetNewAllHost = () => {
     };
 
     return (
-        <div className="p-4">
-            <Card className="mb-4 shadow-sm">
+        <div className={styles.GetallHostConatiner}>
+            <Card className={styles.summaryCard}>
                 <Card.Body>
-                    <Card.Title>Total Pending Registered Hosts</Card.Title>
-                    <Card.Text className="fw-bold text-primary">{TotalPending}</Card.Text>
+                    <h5>Total Pending Registered Hosts : <span className={styles.totalPendingCount}>{TotalPending}</span></h5>
                 </Card.Body>
             </Card>
 
             {isLoading && (
-                <div className="text-center my-4">
-                    <Spinner animation="border" variant="primary" />
+                <div >
+                    <CustomSpinner />
                     <p>Loading...</p>
                 </div>
             )}
 
-            {isError && <p className="text-danger">Error: {message}</p>}
+            {isError && <p className={styles.noPendingHostserror}>Error: {message}</p>}
 
             {isSuccess && allPendingHost.length === 0 && (
-                <p className="text-muted">No pending hosts found.</p>
+                <p className={styles.noPendingHosts}>No pending hosts found.</p>
             )}
 
             {!isLoading && allPendingHost.length > 0 && (
@@ -84,7 +84,7 @@ const AdminGetNewAllHost = () => {
                                                 setSelectedHost(host);
                                                 setHostProfileModel(true);
                                             }}
-                                            className={styles.viewButton}
+                                            className={styles.profileButton}
                                         >
                                             View
                                         </button>

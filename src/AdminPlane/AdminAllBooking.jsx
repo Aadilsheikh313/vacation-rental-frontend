@@ -4,6 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Card, Spinner, Alert, Badge } from "react-bootstrap";
 import { getAllAdminBookingPosts } from "../config/redux/action/adminDashboardAction";
 import { resetDashboardState } from "../config/redux/reducer/adminDashboardReducer";
+import styles from "../adminStylesModule/adminallbooking.module.css";
+import CustomSpinner from "../comman/Spinner";
+import {
+  FaUser,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMoneyBillWave,
+  FaMapMarkerAlt,
+  FaHome,
+} from "react-icons/fa";
+import { MdPayments } from "react-icons/md";
+
 
 const AdminAllBooking = () => {
   const dispatch = useDispatch();
@@ -26,9 +38,9 @@ const AdminAllBooking = () => {
 
   if (isLoading)
     return (
-      <div className="text-center my-4">
-        <Spinner animation="border" variant="primary" />
-        <p className="mt-2">Loading bookings...</p>
+      <div className={styles.loadingContainer}>
+        <CustomSpinner />
+        <p className={styles.loadingText}>Loading bookings...</p>
       </div>
     );
 
@@ -43,51 +55,77 @@ const AdminAllBooking = () => {
   }
 
   return (
-    <Row className="gy-4 mt-4">
-      {allBookings.map((booking) => (
-        <Col md={6} lg={4} key={booking._id}>
-          <Card className="shadow-sm h-100">
-            {booking.property?.image?.url ? (
-              <Card.Img
-                variant="top"
-                src={booking.property.image.url}
-                style={{ maxHeight: "300px", objectFit: "cover" }}
-              />
-            ) : (
-              <div
-                style={{
-                  height: "300px",
-                  backgroundColor: "#f5f5f5",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                No Image
-              </div>
-            )}
-            <Card.Body>
-              <h5>{booking.property?.title || "Deleted Property"}</h5>
-              <p>
-                📍 {booking.property?.location}, {booking.property?.city}
-              </p>
-              <p>💰 ₹{booking.property?.price}</p>
-              <hr />
-              <p>👤 Guest: {booking.user?.name}</p>
-              <p>📞 {booking.user?.phone}</p>
-              <p>✉️ {booking.user?.email}</p>
-              <hr />
-              <p>💳 Payment: {booking.paymentMethod}</p>
-              <Badge
-                bg={booking.paymentStatus === "paid" ? "success" : "warning"}
-              >
-                {booking.paymentStatus}
-              </Badge>
-            </Card.Body>
-          </Card>
-        </Col>
-      ))}
-    </Row>
+    <div className={styles.AdminAllBookingConatiner}>
+      <Row className={styles.rowbookingcard}>
+        {allBookings.map((booking) => (
+          <Col md={6} lg={4} key={booking._id}>
+            <Card className={styles.bookingcard}>
+              {booking.property?.image?.url ? (
+                <Card.Img
+                  className={styles.imagecard}
+                  variant="top"
+                  src={booking.property.image.url}
+                />
+              ) : (
+                <div
+                  style={{
+                    height: "300px",
+                    backgroundColor: "#f5f5f5",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  No Image
+                </div>
+              )}
+              <Card.Body className={styles.cardBody}>
+                <h5 className={styles.propertyTitle}>
+                  <FaHome /> {booking.property?.title || "Deleted Property"}
+                </h5>
+
+                <p className={styles.location}>
+                  <FaMapMarkerAlt /> {booking.property?.location},{" "}
+                  {booking.property?.city}
+                </p>
+
+                <p className={styles.price}>
+                  <FaMoneyBillWave /> ₹{booking.property?.price}
+                </p>
+
+                <div className={styles.divider}></div>
+
+                <p className={styles.infoRow}>
+                  <FaUser /> <span>{booking.user?.name}</span>
+                </p>
+
+                <p className={styles.infoRow}>
+                  <FaPhoneAlt /> <span>{booking.user?.phone}</span>
+                </p>
+
+                <p className={styles.infoRow}>
+                  <FaEnvelope /> <span>{booking.user?.email}</span>
+                </p>
+
+                <div className={styles.divider}></div>
+
+                <p className={styles.paymentRow}>
+                  <MdPayments /> {booking.paymentMethod}
+                </p>
+
+                <Badge
+                  className={styles.statusBadge}
+                  bg={booking.paymentStatus === "paid" ? "success" : "warning"}
+                >
+                  {booking.paymentStatus}
+                </Badge>
+              </Card.Body>
+
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </div>
   );
 };
 

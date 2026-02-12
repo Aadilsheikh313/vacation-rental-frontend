@@ -1,36 +1,71 @@
-import React from "react";
-import { Button, ButtonGroup } from "react-bootstrap";
+import React, { useState } from "react";
+import styles from "../../adminStylesModule/Host/topButton.module.css";
 
 const AdminButtonTop = ({ onSelectView }) => {
-  return (
-    <div className="container">
-      <div className="d-flex flex-column flex-md-row justify-content-center align-items-center gap-2 my-3 flex-wrap">
-        <Button variant="primary" onClick={() => onSelectView("all")}>
-          All Host
-        </Button>
-        <Button variant="warning" onClick={() => onSelectView("newRegister")}>
-          All Pending Host
-        </Button>
-        <Button variant="warning" onClick={() => onSelectView("Verify")}>
-          Verify
-        </Button>
-        <Button variant="warning" onClick={() => onSelectView("Reject")}>
-          Reject
-        </Button>
-        <Button variant="success" onClick={() => onSelectView("active")}>
-          Active Host
-        </Button>
-        <Button variant="danger" onClick={() => onSelectView("online")}>
-          Online Host
-        </Button>
+  const [active, setActive] = useState("all");
 
-        <Button variant="info" onClick={() => onSelectView("logout")}>
-          Logout Host
-        </Button>
-        <Button variant="dark" onClick={() => onSelectView("banned")}>
-          Banned Host
-        </Button>
-      </div>
+  const handleClick = (view) => {
+    setActive(view);
+    onSelectView(view);
+  };
+
+  return (
+    <div className={styles.adminButtonBar}>
+      <button
+        className={`${styles.filterBtn} ${active === "all" ? styles.activeBtn : ""}`}
+        onClick={() => handleClick("all")}
+      >
+        All Host
+      </button>
+
+      <button
+        className={`${styles.filterBtn} ${active === "newRegister" ? styles.activeBtn : ""}`}
+        onClick={() => handleClick("newRegister")}
+      >
+        All Pending Host
+      </button>
+
+      <button
+        className={`${styles.filterBtn} ${active === "Verify" ? styles.activeBtn : ""}`}
+        onClick={() => handleClick("Verify")}
+      >
+        Verify
+      </button>
+
+      <button
+        className={`${styles.filterBtn} ${active === "Reject" ? styles.activeBtn : ""}`}
+        onClick={() => handleClick("Reject")}
+      >
+        Reject
+      </button>
+
+      <button
+        className={`${styles.filterBtn} ${active === "active" ? styles.activeBtn : ""}`}
+        onClick={() => handleClick("active")}
+      >
+        Active Host
+      </button>
+
+      <button
+        className={`${styles.filterBtn} ${active === "online" ? styles.activeBtn : ""}`}
+        onClick={() => handleClick("online")}
+      >
+        Online Host
+      </button>
+
+      <button
+        className={`${styles.filterBtn} ${active === "logout" ? styles.activeBtn : ""}`}
+        onClick={() => handleClick("logout")}
+      >
+        Logout Host
+      </button>
+
+      <button
+        className={`${styles.filterBtn} ${active === "banned" ? styles.activeBtn : ""}`}
+        onClick={() => handleClick("banned")}
+      >
+        Banned Host
+      </button>
     </div>
   );
 };

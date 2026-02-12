@@ -1,0 +1,193 @@
+.cencebookingContainer {
+    padding: 20px 30px;
+    background: #0f172a;
+    min-height: 100vh;
+    margin: auto;
+}
+
+.cancelBookingheading {
+    text-align: center;
+    font-weight: 700;
+    color: #dc3545;
+    margin-bottom: 20px;
+}
+
+.totalecountcard {
+    max-width: 400px;
+    margin: auto;
+    border-left: 6px solid #dc3545;
+    background: linear-gradient(135deg, #1e293b, #020617);
+    border-radius: 14px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+
+}
+
+.totalecountcard:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
+}
+
+.count {
+    text-align: center;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.bookingrow {
+    margin-top: 30px;
+}
+
+.bookingCard {
+    background: #020617;
+    color: #e5e7eb;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid #1e293b;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(6px);
+}
+
+.bookingCard:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+}
+
+
+.bookingimage {
+    height: 220px;
+    object-fit: cover;
+}
+
+.propertyTitle {
+    font-size: 1.05rem;
+    font-weight: 700;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    color: #ffffff;
+}
+
+.propertyLocation {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.price {
+    font-weight: 600;
+    color: #198754;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.sectionTitle {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #38bdf8;
+    margin-bottom: 4px;
+}
+
+.payment {
+    font-weight: 500;
+    color: #ffffff;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.statusBadge {
+    margin-top: 8px;
+    padding: 6px 10px;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* ---------- Tablets (<= 992px) ---------- */
+@media (max-width: 992px) {
+  .cencebookingContainer {
+    padding: 16px;
+  }
+
+  .bookingimage {
+    height: 200px;
+  }
+
+  .propertyTitle {
+    font-size: 1rem;
+  }
+
+  .price {
+    font-size: 0.95rem;
+  }
+}
+
+/* ---------- Mobile (<= 768px) ---------- */
+@media (max-width: 768px) {
+  .cancelBookingheading {
+    font-size: 1.3rem;
+  }
+
+  .totalecountcard {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .bookingCard {
+    border-radius: 16px;
+  }
+
+  .bookingimage {
+    height: 180px;
+  }
+
+  .propertyTitle {
+    font-size: 1rem;
+  }
+
+  .propertyLocation {
+    font-size: 0.85rem;
+  }
+
+  .sectionTitle {
+    font-size: 0.8rem;
+  }
+
+  .payment {
+    font-size: 0.9rem;
+  }
+
+  .statusBadge {
+    font-size: 12px;
+  }
+}
+
+/* ---------- Small Mobile (<= 576px) ---------- */
+@media (max-width: 576px) {
+  .bookingimage {
+    height: 160px;
+  }
+
+  .propertyTitle {
+    font-size: 0.95rem;
+  }
+
+  .price {
+    font-size: 0.9rem;
+  }
+
+  .bookingCard {
+    margin-bottom: 16px;
+  }
+
+  .statusBadge {
+    width: 100%;
+    justify-content: center;
+  }
+}
