@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "../../adminStylesModule/adminGetAllHost.module.css";
+import styles from "../../adminStylesModule/Host/adminbaned.module.css";
 import { Card, Spinner } from "react-bootstrap";
 import { resetAdminHostState } from "../../config/redux/reducer/adminHostReducer";
 import { getAllBannedHostRegister } from "../../config/redux/action/adminHostAction";
 import AdminBannedUserModal from "../BannedUser/AdminBannedUserModal";
+import CustomSpinner from "../../comman/Spinner";
 
 
 const AdminGetBannedAllHost = () => {
@@ -52,18 +53,18 @@ const AdminGetBannedAllHost = () => {
 
 
     return (
-        <div className="p-4">
+        <div className={styles.bannedHostsConatiner}>
+            <div className={styles.tableWrapper}>
 
-            <Card className="mb-4">
+            <Card className={styles.summaryCard}>
                 <Card.Body>
-                    <Card.Title>Total Banned Registered Hosts</Card.Title>
-                    <Card.Text>{totalBannedHostsCount}</Card.Text>
+                    <h3>Total Banned Registered Hosts : <span>{totalBannedHostsCount}</span></h3>
                 </Card.Body>
             </Card>
 
             {isLoading && (
-                <div className="text-center my-4">
-                    <Spinner animation="border" variant="primary" />
+                <div className={styles.spinnerContainer}>
+                    <CustomSpinner/>
                     <p>Loading...</p>
                 </div>
             )}
@@ -171,6 +172,7 @@ const AdminGetBannedAllHost = () => {
                     </div>
                 </div>
             )}
+            </div>
         </div>
     );
 };

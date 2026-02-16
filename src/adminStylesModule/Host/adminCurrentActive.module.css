@@ -1,0 +1,269 @@
+/* ================= PAGE CONTAINER ================= */
+
+.Currentcontainer {
+  min-height: 100vh;
+  /* width: 100vw; */
+  padding: 24px;
+  background: linear-gradient(180deg, #020617, #0f172a);
+  color: #e5e7eb;
+}
+
+/* ================= SUMMARY CARD ================= */
+
+.summaryCard {
+  max-width: 380px;
+  margin: 0 auto 24px;
+  background: #020617 !important;
+  border: 1px solid #1e293b !important;
+  border-radius: 18px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  text-align: center;
+}
+
+.summaryCard h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #22c55e;
+}
+
+.summaryCard h5 {
+  color: #94a3b8;
+  font-size: 1.1rem;
+  margin-top: 6px;
+}
+
+.totalPendingCount {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #22c55e;
+}
+
+/* ================= TABLE WRAPPER ================= */
+
+.tableWrapper {
+  background: #020617;
+  border-radius: 18px;
+  padding: 16px;
+  overflow-x: auto;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+}
+
+/* ================= TABLE ================= */
+
+.table {
+  width: 100%;
+  min-width: 750px;
+  border-collapse: collapse;
+}
+
+.table th {
+  padding: 14px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #94a3b8;
+  border-bottom: 1px solid #1e293b;
+  text-align: left;
+}
+
+.table td {
+  padding: 14px;
+  font-size: 0.85rem;
+  color: #e5e7eb;
+  border-bottom: 1px solid #1e293b;
+}
+
+.table tbody tr:hover {
+  background: rgba(34, 197, 94, 0.07);
+  transition: 0.3s ease;
+}
+
+/* ================= PROPERTY COUNT ================= */
+
+.propertyCountCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.propertyCount {
+  font-weight: 700;
+  color: #22c55e;
+}
+
+/* ================= BUTTONS ================= */
+
+.viewButton {
+  background: #1e293b;
+  border: 1px solid #22c55e;
+  color: #22c55e;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.viewButton:hover {
+  background: #22c55e;
+  color: #ffffff;
+}
+
+.profileButton {
+  background: #1e3a8a;
+  border: 1px solid #2563eb;
+  color: #ffffff;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.profileButton:hover {
+  background: #2563eb;
+}
+
+/* ================= NO DATA ================= */
+
+.noactiveHostFound {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1.2rem;
+  color: #94a3b8;
+}
+
+/* ================= MODAL BACKDROP ================= */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* ================= MODAL CARD ================= */
+
+.modalCard {
+  position: relative;
+  background: #020617;
+  border-radius: 20px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 26px;
+  border: 1px solid #1e293b;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.6);
+  animation: slideUp 0.35s ease;
+}
+
+/* ================= CLOSE BUTTON ================= */
+
+.closeButton {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  color: #ffffff;
+}
+
+/* ================= PROPERTY CARD GRID ================= */
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  background: #0f172a;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #1e293b;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.45);
+  transition: transform 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.cardImage {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.cardContent {
+  padding: 14px;
+}
+
+.cardContent h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.cardContent p {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+
+.postedDate {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.noPropertyText {
+  text-align: center;
+  margin-top: 20px;
+  color: #94a3b8;
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+  .table {
+    min-width: 600px;
+  }
+
+  .totalPendingCount {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .Currentcontainer {
+    padding: 16px;
+  }
+}

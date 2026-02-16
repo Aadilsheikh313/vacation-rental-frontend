@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "../../adminStylesModule/adminGetAllGuest.module.css";
+import styles from "../../adminStylesModule/Guest/adminbannedguest.module.css";
 import { Card, Spinner } from "react-bootstrap";
 import AdminBannedUserModal from "../BannedUser/AdminBannedUserModal";
 import { resetAdminGuesttState } from "../../config/redux/reducer/adminGuestReducer";
@@ -43,11 +43,11 @@ const AdminGetBannedGuest = () => {
     };
 
     return (
-        <div className="p-4">
-            <Card className="mb-4">
+        <div className={styles.bannedGuestsContainer}>
+            <div className={styles.tableWrapper}>
+            <Card className={styles.summaryCard}>
                 <Card.Body>
-                    <Card.Title>Total Banned Guest</Card.Title>
-                    <Card.Text>{bannedGuestsCount}</Card.Text>
+                    <h3>Total Banned Guest : <span>{bannedGuestsCount}</span></h3>
                 </Card.Body>
             </Card>
 
@@ -177,6 +177,7 @@ const AdminGetBannedGuest = () => {
                     </div>
                 </div>
             )}
+            </div>
         </div>
     );
 };

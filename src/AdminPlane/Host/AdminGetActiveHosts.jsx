@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "../../adminStylesModule/adminGetAllHost.module.css";
-import { Card, Spinner } from "react-bootstrap";
+import styles from "../../adminStylesModule/Host/adminCurrentActive.module.css";
+import { Card} from "react-bootstrap";
 import { resetAdminHostState } from "../../config/redux/reducer/adminHostReducer";
 import { getAllActiveHostRegister } from "../../config/redux/action/adminHostAction";
 import AdminBannedUserModal from "../BannedUser/AdminBannedUserModal";
+import CustomSpinner from "../../comman/Spinner";
 
 const AdminGetActvieAllHost = () => {
     const dispatch = useDispatch();
@@ -42,25 +43,26 @@ const AdminGetActvieAllHost = () => {
     };
 
     return (
-        <div className="p-4">
-
-            <Card className="mb-4">
+        <div className={styles.Currentcontainer}>
+            <div className={styles.tableWrapper}></div>
+            <Card className={styles.summaryCard}>
                 <Card.Body>
-                    <Card.Title>Total Active Registered Hosts</Card.Title>
-                    <Card.Text>{allActiveHostsCount}</Card.Text>
+                    <h3>Total Current Active Hosts</h3>
+                    <h5>Total Active Hosts :  <span className={styles.totalPendingCount}>{allActiveHostsCount}</span></h5>
                 </Card.Body>
+
             </Card>
 
             {isLoading && (
-                <div className="text-center my-4">
-                    <Spinner animation="border" variant="primary" />
+                <div >
+                    <CustomSpinner />
                     <p>Loading...</p>
                 </div>
             )}
 
             {isError && <p className="text-red-500">Error: {message}</p>}
             {isSuccess && allActiveHosts.length === 0 && (
-                <p className="text-gray-600">No Active hosts found.</p>
+                <p className={styles.noactiveHostFound}>No Active hosts found.</p>
             )}
 
             {!isLoading && allActiveHosts.length > 0 && (
@@ -73,8 +75,8 @@ const AdminGetActvieAllHost = () => {
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Created At</th>
-                                <th>Total Properties</th>
-                                <th>View</th>
+                                <th>Properties</th>
+                                <th>Profile</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -85,16 +87,24 @@ const AdminGetActvieAllHost = () => {
                                     <td>{host.email}</td>
                                     <td>{host.phone}</td>
                                     <td>{new Date(host.createdAt).toLocaleDateString()}</td>
-                                    <td className="text-center">{host.propertyCount}</td>
-                                    <td className="text-center">
+                                    <td className={styles.propertyCountCell}>
+                                        <span className={styles.propertyCount}>
+                                            {host.propertyCount}
+                                        </span>
+
                                         <button
                                             onClick={() => handleViewProperties(host)}
                                             className={styles.viewButton}
                                         >
-                                            View
+                                            Property
                                         </button>
                                     </td>
-
+                                    <td> <button
+                                       
+                                        className={styles.profileButton}
+                                    >
+                                        Profile
+                                    </button></td>
                                 </tr>
                             ))}
                         </tbody>

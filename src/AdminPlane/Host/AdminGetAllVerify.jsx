@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetAllVerifedHostAction } from "../../config/redux/action/adminVerifedHostAction";
 import { resetPending } from "../../config/redux/reducer/adminVerifedHostReducer";
-import { Card} from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import styles from "../../adminStylesModule/Host/adminVerfied.module.css";
 import ProfileModel from "./HostProfileDetials";
 import CustomSpinner from "../../comman/Spinner";
@@ -192,28 +192,33 @@ const GetAllVerifyHost = () => {
                                 Owened Property {propertyModel.name}
                             </h3>
                             {
-                                propertyModel?.properties?.length > 0 ? (
+                                propertyModel?.Properties?.length > 0 ? (
                                     <div className={styles.cardGrid}>
-                                        <div key={property._id || idx} className={styles.card}>
-                                            <img
-                                                src={property.image?.url}
-                                                alt="property"
-                                                className={styles.cardImage}
-                                            />
-                                            <div className={styles.cardContent}>
-                                                <h4>{property.title}</h4>
-                                                <p>{property.location}</p>
-                                                <p>₹{property.price}</p>
-                                                <p className={styles.postedDate}>
-                                                    Posted on: {new Date(property.propertyPostedOn).toLocaleDateString()}
-                                                </p>
-                                                <p>{property.expired}</p>
+                                        {propertyModel.Properties.map((property, idx) => (
+                                            <div key={property._id || idx} className={styles.card}>
+                                                <img
+                                                    src={property.image?.url}
+                                                    alt="property"
+                                                    className={styles.cardImage}
+                                                />
+                                                <div className={styles.cardContent}>
+                                                    <h4>{property.title}</h4>
+                                                    <p>{property.location}</p>
+                                                    <p>₹{property.price}</p>
+                                                    <p className={styles.postedDate}>
+                                                        Posted on: {new Date(property.propertyPostedOn).toLocaleDateString()}
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
+                                        ))}
                                     </div>
                                 ) : (
-                                    <p className={styles.noPropertyText}>No properties found for this host.</p>
-                                )}
+                                    <p className={styles.noPropertyText}>
+                                        No properties found for this host.
+                                    </p>
+                                )
+                            }
+
                         </div>
                     )
                 }

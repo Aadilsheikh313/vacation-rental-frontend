@@ -1,0 +1,288 @@
+/* ================= PAGE CONTAINER ================= */
+
+.bannedHostsConatiner {
+  min-height: 100vh;
+  width: 100%;
+  padding: 28px;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #020617, #0f172a);
+  color: #e5e7eb;
+}
+
+/* ================= SUMMARY CARD ================= */
+
+.summaryCard {
+  max-width: 450px;
+  margin: 0 auto 28px;
+  background: linear-gradient(135deg, #b91c1c, #7f1d1d) !important;
+  border-radius: 18px !important;
+  border: none !important;
+  box-shadow: 0 14px 45px rgba(185, 28, 28, 0.5);
+  text-align: center;
+  padding: 14px 0;
+}
+
+.summaryCard h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.summaryCard span {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin-left: 8px;
+  color: #facc15;
+}
+
+/* ================= TABLE WRAPPER ================= */
+
+.tableWrapper {
+  background: #020617;
+  border-radius: 18px;
+  padding: 18px;
+  overflow-x: auto;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+}
+
+/* ================= TABLE ================= */
+
+.table {
+  width: 100%;
+  min-width: 950px;
+  border-collapse: collapse;
+}
+
+.table th {
+  padding: 14px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #94a3b8;
+  border-bottom: 1px solid #1e293b;
+  text-align: left;
+}
+
+.table td {
+  padding: 14px;
+  font-size: 0.85rem;
+  color: #e5e7eb;
+  border-bottom: 1px solid #1e293b;
+  vertical-align: middle;
+}
+
+.table tbody tr {
+  transition: 0.25s ease;
+}
+
+.table tbody tr:hover {
+  background: rgba(185, 28, 28, 0.08);
+}
+
+/* ================= VIEW BUTTON ================= */
+
+.viewButton {
+  background: #111827;
+  border: 1px solid #374151;
+  color: #e5e7eb;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.viewButton:hover {
+  background: #1f2937;
+  border-color: #4b5563;
+  color: #ffffff;
+}
+
+/* ================= BAN / UNBAN BUTTON ================= */
+
+.banActionButton {
+  background: linear-gradient(135deg, #dc2626, #991b1b);
+  border: none;
+  color: #ffffff;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.banActionButton:hover {
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
+}
+
+/* ================= SPINNER ================= */
+
+.spinnerContainer {
+  text-align: center;
+  margin-top: 40px;
+  color: #94a3b8;
+}
+
+/* ================= EMPTY STATE ================= */
+
+.noPropertyText {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1rem;
+  color: #94a3b8;
+}
+
+/* ================= MODAL BACKDROP ================= */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* ================= MODAL CARD ================= */
+
+.modalCard {
+  position: relative;
+  background: #020617;
+  border-radius: 20px;
+  max-width: 1000px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 26px;
+  border: 1px solid #1e293b;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.6);
+  animation: slideUp 0.35s ease;
+}
+
+.modalTitle {
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #f87171;
+}
+
+/* ================= CLOSE BUTTON ================= */
+
+.closeButton {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  color: #ffffff;
+}
+
+/* ================= PROPERTY GRID ================= */
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+/* ================= PROPERTY CARD ================= */
+
+.card {
+  background: #0f172a;
+  border-radius: 16px;
+  border: 1px solid #1e293b;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+.cardImage {
+  height: 160px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.cardContent {
+  padding: 12px;
+  flex-grow: 1;
+}
+
+.cardContent h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.cardContent p {
+  font-size: 0.8rem;
+  color: #cbd5f5;
+}
+
+.postedDate {
+  font-size: 0.7rem;
+  color: #94a3b8;
+}
+
+/* ================= PROPERTY ACTION BUTTON ================= */
+
+.card button {
+  border: none;
+  padding: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #ffffff;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.card button:hover {
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5);
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+  .table {
+    min-width: 750px;
+  }
+}
+
+@media (max-width: 576px) {
+  .bannedHostsConatiner {
+    padding: 16px;
+  }
+
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+}

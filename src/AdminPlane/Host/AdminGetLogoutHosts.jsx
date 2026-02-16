@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "../../adminStylesModule/adminGetAllHost.module.css";
+import styles from "../../adminStylesModule/Host/adminlogout.module.css";
 import { Card, Spinner } from "react-bootstrap";
 import { resetAdminHostState } from "../../config/redux/reducer/adminHostReducer";
 import { getAllLogoutHostRegister } from "../../config/redux/action/adminHostAction";
+import CustomSpinner from "../../comman/Spinner";
 
 
 const AdminGetLogoutAllHost = () => {
@@ -39,18 +40,17 @@ const AdminGetLogoutAllHost = () => {
     };
 
     return (
-        <div className="p-4">
-
-            <Card className="mb-4">
+        <div className={styles.logoutHostsConatiner}>
+            <div className={styles.tableWrapper}></div>
+            <Card className={styles.summaryCard}>
                 <Card.Body>
-                    <Card.Title>Total Logout Registered Hosts</Card.Title>
-                    <Card.Text>{totalLogoutHostsCount}</Card.Text>
+                    <h3>Total Logout Registered Hosts: <span>{totalLogoutHostsCount}</span></h3>
                 </Card.Body>
             </Card>
 
             {isLoading && (
-                <div className="text-center my-4">
-                    <Spinner animation="border" variant="primary" />
+                <div >
+                    <CustomSpinner />
                     <p>Loading...</p>
                 </div>
             )}

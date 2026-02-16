@@ -1,0 +1,192 @@
+/* ================= PAGE CONTAINER ================= */
+
+.Rejectcontainer {
+  min-height: 100vh;
+  /* width: 100vw; */
+  padding: 24px;
+  background: linear-gradient(180deg, #020617, #0f172a);
+  color: #e5e7eb;
+}
+
+/* ================= SUMMARY CARD ================= */
+
+.summaryCard {
+  max-width: 360px;
+  margin: 0 auto 24px;
+  background: #020617 !important;
+  border: 1px solid #1e293b !important;
+  border-radius: 18px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  text-align: center;
+}
+
+.summaryCard h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #f87171;
+}
+
+.summaryCard h5 {
+  color: #94a3b8;
+  font-size: 1.2rem;
+  margin-top: 6px;
+}
+
+.totalPendingCount {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ef4444;
+}
+
+/* ================= TABLE WRAPPER ================= */
+
+.tableWrapper {
+  background: #020617;
+  border-radius: 18px;
+  padding: 16px;
+  overflow-x: auto;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+}
+
+/* ================= TABLE ================= */
+
+.table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+}
+
+.table th {
+  padding: 14px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #94a3b8;
+  border-bottom: 1px solid #1e293b;
+  text-align: left;
+}
+
+.table td {
+  padding: 14px;
+  font-size: 0.85rem;
+  color: #e5e7eb;
+  border-bottom: 1px solid #1e293b;
+}
+
+.table tbody tr:hover {
+  background: rgba(239, 68, 68, 0.07);
+  transition: 0.3s ease;
+}
+
+/* ================= BUTTONS ================= */
+
+.viewButton {
+  background: #1e293b;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.viewButton:hover {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+}
+
+/* ================= VIEW BUTTON CELL ================= */
+
+.viewButtonCell {
+  text-align: center;
+}
+
+/* ================= NO HOSTS ================= */
+
+.noHostsFound {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1.2rem;
+  color: #94a3b8;
+}
+
+/* ================= MODAL BACKDROP ================= */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* ================= MODAL CARD ================= */
+
+.modalCard {
+  position: relative;
+  background: #020617;
+  border-radius: 20px;
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 28px;
+  border: 1px solid #1e293b;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.6);
+  animation: slideUp 0.35s ease;
+}
+
+/* ================= CLOSE BUTTON ================= */
+
+.closeButton {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  color: #ffffff;
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+  .table {
+    min-width: 600px;
+  }
+
+  .totalPendingCount {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .Rejectcontainer {
+    padding: 16px;
+  }
+}

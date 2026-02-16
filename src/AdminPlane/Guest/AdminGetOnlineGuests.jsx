@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "../../adminStylesModule/adminGetAllGuest.module.css";
+import styles from "../../adminStylesModule/Guest/admingetOnlineguest.module.css";
 import { Card, Spinner } from "react-bootstrap";
 import AdminBannedUserModal from "../BannedUser/AdminBannedUserModal";
 import { getAllOnlineGuest } from "../../config/redux/action/adminGuestAction";
 import { resetAdminGuesttState } from "../../config/redux/reducer/adminGuestReducer";
+import CustomSpinner from "../../comman/Spinner";
 
 const AdminGetOnlineGuest = () => {
     const dispatch = useDispatch();
@@ -42,25 +43,25 @@ const AdminGetOnlineGuest = () => {
     };
 
     return (
-        <div className="p-4">
-            <Card className="mb-4">
+        <div className={styles.onlineGuestscontainer}>
+            <div className={styles.tableWrapper}></div>
+            <Card className={styles.summaryCard}>
                 <Card.Body>
-                    <Card.Title>Total Daily Active Registered Guest</Card.Title>
-                    <Card.Text>{onlineGuestsCount}</Card.Text>
+                    <h3>Total Online Registered Guest: <span>{onlineGuestsCount}</span></h3>
                 </Card.Body>
             </Card>
 
 
             {isLoading && (
-                <div className="text-center my-4">
-                    <Spinner animation="border" variant="primary" />
+                <div className={styles.loadingContainer}>
+                    <CustomSpinner />
                     <p>Loading...</p>
                 </div>
             )}
 
-            {isError && <p className="text-red-500">Error: {message}</p>}
+            {isError && <p className={styles.errorText}>Error: {message}</p>}
             {isSuccess && onlineGuests.length === 0 && (
-                <p className="text-gray-600">No Today Actvie guests found.</p>
+                <p className={styles.noGuestsText}>No Today Actvie guests found.</p>
             )}
 
             {!isLoading && onlineGuests.length > 0 && (
