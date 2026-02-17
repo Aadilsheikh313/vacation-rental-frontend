@@ -45,7 +45,7 @@ const AdminGetAllGuest = () => {
         <div className={styles.GetallGuestcontainer}>
             <div className={styles.tableWrapper}>
 
-                 <h2 className={styles.heading}>All Registered Hosts : {allGuests.length}</h2>
+                 <h2 className={styles.heading}>All Registered Guest : {allGuests.length}</h2>
 
                 {isLoading && (
                     <div className={styles.loadingContainer}>

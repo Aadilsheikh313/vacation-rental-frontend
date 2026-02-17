@@ -16,7 +16,7 @@ const AdminHostHome = () => {
   const [selectedView, setSelectedView] = useState("all");
 
   return (
-    <Container className={styles.adminHostTopButtonContainer}>
+    <Container fluid  className={styles.adminHostTopButtonContainer}>
 
       <AdminButtonTop onSelectView={setSelectedView} />
 
